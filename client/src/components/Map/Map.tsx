@@ -1,0 +1,78 @@
+import React from "react";
+import { useHistory } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useJsApiLoader } from "@react-google-maps/api";
+
+import GoogleMapComponent from "./GoogleMaps";
+
+import mapStyles from "../../common/mapStyles";
+
+let secrets: any;
+
+if (process.env.NODE_ENV == "production") {
+  secrets = process.env;
+} else {
+  secrets = require("../../../../secrets.json");
+}
+
+interface Props {
+  gigsList: any[] | undefined;
+  mapVisible: (e: boolean) => void;
+  selectedGigEntry: number | null;
+  setGigEntry: (e: number | null) => void;
+}
+
+const MyMap: React.FC<Props> = ({
+  gigsList,
+  mapVisible,
+  selectedGigEntry,
+  setGigEntry,
+}) => {
+  const [selectedGig, setSelectedGig] = useState(null);
+  const [style, setStyle] = useState(mapStyles.styles[0]);
+  const [switcher, setSwitcher] = useState(0);
+  const [center, setCenter] = useState({
+    lat: 35.08702515417141,
+    lng: -40.71445657001389,
+  });
+
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: secrets.key,
+  });
+
+  const history = useHistory();
+
+  useEffect(function () {
+    setTimeout(() => {
+      mapVisible(true);
+    }, 250);
+  }, []);
+
+  const historyCheck = (e: string) => {
+    history.push(`/api/gig/${e}`);
+  };
+
+  return isLoaded ? (
+    <div className="google-map">
+      <GoogleMapComponent
+        gigsList={gigsList}
+        selectedGig={selectedGig}
+        center={center}
+        setSelectedGig={setSelectedGig}
+        style={style}
+        setStyle={setStyle}
+        switcher={switcher}
+        setSwitcher={setSwitcher}
+        selectedGigEntry={selectedGigEntry}
+        setGigEntry={setGigEntry}
+        historyCheck={(e: string) => historyCheck(e)}
+        mapVisible={(e: boolean) => mapVisible(e)}
+      />
+    </div>
+  ) : (
+    <></>
+  );
+};
+
+export default MyMap;

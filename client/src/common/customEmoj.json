@@ -1,0 +1,229 @@
+[
+  {
+    "id": "01",
+    "url": "./../chat/happy.png"
+  },
+  {
+    "id": "02",
+    "url": "./../chat/sad.png"
+  },
+  {
+    "id": "03",
+    "url": "./../chat/thumbsup.png"
+  },
+  {
+    "id": "04",
+    "url": "./../chat/thumbsdown.png"
+  },
+  {
+    "id": "05",
+    "url": "./../chat/middle.png"
+  },
+  {
+    "id": "06",
+    "url": "./../chat/rainbow.png"
+  },
+  {
+    "id": "07",
+    "url": "./../chat/beer.png"
+  },
+  {
+    "id": "08",
+    "url": "./../chat/smoke.png"
+  },
+  {
+    "id": "09",
+    "url": "./../chat/party.png"
+  },
+  {
+    "id": "10",
+    "url": "./../chat/sun.png"
+  },
+  {
+    "id": "11",
+    "url": "./../chat/force.png"
+  },
+  {
+    "id": "12",
+    "url": "./../chat/rocket.gif"
+  },
+  {
+    "id": "13",
+    "url": "./../chat/notes.gif"
+  },
+  {
+    "id": "14",
+    "url": "./../chat/fire.gif"
+  },
+  {
+    "id": "15",
+    "url": "./../chat/herman.webp"
+  },
+  {
+    "id": "16",
+    "url": "./../chat/guybrush.gif"
+  },
+  {
+    "id": "17",
+    "url": "./../chat/fire2.gif"
+  },
+  {
+    "id": "18",
+    "url": "./../chat/drums.gif"
+  },
+  {
+    "id": "19",
+    "url": "./../chat/bat.gif"
+  },
+  {
+    "id": "20",
+    "url": "./../chat/panic.gif"
+  },
+  {
+    "id": "21",
+    "url": "./../chat/42.gif"
+  },
+  {
+    "id": "22",
+    "url": "./../chat/mandala.gif"
+  },
+  {
+    "id": "23",
+    "url": "./../chat/bomb.gif"
+  },
+  {
+    "id": "24",
+    "url": "./../chat/radial.gif"
+  },
+  {
+    "id": "25",
+    "url": "./../chat/smoke.gif"
+  },
+  {
+    "id": "26",
+    "url": "./../chat/bob.gif"
+  },
+  {
+    "id": "27",
+    "url": "./../chat/patrick.gif"
+  },
+  {
+    "id": "28",
+    "url": "./../chat/bart.gif"
+  },
+  {
+    "id": "29",
+    "url": "./../chat/headbanger.gif"
+  },
+  {
+    "id": "30",
+    "url": "./../chat/tomato.gif"
+  },
+  {
+    "id": "31",
+    "url": "./../chat/chaos.gif"
+  },
+  {
+    "id": "32",
+    "url": "./../chat/sunrise.gif"
+  },
+  {
+    "id": "33",
+    "url": "./../chat/monkey.gif"
+  },
+  {
+    "id": "34",
+    "url": "./../chat/runner.gif"
+  },
+  {
+    "id": "35",
+    "url": "./../chat/lips.gif"
+  },
+  {
+    "id": "36",
+    "url": "./../chat/ok.gif"
+  },
+  {
+    "id": "37",
+    "url": "./../chat/nope.gif"
+  },
+  {
+    "id": "38",
+    "url": "./../chat/jrabbit.png"
+  },
+  {
+    "id": "39",
+    "url": "./../chat/headbanger2.gif"
+  },
+  {
+    "id": "40",
+    "url": "./../chat/grill.gif"
+  },
+  {
+    "id": "41",
+    "url": "./../chat/pitogyro.gif"
+  },
+  {
+    "id": "42",
+    "url": "./../chat/banjo.gif"
+  },
+  {
+    "id": "43",
+    "url": "./../chat/parrot.gif"
+  },
+  {
+    "id": "44",
+    "url": "./../chat/ship.gif"
+  },
+  {
+    "id": "45",
+    "url": "./../chat/fishing.gif"
+  },
+  {
+    "id": "46",
+    "url": "./../chat/flag.gif"
+  },
+
+  {
+    "id": "47",
+    "url": "./../chat/sun2.gif"
+  },
+  {
+    "id": "48",
+    "url": "./../chat/phoenix.gif"
+  },
+  {
+    "id": "49",
+    "url": "./../chat/waves.gif"
+  },
+
+  {
+    "id": "50",
+    "url": "./../chat/arcade.gif"
+  },
+  {
+    "id": "51",
+    "url": "./../chat/headphones.gif"
+  },
+  {
+    "id": "52",
+    "url": "./../chat/lightspeed.gif"
+  },
+  {
+    "id": "53",
+    "url": "./../chat/plane.gif"
+  },
+
+  {
+    "id": "54",
+    "url": "./../chat/berlin.png"
+  },
+  {
+    "id": "55",
+    "url": "./../chat/basketball.gif"
+  },
+  {
+    "id": "56",
+    "url": "./../chat/brain&coffee.gif"
+  }
+]
