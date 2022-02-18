@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../common/Axios/axios";
 import {
-  HashRouter as Router,
+  BrowserRouter as Router,
   Routes,
   Route,
   useParams,

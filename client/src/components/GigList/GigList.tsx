@@ -87,12 +87,11 @@ export const GigList: React.FC<Props> = ({
         <div className="gigListControls">
           <div className="sortedGigRange">2006</div>
           <input
-            value={year && year}
+            value={(year && year) || ""}
             title="Set Year"
             type="range"
             min="2006"
             max="2022"
-            name="selectedGig"
             className="selectGigEntry"
             onChange={(e) => {
               gigListFiltering(e.target.value);

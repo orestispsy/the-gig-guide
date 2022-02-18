@@ -47,8 +47,8 @@ export const GoogleMapComponent: React.FC<Props> = ({
       mapContainerStyle={containerStyle}
       zoom={(selectedGig && 15) || 3}
       center={{
-        lat: (selectedGig && parseFloat(selectedGig.lat)) || 35.08702515417141,
-        lng: (selectedGig && parseFloat(selectedGig.lng)) || -40.71445657001389,
+        lat: (selectedGig && parseFloat(selectedGig.lat)) || center.lat,
+        lng: (selectedGig && parseFloat(selectedGig.lng)) || center.lng,
       }}
       options={{
         styles: mapStyles.styles[5],
@@ -64,17 +64,17 @@ export const GoogleMapComponent: React.FC<Props> = ({
         coordinator(e);
       }}
     >
-      {!showCoordinates && (
-        <Marker
-          position={{
-            lat:
-              parseFloat(selectedGig && selectedGig.lat) || 35.08702515417141,
-            lng:
-              (selectedGig && parseFloat(selectedGig.lng)) ||
-              -40.71445657001389,
-          }}
-        />
-      )}
+      <Marker
+        icon={{
+          url: "pin.png",
+          scaledSize: new window.google.maps.Size(50, 50),
+        }}
+        position={{
+          lat: (selectedGig && parseFloat(selectedGig.lat)) || center.lat,
+          lng: (selectedGig && parseFloat(selectedGig.lng)) || center.lng,
+        }}
+      />
+
       {showCoordinates && (
         <InfoWindow
           position={{
