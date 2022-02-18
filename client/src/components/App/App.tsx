@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../common/Axios/axios";
-import { BrowserRouter, Route } from "react-router-dom";
+import {
+  HashRouter as Router,
+  Routes,
+  Route,
+  useParams,
+} from "react-router-dom";
 
+import { AppLayout } from "../AppLayout/AppLayout";
 import { Main } from "../Main/Main";
 import AppBar from "../AppBar/AppBar";
 import MyMap from "../Map/Map";
@@ -49,6 +55,8 @@ export const App: React.FC<Props> = ({}) => {
   const [myNickname, setMyNickname] = useState<string>("");
 
   const [gigsList, setGigsList] = useState<any>();
+
+  let { id } = useParams();
 
   useEffect(function () {
     setMaps(false);
@@ -101,24 +109,13 @@ export const App: React.FC<Props> = ({}) => {
   };
 
   return (
-    <BrowserRouter>
-      <div
-        className={
-          (aboutMode && "appContainerAbout") ||
-          (maps && "appContainerMap") ||
-          (darkMode && "appContainerDark") ||
-          (!darkMode && "appContainer") ||
-          ""
-        }
-        style={{
-          backgroundImage: (aboutMode && `url(/about/about1.jpg)`) || "",
-        }}
-      >
+    <Router>
+      <Routes>
         <Route
-          exact
-          path="*"
-          render={(props) => (
-            <AppBar
+          element={
+            <AppLayout
+              darkMode={darkMode}
+              aboutMode={aboutMode}
               myChatImg={myChatImg}
               myNickname={myNickname}
               setNightFlightProg={(e: any) => setNightFlightProg(e)}
@@ -136,152 +133,151 @@ export const App: React.FC<Props> = ({}) => {
               chatMode={chatMode}
               setAboutMode={(e: boolean) => setAboutMode(e)}
             />
-          )}
-        />
-        <Route
-          exact
-          path="/"
-          render={(props) => (
-            <Main
-              superAdmin={superAdmin}
-              admin={admin}
-              visitors={visitors}
-              darkMode={darkMode}
-              setDarkMode={(e: boolean) => setDarkMode(e)}
-              setChatNotification={(e: boolean) => setChatNotification(e)}
-              setChatMode={(e: boolean) => setChatMode(e)}
-              setAboutMode={(e: boolean) => setAboutMode(e)}
-            />
-          )}
-        />
+          }
+        >
+          <Route
+            path="/"
+            element={
+              <Main
+                superAdmin={superAdmin}
+                admin={admin}
+                visitors={visitors}
+                darkMode={darkMode}
+                setDarkMode={(e: boolean) => setDarkMode(e)}
+                setChatNotification={(e: boolean) => setChatNotification(e)}
+                setChatMode={(e: boolean) => setChatMode(e)}
+                setAboutMode={(e: boolean) => setAboutMode(e)}
+              />
+            }
+          ></Route>
 
-        <Route
-          exact
-          path="/gig-creator"
-          render={(props) => (
-            <GigCreator
-              admin={admin}
-              darkMode={darkMode}
-              setGigsList={(e: any) => setGigsList(e)}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/gig-editor"
-          render={(props) => (
-            <GigEditor
-              gigsList={gigsList}
-              admin={admin}
-              darkMode={darkMode}
-              setGigsList={(e: any) => setGigsList(e)}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/map"
-          render={(props) => (
-            <MyMap
-              gigsList={gigsList}
-              mapVisible={(e: boolean) => setMaps(e)}
-              selectedGigEntry={selectedGigEntry}
-              setGigEntry={(e: number | null) => setSelectedGigEntry(e)}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/gig-list"
-          render={(props) => (
-            <GigList
-              gigsList={gigsList}
-              setDarkMode={(e: boolean) => setDarkMode(e)}
-              year={year}
-              setYear={(e: string | number | readonly string[] | undefined) =>
-                setYear(e)
-              }
-            />
-          )}
-        />
+          <Route
+            path="/gig-creator"
+            element={
+              <GigCreator
+                admin={admin}
+                darkMode={darkMode}
+                setGigsList={(e: any) => setGigsList(e)}
+              />
+            }
+          ></Route>
+          <Route
+            path="/gig-editor"
+            element={
+              <GigEditor
+                gigsList={gigsList}
+                admin={admin}
+                darkMode={darkMode}
+                setGigsList={(e: any) => setGigsList(e)}
+              />
+            }
+          ></Route>
+          <Route
+            path="/map"
+            element={
+              <MyMap
+                gigsList={gigsList}
+                mapVisible={(e: boolean) => setMaps(e)}
+                selectedGigEntry={selectedGigEntry}
+                setGigEntry={(e: number | null) => setSelectedGigEntry(e)}
+              />
+            }
+          ></Route>
+          <Route
+            path="/gig-list"
+            element={
+              <GigList
+                gigsList={gigsList}
+                setDarkMode={(e: boolean) => setDarkMode(e)}
+                year={year}
+                setYear={(e: string | number | readonly string[] | undefined) =>
+                  setYear(e)
+                }
+              />
+            }
+          ></Route>
+          <Route
+            path="/gig-list-animation"
+            element={
+              <GigListAnimation
+                gigsList={gigsList}
+                setDarkMode={(e: boolean) => setDarkMode(e)}
+              />
+            }
+          ></Route>
 
-        <Route
-          path="/api/gig/:id"
-          render={(props) => (
-            <GigEntry
-              match={props.match}
-              gigsList={gigsList}
-              myUserId={myUserId}
-              superAdmin={superAdmin}
-              myNickname={myNickname}
-              setDarkMode={(e: boolean) => setDarkMode(e)}
-              history={props.history}
-              setGigEntry={(e: number | null) => setSelectedGigEntry(e)}
-              selectedGigEntry={selectedGigEntry}
-              guest={guest}
-            />
-          )}
-        />
+          <Route
+            path="/api/gig/:id"
+            element={
+              <GigEntry
+                gigsList={gigsList}
+                myUserId={myUserId}
+                superAdmin={superAdmin}
+                myNickname={myNickname}
+                setDarkMode={(e: boolean) => setDarkMode(e)}
+                setGigEntry={(e: number | null) => setSelectedGigEntry(e)}
+                selectedGigEntry={selectedGigEntry}
+                guest={guest}
+              />
+            }
+          ></Route>
 
-        <Route
-          exact
-          path="/gig-list-animation"
-          render={(props) => (
-            <GigListAnimation
-              gigsList={gigsList}
-              setDarkMode={(e: boolean) => setDarkMode(e)}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/chat"
-          render={(props) => (
-            <Chat
-              myChatImg={myChatImg}
-              myUserId={myUserId}
-              myChatColor={myChatColor}
-              admin={admin}
-              setAdmin={(e: boolean) => setAdmin(e)}
-              superAdmin={superAdmin}
-              setMyChatImg={(e: string) => setMyChatImg(e)}
-              myNickname={myNickname}
-              guest={guest}
-              setMyNickname={(e: string) => setMyNickname(e)}
-              darkMode={darkMode}
-              setDarkMode={(e: boolean) => setDarkMode(e)}
-              setNightFlightProg={(e: boolean | any[] | string) =>
-                setNightFlightProg(e)
-              }
-              radioBroadcasts={radioBroadcasts}
-              nightFlightProg={nightFlightProg}
-              setChatMode={(e: boolean) => setChatMode(e)}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/super-admin"
-          render={(props) => (
-            <SuperAdmin
-              superAdmin={superAdmin}
-              myUserId={myUserId}
-              setDarkMode={(e: boolean) => setDarkMode(e)}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/about"
-          render={(props) => (
-            <About
-              aboutMode={aboutMode}
-              setAboutMode={(e: boolean) => setAboutMode(e)}
-              superAdmin={superAdmin}
-            />
-          )}
-        />
-      </div>
-    </BrowserRouter>
+          <Route
+            path="/chat"
+            element={
+              <Chat
+                myChatImg={myChatImg}
+                myUserId={myUserId}
+                myChatColor={myChatColor}
+                admin={admin}
+                setAdmin={(e: boolean) => setAdmin(e)}
+                superAdmin={superAdmin}
+                setMyChatImg={(e: string) => setMyChatImg(e)}
+                myNickname={myNickname}
+                guest={guest}
+                setMyNickname={(e: string) => setMyNickname(e)}
+                darkMode={darkMode}
+                setDarkMode={(e: boolean) => setDarkMode(e)}
+                setNightFlightProg={(e: boolean | any[] | string) =>
+                  setNightFlightProg(e)
+                }
+                radioBroadcasts={radioBroadcasts}
+                nightFlightProg={nightFlightProg}
+                setChatMode={(e: boolean) => setChatMode(e)}
+              />
+            }
+          ></Route>
+
+          <Route
+            path="/super-admin"
+            element={
+              <SuperAdmin
+                superAdmin={superAdmin}
+                myUserId={myUserId}
+                setDarkMode={(e: boolean) => setDarkMode(e)}
+              />
+            }
+          ></Route>
+
+          <Route
+            path="/about"
+            element={
+              <About
+                aboutMode={aboutMode}
+                setAboutMode={(e: boolean) => setAboutMode(e)}
+                superAdmin={superAdmin}
+              />
+            }
+          ></Route>
+        </Route>
+
+        {/* 
+       
+
+       
+      
+ */}
+      </Routes>
+    </Router>
   );
 };

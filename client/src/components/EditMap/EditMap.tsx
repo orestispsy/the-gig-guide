@@ -56,7 +56,6 @@ export const GoogleMapComponent: React.FC<Props> = ({
         zoomControl: true,
       }}
       onClick={(e: any) => {
-   
         setShowCoordinates(true);
         setCenter({
           lat: e.latLng.lat(),

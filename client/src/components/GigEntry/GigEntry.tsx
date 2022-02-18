@@ -1,37 +1,35 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../common/Axios/axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { Community } from "../Community/Community";
 import { Comments } from "../Comments/Comments";
 
 interface Props {
-  match: any;
   gigsList: any;
   myUserId: number | undefined;
   superAdmin: boolean;
   myNickname: string;
   setDarkMode: (e: boolean) => void;
-  history: any;
+
   setGigEntry: (e: number | null) => void;
   selectedGigEntry: number | null;
   guest: boolean;
 }
 
 export const GigEntry: React.FC<Props> = ({
-  match,
   gigsList,
   myUserId,
   superAdmin,
   myNickname,
   setDarkMode,
-  history,
+
   setGigEntry,
   selectedGigEntry,
   guest,
 }) => {
   const [city, setCity] = useState<string>("");
-  const [id, setId] = useState<string>("");
+  const [gigId, setGigId] = useState<string>("");
   const [venue, setVenue] = useState<string>("");
   const [date, setDate] = useState<string>("");
   const [tourName, setTourName] = useState<string>("");
@@ -39,14 +37,17 @@ export const GigEntry: React.FC<Props> = ({
   const [selectedGig, setSelectedGig] = useState<any>("");
   const [openComments, setOpenComments] = useState<boolean>(false);
 
+  let navigate = useNavigate();
+  let { id } = useParams();
+
   useEffect(function () {
     setDarkMode(true);
 
     axios
-      .get("/gig/" + match.params.id)
+      .get("/gig/" + id)
       .then(({ data }) => {
         setCity(data.data.city);
-        setId(data.data.id);
+        setGigId(data.data.id);
         setVenue(data.data.venue);
         setDate(data.data.date);
         setTourName(data.data.tour_name);
@@ -71,13 +72,14 @@ export const GigEntry: React.FC<Props> = ({
       .then(({ data }) => {
         if (data.data) {
           setCity(data.data.city);
-          setId(data.data.id);
+          setGigId(data.data.id);
           setVenue(data.data.venue);
           setDate(data.data.date);
           setTourName(data.data.tour_name);
           setPoster(data.data.poster);
 
-          history.push(`/api/gig/${id}`);
+          navigate(`/api/gig/${data.data.id}`);
+
           setGigEntry(data.data);
         }
       })
@@ -122,7 +124,7 @@ export const GigEntry: React.FC<Props> = ({
         </div>
         {!openComments && (
           <Community
-            selectedGigId={id}
+            selectedGigId={gigId}
             myUserId={myUserId}
             superAdmin={superAdmin}
             myNickname={myNickname}
@@ -133,7 +135,7 @@ export const GigEntry: React.FC<Props> = ({
         )}
         {openComments && (
           <Comments
-            selectedGigId={id}
+            selectedGigId={gigId}
             myUserId={myUserId}
             superAdmin={superAdmin}
             myNickname={myNickname}

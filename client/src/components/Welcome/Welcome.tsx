@@ -14,8 +14,8 @@ export const Welcome: React.FC<Props> = ({}) => {
       <div className="welcomeContainer">
         <HashRouter>
           <div>
-            <Route exact path="/" component={Login} />
-            <Route path="/register" component={Registration} />
+            <Route path="/" element={Login} />
+            <Route path="/register" element={Registration} />
           </div>
         </HashRouter>
       </div>

@@ -1,6 +1,5 @@
 const path = require("path");
-
-const webpack = require("webpack");
+import HtmlWebPackPlugin from "html-webpack-plugin";
 
 module.exports = () => ({
   mode: "production",
@@ -63,8 +62,9 @@ module.exports = () => ({
     ],
   },
   plugins: [
-    new webpack.ProvidePlugin({
-      React: "react",
+    new HtmlWebPackPlugin({
+      template: "./client/index.html",
+      filename: "./index.html",
     }),
   ],
 });

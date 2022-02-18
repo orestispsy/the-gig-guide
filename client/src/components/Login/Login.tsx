@@ -66,7 +66,6 @@ export const Login: React.FC<Props> = ({}) => {
             placeholder="Nickname"
             onChange={(e: any) => {
               setNickname(e.target.value);
-
             }}
             onClick={() => setError(false)}
           />

@@ -188,7 +188,6 @@ app.get("/get-gigs", (req, res) => {
 });
 
 app.post("/get-gig-to-edit", (req, res) => {
-
   db.getGigToEdit(req.body.selectedGig)
     .then(({ rows }) => {
       res.json({ data: rows[0] });

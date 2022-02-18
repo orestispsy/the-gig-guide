@@ -54,8 +54,7 @@
     "react-dom": "^17.0.1",
     "react-player": "^2.9.0",
     "react-redux": "^7.1.0",
-    "react-router": "^5.0.1",
-    "react-router-dom": "^5.0.1",
+    "react-router-dom": "^6.2.1",
     "react-test-renderer": "^17.0.1",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.9",
@@ -86,6 +85,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "css-loader": "^6.6.0"
+    "css-loader": "^6.6.0",
+    "html-webpack-plugin": "^5.5.0"
   }
 }

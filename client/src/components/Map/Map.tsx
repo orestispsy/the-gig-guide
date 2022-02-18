@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useJsApiLoader } from "@react-google-maps/api";
 
@@ -41,7 +41,7 @@ const MyMap: React.FC<Props> = ({
     googleMapsApiKey: secrets.key,
   });
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(function () {
     setTimeout(() => {
@@ -50,7 +50,7 @@ const MyMap: React.FC<Props> = ({
   }, []);
 
   const historyCheck = (e: string) => {
-    history.push(`/api/gig/${e}`);
+    navigate(`/api/gig/${e}`);
   };
 
   return isLoaded ? (
