@@ -54,6 +54,15 @@ export const GoogleMapComponent: React.FC<Props> = ({
         styles: mapStyles.styles[5],
         disableDefaultUI: false,
         zoomControl: true,
+        restriction: {
+          strictBounds: true,
+          latLngBounds: {
+            north: 85,
+            south: -80,
+            west: -179,
+            east: 179,
+          },
+        },
       }}
       onClick={(e: any) => {
         setShowCoordinates(true);

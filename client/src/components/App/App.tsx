@@ -147,6 +147,7 @@ export const App: React.FC<Props> = ({}) => {
                 setChatNotification={(e: boolean) => setChatNotification(e)}
                 setChatMode={(e: boolean) => setChatMode(e)}
                 setAboutMode={(e: boolean) => setAboutMode(e)}
+                setMaps={(e: boolean) => setMaps(e)}
               />
             }
           ></Route>
@@ -244,6 +245,7 @@ export const App: React.FC<Props> = ({}) => {
                 radioBroadcasts={radioBroadcasts}
                 nightFlightProg={nightFlightProg}
                 setChatMode={(e: boolean) => setChatMode(e)}
+                setMaps={(e: boolean) => setMaps(e)}
               />
             }
           ></Route>

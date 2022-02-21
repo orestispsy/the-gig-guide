@@ -32,6 +32,7 @@ interface Props {
   nightFlightProg: any;
   setChatMode: (e: boolean) => void;
   radioBroadcasts: any;
+  setMaps: (e: boolean) => void;
 }
 
 export const Chat: React.FC<Props> = ({
@@ -51,6 +52,7 @@ export const Chat: React.FC<Props> = ({
   radioBroadcasts,
   setNightFlightProg,
   nightFlightProg,
+  setMaps,
 }) => {
   const [emojiBar, setEmojiBar] = useState<boolean>(false);
   const [tickerBar, setTickerBar] = useState<boolean>(false);
@@ -89,6 +91,7 @@ export const Chat: React.FC<Props> = ({
   const horn = useSelector((state: any) => state && state.horn);
 
   useEffect(() => {
+    setMaps(false);
     setChatMode(true);
     setDarkMode(darkMode);
     if (elemRef.current) {

@@ -1,16 +1,16 @@
 DROP TABLE IF EXISTS community;
 
 CREATE TABLE community (
-    id            SERIAL PRIMARY KEY,
-    nickname    VARCHAR NOT NULL UNIQUE CHECK (nickname <> ''),
+    id SERIAL PRIMARY KEY,
+    nickname VARCHAR NOT NULL UNIQUE CHECK (nickname <> ''),
     password_hash VARCHAR NOT NULL CHECK (password_hash <> ''),
     chat_img VARCHAR,
     chat_color VARCHAR,
     admin BOOLEAN DEFAULT false,
     super_admin BOOLEAN DEFAULT false,
     created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    online BOOLEAN DEFAULT false
-    last_online  TIMESTAMP DEFAULT null,
+    online BOOLEAN DEFAULT false,
+    last_online  TIMESTAMP DEFAULT null
 );
 
 CREATE TABLE gigs (

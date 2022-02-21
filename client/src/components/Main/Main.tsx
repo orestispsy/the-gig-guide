@@ -11,6 +11,7 @@ interface Props {
   setChatMode: (e: boolean) => void;
   setChatNotification: (e: boolean) => void;
   setAboutMode: (e: boolean) => void;
+  setMaps: (e: boolean) => void;
 }
 
 export const Main: React.FC<Props> = ({
@@ -22,11 +23,13 @@ export const Main: React.FC<Props> = ({
   setChatNotification,
   setChatMode,
   setAboutMode,
+  setMaps,
 }) => {
   useEffect(function () {
     setAboutMode(false);
     setChatMode(false);
     setChatNotification(false);
+    setMaps(false);
   }, []);
 
   const logOut = () => {

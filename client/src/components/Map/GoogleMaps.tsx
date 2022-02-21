@@ -1,12 +1,18 @@
 import React from "react";
 
-import { GoogleMap, Marker, InfoWindow } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  Marker,
+  InfoWindow,
+  useGoogleMap,
+} from "@react-google-maps/api";
 
 import mapStyles from "../../common/mapStyles";
 
 const containerStyle = {
   width: "100%",
   height: "100%",
+  backgroundColor: `black`,
 };
 
 interface Props {
@@ -67,6 +73,15 @@ export const GoogleMaps: React.FC<Props> = ({
         styles: style,
         disableDefaultUI: true,
         zoomControl: true,
+        restriction: {
+          strictBounds: true,
+          latLngBounds: {
+            north: 85,
+            south: -80,
+            west: -179,
+            east: 179,
+          },
+        },
       }}
     >
       {gigsList &&

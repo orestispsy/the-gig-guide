@@ -1,4 +1,4 @@
-import { HashRouter, Route } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 
 import React from "react";
 
@@ -13,10 +13,10 @@ export const Welcome: React.FC<Props> = ({}) => {
     <div className="welcomeContainerBack">
       <div className="welcomeContainer">
         <HashRouter>
-          <div>
-            <Route path="/" element={Login} />
-            <Route path="/register" element={Registration} />
-          </div>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/register" element={<Registration />} />
+          </Routes>
         </HashRouter>
       </div>
     </div>
