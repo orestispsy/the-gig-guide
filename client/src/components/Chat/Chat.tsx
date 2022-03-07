@@ -15,6 +15,25 @@ import kickedOut from "./../../../public/kickedOut.mp3";
 import hornSfx from "./../../../public/horn.mp3";
 import privateMSGSfx from "./../../../public/privateMSG.mp3";
 
+const {
+  setChatScrollBarPosition,
+  checkBrowserCount,
+  chatMessageActions,
+  chatUserOnlineChecker,
+  playNotification,
+  setScrollBarBottom,
+  keyCheck,
+  setChatMSGChange,
+  sendChatMSGButton,
+  banCountDown,
+  next20ChatMsgs,
+  moveScrollbarToTop,
+  moveScrollbarToBottom,
+  sendEmoji,
+  toggleTicker,
+  handleChatPostDelete,
+} = require("./ChatUtils");
+
 interface Props {
   myChatImg: string;
   myUserId: number | undefined;
@@ -33,6 +52,8 @@ interface Props {
   setChatMode: (e: boolean) => void;
   radioBroadcasts: any;
   setMaps: (e: boolean) => void;
+  setAdminControls: (e: boolean) => void;
+  setGigListOpen: (e: boolean) => void;
 }
 
 export const Chat: React.FC<Props> = ({
@@ -53,6 +74,8 @@ export const Chat: React.FC<Props> = ({
   setNightFlightProg,
   nightFlightProg,
   setMaps,
+  setAdminControls,
+  setGigListOpen,
 }) => {
   const [emojiBar, setEmojiBar] = useState<boolean>(false);
   const [tickerBar, setTickerBar] = useState<boolean>(false);
@@ -60,51 +83,51 @@ export const Chat: React.FC<Props> = ({
   const [postScroll, setPostScroll] = useState<boolean>(false);
   const [scrollTop, setScrollTop] = useState<number>(2);
   const [privateMode, setPrivateMode] = useState<boolean>(false);
-  const [userPrivate, setUserPrivate] = useState<boolean | undefined>();
+  const [userPrivate, setUserPrivate] = useState<number | undefined>();
   const [privatePic, setPrivatePic] = useState<any>(false);
   const [privateNick, setPrivateNick] = useState(false);
   const [privateMessages, setFilteredPrivateMessages] = useState(false);
   const [configTimer, setConfigTimer] = useState(false);
   const [shakeUser, setShakeUser] = useState(false);
+  const [chatMSG, setChatMSG] = useState<any>(false);
 
   const [play] = useSound(chatSfx, { volume: 0.75 });
   const [playIntro] = useSound(chatEnterSfx, { volume: 0.5 });
-
   const [playKickedOut] = useSound(kickedOut, { volume: 0.75 });
   const [playHorn] = useSound(hornSfx, { volume: 0.75 });
   const [playPrivateMsg] = useSound(privateMSGSfx, { volume: 0.75 });
 
   const elemRef = useRef<HTMLDivElement>(null);
-
   const timerRef = useRef<HTMLDivElement>(null);
 
   const chatMessages = useSelector((state: any) => state && state.chatMessages);
-
   const browserCount = useSelector((state: any) => state && state.count);
-
   const onlineUsers = useSelector((state: any) => state && state.onlineUsers);
-
   const chatBan = useSelector((state: any) => state && state.chat_ban);
-
   const banTimer = useSelector((state: any) => state && state.ban_timer);
-
   const horn = useSelector((state: any) => state && state.horn);
 
+  let chatTypeLine: any = document.querySelectorAll(".chatTypeLine");
+  let fixedTime: string;
+  let fixedDate: string;
+  let fixedHours: number;
+  let msgDate;
+  let msgTime;
+  let diff = new Date().getTimezoneOffset() / -60;
+
   useEffect(() => {
+    setGigListOpen(false);
+    setAdminControls(false);
     setMaps(false);
     setChatMode(true);
     setDarkMode(darkMode);
-    if (elemRef.current) {
-      const newScrollTop =
-        elemRef.current.scrollHeight - elemRef.current.clientHeight;
-      elemRef.current.scrollTop = newScrollTop;
-    }
+    setChatScrollBarPosition(elemRef);
   }, []);
 
   useEffect(() => {
     if (chatBan) {
       setPrivateMode(false);
-      countDown();
+      banCountDown(timerRef, playKickedOut, banTimer);
     }
   }, [chatBan]);
 
@@ -112,25 +135,18 @@ export const Chat: React.FC<Props> = ({
     if (chatMessages && elemRef.current) {
       if (scrollTop < 1) {
         elemRef.current.scrollTop = 100;
-        next20ChatMsgs();
+        next20ChatMsgs(elemRef, setPostScroll, chatMessages);
       }
     }
   }, [scrollTop]);
 
   useEffect(() => {
-    if (browserCount < 2) {
-      const timer = setTimeout(() => {
-        socket.emit("A CHAT MSG", "--##--entered--##--");
-      }, 1500);
-      return () => clearTimeout(timer);
-    } else {
-      return;
-    }
+    checkBrowserCount(browserCount);
   }, [browserCount]);
 
   useEffect(() => {
     if (elemRef.current) {
-      setScrollBarBottom();
+      setScrollBarBottom(elemRef, scrollTop);
     }
   }, [privateMode]);
 
@@ -143,201 +159,36 @@ export const Chat: React.FC<Props> = ({
   }, [horn]);
 
   useEffect(() => {
-    if (
-      chatMessages &&
-      chatMessages.length > 0 &&
-      chatMessages[chatMessages.length - 1].chat_msg == "--##--entered--##--" &&
-      chatMessages[chatMessages.length - 1].msg_sender_id != myUserId &&
-      !mute
-    ) {
-      playIntro();
-    }
-    if (!postScroll) {
-      if (elemRef.current) {
-        const newScrollTop =
-          elemRef.current.scrollHeight - elemRef.current.clientHeight;
-        elemRef.current.scrollTop = newScrollTop;
-      }
-    }
-    if (!mute && scrollTop > 1) {
-      play();
-    }
-    setPostScroll(false);
+    chatMessageActions(
+      chatMessages,
+      myUserId,
+      mute,
+      elemRef,
+      play,
+      playIntro,
+      postScroll,
+      setPostScroll,
+      scrollTop
+    );
   }, [chatMessages]);
 
-  const playNotification = () => {
-    if (!mute) {
-      playPrivateMsg();
-    }
-  };
-
-  const setScrollBarBottom = () => {
-    if (elemRef.current) {
-      elemRef.current.scrollTop = scrollTop;
-    }
-  };
-
-  const run = (e: boolean) => {
-    if (onlineUsers) {
-      let users = onlineUsers;
-      users.forEach((element: any) => {
-        if (element.id == myUserId) {
-          element.online = false;
-          axios
-            .post("/set-user-status", { online: e })
-            .then(({ data }) => {
-              socket.emit("ONLINE USERS", users);
-            })
-            .catch((err) => {
-              console.log("error", err);
-            });
-        }
-      });
-    }
-  };
-
-  const keyCheck = (e: any) => {
-    if (e.key === "Enter") {
-      if (e.target.value !== "") {
-        e.preventDefault();
-        var msgLink = e.target.value.split(/\s+/);
-        msgLink.forEach((element: any, index: number) => {
-          if (element.startsWith("http") || element.startsWith("www.")) {
-            let url = element;
-            if (element.startsWith("www.")) {
-              url = `https://` + url;
-            }
-            msgLink[index] = `<a href=${url} target="_blank">${element}</a>`;
-            e.target.value = msgLink.join(" ");
-          }
-        }, msgLink);
-        socket.emit("A CHAT MSG", e.target.value);
-        e.target.value = "";
-      }
-      e.preventDefault();
-    }
-  };
-
-  let elem: any = document.querySelectorAll(".chatTypeLine");
-  var chatMSG = false;
-  const chat = (e: any) => {
-    chatMSG = e.target.value;
-  };
-
-  const sendChatMsgButton = () => {
-    if (chatMSG) {
-      socket.emit("A CHAT MSG", chatMSG);
-      chatMSG = false;
-      elem[0].value = "";
-    }
-  };
-
-  const countDown = () => {
-    if (timerRef.current) {
-      playKickedOut();
-      let counter = banTimer;
-
-      const interval = setInterval(() => {
-        if (timerRef.current) {
-          counter--;
-          timerRef.current.innerHTML = counter;
-          if (counter < 0) {
-            timerRef.current.innerHTML = "B O O M !";
-          }
-        }
-      }, 1000);
-
-      const clientReset = setTimeout(() => {
-        location.replace("/");
-      }, banTimer * 1000 + 2000);
-
-      return () => clearTimeout(clientReset);
-    } else {
-      return;
-    }
-  };
-
-  const next20ChatMsgs = () => {
-    if (elemRef.current && elemRef.current.scrollTop == 0) {
-      elemRef.current.scrollTop = elemRef.current.scrollTop + 1;
-    }
-    setPostScroll(true);
-    socket.emit("NEXT MSGS", chatMessages[0].id);
-  };
-
-  const getBack2Top = () => {
-    if (elemRef.current) {
-      elemRef.current.scrollTop = -elemRef.current.scrollTop;
-    }
-  };
-  const getBack2Bottom = () => {
-    if (elemRef.current) {
-      elemRef.current.scrollTop =
-        elemRef.current.scrollHeight - elemRef.current.clientHeight;
-    }
-  };
-  const sendEmoji = (e: any) => {
-    chatMSG = e.target.attributes[0].value;
-    var msg = `<img class="emojis" src=${chatMSG}>`;
-    socket.emit("A CHAT MSG", msg);
-  };
-
-  const toggleTicker = (e: boolean) => {
-    setTickerBar(e);
-  };
-
-  const openPrivate = (e: any, img?: any) => {
-    setUserPrivate(e);
-    setPrivatePic(img);
-  };
-
-  let fixedTime: string;
-  let fixedDate: string;
-  let msgDate;
-  let msgTime;
-  let diff = new Date().getTimezoneOffset() / -60;
   const handleTime = (e: any) => {
     if (e.created_at) {
       msgDate = e.created_at.slice(0, 10).split("-");
       fixedDate = msgDate[2] + "-" + msgDate[1] + "-" + msgDate[0];
-
       msgTime = e.created_at.slice(11, 19).split(":");
 
       if (msgTime[0].startsWith("0")) {
         msgTime[0] = msgTime[0].slice(1, 2);
       }
-      fixedTime =
-        JSON.parse(msgTime[0]) + diff + ":" + msgTime[1] + ":" + msgTime[2];
-    }
-  };
-
-  const handleChatPostDelete = (e: any) => {
-    if (elemRef.current) {
-      if (
-        elemRef.current.scrollHeight <=
-        elemRef.current.scrollTop + elemRef.current.clientHeight + 100
-      ) {
-        setPostScroll(false);
-      } else {
-        setPostScroll(true);
+      fixedHours = Number(msgTime[0]) + 6 + diff;
+      if (fixedHours == 24) {
+        fixedHours = 0;
       }
-
-      const position = elemRef.current.scrollTop;
-
-      socket.emit(
-        "DELETE MSG",
-        chatMessages.reverse().filter((msg: any) => msg.id !== e),
-        e
-      );
-
-      const timer = setTimeout(() => {
-        if (elemRef.current) {
-          elemRef.current.scrollTop = position;
-        }
-      }, 500);
-      return () => clearTimeout(timer);
-    } else {
-      return;
+      if (fixedHours > 24) {
+        fixedHours = fixedHours - 24;
+      }
+      fixedTime = fixedHours + ":" + msgTime[1] + ":" + msgTime[2];
     }
   };
 
@@ -358,7 +209,10 @@ export const Chat: React.FC<Props> = ({
           privateNick={privateNick}
           setFilteredPrivateMessages={(e: any) => setFilteredPrivateMessages(e)}
           darkMode={darkMode}
-          playNotification={() => playNotification()}
+          playPrivateMsg={() => playPrivateMsg()}
+          playNotification={(mute: boolean, playPrivateMsg: () => void) =>
+            playNotification(mute, playPrivateMsg)
+          }
           mute={mute}
         />
       )}
@@ -384,7 +238,7 @@ export const Chat: React.FC<Props> = ({
                     {
                       if (browserCount == 1) {
                         socket.emit("A CHAT MSG", "--##--left--##--");
-                        run(false);
+                        chatUserOnlineChecker(false, onlineUsers, myUserId);
                       }
                     }
                   }}
@@ -401,21 +255,23 @@ export const Chat: React.FC<Props> = ({
                 <div
                   title="Chat Top"
                   className="up"
-                  onClick={() => getBack2Top()}
+                  onClick={() => moveScrollbarToTop(elemRef)}
                 >
                   ▲
                 </div>
                 <div
                   title="Chat Bottom"
                   className="down"
-                  onClick={() => getBack2Bottom()}
+                  onClick={() => moveScrollbarToBottom(elemRef)}
                 >
                   ▼
                 </div>
                 <div
                   title="Load More Chat Messages"
                   className="next"
-                  onClick={() => next20ChatMsgs()}
+                  onClick={() =>
+                    next20ChatMsgs(elemRef, setPostScroll, chatMessages)
+                  }
                 >
                   ⦿
                 </div>
@@ -482,7 +338,7 @@ export const Chat: React.FC<Props> = ({
                             <div className="userChatDetails">
                               <img
                                 className="postImg"
-                                src={myChatImg || "./../na.jpg"}
+                                src={msg.chat_img || "./../na.jpg"}
                               ></img>
                               <h1>{msg.nickname}</h1>
                             </div>
@@ -492,14 +348,28 @@ export const Chat: React.FC<Props> = ({
                                 <div
                                   title="Delete"
                                   className="deleteChatMsg"
-                                  onClick={(e) => handleChatPostDelete(msg.id)}
+                                  onClick={(e) =>
+                                    handleChatPostDelete(
+                                      msg.id,
+                                      elemRef,
+                                      setPostScroll,
+                                      chatMessages
+                                    )
+                                  }
                                 ></div>
                               )}
                             {superAdmin && (
                               <div
                                 title="Delete"
                                 className="deleteChatMsg"
-                                onClick={(e) => handleChatPostDelete(msg.id)}
+                                onClick={(e) =>
+                                  handleChatPostDelete(
+                                    msg.id,
+                                    elemRef,
+                                    setPostScroll,
+                                    chatMessages
+                                  )
+                                }
                               ></div>
                             )}
                             <div
@@ -533,14 +403,16 @@ export const Chat: React.FC<Props> = ({
                   className="chatTypeLine"
                   onKeyDown={(e) => keyCheck(e)}
                   onChange={(e) => {
-                    chat(e);
+                    setChatMSGChange(e, setChatMSG);
                   }}
                 ></textarea>
                 <div
                   id={(darkMode && "sendChatMsgDark") || ""}
                   title="Send Message"
                   className="sendChatMsg"
-                  onClick={() => sendChatMsgButton()}
+                  onClick={() =>
+                    sendChatMSGButton(chatMSG, setChatMSG, chatTypeLine)
+                  }
                 ></div>
                 <div className="chatControls">
                   {!mute && (
@@ -577,7 +449,7 @@ export const Chat: React.FC<Props> = ({
           sendEmoji={(e: any) => sendEmoji(e)}
           myChatColor={myChatColor}
           setMyChatImg={(e: string) => setMyChatImg(e)}
-          openPrivate={(e: any, img: any) => openPrivate(e, img)}
+          setUserPrivate={(e: any) => setUserPrivate(e)}
           setPrivatePic={(e: any) => setPrivatePic(e)}
           setPrivateNick={(e: any) => setPrivateNick(e)}
           setPrivateMode={(e: boolean) => setPrivateMode(e)}
@@ -597,9 +469,13 @@ export const Chat: React.FC<Props> = ({
           setConfigTimer={(e: any) => setConfigTimer(e)}
           chatBan={chatBan}
           horn={horn}
-          playNotification={() => playNotification()}
+          playNotification={(mute: boolean, playPrivateMsg: () => void) =>
+            playNotification(mute, playPrivateMsg)
+          }
+          playPrivateMsg={() => playPrivateMsg()}
           shakeUser={shakeUser}
           setShakeUser={(e: boolean) => setShakeUser(e)}
+          mute={mute}
         />
       </div>
       {!chatBan && (
@@ -622,7 +498,7 @@ export const Chat: React.FC<Props> = ({
         <div
           className="tickerButton"
           onClick={(e) => {
-            toggleTicker(!tickerBar);
+            toggleTicker(!tickerBar, setTickerBar);
           }}
         >
           {tickerBar && `Stop Ticker`} {!tickerBar && `Start Ticker`}

@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import useSound from "use-sound";
 import hyperfx from "./../../../public/hyperfx.mp3";
 
+const { chatNewPostNotification } = require("./AppBarUtils");
+
 interface Props {
   myChatImg: string;
   chatNotification: boolean;
@@ -18,10 +20,19 @@ interface Props {
   setGigEntry: (e: number | null) => void;
   top: number | string;
   left: number | string;
-  setPlayerPosition: (x: number, y: number) => void;
+  setPlayerPosition: (
+    x: number,
+    y: number,
+    setTop: (e: number) => void,
+    setLeft: (e: number) => void
+  ) => void;
   setChatNotification: (e: boolean) => void;
   chatMode: boolean;
   setAboutMode: (e: boolean) => void;
+  adminControls: boolean;
+
+  setTop: (e: number) => void;
+  setLeft: (e: number) => void;
 }
 
 export const AppBar: React.FC<Props> = ({
@@ -39,6 +50,9 @@ export const AppBar: React.FC<Props> = ({
   setChatNotification,
   chatMode,
   setAboutMode,
+  adminControls,
+  setTop,
+  setLeft,
 }) => {
   const [playSlideFx] = useSound(hyperfx, { volume: 0.6 });
 
@@ -48,21 +62,13 @@ export const AppBar: React.FC<Props> = ({
   useEffect(
     function () {
       if (chatMessages) {
-        const timer = setTimeout(() => {
-          if (!chatNotification && !chatMode && chatMessages.length > 10) {
-            if (
-              chatMessages[chatMessages.length - 1].chat_msg ==
-                "--##--entered--##--" ||
-              chatMessages[chatMessages.length - 1].chat_msg ==
-                "--##--left--##--"
-            ) {
-              return;
-            }
-            setChatNotification(true);
-            playSlideFx();
-          }
-        }, 1000);
-        return () => clearTimeout(timer);
+        chatNewPostNotification(
+          chatNotification,
+          chatMode,
+          chatMessages,
+          setChatNotification,
+          playSlideFx
+        );
       } else {
         return;
       }
@@ -74,7 +80,7 @@ export const AppBar: React.FC<Props> = ({
     <div className="appBar" id={(maps && "appBar") || ""}>
       {!chatBan && (
         <div className="barLeftSection">
-          <Link to={(chatMode && "/") || (!chatMode && "/chat") || ""}>
+          <Link to={"/"}>
             <img
               src={myChatImg || "./../avatar.png"}
               className="barProfileImage"
@@ -109,6 +115,19 @@ export const AppBar: React.FC<Props> = ({
       )}
 
       {maps && (
+        <Link
+          to="/"
+          className="barMainLink"
+          title="Back"
+          onClick={(e) => {
+            setGigEntry(null);
+            mapVisible(false);
+            setAboutMode(false);
+          }}
+        ></Link>
+      )}
+
+      {adminControls && (
         <Link
           to="/"
           className="barMainLink"
@@ -194,13 +213,17 @@ export const AppBar: React.FC<Props> = ({
             onDragCapture={(e) => {
               setPlayerPosition(
                 e.pageY,
-                e.screenX + e.screenX * 0.5 - e.screenX * 0.1
+                e.screenX + e.screenX * 0.5 - e.screenX * 0.1,
+                setTop,
+                setLeft
               );
             }}
             onDragEndCapture={(e) => {
               setPlayerPosition(
                 e.pageY,
-                e.screenX + e.screenX * 0.5 - e.screenX * 0.1
+                e.screenX + e.screenX * 0.5 - e.screenX * 0.1,
+                setTop,
+                setLeft
               );
             }}
             onTouchStart={(e) => {
@@ -208,13 +231,17 @@ export const AppBar: React.FC<Props> = ({
                 e.changedTouches[0].pageY,
                 e.changedTouches[0].screenX +
                   e.changedTouches[0].screenX * 0.5 -
-                  e.changedTouches[0].screenX * 0.1
+                  e.changedTouches[0].screenX * 0.1,
+                setTop,
+                setLeft
               );
             }}
             onTouchMoveCapture={(e) => {
               setPlayerPosition(
                 e.changedTouches[0].pageY,
-                e.changedTouches[0].pageX
+                e.changedTouches[0].pageX,
+                setTop,
+                setLeft
               );
             }}
           ></div>

@@ -10,7 +10,7 @@ app.use(cors());
 const server = require("http").Server(app);
 const io = require("socket.io")(server, {
   cors: {
-    origin: "https://thousandgigs.herokuapp.com",
+    origin: "https://gigguide.zero-psy.com/",
     methods: ["GET", "POST"],
   },
 });

@@ -4,4 +4,5 @@ secrets.json
 secrets2.json
 client/build/
 .vscode
-
+.prettierignore
+.prettier.json

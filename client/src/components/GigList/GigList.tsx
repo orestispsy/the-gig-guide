@@ -6,6 +6,7 @@ interface Props {
   setDarkMode: (e: boolean) => void;
   year: string | number | readonly string[] | undefined;
   setYear: (e: string | number | readonly string[] | undefined) => void;
+  setGigListOpen: (e: boolean) => void;
 }
 
 export const GigList: React.FC<Props> = ({
@@ -13,6 +14,7 @@ export const GigList: React.FC<Props> = ({
   setDarkMode,
   year,
   setYear,
+  setGigListOpen,
 }) => {
   const [sortedGigs, setSortedGigs] = useState<any>(false);
   const [sortedMonths, setSortedMonths] = useState<any>([]);
@@ -35,8 +37,7 @@ export const GigList: React.FC<Props> = ({
   const elemRef = useRef<HTMLDivElement>(null);
 
   useEffect(function () {
-    setDarkMode(true);
-
+    setGigListOpen(true);
     if (year) {
       gigListFiltering(year);
     }
@@ -71,12 +72,7 @@ export const GigList: React.FC<Props> = ({
   };
 
   return (
-    <div
-      className="gigListContainer"
-      style={{
-        marginTop: (year && `4vmax`) || "",
-      }}
-    >
+    <div className="gigListContainer" style={{}}>
       <div className="gigEntriesBox">
         <div id="gigListCloseTab">
           <Link to="/" className="buttonBack">
@@ -108,7 +104,7 @@ export const GigList: React.FC<Props> = ({
               gigsReset();
             }}
           >
-            reset
+            show all
           </div>
         )}
         <div className="year"> {(year && year) || "Total"}</div>
@@ -170,7 +166,7 @@ export const GigList: React.FC<Props> = ({
                                       }}
                                       to={`/api/gig/${gig.id}`}
                                     >
-                                      <div className="gigBox">
+                                      <div className="gigBox" id="gigBox">
                                         <div id="gigBoxDateSorted">
                                           {gig.date.split("-")[2]}
                                         </div>
@@ -213,7 +209,7 @@ export const GigList: React.FC<Props> = ({
                     <div
                       style={{
                         color: `yellow`,
-                        textDecoration: `underline`,
+                        fontFamily: `"Black Ops One", cursive `,
                       }}
                     >
                       {gig.date}

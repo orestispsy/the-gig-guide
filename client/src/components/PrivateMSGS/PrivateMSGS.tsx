@@ -6,14 +6,15 @@ import { useSelector } from "react-redux";
 
 interface Props {
   myUserId: number | undefined;
-  userPrivate: boolean | undefined;
+  userPrivate: number | undefined;
   myChatImg: string;
   privatePic: any;
   myNickname: string;
   privateNick: any;
   setFilteredPrivateMessages: (e: any) => void;
   darkMode: boolean;
-  playNotification: () => void;
+  playNotification: (e: boolean, playPrivateMsg: () => void) => void;
+  playPrivateMsg: () => void;
   mute: boolean;
 }
 
@@ -27,6 +28,7 @@ export const PrivateMSGS: React.FC<Props> = ({
   setFilteredPrivateMessages,
   darkMode,
   playNotification,
+  playPrivateMsg,
   mute,
 }) => {
   const [firstMsg, setFirstMsg] = useState<any>(null);
@@ -75,7 +77,7 @@ export const PrivateMSGS: React.FC<Props> = ({
   useEffect(() => {
     if (firstMsg) {
       if (!mute && firstMsg.msg_seen) {
-        playNotification();
+        playNotification(mute, playPrivateMsg);
       }
 
       axios
@@ -140,6 +142,7 @@ export const PrivateMSGS: React.FC<Props> = ({
 
   let fixedTime: string;
   let fixedDate: string;
+  let fixedHours: number;
   let msgDate;
   let msgTime;
   let diff = new Date().getTimezoneOffset() / -60;
@@ -153,8 +156,15 @@ export const PrivateMSGS: React.FC<Props> = ({
       if (msgTime[0].startsWith("0")) {
         msgTime[0] = msgTime[0].slice(1, 2);
       }
-      fixedTime =
-        JSON.parse(msgTime[0]) + diff + ":" + msgTime[1] + ":" + msgTime[2];
+      fixedHours = Number(msgTime[0]) + 6 + diff;
+      if (fixedHours == 24) {
+        fixedHours = 0;
+      }
+      if (fixedHours > 24) {
+        fixedHours = fixedHours - 24;
+      }
+
+      fixedTime = fixedHours + ":" + msgTime[1] + ":" + msgTime[2];
     }
   };
 

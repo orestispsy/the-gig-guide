@@ -1,8 +1,8 @@
 # The Gig Guide [React + Typescript]
-### https://zero-psy.com/portfolio/#projects/1
+### https://zero-psy.com/portfolio/#/projects/1/the-gig-guide
  
 ## Demo
-### https://1000gigs.zero-psy.com/
+### https://gigguide.zero-psy.com/
 
 
 ## Setup

@@ -1,6 +1,6 @@
-const spicedPg = require("spiced-pg");
+const { exportedPg } = require("./pg");
 
-const db = spicedPg(
+const db = exportedPg(
   process.env.DATABASE_URL ||
     "postgres:postgres:postgres@localhost:5432/1000mods-gig-guide"
 );
@@ -48,7 +48,7 @@ module.exports.getGigs = () => {
   const q = `
         SELECT *
         FROM gigs
-        ORDER BY gigs.created_at DESC
+        ORDER BY gigs.date DESC
     `;
 
   return db.query(q);

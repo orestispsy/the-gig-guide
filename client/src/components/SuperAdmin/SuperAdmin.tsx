@@ -5,12 +5,14 @@ interface Props {
   setDarkMode: (e: boolean) => void;
   myUserId: number | undefined;
   superAdmin: boolean;
+  setAdminControls: (e: boolean) => void;
 }
 
 export const SuperAdmin: React.FC<Props> = ({
   setDarkMode,
   myUserId,
   superAdmin,
+  setAdminControls,
 }) => {
   const [userList, setUserList] = useState<any>(null);
   const [confirm, setConfirm] = useState<any>(false);
@@ -24,7 +26,7 @@ export const SuperAdmin: React.FC<Props> = ({
     if (!superAdmin) {
       location.replace("/");
     }
-    setDarkMode(true);
+    setAdminControls(true);
     axios
       .get("/get-all-users")
       .then(({ data }) => {
@@ -95,6 +97,7 @@ export const SuperAdmin: React.FC<Props> = ({
 
   let fixedTime: string;
   let fixedDate: string;
+  let fixedHours: number;
   let msgDate: string[];
   let msgTime: string[];
   let diff = new Date().getTimezoneOffset() / -60;
@@ -108,8 +111,15 @@ export const SuperAdmin: React.FC<Props> = ({
       if (msgTime[0].startsWith("0")) {
         msgTime[0] = msgTime[0].slice(1, 2);
       }
-      fixedTime =
-        JSON.parse(msgTime[0]) + diff + ":" + msgTime[1] + ":" + msgTime[2];
+      fixedHours = Number(msgTime[0]) + 6 + diff;
+      if (fixedHours == 24) {
+        fixedHours = 0;
+      }
+      if (fixedHours > 24) {
+        fixedHours = fixedHours - 24;
+      }
+
+      fixedTime = fixedHours + ":" + msgTime[1] + ":" + msgTime[2];
     }
   };
 
@@ -422,14 +432,6 @@ export const SuperAdmin: React.FC<Props> = ({
               </React.Fragment>
             );
           })}
-        <Link
-          to="/"
-          className="superAdminExit"
-          title="Back"
-          onClick={() => setDarkMode(false)}
-        >
-          <img src="redBall.gif"></img>
-        </Link>
       </div>
     </div>
   );

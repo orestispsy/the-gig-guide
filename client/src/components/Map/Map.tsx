@@ -7,13 +7,7 @@ import GoogleMapComponent from "./GoogleMaps";
 
 import mapStyles from "../../common/mapStyles";
 
-let secrets: any;
-
-if (process.env.NODE_ENV == "production") {
-  secrets = process.env;
-} else {
-  secrets = require("../../../../secrets.json");
-}
+let secrets: any = require("../../../../secrets.json");
 
 interface Props {
   gigsList: any[] | undefined;
@@ -38,7 +32,7 @@ const MyMap: React.FC<Props> = ({
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: secrets.key,
+    googleMapsApiKey: process.env.KEY || secrets.key,
   });
 
   const navigate = useNavigate();

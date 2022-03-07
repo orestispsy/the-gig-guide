@@ -2,17 +2,18 @@ import React, { useState, useEffect, Fragment } from "react";
 import axios from "../../common/Axios/axios";
 import { Link } from "react-router-dom";
 
+const {
+  deleteAboutComment,
+  sendComment,
+  axiosGetAboutComments,
+} = require("./AboutUtils");
+
 interface Props {
   setAboutMode: (e: boolean) => void;
-  aboutMode: boolean;
   superAdmin: boolean;
 }
 
-export const About: React.FC<Props> = ({
-  setAboutMode,
-  aboutMode,
-  superAdmin,
-}) => {
+export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
   const [imgCount, setImgCount] = useState<number>(
     Math.floor(Math.random() * 9 + 2)
   );
@@ -26,87 +27,12 @@ export const About: React.FC<Props> = ({
   const [reply, setReply] = useState<boolean>(false);
   const [selectedComment, setSelectedComment] = useState(false);
 
+  let expBlogComments: any;
+
   useEffect(function () {
     setAboutMode(true);
-    getAboutComments();
-    axios
-      .get("/get-about-comments/")
-      .then(({ data }) => {
-        setBlogComments(data.rows);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    axiosGetAboutComments(setBlogComments);
   }, []);
-
-  const getAboutComments = () => {
-    axios
-      .get("/get-about-comments/")
-      .then(({ data }) => {
-        setBlogComments(data.rows);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const deleteAboutComment = (e: number) => {
-    axios
-      .post("/delete-about-comment/", {
-        id: e,
-      })
-      .then(({ data }) => {
-        getAboutComments();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const sendComment = () => {
-    if (comment && userName && email) {
-      axios
-        .post("/add-about-comment/", {
-          comment: comment,
-          userName: userName,
-          email: email,
-          website: website,
-          reply: 0,
-        })
-        .then(({ data }) => {
-          setCommentSection(true);
-          getAboutComments();
-          setComment(false);
-          setUserName(false);
-          setEmail(false);
-          setWebsite("");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-    if (replyText && userName && email && reply) {
-      axios
-        .post("/add-about-comment/", {
-          comment: replyText,
-          userName: userName,
-          email: email,
-          website: website,
-          reply: selectedComment,
-        })
-        .then(({ data }) => {
-          setReply(false);
-          getAboutComments();
-          setReplyText(false);
-          setUserName(false);
-          setEmail(false);
-          setWebsite("");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  };
 
   return (
     <div
@@ -202,7 +128,7 @@ export const About: React.FC<Props> = ({
             <div className="saySomethingBack" id="saySomethingBack">
               {blogComments &&
                 blogComments.map((blogEntry: any, index) => {
-                  let expBlogComments: any = blogComments.filter(
+                  expBlogComments = blogComments.filter(
                     (comment: any) => comment.reply == 0
                   );
                   return (
@@ -260,7 +186,8 @@ export const About: React.FC<Props> = ({
                                                       reply.id
                                                     );
                                                     deleteAboutComment(
-                                                      reply.id
+                                                      reply.id,
+                                                      setBlogComments
                                                     );
                                                   }}
                                                 >
@@ -289,7 +216,10 @@ export const About: React.FC<Props> = ({
                                   className="blogDelete"
                                   onClick={(e) => {
                                     setSelectedComment(blogEntry.id);
-                                    deleteAboutComment(blogEntry.id);
+                                    deleteAboutComment(
+                                      blogEntry.id,
+                                      setBlogComments
+                                    );
                                   }}
                                 >
                                   DELETE
@@ -366,7 +296,23 @@ export const About: React.FC<Props> = ({
                                   "sendReply"
                                 }
                                 onClick={(e) => {
-                                  sendComment();
+                                  sendComment(
+                                    comment,
+                                    userName,
+                                    email,
+                                    website,
+                                    replyText,
+                                    reply,
+                                    selectedComment,
+                                    setCommentSection,
+                                    setBlogComments,
+                                    setComment,
+                                    setUserName,
+                                    setEmail,
+                                    setWebsite,
+                                    setReplyText,
+                                    setReply
+                                  );
                                 }}
                               >
                                 Send Reply
@@ -441,7 +387,23 @@ export const About: React.FC<Props> = ({
                   ""
                 }
                 onClick={(e) => {
-                  sendComment();
+                  sendComment(
+                    comment,
+                    userName,
+                    email,
+                    website,
+                    replyText,
+                    reply,
+                    selectedComment,
+                    setCommentSection,
+                    setBlogComments,
+                    setComment,
+                    setUserName,
+                    setEmail,
+                    setWebsite,
+                    setReplyText,
+                    setReply
+                  );
                 }}
               >
                 Send

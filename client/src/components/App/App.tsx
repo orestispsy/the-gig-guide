@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../common/Axios/axios";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useParams,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { AppLayout } from "../AppLayout/AppLayout";
 import { Main } from "../Main/Main";
-import AppBar from "../AppBar/AppBar";
 import MyMap from "../Map/Map";
 import { GigCreator } from "../GigCreator/GigCreator";
 import { GigEditor } from "../GigEditor/GigEditor";
@@ -24,23 +18,30 @@ import "./../../../public/style.css";
 
 import radioBroadcasts from "../../common/radioBroadcasts";
 
+const {
+  axiosGetUserDetails,
+  axiosGetGigs,
+  axiosGetCounter,
+  setPlayerPosition,
+} = require("./AppUtils");
+
 interface Props {}
 
 export const App: React.FC<Props> = ({}) => {
   const [myUserId, setMyUserId] = useState<number | undefined>();
+  const [myNickname, setMyNickname] = useState<string>("");
   const [myChatImg, setMyChatImg] = useState<string>("");
   const [myChatColor, setMyChatColor] = useState<string>("");
   const [guest, setGuest] = useState<boolean>(false);
   const [admin, setAdmin] = useState<boolean>(false);
   const [superAdmin, setSuperAdmin] = useState<boolean>(false);
   const [maps, setMaps] = useState<boolean>(false);
-
+  const [adminControls, setAdminControls] = useState<boolean>(false);
+  const [gigListOpen, setGigListOpen] = useState<boolean>(false);
   const [visitors, setVisitors] = useState<number | null>(null);
-
   const [top, setTop] = useState<number | string>("1%");
   const [left, setLeft] = useState<number | string>("35%");
   const [selectedGigEntry, setSelectedGigEntry] = useState<number | null>(0);
-
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [year, setYear] = useState<
     string | number | readonly string[] | undefined
@@ -51,62 +52,24 @@ export const App: React.FC<Props> = ({}) => {
   const [chatNotification, setChatNotification] = useState<boolean>(false);
   const [chatMode, setChatMode] = useState<boolean>(false);
   const [aboutMode, setAboutMode] = useState<boolean>(false);
-
-  const [myNickname, setMyNickname] = useState<string>("");
-
   const [gigsList, setGigsList] = useState<any>();
-
-  let { id } = useParams();
+  const [loaded, setLoaded] = useState<boolean>(false);
+  const [loadedMain, setLoadedMain] = useState<boolean>(false);
 
   useEffect(function () {
     setMaps(false);
-    axios
-      .get("/user-details")
-      .then(({ data }) => {
-        if (!data.data) {
-          location.replace("/");
-        }
-
-        setMyUserId(data.data.id);
-        setMyNickname(data.data.nickname);
-        setAdmin(data.data.admin);
-        setSuperAdmin(data.data.super_admin);
-        setMyChatImg(data.data.chat_img);
-        setMyChatColor(data.data.chat_color);
-
-        if (data.data.nickname) {
-          if (data.data.nickname.includes("Guest")) {
-            setGuest(true);
-            setAdmin(false);
-          }
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    axios
-      .get("/get-gigs")
-      .then(({ data }) => {
-        setGigsList(data.data.reverse());
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    axios
-      .get("/counter")
-      .then(({ data }) => {
-        setVisitors(data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    axiosGetUserDetails(
+      setMyUserId,
+      setMyNickname,
+      setAdmin,
+      setSuperAdmin,
+      setMyChatImg,
+      setMyChatColor,
+      setGuest
+    );
+    axiosGetGigs(setGigsList);
+    axiosGetCounter(setVisitors);
   }, []);
-
-  const setPlayerPosition = (x: number, y: number) => {
-    setTop(x), setLeft(y);
-  };
 
   return (
     <Router>
@@ -125,13 +88,24 @@ export const App: React.FC<Props> = ({}) => {
               mapVisible={(e: boolean) => setMaps(e)}
               top={top}
               left={left}
-              setPlayerPosition={(x: number, y: number) =>
-                setPlayerPosition(x, y)
-              }
+              setTop={(e: number) => setTop(e)}
+              setLeft={(e: number) => setLeft(e)}
+              setPlayerPosition={(
+                x: number,
+                y: number,
+                setTop: (e1: number) => void,
+                setLeft: (e2: number) => void
+              ) => setPlayerPosition(x, y, setTop, setLeft)}
               setChatNotification={(e: boolean) => setChatNotification(e)}
               chatNotification={chatNotification}
               chatMode={chatMode}
               setAboutMode={(e: boolean) => setAboutMode(e)}
+              adminControls={adminControls}
+              gigListOpen={gigListOpen}
+              loaded={loaded}
+              setLoaded={(e) => {
+                setLoaded(e);
+              }}
             />
           }
         >
@@ -148,6 +122,11 @@ export const App: React.FC<Props> = ({}) => {
                 setChatMode={(e: boolean) => setChatMode(e)}
                 setAboutMode={(e: boolean) => setAboutMode(e)}
                 setMaps={(e: boolean) => setMaps(e)}
+                setAdminControls={(e: boolean) => setAdminControls(e)}
+                setGigListOpen={(e: boolean) => setGigListOpen(e)}
+                loaded={loaded}
+                setLoadedMain={(e: boolean) => setLoadedMain(e)}
+                loadedMain={loadedMain}
               />
             }
           ></Route>
@@ -194,6 +173,7 @@ export const App: React.FC<Props> = ({}) => {
                 setYear={(e: string | number | readonly string[] | undefined) =>
                   setYear(e)
                 }
+                setGigListOpen={(e: boolean) => setGigListOpen(e)}
               />
             }
           ></Route>
@@ -246,6 +226,8 @@ export const App: React.FC<Props> = ({}) => {
                 nightFlightProg={nightFlightProg}
                 setChatMode={(e: boolean) => setChatMode(e)}
                 setMaps={(e: boolean) => setMaps(e)}
+                setAdminControls={(e: boolean) => setAdminControls(e)}
+                setGigListOpen={(e: boolean) => setGigListOpen(e)}
               />
             }
           ></Route>
@@ -257,6 +239,7 @@ export const App: React.FC<Props> = ({}) => {
                 superAdmin={superAdmin}
                 myUserId={myUserId}
                 setDarkMode={(e: boolean) => setDarkMode(e)}
+                setAdminControls={(e: boolean) => setAdminControls(e)}
               />
             }
           ></Route>
@@ -265,20 +248,12 @@ export const App: React.FC<Props> = ({}) => {
             path="/about"
             element={
               <About
-                aboutMode={aboutMode}
                 setAboutMode={(e: boolean) => setAboutMode(e)}
                 superAdmin={superAdmin}
               />
             }
           ></Route>
         </Route>
-
-        {/* 
-       
-
-       
-      
- */}
       </Routes>
     </Router>
   );

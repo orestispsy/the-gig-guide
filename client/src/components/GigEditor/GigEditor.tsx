@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import axios from "../../common/Axios/axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import EditMap from "../EditMap/EditMap";
 
@@ -41,6 +41,8 @@ export const GigEditor: React.FC<Props> = ({
   const [gigToView, setGigToView] = useState("");
   const [selectedGig, setSelectedGig] = useState<any>("");
 
+  const elemRef = useRef<any>();
+
   useEffect(function () {
     if (!admin) {
       location.replace("/");
@@ -60,8 +62,6 @@ export const GigEditor: React.FC<Props> = ({
     },
     [selectedPoster]
   );
-
-  useEffect(function () {}, [gigToView]);
 
   const handleClick = () => {
     axios
@@ -107,6 +107,8 @@ export const GigEditor: React.FC<Props> = ({
           updateDatabase();
           setDoneUpdate(true);
           setSuccess(false);
+          setFile(null);
+          elemRef.current.value = "";
         } else {
           setError2(true);
         }
@@ -247,6 +249,10 @@ export const GigEditor: React.FC<Props> = ({
             onChange={(e) => {
               setGigToView(e.target.value);
               gigSelector();
+              setFile(null);
+              if (elemRef.current) {
+                elemRef.current.value = "";
+              }
             }}
             onClick={(e) => {
               inputsReset();
@@ -264,11 +270,13 @@ export const GigEditor: React.FC<Props> = ({
               Select Gig
             </option>
             {gigsList &&
-              gigsList.map((gig: any) => (
-                <option value={gig.date} key={gig.id}>
-                  {gig.date} {gig.venue}
-                </option>
-              ))}
+              gigsList
+                .map((gig: any) => (
+                  <option value={gig.date} key={gig.id}>
+                    {gig.date} {gig.venue}
+                  </option>
+                ))
+                .reverse()}
           </select>{" "}
           {posterSection && (
             <Posters setSelectedPoster={(e: any) => setSelectedPoster(e)} />
@@ -367,7 +375,7 @@ export const GigEditor: React.FC<Props> = ({
                 {selectedGig && !deleteSuccess && (
                   <div className="coordinatesMenu">
                     <div className="lngLtdMenu">
-                      {!mapView && "Get ltd/lng"} {mapView && "Close"}
+                      {!mapView && "Select On Map"} {mapView && "Close"}
                     </div>
 
                     <div
@@ -439,7 +447,25 @@ export const GigEditor: React.FC<Props> = ({
               )}
               {selectedGig.id && !deleteSuccess && !posterSection && (
                 <div className="fileUploader" id="fileUploaderEdit">
+                  {!success && !doneUpdate && (
+                    <div className="uploadPosterProps">
+                      <div className="uploadHead">
+                        {(!file && " Upload Poster From File:") ||
+                          "Finish Upload: "}
+                      </div>
+                      {file && (
+                        <div
+                          title="Upload Poster"
+                          id="upload"
+                          onClick={() => handleUploaderClick()}
+                        >
+                          Confirm
+                        </div>
+                      )}
+                    </div>
+                  )}
                   <input
+                    ref={elemRef}
                     type="file"
                     name="file"
                     accept="image/*"
@@ -455,15 +481,7 @@ export const GigEditor: React.FC<Props> = ({
                       setDoneUpdate(false);
                     }}
                   />
-                  {!success && !doneUpdate && (
-                    <div
-                      title="Upload Poster"
-                      id="upload"
-                      onClick={() => handleUploaderClick()}
-                    >
-                      Upload
-                    </div>
-                  )}
+
                   {success && <div className="uploadSuccess"></div>}
                 </div>
               )}
@@ -488,7 +506,7 @@ export const GigEditor: React.FC<Props> = ({
             </p>
           )}
         </form>
-        {!deleteSuccess && !mapView && (
+        {!deleteSuccess && !mapView && selectedGig && (
           <div className="formOptions">
             {!doneUpdate && (
               <div

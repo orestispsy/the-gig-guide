@@ -101,11 +101,13 @@ export const GigEntry: React.FC<Props> = ({
             Select Gig
           </option>
           {gigsList &&
-            gigsList.map((gig: any) => (
-              <option value={gig.date} key={gig.id}>
-                {gig.date} {gig.venue}
-              </option>
-            ))}
+            gigsList
+              .map((gig: any) => (
+                <option value={gig.date} key={gig.id}>
+                  {gig.date} {gig.venue}
+                </option>
+              ))
+              .reverse()}
         </select>
       </form>
       <div className="gigEntryDetailsBack">

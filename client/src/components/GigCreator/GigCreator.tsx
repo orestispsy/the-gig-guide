@@ -162,7 +162,7 @@ export const GigCreator: React.FC<Props> = ({
             <div className="coordinatesMenuFlipper">
               <div className="coordinatesMenu">
                 <div className="lngLtdMenu">
-                  {!mapView && "Get ltd/lng"} {mapView && "Close"}
+                  {!mapView && "Select On Map"} {mapView && "Close"}
                 </div>
 
                 <div

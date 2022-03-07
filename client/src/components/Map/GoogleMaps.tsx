@@ -61,10 +61,10 @@ export const GoogleMaps: React.FC<Props> = ({
   return (
     <GoogleMap
       mapContainerStyle={containerStyle}
-      zoom={(selectedGigEntry && 6) || 4.5}
+      zoom={(selectedGigEntry && 6) || 3}
       center={
         (selectedGigEntry && {
-          lat: parseFloat(selectedGigEntry.lat),
+          lat: parseFloat(selectedGigEntry.lat) + 3,
           lng: parseFloat(selectedGigEntry.lng),
         }) ||
         center
@@ -87,12 +87,19 @@ export const GoogleMaps: React.FC<Props> = ({
       {gigsList &&
         gigsList.map((gig) => {
           var dot = "greendot.gif";
-          if (gig.tour_name === "Life Tour") {
-            dot = "redBall.gif";
+          let date = new Date();
+          let dateFixed = gig.date.split("-");
+          if (
+            Number(dateFixed[0]) >= Number(date.getUTCFullYear()) &&
+            Number(dateFixed[1]) >= Number(date.getUTCMonth() + 1) &&
+            Number(dateFixed[2]) >= Number(date.getUTCDate())
+          ) {
+            dot = "yellowdot.gif";
             scaleParam = 15;
           }
-          if (gig.tour_name === "Upcoming") {
-            dot = "yellowdot.gif";
+
+          if (gig.tour_name === "Life Tour") {
+            dot = "redBall.gif";
             scaleParam = 15;
           }
 
@@ -118,6 +125,7 @@ export const GoogleMaps: React.FC<Props> = ({
                 ),
               }}
               onClick={() => {
+                setSelectedGig(null);
                 setSelectedGig(gig);
                 setGigEntry(gig);
               }}

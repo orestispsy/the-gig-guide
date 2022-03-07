@@ -20,13 +20,13 @@ interface Props {
   emojiBar: boolean;
   setEmojiBar: (e: boolean) => void;
   sendEmoji: (e: any) => void;
-  openPrivate: (e: any, img?: any) => void;
   setPrivatePic: (e: string) => void;
   privatePic: any;
   setPrivateNick: (e: string | boolean) => void;
   privateNick: string | boolean;
   privateMode: boolean;
   setPrivateMode: (e: boolean) => void;
+  setUserPrivate: (e: any) => void;
   setFilteredPrivateMessages: (e: any) => void;
   privateMessages: any;
   configTimer: any;
@@ -34,9 +34,11 @@ interface Props {
   onlineUsers: any;
   chatBan: boolean;
   horn: any;
-  playNotification: () => void;
+  playNotification: (e: boolean, playPrivateMsg: () => void) => void;
+  playPrivateMsg: () => void;
   shakeUser: boolean;
   setShakeUser: (e: boolean) => void;
+  mute: boolean;
 }
 
 export const OnlineUsers: React.FC<Props> = ({
@@ -54,7 +56,6 @@ export const OnlineUsers: React.FC<Props> = ({
   onlineUsers,
   setEmojiBar,
   sendEmoji,
-  openPrivate,
   privateMode,
   setPrivateMode,
   privateMessages,
@@ -64,12 +65,15 @@ export const OnlineUsers: React.FC<Props> = ({
   chatBan,
   horn,
   playNotification,
+  playPrivateMsg,
   shakeUser,
   setShakeUser,
   guest,
   setAdmin,
   superAdmin,
   darkMode,
+  mute,
+  setUserPrivate,
 }) => {
   const [userPicBar, setUserPicBar] = useState<boolean>(false);
   const [onlineUserPic, setOnlineUserPic] = useState<string>("");
@@ -149,7 +153,7 @@ export const OnlineUsers: React.FC<Props> = ({
       !statePrivateMsgs[statePrivateMsgs.length - 1].receiver_seen &&
       statePrivateMsgs[statePrivateMsgs.length - 1].msg_receiver_id == myUserId
     ) {
-      playNotification();
+      playNotification(mute, playPrivateMsg);
     }
   }, [statePrivateMsgs]);
 
@@ -392,7 +396,7 @@ export const OnlineUsers: React.FC<Props> = ({
                                 if (user.id != myUserId) {
                                   setEmojiBar(false);
                                   setPrivateMode(!privateMode);
-                                  openPrivate(user.id);
+                                  setUserPrivate(user.id);
                                   setPrivatePic(user.chat_img);
                                   setPrivateNick(user.nickname);
                                 }
@@ -472,7 +476,7 @@ export const OnlineUsers: React.FC<Props> = ({
                               if (user.id != myUserId) {
                                 setEmojiBar(false);
                                 setPrivateMode(!privateMode);
-                                openPrivate(user.id);
+                                setUserPrivate(user.id);
                                 setPrivatePic(user.chat_img);
                                 setPrivateNick(user.nickname);
                               }

@@ -8,12 +8,7 @@ import {
 import React, { useState } from "react";
 import mapStyles from "../../common/mapStyles";
 
-let secrets: any;
-if (process.env.NODE_ENV == "production") {
-  secrets = process.env;
-} else {
-  secrets = require("../../../../secrets.json");
-}
+let secrets: any = require("../../../../secrets.json");
 
 const containerStyle = {
   width: "100%",
@@ -113,7 +108,7 @@ export const EditMap: React.FC<PropsEditMap> = ({
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: secrets.key,
+    googleMapsApiKey: process.env.KEY || secrets.key,
   });
 
   return isLoaded ? (
