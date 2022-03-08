@@ -70,7 +70,7 @@ app.get("/welcome", (req, res) => {
 app.get("/gig-creator", (req, res) => {
   db.getUser(req.session.userId)
     .then(({ rows }) => {
-      if (!rows[0].admin) {
+      if (!rows[0].super_admin) {
         res.redirect("/");
       } else {
         res.sendFile(path.join(__dirname, "..", "client", "index.html"));
@@ -82,7 +82,7 @@ app.get("/gig-creator", (req, res) => {
 app.get("/gig-editor", (req, res) => {
   db.getUser(req.session.userId)
     .then(({ rows }) => {
-      if (!rows[0].admin) {
+      if (!rows[0].super_admin) {
         res.redirect("/");
       } else {
         res.sendFile(path.join(__dirname, "..", "client", "index.html"));

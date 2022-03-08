@@ -16,7 +16,7 @@ export const SuperAdmin: React.FC<Props> = ({
 }) => {
   const [userList, setUserList] = useState<any>(null);
   const [confirm, setConfirm] = useState<any>(false);
-  const [guestList, setGuestList] = useState<any>(false);
+  const [guestList, setGuestList] = useState<any>([]);
   const [selectedUser, setSelectedUser] = useState<any>(0);
   const [guestUser, setGuestUser] = useState<any>(0);
   const [guestDeleteConfirm, setGuestDeleteConfirm] = useState<boolean>(false);
@@ -111,15 +111,8 @@ export const SuperAdmin: React.FC<Props> = ({
       if (msgTime[0].startsWith("0")) {
         msgTime[0] = msgTime[0].slice(1, 2);
       }
-      fixedHours = Number(msgTime[0]) + 6 + diff;
-      if (fixedHours == 24) {
-        fixedHours = 0;
-      }
-      if (fixedHours > 24) {
-        fixedHours = fixedHours - 24;
-      }
-
-      fixedTime = fixedHours + ":" + msgTime[1] + ":" + msgTime[2];
+      fixedTime =
+        JSON.parse(msgTime[0]) + diff + ":" + msgTime[1] + ":" + msgTime[2];
     }
   };
 

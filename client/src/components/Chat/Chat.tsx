@@ -182,6 +182,7 @@ export const Chat: React.FC<Props> = ({
         msgTime[0] = msgTime[0].slice(1, 2);
       }
       fixedHours = Number(msgTime[0]) + 6 + diff;
+      // +6 here applies to my hosting service timezone settings, otherwise it should not be there
       if (fixedHours == 24) {
         fixedHours = 0;
       }

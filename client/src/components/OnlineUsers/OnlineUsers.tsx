@@ -566,7 +566,7 @@ export const OnlineUsers: React.FC<Props> = ({
                               }}
                             ></div>
                           )}
-                          {user.id != myUserId && (
+                          {user.id != myUserId && !guest && (
                             <div
                               className="horn"
                               onClick={(e) => {
@@ -601,7 +601,7 @@ export const OnlineUsers: React.FC<Props> = ({
 
             {userConfig && (
               <div className="changeNickBox">
-                <div className="changeNickInstructions">Edit User</div>
+                <div className="changeNickInstructions">Edit Profile</div>
                 <div className="changeNickBoxThread">Nickname</div>
                 <input
                   type="text"

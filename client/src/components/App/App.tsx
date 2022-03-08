@@ -127,6 +127,7 @@ export const App: React.FC<Props> = ({}) => {
                 loaded={loaded}
                 setLoadedMain={(e: boolean) => setLoadedMain(e)}
                 loadedMain={loadedMain}
+                setGigEntry={(e: number | null) => setSelectedGigEntry(e)}
               />
             }
           ></Route>

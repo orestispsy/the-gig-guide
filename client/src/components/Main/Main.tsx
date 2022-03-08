@@ -17,6 +17,7 @@ interface Props {
   loaded: boolean;
   setLoadedMain: (e: boolean) => void;
   loadedMain: boolean;
+  setGigEntry: (e: number | null) => void;
 }
 
 export const Main: React.FC<Props> = ({
@@ -34,6 +35,7 @@ export const Main: React.FC<Props> = ({
   loaded,
   setLoadedMain,
   loadedMain,
+  setGigEntry,
 }) => {
   const [firstView, setFirstView] = useState<boolean>(true);
   useEffect(function () {
@@ -44,6 +46,7 @@ export const Main: React.FC<Props> = ({
     setAdminControls(false);
     setGigListOpen(false);
     setFirstView(false);
+    setGigEntry(null);
   }, []);
 
   const logOut = () => {
@@ -80,17 +83,7 @@ export const Main: React.FC<Props> = ({
             </div>
 
             <div className="mainMenu" id={(darkMode && "mainMenuDark") || ""}>
-              {!admin && (
-                <div className="easterEgg" title="Map">
-                  <Link to="/map">
-                    <img
-                      id={(darkMode && "globeDark") || ""}
-                      src="globe.gif"
-                    ></img>
-                  </Link>
-                </div>
-              )}
-              {admin && (
+              {superAdmin && (
                 <div className="mainMenuEditOptions">
                   <Link to="/gig-creator" className="mainMenuLink">
                     {" "}
@@ -110,9 +103,34 @@ export const Main: React.FC<Props> = ({
                   </Link>
                 </div>
               )}
-              <Link to="/gig-list" className="mainMenuLink">
-                Entries
-              </Link>
+              {!superAdmin && (
+                <div className="mainMenuEditOptions">
+                  <Link to="/gig-list" className="mainMenuLink">
+                    Gigs
+                  </Link>
+                  <div className="easterEgg" title="Map">
+                    <Link to="/map">
+                      <img
+                        id={(darkMode && "globeDark") || ""}
+                        src="globe.gif"
+                      ></img>
+                    </Link>
+                  </div>
+                  <Link to="/chat" className="mainMenuLink">
+                    Chat
+                  </Link>
+                </div>
+              )}
+              {!superAdmin && (
+                <Link to="/about" className="mainMenuLink">
+                  About
+                </Link>
+              )}
+              {superAdmin && (
+                <Link to="/gig-list" className="mainMenuLink">
+                  Entries
+                </Link>
+              )}
             </div>
           </div>
           <div
@@ -123,9 +141,11 @@ export const Main: React.FC<Props> = ({
               setDarkMode(!darkMode);
             }}
           ></div>
-          <Link to="/about">
-            <div className="aboutButton"></div>
-          </Link>
+          {superAdmin && (
+            <Link to="/about">
+              <div className="aboutButton"></div>
+            </Link>
+          )}
           {superAdmin && (
             <Link to="/super-admin">
               <div className="superAdminButton">
