@@ -4,6 +4,8 @@ const compression = require("compression");
 const path = require("path");
 const db = require("./utils/db");
 
+const fs = require("fs");
+
 const cors = require("cors");
 app.use(cors());
 
@@ -17,8 +19,6 @@ const io = require("socket.io")(server, {
 
 const multer = require("multer");
 const uidSafe = require("uid-safe");
-const s3 = require("./s3");
-const { s3Url } = require("./config");
 
 const { hash, compare } = require("./utils/bc");
 
@@ -40,7 +40,21 @@ app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
 const diskStorage = multer.diskStorage({
   destination: function (req, file, callback) {
-    callback(null, __dirname + "/uploads");
+    callback(
+      null,
+      path.join(__dirname, `../client/public/users/${req.session.userId}/`)
+    );
+  },
+  filename: function (req, file, callback) {
+    uidSafe(24).then(function (uid) {
+      callback(null, uid + path.extname(file.originalname));
+    });
+  },
+});
+
+const diskStoragePoster = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, path.join(__dirname, `../client/public/posters/`));
   },
   filename: function (req, file, callback) {
     uidSafe(24).then(function (uid) {
@@ -51,8 +65,39 @@ const diskStorage = multer.diskStorage({
 
 const uploader = multer({
   storage: diskStorage,
+  fileFilter: function (req, file, callback) {
+    let fileType = path.extname(file.originalname);
+    if (
+      fileType !== ".jpg" &&
+      fileType !== ".jpeg" &&
+      fileType !== ".png" &&
+      fileType !== ".gif"
+    ) {
+      return callback(new Error("Not An Image File"));
+    }
+    callback(null, true);
+  },
   limits: {
     fileSize: 2097152,
+  },
+});
+
+const uploaderPoster = multer({
+  storage: diskStoragePoster,
+  fileFilter: function (req, file, callback) {
+    let fileType = path.extname(file.originalname);
+    if (
+      fileType !== ".jpg" &&
+      fileType !== ".jpeg" &&
+      fileType !== ".png" &&
+      fileType !== ".gif"
+    ) {
+      return callback(new Error("Not An Image File"));
+    }
+    callback(null, true);
+  },
+  limits: {
+    fileSize: 5097152,
   },
 });
 
@@ -124,12 +169,18 @@ app.post("/login", (req, res) => {
 app.post("/register", (req, res) => {
   if (req.body.nickname && req.body.password) {
     let { nickname, password } = req.body;
-
     hash(password)
       .then((password_hash) => {
         db.addRegistration(nickname, password_hash)
           .then(({ rows }) => {
             req.session.userId = rows[0].id;
+            !fs.existsSync(
+              __dirname + `/../client/public/users/${rows[0].id}/`
+            ) &&
+              fs.mkdirSync(
+                __dirname + `/../client/public/users/${rows[0].id}/`,
+                { recursive: true }
+              );
             res.json({ data: rows[0] });
           })
           .catch((err) => {
@@ -199,11 +250,18 @@ app.post("/gig-delete", (req, res) => {
   db.getGig(req.body.selectedGig.id)
     .then(({ rows }) => {
       if (rows[0].poster) {
-        const file2delete = rows[0].poster.replace(s3Url, "");
-        s3.delete(file2delete);
+        fs.unlink(
+          path.join(__dirname, "..", "client", "public", `${rows[0].poster}`),
+          function (err) {
+            if (err) {
+              console.log(err);
+            }
+          }
+        );
       }
     })
     .catch((err) => {
+      res.status(200);
       res.json({ error: true });
       console.log(err);
     });
@@ -249,15 +307,21 @@ app.post("/gig-update", (req, res) => {
     });
 });
 
-app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
+app.post("/upload", uploaderPoster.single("file"), (req, res) => {
   const { filename } = req.file;
   const data = JSON.parse(req.body.data);
 
   db.getGig(data.id)
     .then(({ rows }) => {
       if (rows[0].poster) {
-        const file2delete = rows[0].poster.replace(s3Url, "");
-        s3.delete(file2delete);
+        fs.unlink(
+          path.join(__dirname, "..", "client", "public", `${rows[0].poster}`),
+          function (err) {
+            if (err) {
+              console.log(err);
+            }
+          }
+        );
       }
     })
     .catch((err) => {
@@ -265,7 +329,7 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
       console.log(err);
     });
 
-  db.addImage(data.id, s3Url + filename)
+  db.addImage(data.id, `/posters/` + filename)
     .then(({ rows }) => {
       res.json({ data: rows, success: true });
     })
@@ -275,27 +339,23 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     });
 });
 
-app.post(
-  "/upload-community-image",
-  uploader.single("file"),
-  s3.upload,
-  (req, res) => {
-    const { filename } = req.file;
-    db.addCommunityImage(
-      req.body.data,
-      req.body.user,
-      req.body.nickname,
-      s3Url + filename
-    )
-      .then(({ rows }) => {
-        res.json({ rows, success: true });
-      })
-      .catch((err) => {
-        res.json({ error: true });
-        console.log(err);
-      });
-  }
-);
+app.post("/upload-community-image", uploader.single("file"), (req, res) => {
+  const { filename } = req.file;
+  db.addCommunityImage(
+    req.body.data,
+    req.body.user,
+    req.body.nickname,
+
+    `/users/${req.session.userId}/` + filename
+  )
+    .then(({ rows }) => {
+      res.json({ rows, success: true });
+    })
+    .catch((err) => {
+      res.json({ error: true });
+      console.log(err);
+    });
+});
 
 app.post("/get-community-images", (req, res) => {
   db.getCommunityImages(req.body.selectedGigId)
@@ -311,8 +371,14 @@ app.post("/get-community-images", (req, res) => {
 app.post("/delete-community-image", (req, res) => {
   db.deleteCommunityImage(req.body.imageId)
     .then(({ rows }) => {
-      const file2delete = rows[0].img_url.replace(s3Url, "");
-      s3.delete(file2delete);
+      fs.unlink(
+        path.join(__dirname, "..", "client", "public", `${rows[0].img_url}`),
+        function (err) {
+          if (err) {
+            console.log(err);
+          }
+        }
+      );
       res.json({ success: true, data: rows[0] });
     })
     .catch((err) => {
@@ -381,18 +447,24 @@ app.get("/counter", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-app.post("/addChatPic", uploader.single("file"), s3.upload, (req, res) => {
+app.post("/addChatPic", uploader.single("file"), (req, res) => {
   const { filename } = req.file;
   db.getUser(req.session.userId)
     .then(({ rows }) => {
       if (rows[0].chat_img) {
-        const file2delete = rows[0].chat_img.replace(s3Url, "");
-        s3.delete(file2delete);
+        fs.unlink(
+          path.join(__dirname, "..", "client", "public", `${rows[0].chat_img}`),
+          function (err) {
+            if (err) {
+              console.log(err);
+            }
+          }
+        );
       }
     })
     .catch((err) => console.log(err));
 
-  db.addChatPic(s3Url + filename, req.session.userId)
+  db.addChatPic(`/users/${req.session.userId}/` + filename, req.session.userId)
     .then(({ rows }) => {
       res.json({ data: rows });
     })
@@ -437,8 +509,20 @@ app.post("/delete-user", (req, res) => {
               db.deleteUser(req.body.id)
                 .then(({ rows }) => {
                   if (rows[0].chat_img) {
-                    const file2delete = rows[0].chat_img.replace(s3Url, "");
-                    s3.delete(file2delete);
+                    fs.unlink(
+                      path.join(
+                        __dirname,
+                        "..",
+                        "client",
+                        "public",
+                        `${rows[0].chat_img}`
+                      ),
+                      function (err) {
+                        if (err) {
+                          console.log(err);
+                        }
+                      }
+                    );
                   }
                   res.json({ data: rows });
                 })
@@ -544,11 +628,20 @@ app.get("/delete-guests", (req, res) => {
                     db.deleteUser(row.id)
                       .then(({ rows }) => {
                         if (rows[0].chat_img) {
-                          const file2delete = rows[0].chat_img.replace(
-                            s3Url,
-                            ""
+                          fs.unlink(
+                            path.join(
+                              __dirname,
+                              "..",
+                              "client",
+                              "public",
+                              `${rows[0].chat_img}`
+                            ),
+                            function (err) {
+                              if (err) {
+                                console.log(err);
+                              }
+                            }
                           );
-                          s3.delete(file2delete);
                         }
                       })
                       .catch((err) => console.log(err));

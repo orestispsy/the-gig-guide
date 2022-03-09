@@ -3,6 +3,8 @@ package-lock.json
 secrets.json
 secrets2.json
 client/build/
+client/public/users/
+client/public/posters/
 .vscode
 .prettierignore
 .prettier.json
