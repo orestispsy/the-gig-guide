@@ -42,7 +42,10 @@ const diskStorage = multer.diskStorage({
   destination: function (req, file, callback) {
     callback(
       null,
-      path.join(__dirname, `../client/public/users/${req.session.userId}/`)
+      path.join(
+        __dirname,
+        `../client/public/uploads/users/${req.session.userId}/`
+      )
     );
   },
   filename: function (req, file, callback) {
@@ -57,8 +60,25 @@ const diskStoragePoster = multer.diskStorage({
     callback(null, path.join(__dirname, `../client/public/posters/`));
   },
   filename: function (req, file, callback) {
-    uidSafe(24).then(function (uid) {
-      callback(null, uid + path.extname(file.originalname));
+    uidSafe(12).then(function (uid) {
+      callback(
+        null,
+        file.originalname.split(".")[0] + uid + path.extname(file.originalname)
+      );
+    });
+  },
+});
+
+const diskStorageCommunity = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, path.join(__dirname, `../client/public/uploads/community/`));
+  },
+  filename: function (req, file, callback) {
+    uidSafe(12).then(function (uid) {
+      callback(
+        null,
+        file.originalname.split(".")[0] + uid + path.extname(file.originalname)
+      );
     });
   },
 });
@@ -84,6 +104,25 @@ const uploader = multer({
 
 const uploaderPoster = multer({
   storage: diskStoragePoster,
+  fileFilter: function (req, file, callback) {
+    let fileType = path.extname(file.originalname);
+    if (
+      fileType !== ".jpg" &&
+      fileType !== ".jpeg" &&
+      fileType !== ".png" &&
+      fileType !== ".gif"
+    ) {
+      return callback(new Error("Not An Image File"));
+    }
+    callback(null, true);
+  },
+  limits: {
+    fileSize: 5097152,
+  },
+});
+
+const uploaderCommunity = multer({
+  storage: diskStorageCommunity,
   fileFilter: function (req, file, callback) {
     let fileType = path.extname(file.originalname);
     if (
@@ -175,10 +214,10 @@ app.post("/register", (req, res) => {
           .then(({ rows }) => {
             req.session.userId = rows[0].id;
             !fs.existsSync(
-              __dirname + `/../client/public/users/${rows[0].id}/`
+              __dirname + `/../client/public/uploads/users/${rows[0].id}/`
             ) &&
               fs.mkdirSync(
-                __dirname + `/../client/public/users/${rows[0].id}/`,
+                __dirname + `/../client/public/uploads/users/${rows[0].id}/`,
                 { recursive: true }
               );
             res.json({ data: rows[0] });
@@ -249,29 +288,42 @@ app.post("/get-gig-to-edit", (req, res) => {
 app.post("/gig-delete", (req, res) => {
   db.getGig(req.body.selectedGig.id)
     .then(({ rows }) => {
-      if (rows[0].poster) {
-        fs.unlink(
-          path.join(__dirname, "..", "client", "public", `${rows[0].poster}`),
-          function (err) {
-            if (err) {
-              console.log(err);
+      if (rows[0].poster && rows[0].poster.includes("/posters/")) {
+        db.checkForDuplicatePosters(rows[0].poster)
+          .then(({ rows }) => {
+            console.log(rows);
+            if (rows.length <= 1) {
+              fs.unlink(
+                path.join(
+                  __dirname,
+                  "..",
+                  "client",
+                  "public",
+                  `${rows[0].poster}`
+                ),
+                function (err) {
+                  if (err) {
+                    console.log(err);
+                  }
+                }
+              );
             }
-          }
-        );
+          })
+          .catch((err) => console.log(err));
       }
+      db.deleteCommentsEditor(req.body.selectedGig.id)
+        .then(({ rows }) => {
+          db.deleteGig(req.body.selectedGig.date).then(({ rows }) => {
+            res.json({ deleteSuccess: true });
+          });
+        })
+        .catch((err) => console.log(err));
     })
     .catch((err) => {
       res.status(200);
       res.json({ error: true });
       console.log(err);
     });
-  db.deleteCommentsEditor(req.body.selectedGig.id)
-    .then(({ rows }) => {
-      db.deleteGig(req.body.selectedGig.date).then(({ rows }) => {
-        res.json({ deleteSuccess: true });
-      });
-    })
-    .catch((err) => console.log(err));
 });
 
 app.get("/gig/:selection", (req, res) => {
@@ -314,48 +366,62 @@ app.post("/upload", uploaderPoster.single("file"), (req, res) => {
   db.getGig(data.id)
     .then(({ rows }) => {
       if (rows[0].poster) {
-        fs.unlink(
-          path.join(__dirname, "..", "client", "public", `${rows[0].poster}`),
-          function (err) {
-            if (err) {
-              console.log(err);
+        db.checkForDuplicatePosters(rows[0].poster)
+          .then(({ rows }) => {
+            if (rows.length <= 1) {
+              fs.unlink(
+                path.join(
+                  __dirname,
+                  "..",
+                  "client",
+                  "public",
+                  `${rows[0].poster}`
+                ),
+                function (err) {
+                  if (err) {
+                    console.log(err);
+                  }
+                }
+              );
             }
-          }
-        );
+          })
+          .catch((err) => console.log(err));
       }
-    })
-    .catch((err) => {
-      res.json({ error: true });
-      console.log(err);
-    });
-
-  db.addImage(data.id, `/posters/` + filename)
-    .then(({ rows }) => {
-      res.json({ data: rows, success: true });
-    })
-    .catch((err) => {
-      res.json({ error2: true });
-      console.log(err);
-    });
-});
-
-app.post("/upload-community-image", uploader.single("file"), (req, res) => {
-  const { filename } = req.file;
-  db.addCommunityImage(
-    req.body.data,
-    req.body.user,
-    req.body.nickname,
-
-    `/users/${req.session.userId}/` + filename
-  )
-    .then(({ rows }) => {
-      res.json({ rows, success: true });
+      db.addImage(data.id, `/posters/` + filename)
+        .then(({ rows }) => {
+          res.json({ data: rows, success: true });
+        })
+        .catch((err) => {
+          res.json({ error2: true });
+          console.log(err);
+        });
     })
     .catch((err) => {
       res.json({ error: true });
       console.log(err);
     });
 });
+
+app.post(
+  "/upload-community-image",
+  uploaderCommunity.single("file"),
+  (req, res) => {
+    const { filename } = req.file;
+    db.addCommunityImage(
+      req.body.data,
+      req.body.user,
+      req.body.nickname,
+      `/uploads/community/` + filename
+    )
+      .then(({ rows }) => {
+        res.json({ rows, success: true });
+      })
+      .catch((err) => {
+        res.json({ error: true });
+        console.log(err);
+      });
+  }
+);
 
 app.post("/get-community-images", (req, res) => {
   db.getCommunityImages(req.body.selectedGigId)
@@ -464,7 +530,10 @@ app.post("/addChatPic", uploader.single("file"), (req, res) => {
     })
     .catch((err) => console.log(err));
 
-  db.addChatPic(`/users/${req.session.userId}/` + filename, req.session.userId)
+  db.addChatPic(
+    `/uploads/users/${req.session.userId}/` + filename,
+    req.session.userId
+  )
     .then(({ rows }) => {
       res.json({ data: rows });
     })
@@ -524,6 +593,12 @@ app.post("/delete-user", (req, res) => {
                       }
                     );
                   }
+
+                  fs.rmdirSync(
+                    __dirname +
+                      `/../client/public/uploads/users/${rows[0].id}/`,
+                    { recursive: true }
+                  );
                   res.json({ data: rows });
                 })
                 .catch((err) => console.log(err));
@@ -643,6 +718,11 @@ app.get("/delete-guests", (req, res) => {
                             }
                           );
                         }
+                        fs.rmdirSync(
+                          __dirname +
+                            `/../client/public/uploads/users/${rows[0].id}/`,
+                          { recursive: true }
+                        );
                       })
                       .catch((err) => console.log(err));
                   })

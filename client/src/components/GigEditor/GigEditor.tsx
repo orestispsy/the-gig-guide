@@ -93,7 +93,12 @@ export const GigEditor: React.FC<Props> = ({
   const handleUploaderClick = () => {
     setSuccess(true);
     const formData = new FormData();
-    formData.append("file", file);
+    let ext = file.name.split(".");
+    formData.append(
+      "file",
+      file,
+      `${selectedGig.date}G${selectedGig.id}T.${ext[ext.length - 1]}`
+    );
     formData.append("data", JSON.stringify(selectedGig));
     axios
       .post("/upload", formData)
@@ -502,7 +507,7 @@ export const GigEditor: React.FC<Props> = ({
           )}
           {error2 && (
             <p className="error" id="errorEdit">
-              Select an Image [Max Size: 2MB]
+              Select an Image [Max Size: 5MB]
             </p>
           )}
         </form>

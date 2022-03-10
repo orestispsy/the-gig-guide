@@ -515,3 +515,13 @@ module.exports.deleteAboutComment = (id) => {
   const params = [id];
   return db.query(q, params);
 };
+
+module.exports.checkForDuplicatePosters = (poster) => {
+  const q = `
+        SELECT * FROM gigs
+        WHERE poster = $1;
+      
+    `;
+  const params = [poster];
+  return db.query(q, params);
+};

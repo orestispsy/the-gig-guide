@@ -41,6 +41,12 @@ export const Community: React.FC<Props> = ({
     }
   }, [images]);
 
+  useEffect(() => {
+    if (file) {
+      console.log(file.name.split("."));
+    }
+  }, [file]);
+
   useEffect(
     function () {
       if (selectedGigId) {
@@ -83,7 +89,12 @@ export const Community: React.FC<Props> = ({
   const handleUploaderClick = () => {
     setUpload(true);
     const formData = new FormData();
-    formData.append("file", file);
+    let ext = file.name.split(".");
+    formData.append(
+      "file",
+      file,
+      `G${selectedGigId}U${myUserId}T.${ext[ext.length - 1]}`
+    );
     formData.append("data", JSON.stringify(selectedGigId));
     formData.append("user", JSON.stringify(myUserId));
     formData.append("nickname", myNickname);
@@ -217,7 +228,7 @@ export const Community: React.FC<Props> = ({
         </div>
       )}
 
-      {error && <p className="error">Select an Image [Max Size: 2MB]</p>}
+      {error && <p className="error">Select an Image [Max Size: 5MB]</p>}
     </div>
   );
 };
