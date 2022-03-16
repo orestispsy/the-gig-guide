@@ -28,13 +28,11 @@ export const GigListAnimation: React.FC<Props> = ({
     [go]
   );
 
-  if (gigsList) {
-    for (var i = 0; i < gigsList.length; i++) {
-      let propsDate = gigsList[i].date.split("-");
-      var fixedDate = propsDate[2] + "-" + propsDate[1] + "-" + propsDate[0];
-      gigsList[i].date = fixedDate;
-    }
-  }
+  const changeDate = (e: string) => {
+    let propsDate = e.split("-");
+    var fixedDate = propsDate[2] + "-" + propsDate[1] + "-" + propsDate[0];
+    return fixedDate;
+  };
 
   return (
     <div className="pre-wrapper">
@@ -50,7 +48,7 @@ export const GigListAnimation: React.FC<Props> = ({
               gigsList.map((gig: any) => (
                 <div key={gig.id}>
                   <h2>
-                    <span>{gig.date}</span>
+                    <span>{gig.date && changeDate(gig.date)}</span>
 
                     <span>{gig.venue}</span>
 

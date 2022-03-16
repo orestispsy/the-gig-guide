@@ -88,6 +88,7 @@ export const OnlineUsers: React.FC<Props> = ({
   const [newNickname, setNewNickname] = useState<any>(false);
   const [newPassword, setNewPassword] = useState<any>(false);
   const [pwdReveal, setPwdReveal] = useState<boolean>(false);
+  const [uploading, setUploading] = useState<boolean>(false);
   const [selectUserToKick, setSelectUserToKick] = useState<number | boolean>(
     false
   );
@@ -197,6 +198,7 @@ export const OnlineUsers: React.FC<Props> = ({
       .post("/addChatPic", formData)
       .then(({ data }) => {
         if (data.data[0]) {
+          setUploading(false);
           setOnlineUserPic(data.data[0].chat_img);
           setUserPicBar(!userPicBar);
           setcloseTag(!closeTag);
@@ -680,20 +682,34 @@ export const OnlineUsers: React.FC<Props> = ({
                   onClick={(e) => setErrorMsg(false)}
                 />
 
-                <div className="uploadChat">
-                  <h1 onClick={() => handleUploaderClick()}>UPDATE</h1>
-                  {closeTag && (
+                {!uploading && (
+                  <div className="uploadChat">
                     <h1
-                      className="toggleChatUploader"
                       onClick={() => {
-                        setErrorMsg(false);
-                        toggleUploader();
+                        handleUploaderClick();
+                        setUploading(true);
                       }}
                     >
-                      CLOSE
+                      UPDATE
                     </h1>
-                  )}
-                </div>
+                    {closeTag && (
+                      <h1
+                        className="toggleChatUploader"
+                        onClick={() => {
+                          setErrorMsg(false);
+                          toggleUploader();
+                        }}
+                      >
+                        CLOSE
+                      </h1>
+                    )}
+                  </div>
+                )}
+                {uploading && (
+                  <div className="uploadChat">
+                    <div className="uploadSuccess"></div>
+                  </div>
+                )}
                 {errorMsg && (
                   <p className="error" id="error">
                     Select an Image [Max Size: 2MB]

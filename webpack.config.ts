@@ -19,6 +19,8 @@ module.exports = () => ({
     hints: false,
   },
   devServer: {
+    hot: false,
+    liveReload: false,
     static: {
       directory: path.join(__dirname, "client", "public"),
     },
@@ -80,9 +82,9 @@ module.exports = () => ({
       "process.env": JSON.stringify(process.env),
       "process.env.production": JSON.stringify(process.env.production),
     }),
-    new HtmlWebPackPlugin({
-      template: "./client/index.html",
-      filename: "./index.html",
-    }),
+    // new HtmlWebPackPlugin({
+    //   template: "./client/index.html",
+    //   filename: "./index.html",
+    // }),
   ],
 });

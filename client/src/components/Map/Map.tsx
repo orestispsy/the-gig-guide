@@ -62,6 +62,7 @@ const MyMap: React.FC<Props> = ({
         setGigEntry={setGigEntry}
         historyCheck={(e: string) => historyCheck(e)}
         mapVisible={(e: boolean) => mapVisible(e)}
+        setCenter={(e: any) => setCenter(e)}
       />
     </div>
   ) : (

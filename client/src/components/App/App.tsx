@@ -65,7 +65,8 @@ export const App: React.FC<Props> = ({}) => {
       setSuperAdmin,
       setMyChatImg,
       setMyChatColor,
-      setGuest
+      setGuest,
+      setDarkMode
     );
     axiosGetGigs(setGigsList);
     axiosGetCounter(setVisitors);

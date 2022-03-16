@@ -28,6 +28,7 @@ interface Props {
   setGigEntry: (e: any) => void;
   historyCheck: (e: any) => void;
   mapVisible: (e: any) => void;
+  setCenter: (e: any) => void;
 }
 export const GoogleMaps: React.FC<Props> = ({
   gigsList,
@@ -42,6 +43,7 @@ export const GoogleMaps: React.FC<Props> = ({
   setGigEntry,
   historyCheck,
   mapVisible,
+  setCenter,
 }) => {
   let fixedDate;
   var scaleParam: any;
@@ -61,10 +63,10 @@ export const GoogleMaps: React.FC<Props> = ({
   return (
     <GoogleMap
       mapContainerStyle={containerStyle}
-      zoom={(selectedGigEntry && 6) || 3}
+      zoom={3}
       center={
         (selectedGigEntry && {
-          lat: parseFloat(selectedGigEntry.lat) + 3,
+          lat: parseFloat(selectedGigEntry.lat),
           lng: parseFloat(selectedGigEntry.lng),
         }) ||
         center
@@ -128,6 +130,10 @@ export const GoogleMaps: React.FC<Props> = ({
                 setSelectedGig(null);
                 setSelectedGig(gig);
                 setGigEntry(gig);
+                setCenter({
+                  lat: parseFloat(gig.lat),
+                  lng: parseFloat(gig.lng),
+                });
               }}
             />
           );
@@ -139,54 +145,54 @@ export const GoogleMaps: React.FC<Props> = ({
             lng: parseFloat(selectedGig.lng),
           }}
           onCloseClick={() => {
-            setSelectedGig(null);
+            setGigEntry(null);
           }}
         >
           <div className="mapInfoCard">
-            <div
-              style={{
-                color: `yellow`,
-                textDecoration: `underline`,
-                textUnderlineOffset: `3px`,
-                fontFamily: "Poller One, cursive",
-              }}
-            >
-              {fixedDate}
-            </div>
-
             {selectedGig.poster && (
-              <a href={selectedGig.poster} target="_blank">
-                <img className="infoPoster" src={selectedGig.poster}></img>
-              </a>
+              <div className="mapInfoCardLeft">
+                <a href={selectedGig.poster} target="_blank">
+                  <img className="infoPoster" src={selectedGig.poster}></img>
+                </a>
+              </div>
             )}
+            <div className="mapInfoCardRight">
+              <div className="infoCardDate">{fixedDate}</div>
 
-            {selectedGig.venue && (
-              <div>
-                Venue <span>➤</span> {selectedGig.venue}
-              </div>
-            )}
-            {selectedGig.city && (
-              <div>
-                Location <span>➤</span> {selectedGig.city}
-              </div>
-            )}
-            {selectedGig.tour_name && (
-              <div>
-                Tour <span>➤</span> {selectedGig.tour_name}
-              </div>
-            )}
-            {selectedGig.id && (
-              <div
-                id="mapLink"
-                className="mainMenuLink"
-                onClick={(e) => {
-                  historyCheck(selectedGig.id);
-                  mapVisible(false);
-                }}
-              >
-                Community
-              </div>
-            )}
+              {selectedGig.venue && (
+                <div className="infoCardCategory">
+                  <div className="infoCardDetailTitle">Venue</div>{" "}
+                  <span>➤</span>
+                  <div className="infoCardDetail"> {selectedGig.venue}</div>
+                </div>
+              )}
+              {selectedGig.city && (
+                <div className="infoCardCategory">
+                  <div className="infoCardDetailTitle"> Location </div>{" "}
+                  <span>➤</span>
+                  <div className="infoCardDetail">{selectedGig.city}</div>
+                </div>
+              )}
+              {selectedGig.tour_name && (
+                <div className="infoCardCategory">
+                  <div className="infoCardDetailTitle"> Tour </div>{" "}
+                  <span>➤</span>
+                  <div className="infoCardDetail">{selectedGig.tour_name}</div>
+                </div>
+              )}
+              {selectedGig.id && (
+                <div
+                  id="mapLink"
+                  className="mainMenuLink"
+                  onClick={(e) => {
+                    historyCheck(selectedGig.id);
+                    mapVisible(false);
+                  }}
+                >
+                  Community
+                </div>
+              )}
+            </div>
           </div>
         </InfoWindow>
       )}

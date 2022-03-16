@@ -224,6 +224,7 @@ export const GigCreator: React.FC<Props> = ({
               setSuccess(false);
               setDate("");
               setCity("");
+              setVenue("");
               setTourName("");
               setLng("");
               setLat("");

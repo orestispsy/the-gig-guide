@@ -193,6 +193,18 @@ export const Chat: React.FC<Props> = ({
     }
   };
 
+  const changePageMode = () => {
+    axios
+      .post("/set-page-mode", { darkMode: !darkMode })
+      .then(({ data }) => {
+        console.log(data);
+        setDarkMode(!darkMode);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   if (!chatMessages) {
     return <div className="loading"></div>;
   }
@@ -509,7 +521,7 @@ export const Chat: React.FC<Props> = ({
         <div
           className={(darkMode && "DarkMode") || "lightMode"}
           onClick={(e) => {
-            setDarkMode(!darkMode);
+            changePageMode();
           }}
         ></div>
       )}

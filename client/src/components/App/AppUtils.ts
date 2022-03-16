@@ -7,7 +7,8 @@ module.exports.axiosGetUserDetails = (
   setSuperAdmin: (e: boolean) => void,
   setMyChatImg: (e: string) => void,
   setMyChatColor: (e: string) => void,
-  setGuest: (e: boolean) => void
+  setGuest: (e: boolean) => void,
+  setDarkMode: (e: boolean) => void
 ) => {
   axios
     .get("/user-details")
@@ -22,6 +23,7 @@ module.exports.axiosGetUserDetails = (
       setSuperAdmin(data.data.super_admin);
       setMyChatImg(data.data.chat_img);
       setMyChatColor(data.data.chat_color);
+      setDarkMode(data.data.dark_mode);
 
       if (data.data.nickname) {
         if (data.data.nickname.includes("Guest")) {

@@ -525,3 +525,14 @@ module.exports.checkForDuplicatePosters = (poster) => {
   const params = [poster];
   return db.query(q, params);
 };
+
+module.exports.setDarkMode = (id, dark_mode) => {
+  const q = `
+        UPDATE community
+        SET dark_mode = $2
+        WHERE community.id = $1
+        RETURNING *
+    `;
+  const params = [id, dark_mode];
+  return db.query(q, params);
+};

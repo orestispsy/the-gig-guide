@@ -41,12 +41,6 @@ export const Community: React.FC<Props> = ({
     }
   }, [images]);
 
-  useEffect(() => {
-    if (file) {
-      console.log(file.name.split("."));
-    }
-  }, [file]);
-
   useEffect(
     function () {
       if (selectedGigId) {

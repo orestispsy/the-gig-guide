@@ -176,7 +176,7 @@ export const GigEditor: React.FC<Props> = ({
         if (data.deleteSuccess) {
           updateDatabase();
           setSelectedGig(false);
-
+          setSelectedPoster("");
           const timer = setTimeout(() => {
             setDeleteSuccess(false);
           }, 2000);

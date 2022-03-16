@@ -60,6 +60,18 @@ export const Main: React.FC<Props> = ({
       });
   };
 
+  const changePageMode = () => {
+    axios
+      .post("/set-page-mode", { darkMode: !darkMode })
+      .then(({ data }) => {
+        console.log(data);
+        setDarkMode(!darkMode);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       {" "}
@@ -138,7 +150,7 @@ export const Main: React.FC<Props> = ({
               (darkMode && "DarkMode") || (!darkMode && "lightMode") || ""
             }
             onClick={() => {
-              setDarkMode(!darkMode);
+              changePageMode();
             }}
           ></div>
           {superAdmin && (

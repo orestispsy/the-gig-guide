@@ -6,6 +6,13 @@ const db = require("./utils/db");
 
 const fs = require("fs");
 
+const {
+  uploader,
+  uploaderPoster,
+  uploaderCommunity,
+  imageCompressor,
+} = require("./utils/fileUploaderUtils");
+
 const cors = require("cors");
 app.use(cors());
 
@@ -16,9 +23,6 @@ const io = require("socket.io")(server, {
     methods: ["GET", "POST"],
   },
 });
-
-const multer = require("multer");
-const uidSafe = require("uid-safe");
 
 const { hash, compare } = require("./utils/bc");
 
@@ -37,108 +41,6 @@ io.use(function (socket, next) {
 app.use(compression());
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
-
-const diskStorage = multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(
-      null,
-      path.join(
-        __dirname,
-        `../client/public/uploads/users/${req.session.userId}/`
-      )
-    );
-  },
-  filename: function (req, file, callback) {
-    uidSafe(24).then(function (uid) {
-      callback(null, uid + path.extname(file.originalname));
-    });
-  },
-});
-
-const diskStoragePoster = multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, path.join(__dirname, `../client/public/posters/`));
-  },
-  filename: function (req, file, callback) {
-    uidSafe(12).then(function (uid) {
-      callback(
-        null,
-        file.originalname.split(".")[0] + uid + path.extname(file.originalname)
-      );
-    });
-  },
-});
-
-const diskStorageCommunity = multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, path.join(__dirname, `../client/public/uploads/community/`));
-  },
-  filename: function (req, file, callback) {
-    uidSafe(12).then(function (uid) {
-      callback(
-        null,
-        file.originalname.split(".")[0] + uid + path.extname(file.originalname)
-      );
-    });
-  },
-});
-
-const uploader = multer({
-  storage: diskStorage,
-  fileFilter: function (req, file, callback) {
-    let fileType = path.extname(file.originalname);
-    if (
-      fileType !== ".jpg" &&
-      fileType !== ".jpeg" &&
-      fileType !== ".png" &&
-      fileType !== ".gif"
-    ) {
-      return callback(new Error("Not An Image File"));
-    }
-    callback(null, true);
-  },
-  limits: {
-    fileSize: 2097152,
-  },
-});
-
-const uploaderPoster = multer({
-  storage: diskStoragePoster,
-  fileFilter: function (req, file, callback) {
-    let fileType = path.extname(file.originalname);
-    if (
-      fileType !== ".jpg" &&
-      fileType !== ".jpeg" &&
-      fileType !== ".png" &&
-      fileType !== ".gif"
-    ) {
-      return callback(new Error("Not An Image File"));
-    }
-    callback(null, true);
-  },
-  limits: {
-    fileSize: 5097152,
-  },
-});
-
-const uploaderCommunity = multer({
-  storage: diskStorageCommunity,
-  fileFilter: function (req, file, callback) {
-    let fileType = path.extname(file.originalname);
-    if (
-      fileType !== ".jpg" &&
-      fileType !== ".jpeg" &&
-      fileType !== ".png" &&
-      fileType !== ".gif"
-    ) {
-      return callback(new Error("Not An Image File"));
-    }
-    callback(null, true);
-  },
-  limits: {
-    fileSize: 5097152,
-  },
-});
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -291,7 +193,6 @@ app.post("/gig-delete", (req, res) => {
       if (rows[0].poster && rows[0].poster.includes("/posters/")) {
         db.checkForDuplicatePosters(rows[0].poster)
           .then(({ rows }) => {
-            console.log(rows);
             if (rows.length <= 1) {
               fs.unlink(
                 path.join(
@@ -531,11 +432,11 @@ app.post("/addChatPic", uploader.single("file"), (req, res) => {
     .catch((err) => console.log(err));
 
   db.addChatPic(
-    `/uploads/users/${req.session.userId}/` + filename,
+    `/uploads/users/${req.session.userId}/pic_` + filename,
     req.session.userId
   )
     .then(({ rows }) => {
-      res.json({ data: rows });
+      imageCompressor(req.file.path, filename, req.session.userId, res, rows);
     })
     .catch((err) => {
       res.json({ error: true });
@@ -778,6 +679,17 @@ app.get("/get-about-comments", (req, res) => {
 
 app.post("/delete-about-comment", (req, res) => {
   db.deleteAboutComment(req.body.id)
+    .then(({ rows }) => {
+      res.json({ rows });
+    })
+    .catch((err) => {
+      res.json({ error: true });
+      console.log(err);
+    });
+});
+
+app.post("/set-page-mode", (req, res) => {
+  db.setDarkMode(req.session.userId, req.body.darkMode)
     .then(({ rows }) => {
       res.json({ rows });
     })
