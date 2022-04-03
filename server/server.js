@@ -87,8 +87,36 @@ app.post("/login", (req, res) => {
         compare(req.body.password, rows[0].password_hash)
           .then((match) => {
             if (match) {
-              req.session.userId = rows[0].id;
-              res.json({ data: rows[0] });
+              if (rows[0].ban) {
+                if (rows[0].ban_time) {
+                  let dateNow = new Date();
+
+                  let banTime = new Date(rows[0].ban_time);
+
+                  banTime.setSeconds(
+                    banTime.getSeconds() + Number(rows[0].ban_time_sec)
+                  );
+                  let dif = dateNow.getTime() - banTime.getTime();
+                  let secondsLeft = dif / 1000;
+
+                  if (dateNow > banTime) {
+                    db.banUser(rows[0].id, false)
+                      .then(({ rows }) => {
+                        req.session.userId = rows[0].id;
+                        res.json({ data: rows[0] });
+                      })
+                      .catch((err) => console.log(err));
+                  } else {
+                    res.json({
+                      errorBan: true,
+                      secondsLeft: secondsLeft,
+                    });
+                  }
+                }
+              } else {
+                req.session.userId = rows[0].id;
+                res.json({ data: rows[0] });
+              }
             } else {
               res.json({ error: true });
             }
@@ -110,28 +138,37 @@ app.post("/login", (req, res) => {
 app.post("/register", (req, res) => {
   if (req.body.nickname && req.body.password) {
     let { nickname, password } = req.body;
-    hash(password)
-      .then((password_hash) => {
-        db.addRegistration(nickname, password_hash)
-          .then(({ rows }) => {
-            req.session.userId = rows[0].id;
-            !fs.existsSync(
-              __dirname + `/../client/public/uploads/users/${rows[0].id}/`
-            ) &&
-              fs.mkdirSync(
-                __dirname + `/../client/public/uploads/users/${rows[0].id}/`,
-                { recursive: true }
-              );
-            res.json({ data: rows[0] });
-          })
-          .catch((err) => {
-            res.json({ error: true });
-            console.log(err);
-          });
+    db.loginCheck(nickname)
+      .then(({ rows }) => {
+        if (!rows[0]) {
+          hash(password)
+            .then((password_hash) => {
+              db.addRegistration(nickname, password_hash)
+                .then(({ rows }) => {
+                  req.session.userId = rows[0].id;
+                  !fs.existsSync(
+                    __dirname + `/../client/public/uploads/users/${rows[0].id}/`
+                  ) &&
+                    fs.mkdirSync(
+                      __dirname +
+                        `/../client/public/uploads/users/${rows[0].id}/`,
+                      { recursive: true }
+                    );
+                  res.json({ data: rows[0] });
+                })
+                .catch((err) => {
+                  res.json({ error: true });
+                  console.log(err);
+                });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else {
+          res.json({ errorDuplicate: true });
+        }
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => console.log(err));
   } else {
     res.json({ data: null });
   }
@@ -141,6 +178,9 @@ app.get("/user-details", (req, res) => {
   db.getUser(req.session.userId)
     .then(({ rows }) => {
       if (!rows[0]) {
+        req.session = null;
+        res.redirect("/");
+      } else if (rows[0].ban) {
         req.session = null;
         res.redirect("/");
       } else {
@@ -355,9 +395,20 @@ app.post("/delete-community-image", (req, res) => {
 });
 
 app.post("/change-nickname", (req, res) => {
-  db.changeNickname(req.body.nickname, req.session.userId)
+  db.loginCheck(req.body.nickname)
     .then(({ rows }) => {
-      res.json({ data: rows });
+      if (!rows[0]) {
+        db.changeNickname(req.body.nickname, req.session.userId)
+          .then(({ rows }) => {
+            res.json({ data: rows });
+          })
+          .catch((err) => {
+            res.json({ error: true });
+            console.log(err);
+          });
+      } else {
+        res.json({ errorDuplicate: true });
+      }
     })
     .catch((err) => {
       res.json({ error: true });
@@ -521,6 +572,14 @@ app.post("/set-admin", (req, res) => {
 
 app.post("/set-super-admin", (req, res) => {
   db.setUserSuperAdmin(req.body.id, req.body.boolean)
+    .then(({ rows }) => {
+      res.json({ data: rows });
+    })
+    .catch((err) => console.log(err));
+});
+
+app.post("/ban-user", (req, res) => {
+  db.banUser(req.body.id, req.body.boolean)
     .then(({ rows }) => {
       res.json({ data: rows });
     })
@@ -837,8 +896,24 @@ io.on("connection", function (socket) {
     }
   });
 
-  socket.on("BAN TIMER", (time) => {
-    io.emit("banTimer", time);
+  socket.on("BAN TIMER", (data) => {
+    io.emit("banTimer", data.time);
+    if (data.id !== 1) {
+      db.banUser(data.id, true)
+        .then(({ rows }) => {
+          let dateNow = new Date();
+          db.setUserBanTime(data.id, dateNow)
+            .then(({ rows }) => {
+              db.setUserBanSeconds(data.id, data.time)
+                .then(({ rows }) => {
+                  console.log(rows);
+                })
+                .catch((err) => console.log(err));
+            })
+            .catch((err) => console.log(err));
+        })
+        .catch((err) => console.log(err));
+    }
   });
 
   socket.on("HORN", (data) => {

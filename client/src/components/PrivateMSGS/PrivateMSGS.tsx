@@ -143,6 +143,7 @@ export const PrivateMSGS: React.FC<Props> = ({
   let fixedTime: string;
   let fixedDate: string;
   let fixedHours: number;
+  let timePreFix: string;
   let msgDate;
   let msgTime;
   let diff = new Date().getTimezoneOffset() / -60;
@@ -163,8 +164,13 @@ export const PrivateMSGS: React.FC<Props> = ({
       if (fixedHours > 24) {
         fixedHours = fixedHours - 24;
       }
+      if (fixedHours < 10) {
+        timePreFix = `0`;
+      } else {
+        timePreFix = "";
+      }
 
-      fixedTime = fixedHours + ":" + msgTime[1] + ":" + msgTime[2];
+      fixedTime = timePreFix + fixedHours + ":" + msgTime[1] + ":" + msgTime[2];
     }
   };
 

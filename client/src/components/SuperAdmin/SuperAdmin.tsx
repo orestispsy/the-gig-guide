@@ -132,6 +132,22 @@ export const SuperAdmin: React.FC<Props> = ({
       });
   };
 
+  const setUserBan = (e: any, id: any, boolean: boolean) => {
+    for (var x = 0; x < networkUsers.length; x++) {
+      if (networkUsers[x].id == e.target.id) {
+        let newBannedList = [...networkUsers];
+        newBannedList[x].ban = !boolean;
+        setUserList(newBannedList);
+      }
+    }
+    axios
+      .post("/ban-user", { id: id, boolean: !boolean })
+      .then(({ data }) => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="superAdminContainer">
       <div className="superAdminContainerInner">
@@ -160,8 +176,7 @@ export const SuperAdmin: React.FC<Props> = ({
                     key={user.id}
                     className="chooseSuperUserMode"
                   >
-                    {" ❂ "}
-                    {user.nickname}
+                    {(user.ban && `🔴`) || `❂`} {user.nickname}
                     {" ○ "}
                     {msgDate[2] + "-" + msgDate[1]}
                     {" || "}
@@ -185,6 +200,9 @@ export const SuperAdmin: React.FC<Props> = ({
                 !user.nickname.includes("Guest") &&
                 !userExists(user.id) && (
                   <option
+                    style={{
+                      color: (selectedUser == user.id && `white`) || ``,
+                    }}
                     value={user.id}
                     key={user.id}
                     className={
@@ -251,6 +269,10 @@ export const SuperAdmin: React.FC<Props> = ({
                           handleTime(guest.created_at);
                           return (
                             <option
+                              style={{
+                                color:
+                                  (guestUser == guest.id && `yellow`) || ``,
+                              }}
                               value={guest.id}
                               key={guest.id}
                               className="chooseGuestSuperMode"
@@ -416,6 +438,24 @@ export const SuperAdmin: React.FC<Props> = ({
                               }}
                             >
                               CONFIRM
+                            </div>
+                          ))}
+                        {(user.ban && (
+                          <div
+                            id={user.id || ""}
+                            className="adminYes"
+                            onClick={(e) => setUserBan(e, user.id, user.ban)}
+                          >
+                            BAN
+                          </div>
+                        )) ||
+                          (!user.ban && (
+                            <div
+                              id={user.id || ""}
+                              className="adminNo"
+                              onClick={(e) => setUserBan(e, user.id, user.ban)}
+                            >
+                              BAN
                             </div>
                           ))}
                       </div>

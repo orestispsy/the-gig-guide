@@ -11,7 +11,7 @@ interface Props {
   superAdmin: boolean;
   myNickname: string;
   setDarkMode: (e: boolean) => void;
-
+  setLoaded: (e: boolean) => void;
   setGigEntry: (e: number | null) => void;
   selectedGigEntry: number | null;
   guest: boolean;
@@ -23,7 +23,7 @@ export const GigEntry: React.FC<Props> = ({
   superAdmin,
   myNickname,
   setDarkMode,
-
+  setLoaded,
   setGigEntry,
   selectedGigEntry,
   guest,
@@ -41,7 +41,9 @@ export const GigEntry: React.FC<Props> = ({
   let { id } = useParams();
 
   useEffect(function () {
-    setDarkMode(true);
+    setTimeout(() => {
+      setDarkMode(true);
+    }, 300);
 
     axios
       .get("/gig/" + id)
@@ -52,7 +54,8 @@ export const GigEntry: React.FC<Props> = ({
         setDate(data.data.date);
         setTourName(data.data.tour_name);
         setPoster(data.data.poster);
-        setSelectedGig(data.data.date), setGigEntry(data.data);
+        setSelectedGig(data.data.date);
+        setGigEntry(data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -103,7 +106,13 @@ export const GigEntry: React.FC<Props> = ({
           {gigsList &&
             gigsList
               .map((gig: any) => (
-                <option value={gig.date} key={gig.id}>
+                <option
+                  value={gig.date}
+                  key={gig.id}
+                  style={{
+                    color: (id == gig.id && `orangered`) || ``,
+                  }}
+                >
                   {gig.date} {gig.venue}
                 </option>
               ))

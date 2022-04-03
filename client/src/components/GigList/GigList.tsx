@@ -119,7 +119,7 @@ export const GigList: React.FC<Props> = ({
           id={(!year && "gigEntries") || ""}
           className="gigEntries"
           style={{
-            height: (year && `48vh`) || "",
+            height: (year && `54vh`) || "",
             marginTop: (!year && `1vmax`) || "",
           }}
           ref={elemRef}

@@ -84,6 +84,7 @@ export const OnlineUsers: React.FC<Props> = ({
   const [networkUsers, setNetworkUsers] = useState<any>([]);
   const [errorMsg, setErrorMsg] = useState<boolean>(false);
   const [errorMsgInfo, setErrorMsgInfo] = useState<boolean>(false);
+  const [errorDuplicate, setErrorDuplicate] = useState<boolean>(false);
   const [userConfig, setUserConfig] = useState<boolean>(false);
   const [newNickname, setNewNickname] = useState<any>(false);
   const [newPassword, setNewPassword] = useState<any>(false);
@@ -213,11 +214,13 @@ export const OnlineUsers: React.FC<Props> = ({
           socket.emit("ONLINE USERS", updatedUsers);
         } else {
           setErrorMsg(true);
+          setUploading(false);
         }
       })
       .catch((err) => {
         console.log("error", err);
         setErrorMsg(true);
+        setUploading(false);
       });
   };
 
@@ -250,8 +253,18 @@ export const OnlineUsers: React.FC<Props> = ({
     axios
       .post("/change-nickname", { nickname: ev1 })
       .then(({ data }) => {
-        if (data) {
+        if (data.errorDuplicate) {
+          setErrorDuplicate(true);
+        } else if (data) {
+          setMyNickname(newNickname);
           setUserConfig(false);
+          let updatedNickUsers = onlineUsers;
+          updatedNickUsers.forEach((user: any) => {
+            if (user.id == myUserId) {
+              user.nickname = newNickname;
+            }
+          });
+          socket.emit("ONLINE USERS", updatedNickUsers);
         } else {
           setErrorMsg(true);
         }
@@ -539,17 +552,27 @@ export const OnlineUsers: React.FC<Props> = ({
                             <div className="timerConfig">
                               <div id="timerConfigBox">
                                 <div>BAN TIME</div>
-                                <input
-                                  type="number"
-                                  onKeyDown={(e) => keyCheck(e, user.id)}
-                                  onChange={(e) =>
-                                    socket.emit("BAN TIMER", e.target.value)
-                                  }
-                                ></input>
+                                <div className="banInputBox">
+                                  <input
+                                    type="number"
+                                    onKeyDown={(e) => keyCheck(e, user.id)}
+                                    onChange={(e) =>
+                                      socket.emit("BAN TIMER", {
+                                        time: e.target.value,
+                                        id: user.id,
+                                        nickname: user.nickname,
+                                      })
+                                    }
+                                  ></input>
+                                  <div>sec</div>
+                                </div>
                               </div>
 
                               <div
                                 className="kickOut"
+                                style={{
+                                  animation: `1.1s linear infinite blinker2`,
+                                }}
                                 onClick={(e) => {
                                   setConfigTimer(false);
                                   if (user.id != myUserId) {
@@ -612,48 +635,55 @@ export const OnlineUsers: React.FC<Props> = ({
                   onChange={(e) => setNewNickname(e.target.value)}
                   onClick={(e) => {
                     setErrorMsgInfo(false);
+                    setErrorDuplicate(false);
                   }}
                 ></input>
-                <div className="changeNickBoxThread">Password</div>
-                <div className="userConfigPwdBack">
-                  <input
-                    type={
-                      (!pwdReveal && "password") || (pwdReveal && "text") || ""
-                    }
-                    placeholder="password"
-                    onChange={(e) => setNewPassword(e.target.value)}
-                  ></input>
-                  <div
-                    className={
-                      (pwdReveal && "pwdNOTvisible") ||
-                      (!pwdReveal && "pwdVisibility") ||
-                      ""
-                    }
-                    onClick={(e) => {
-                      setPwdReveal(!pwdReveal);
-                    }}
-                  ></div>
-                </div>
+                {errorDuplicate && (
+                  <div className="errorNickname">
+                    This Nickname Exists Already !
+                  </div>
+                )}
+                {!errorDuplicate && (
+                  <div className="changeNickBoxThread">Password</div>
+                )}
+                {!errorDuplicate && (
+                  <div className="userConfigPwdBack">
+                    <input
+                      type={
+                        (!pwdReveal && "password") ||
+                        (pwdReveal && "text") ||
+                        ""
+                      }
+                      placeholder="password"
+                      onChange={(e) => setNewPassword(e.target.value)}
+                    ></input>
+                    <div
+                      className={
+                        (pwdReveal && "pwdNOTvisible") ||
+                        (!pwdReveal && "pwdVisibility") ||
+                        ""
+                      }
+                      onClick={(e) => {
+                        setPwdReveal(!pwdReveal);
+                      }}
+                    ></div>
+                  </div>
+                )}
                 <div
                   className="changeNickButton"
                   onClick={(e) => {
-                    if (!newNickname.includes("Guest")) {
-                      setAdmin(true);
-                    }
-                    if (newNickname != "") {
-                      changeInfo(newNickname, newPassword);
-                      setMyNickname(newNickname);
+                    if (myNickname === newNickname) {
+                      return;
                     } else {
-                      setErrorMsgInfo(true);
-                    }
-                    let updatedNickUsers = onlineUsers;
-                    updatedNickUsers.forEach((user: any) => {
-                      if (user.id == myUserId) {
-                        user.nickname = newNickname;
+                      if (!newNickname.includes("Guest")) {
+                        setAdmin(true);
                       }
-                    });
-
-                    socket.emit("ONLINE USERS", updatedNickUsers);
+                      if (newNickname != "") {
+                        changeInfo(newNickname, newPassword);
+                      } else {
+                        setErrorMsgInfo(true);
+                      }
+                    }
                   }}
                 >
                   Confirm
@@ -712,7 +742,7 @@ export const OnlineUsers: React.FC<Props> = ({
                 )}
                 {errorMsg && (
                   <p className="error" id="error">
-                    Select an Image [Max Size: 2MB]
+                    Select an Image [Max Size: 10MB]
                   </p>
                 )}
               </div>

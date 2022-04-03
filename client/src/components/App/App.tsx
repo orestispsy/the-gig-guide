@@ -43,6 +43,7 @@ export const App: React.FC<Props> = ({}) => {
   const [left, setLeft] = useState<number | string>("35%");
   const [selectedGigEntry, setSelectedGigEntry] = useState<number | null>(0);
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [userSelectedMode, setUserSelectedMode] = useState<boolean>(false);
   const [year, setYear] = useState<
     string | number | readonly string[] | undefined
   >("");
@@ -55,6 +56,7 @@ export const App: React.FC<Props> = ({}) => {
   const [gigsList, setGigsList] = useState<any>();
   const [loaded, setLoaded] = useState<boolean>(false);
   const [loadedMain, setLoadedMain] = useState<boolean>(false);
+  const [profileBanned, setProfileBanned] = useState<boolean>(false);
 
   useEffect(function () {
     setMaps(false);
@@ -66,7 +68,9 @@ export const App: React.FC<Props> = ({}) => {
       setMyChatImg,
       setMyChatColor,
       setGuest,
-      setDarkMode
+      setDarkMode,
+      setUserSelectedMode,
+      setProfileBanned
     );
     axiosGetGigs(setGigsList);
     axiosGetCounter(setVisitors);
@@ -129,6 +133,8 @@ export const App: React.FC<Props> = ({}) => {
                 setLoadedMain={(e: boolean) => setLoadedMain(e)}
                 loadedMain={loadedMain}
                 setGigEntry={(e: number | null) => setSelectedGigEntry(e)}
+                userSelectedMode={userSelectedMode}
+                setUserSelectedMode={(e: boolean) => setUserSelectedMode(e)}
               />
             }
           ></Route>
@@ -162,6 +168,7 @@ export const App: React.FC<Props> = ({}) => {
                 mapVisible={(e: boolean) => setMaps(e)}
                 selectedGigEntry={selectedGigEntry}
                 setGigEntry={(e: number | null) => setSelectedGigEntry(e)}
+                setDarkMode={(e: boolean) => setDarkMode(e)}
               />
             }
           ></Route>
@@ -201,6 +208,7 @@ export const App: React.FC<Props> = ({}) => {
                 setGigEntry={(e: number | null) => setSelectedGigEntry(e)}
                 selectedGigEntry={selectedGigEntry}
                 guest={guest}
+                setLoaded={(e: boolean) => setLoaded(e)}
               />
             }
           ></Route>
@@ -230,6 +238,8 @@ export const App: React.FC<Props> = ({}) => {
                 setMaps={(e: boolean) => setMaps(e)}
                 setAdminControls={(e: boolean) => setAdminControls(e)}
                 setGigListOpen={(e: boolean) => setGigListOpen(e)}
+                userSelectedMode={userSelectedMode}
+                setUserSelectedMode={(e: boolean) => setUserSelectedMode(e)}
               />
             }
           ></Route>

@@ -8,27 +8,31 @@ module.exports.axiosGetUserDetails = (
   setMyChatImg: (e: string) => void,
   setMyChatColor: (e: string) => void,
   setGuest: (e: boolean) => void,
-  setDarkMode: (e: boolean) => void
+  setDarkMode: (e: boolean) => void,
+  setUserSelectedMode: (e: boolean) => void,
+  setProfileBanned: (e: boolean) => void
 ) => {
   axios
     .get("/user-details")
     .then(({ data }) => {
       if (!data.data) {
         location.replace("/");
-      }
+      } else {
+        setMyUserId(data.data.id);
+        setMyNickname(data.data.nickname);
+        setAdmin(data.data.admin);
+        setSuperAdmin(data.data.super_admin);
+        setMyChatImg(data.data.chat_img);
+        setMyChatColor(data.data.chat_color);
+        setDarkMode(data.data.dark_mode);
+        setUserSelectedMode(data.data.dark_mode);
+        setProfileBanned(data.data.ban);
 
-      setMyUserId(data.data.id);
-      setMyNickname(data.data.nickname);
-      setAdmin(data.data.admin);
-      setSuperAdmin(data.data.super_admin);
-      setMyChatImg(data.data.chat_img);
-      setMyChatColor(data.data.chat_color);
-      setDarkMode(data.data.dark_mode);
-
-      if (data.data.nickname) {
-        if (data.data.nickname.includes("Guest")) {
-          setGuest(true);
-          setAdmin(false);
+        if (data.data.nickname) {
+          if (data.data.nickname.includes("Guest")) {
+            setGuest(true);
+            setAdmin(false);
+          }
         }
       }
     })

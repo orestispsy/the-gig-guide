@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "../../common/Axios/axios";
 import { Link } from "react-router-dom";
+
+const { banCountDown } = require("./LoginUtils");
 
 interface Props {}
 
 export const Login: React.FC<Props> = ({}) => {
   const [error, setError] = useState<boolean>(false);
+  const [banError, setBanError] = useState<boolean>(false);
   const [nickname, setNickname] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [secondsLeft, setSecondsLeft] = useState<any>(0);
+
+  const timerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(function () {}, [secondsLeft]);
 
   const handleClick = (e?: any) => {
     if (e) {
@@ -32,6 +40,15 @@ export const Login: React.FC<Props> = ({}) => {
         .then(({ data }) => {
           if (data.data) {
             location.replace("/");
+          } else if (data.errorBan) {
+            setSecondsLeft(Math.round(-Number(data.secondsLeft)));
+
+            setBanError(true);
+            setPassword("");
+            setNickname("");
+            setTimeout(() => {
+              banCountDown(-Number(data.secondsLeft), setSecondsLeft);
+            }, 1000);
           } else {
             setError(true);
           }
@@ -59,34 +76,57 @@ export const Login: React.FC<Props> = ({}) => {
       <div className="loginContainer" onKeyDown={(e) => submitEnter(e)}>
         <div className="loginContainerLeft">
           <h1>Login</h1>
-          <span>Nickname</span>
-          <input
-            autoComplete="none"
-            name="nickname"
-            placeholder="Nickname"
-            onChange={(e: any) => {
-              setNickname(e.target.value);
-            }}
-            onClick={() => setError(false)}
-          />
-          <span>Password</span>
-          <input
-            name="password"
-            placeholder="Password"
-            type="password"
-            onChange={(e: any) => {
-              setPassword(e.target.value);
-            }}
-            onClick={() => setError(false)}
-          />
+          {secondsLeft === 0 && (
+            <React.Fragment>
+              <span>Nickname</span>
+              <input
+                autoComplete="none"
+                name="nickname"
+                placeholder="Nickname"
+                onChange={(e: any) => {
+                  setNickname(e.target.value);
+                }}
+                onClick={() => {
+                  setError(false);
+                  setBanError(false);
+                }}
+              />
+              <span>Password</span>
+              <input
+                name="password"
+                placeholder="Password"
+                type="password"
+                onChange={(e: any) => {
+                  setPassword(e.target.value);
+                }}
+                onClick={() => {
+                  setError(false);
+                  setBanError(false);
+                }}
+              />
 
-          <div
-            id="button"
-            className="mainMenuLink"
-            onClick={() => handleClick()}
-          >
-            Submit
-          </div>
+              <div
+                id="button"
+                className="mainMenuLink"
+                onClick={() => handleClick()}
+              >
+                Submit
+              </div>
+            </React.Fragment>
+          )}
+          {banError && (
+            <p className="errorBan">
+              {(secondsLeft !== 0 && `This Account is Temporarily Banned`) ||
+                ""}
+              <div ref={timerRef}>
+                {secondsLeft !== 0 && `Seconds Left:`}
+                {(secondsLeft !== 0 && <span>{secondsLeft}</span>) ||
+                  (secondsLeft === 0 && (
+                    <span>`Check Again Your Account !`</span>
+                  ))}
+              </div>
+            </p>
+          )}
         </div>
         <div className="loginContainerRight">
           <span className="regSpan">Not a Member?</span>

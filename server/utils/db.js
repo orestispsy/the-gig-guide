@@ -156,7 +156,7 @@ module.exports.addVisitorIp = (ip) => {
 
 module.exports.checkVisitorIps = (ip) => {
   const q = `
-        SELECT FROM visitors
+        SELECT * FROM visitors
         WHERE ip = $1
     `;
   const params = [ip];
@@ -260,7 +260,7 @@ module.exports.deleteAllUserPosts = (id) => {
 
 module.exports.getAllUsers = () => {
   const q = `
-        SELECT DISTINCT ON (msg_sender_id) community.id, community.nickname, chat_msg, chat_img, admin, super_admin,  last_online, chatroom.created_at
+        SELECT DISTINCT ON (msg_sender_id) community.id, community.nickname, community.ban, chat_msg, chat_img, admin, super_admin,  last_online, chatroom.created_at
         FROM chatroom
         JOIN community
         ON (community.id = msg_sender_id)
@@ -534,5 +534,38 @@ module.exports.setDarkMode = (id, dark_mode) => {
         RETURNING *
     `;
   const params = [id, dark_mode];
+  return db.query(q, params);
+};
+
+module.exports.banUser = (id, boolean) => {
+  const q = `
+        UPDATE community
+        SET ban = $2
+        WHERE community.id = $1
+        RETURNING *
+    `;
+  const params = [id, boolean];
+  return db.query(q, params);
+};
+
+module.exports.setUserBanTime = (id, time) => {
+  const q = `
+        UPDATE community
+        SET ban_time = $2
+        WHERE community.id = $1
+        RETURNING *
+    `;
+  const params = [id, time];
+  return db.query(q, params);
+};
+
+module.exports.setUserBanSeconds = (id, sec) => {
+  const q = `
+        UPDATE community
+        SET ban_time_sec = $2
+        WHERE community.id = $1
+        RETURNING *
+    `;
+  const params = [id, sec];
   return db.query(q, params);
 };

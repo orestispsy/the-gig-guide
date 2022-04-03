@@ -82,7 +82,7 @@ export const AppBar: React.FC<Props> = ({
         <div className="barLeftSection">
           <Link to={"/"}>
             <img
-              src={myChatImg || "./../avatar.png"}
+              src={myChatImg || "../../avatar.png"}
               className="barProfileImage"
               onClick={(e) => {
                 mapVisible(false);
@@ -106,7 +106,7 @@ export const AppBar: React.FC<Props> = ({
           <div className="barProfile">{!maps && myNickname}</div>
         </div>
       )}
-      {maps && (
+      {maps && !chatBan && (
         <a target="_blank" href="https://www.1000mods.com">
           <div className="logo2Back">
             <div className="logo2"></div>

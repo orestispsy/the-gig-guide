@@ -5,7 +5,7 @@ body {
   padding: 0 !important;
   background-color: black;
   font-family: "Poller One", cursive;
-  background-image: url("sky.jpg");
+  background-image: url("sky-full.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   overflow: hidden;
@@ -83,9 +83,10 @@ a:hover {
 .logo2Login {
   background-image: url("logo2.png");
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   width: 22vmax;
-  height: 6vmax;
+  height: 10vmax;
+  margin-bottom: -4vmax;
 }
 
 .logo2LoginDesc {
@@ -429,6 +430,7 @@ a:hover {
   flex-direction: column;
   align-items: center;
   justify-self: center;
+  height: 60vh;
 }
 
 .gigEntriesBox {
@@ -437,7 +439,6 @@ a:hover {
   align-items: center;
   justify-self: center;
   border-radius: 2vh;
-  padding: 0 0 0.5vmax 0;
   background-color: rgba(255, 104, 104, 0.075);
   width: 40vw;
 }
@@ -980,6 +981,9 @@ input {
 }
 
 .mainMenuLink {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background: linear-gradient(
     112.72013189013455deg,
     rgba(240, 92, 7, 0.253) 4.927083333333334%,
@@ -1082,6 +1086,10 @@ input {
 }
 
 @media only screen and (min-device-width: 100px) and (max-device-width: 480px) and (orientation: portrait) {
+  .errorNickRegister {
+    font-size: 2vmax !important;
+    margin-top: 2vmax !important;
+  }
   .appBar {
     z-index: 2 !important;
   }
@@ -1097,13 +1105,13 @@ input {
   }
 
   .logo2Login {
-    width: 60vw !important;
-    height: 10vh !important;
+    width: 68vw !important;
+    height: 15vh !important;
   }
 
   .logo2LoginDesc {
     font-size: 4vmax !important;
-    margin: -1.5vmax 0 0 0 !important;
+    margin: -3vmax 0 0 0 !important;
   }
 
   .loginContainer h1,
@@ -1232,6 +1240,7 @@ input {
 
   .chatContainerBan {
     height: 42vh !important;
+    width: unset !important;
     margin-top: 15vh !important;
   }
 
@@ -1772,10 +1781,6 @@ input {
     padding: 0.5vmax !important;
   }
 
-  .gigListContainer {
-    margin-top: 10vmax !important;
-  }
-
   .gigEntriesBox {
     width: 70vw !important;
   }
@@ -1963,6 +1968,14 @@ input {
 }
 
 @media only screen and (min-device-width: 273px) and (max-device-width: 1024px) and (orientation: landscape) {
+  .errorNickRegister {
+    font-size: 2vmax !important;
+    margin-top: 2vmax !important;
+  }
+  .mainContainer {
+    margin-top: -3vmax;
+  }
+
   .gigCreatorContainer,
   .gigEditorContainer {
     height: unset !important;
@@ -2024,6 +2037,7 @@ input {
   .mainMenuLink {
     font-size: 4vmax !important;
     padding: 1vmax 2vmax 3vmax 2vmax !important;
+    justify-content: unset !important;
   }
 
   .loginContainerBack {
@@ -2054,6 +2068,10 @@ input {
     height: fit-content !important;
     margin-top: 0 !important;
     width: 65vw !important;
+  }
+
+  .chatContainerBan {
+    width: unset !important;
   }
 
   .chatHeadline,
@@ -2210,6 +2228,10 @@ input {
 
   .gigEntryContainer {
     justify-content: unset !important;
+  }
+
+  .gigEntriesBack {
+    height: 55vh !important;
   }
 
   .sortedGigReset,
@@ -2538,15 +2560,19 @@ input {
   margin-bottom: 6vmax;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .exactMonthTitle {
+  padding: 0 2vmax;
   font-size: 3vmax;
   font-family: "Black Ops One", cursive;
   text-shadow: -0 0 5px red, 0 -0 5px red, -0 -0 5px red, -0 -0 5px red;
   color: yellow;
   text-align: center;
   margin-left: 2vmax;
+  border-bottom: 1px solid rgba(251, 255, 0, 0.048);
 }
 
 .monthInnerBox {
@@ -2568,7 +2594,7 @@ input {
   color: rgb(255, 251, 0);
   text-shadow: 0 0 5px red, 0 0 5px red, 0 0 5px red, 0 0 5px red;
   font-family: "Black Ops One", cursive;
-  font-size: 3vmax;
+  font-size: 5vh;
   margin-top: 1vmax;
   margin-bottom: -0.2vmax;
   border-bottom: 1px solid rgba(251, 255, 0, 0.048);
@@ -2577,7 +2603,6 @@ input {
 
 #gigEntries {
   width: 100vw;
-  height: 46vh;
 }
 
 .gigEntries {
@@ -2589,8 +2614,7 @@ input {
   align-items: flex-start;
   justify-content: center;
   letter-spacing: 1px;
-  margin-left: -2vmax;
-  padding-bottom: 1vmax;
+
   overflow-y: auto;
   flex-wrap: wrap;
 }
@@ -2614,16 +2638,6 @@ input {
   font-family: "Black Ops One", cursive;
 }
 
-#gigBox {
-  justify-content: flex-start;
-  padding: 1.5vmax 0 0 0;
-}
-
-#gigBox:hover {
-  padding: 0 0 1.5vmax 0;
-  justify-content: center;
-}
-
 #gigBox div:nth-child(2),
 .gigBox div:nth-child(2) {
   max-height: 6vmax;
@@ -2643,14 +2657,15 @@ input {
     -1px -1px 0 black;
   margin-top: 0.5vmax;
   align-self: center;
-  width: 18vmax;
-  height: 12vmax;
+  width: 20vmax;
+  height: 14vmax;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   box-shadow: -0 0 5px rgba(0, 0, 0, 0.032), 0 -0 5px rgba(0, 0, 0, 0.032),
     -0 -0 5px rgba(0, 0, 0, 0.032), -0 -0 5px rgba(0, 0, 0, 0.032);
+  overflow-x: hidden;
 }
 
 .gigBox:hover {
@@ -2763,6 +2778,7 @@ select::-webkit-scrollbar-thumb {
 }
 
 .google-map {
+  min-height: 92vh;
   height: 92vh;
   width: 100vw;
   background-color: black;
@@ -2812,6 +2828,42 @@ select::-webkit-scrollbar-thumb {
   margin: 1vmax 0 0 0;
 }
 
+.errorBan {
+  font-family: "Darker Grotesque", sans-serif;
+  font-size: 2vmax;
+  color: tomato;
+
+  text-shadow: -1px 1px 0 black, 1px -1px 0 black, -1px -1px 0 black,
+    -1px -1px 0 black;
+  text-align: center;
+  margin: 1vmax 0 0 0;
+}
+
+.errorNickname,
+.errorNickRegister {
+  font-family: "Black Ops One", cursive;
+  font-size: 1vmax;
+  color: tomato;
+  text-shadow: -1px 1px 0 black, 1px -1px 0 black, -1px -1px 0 black,
+    -1px -1px 0 black;
+  text-align: center;
+  margin: 0 0 1vmax 0;
+  animation: 3s linear infinite blinkerBan;
+}
+
+.errorNickRegister {
+  font-size: 1.3vmax;
+  margin: 1vmax 0;
+}
+
+.errorBan span {
+  margin: 1vmax;
+  animation: 2s linear infinite blinkerBan;
+  width: 25vw;
+  overflow-x: hidden;
+  text-align: center;
+}
+
 .gm-style a {
   visibility: hidden !important;
 }
@@ -2848,8 +2900,9 @@ select::-webkit-scrollbar-thumb {
   top: 0;
   left: 0;
   transform: translate(-50%, -100%);
-  background-color: rgba(0, 0, 0, 0.342);
+  border-color: rgb(156, 255, 255);
   border: 1px solid white;
+  background-color: rgb(0, 0, 0, 0.632);
   border-radius: 8px;
   color: lime;
   box-shadow: -0 0 5px rgba(0, 0, 0, 0.3), 0 -0 5px rgba(0, 0, 0, 0.3),
@@ -3063,6 +3116,20 @@ font-family: 'Ultra', serif; */
   99% {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0), 0 0 5px rgba(0, 0, 0, 0),
       0 0 5px rgba(255, 251, 0, 0) 0 5px rgba(255, 251, 0, 0);
+  }
+}
+
+@keyframes blinkerBan {
+  0% {
+    color: tomato;
+  }
+
+  50% {
+    color: rgb(0, 255, 242);
+  }
+
+  100% {
+    color: tomato;
   }
 }
 
@@ -3757,12 +3824,16 @@ font-family: 'Ultra', serif; */
   align-items: center;
   justify-content: center;
   margin: 0 0.5vmax;
-}
-
-#timerConfigBox div {
   font-family: "Black Ops One", cursive !important;
   color: rgb(252, 88, 88);
   font-size: 1vmax !important;
+}
+
+.banInputBox {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  color: #76b3aa6e !important;
 }
 
 .timerConfig input {
@@ -3770,6 +3841,7 @@ font-family: 'Ultra', serif; */
   border: none;
   width: 3vmax;
   box-shadow: none;
+  color: white;
 }
 
 .timerConfig input::-webkit-outer-spin-button,
@@ -4218,7 +4290,7 @@ input[type="number"] {
   }
 }
 
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+@media only screen and (min-device-width: 100px) and (max-device-width: 480px) and (orientation: portrait) {
   .wrapper span:nth-child(2) {
     line-height: 12vmax !important;
     align-self: center;
@@ -4246,7 +4318,7 @@ input[type="number"] {
 }
 
 .pre-wrapper {
-  height: 90vh;
+  height: 92vh;
   overflow: hidden;
 
   position: relative;
@@ -4298,6 +4370,7 @@ input[type="number"] {
   border-radius: 10vh;
   font-size: 1.5vmax !important;
   background-color: rgba(255, 255, 255, 0.158);
+  z-index: 3;
 }
 
 .gigAnimationLink:hover {
@@ -4327,11 +4400,13 @@ input[type="number"] {
 .wrapper h2 {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .wrapper span:nth-child(1) {
   color: white;
   font-size: 8vmax;
+  width: max-content;
 }
 
 .wrapper span:nth-child(2) {
@@ -5714,11 +5789,10 @@ input[type="number"] {
   width: 48vw;
 }
 
-.c4Container {
-  height: 92vh;
-  width: 100vw;
+.banContainer {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  height: 92vh;
 }

@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 
 import useSound from "use-sound";
 
-import introSfx from "./../../../public/21space.mp3";
+import track1 from "./../../../public/21space.mp3";
+import track2 from "./../../../public/supervan.mp3";
 
 interface Props {
   gigsList: any;
@@ -14,11 +15,33 @@ export const GigListAnimation: React.FC<Props> = ({
   gigsList,
   setDarkMode,
 }) => {
-  const [play, { stop }] = useSound(introSfx, { volume: 0.75 });
   const [go, setGo] = useState<boolean>(false);
+  const [track, setTrack] = useState<any>(track1);
+
+  const [play, { stop }] = useSound(track, {
+    volume: 0.75,
+    onend: (e: any) => {
+      setTrack(track2);
+    },
+  });
+
+  const [playTrack2, { pause }] = useSound(track2, {
+    volume: 0.75,
+  });
+
+  useEffect(
+    function () {
+      if (track == track2) {
+        playTrack2();
+      }
+    },
+    [track]
+  );
 
   useEffect(function () {
-    setDarkMode(true);
+    setTimeout(() => {
+      setDarkMode(true);
+    }, 300);
   }, []);
 
   useEffect(
@@ -59,7 +82,14 @@ export const GigListAnimation: React.FC<Props> = ({
           </div>
         </div>
       )}
-      <Link to="/gig-list" className="backLink" onClick={() => stop()}>
+      <Link
+        to="/gig-list"
+        className="backLink"
+        onClick={() => {
+          stop();
+          pause();
+        }}
+      >
         Back
       </Link>
     </div>

@@ -8,6 +8,7 @@ export const Registration: React.FC<Props> = ({}) => {
   const [nickname, setNickname] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<boolean>(false);
+  const [errorDuplicate, setErrorDuplicate] = useState<boolean>(false);
 
   useEffect(function () {}, []);
 
@@ -15,7 +16,9 @@ export const Registration: React.FC<Props> = ({}) => {
     axios
       .post("/register", { nickname: nickname, password: password })
       .then(({ data }) => {
-        if (data.data) {
+        if (data.errorDuplicate) {
+          setErrorDuplicate(true);
+        } else if (data.data) {
           location.replace("/");
         } else {
           setError(true);
@@ -47,17 +50,26 @@ export const Registration: React.FC<Props> = ({}) => {
         name="nickname"
         placeholder="Nickname"
         onChange={(e) => setNickname(e.target.value)}
-        onClick={() => setError(false)}
+        onClick={() => {
+          setError(false);
+          setErrorDuplicate(false);
+        }}
       />
-      <span>Password</span>
-      <input
-        name="password"
-        placeholder="Password"
-        type="password"
-        onChange={(e) => setPassword(e.target.value)}
-        onClick={() => setError(false)}
-      />
-
+      {errorDuplicate && (
+        <div className="errorNickRegister">
+          This Nickname Exists Already<div>Try Another One</div>
+        </div>
+      )}
+      {!errorDuplicate && <span>Password</span>}
+      {!errorDuplicate && (
+        <input
+          name="password"
+          placeholder="Password"
+          type="password"
+          onChange={(e) => setPassword(e.target.value)}
+          onClick={() => setError(false)}
+        />
+      )}
       <div id="button" className="mainMenuLink" onClick={() => registerUser()}>
         Submit
       </div>
@@ -67,6 +79,7 @@ export const Registration: React.FC<Props> = ({}) => {
           Login
         </Link>
       </div>
+
       {error && (
         <p className="error">{"Insert A Nickname And A Password to Proceed"}</p>
       )}

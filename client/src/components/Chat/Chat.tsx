@@ -54,6 +54,8 @@ interface Props {
   setMaps: (e: boolean) => void;
   setAdminControls: (e: boolean) => void;
   setGigListOpen: (e: boolean) => void;
+  userSelectedMode: boolean;
+  setUserSelectedMode: (e: boolean) => void;
 }
 
 export const Chat: React.FC<Props> = ({
@@ -76,6 +78,8 @@ export const Chat: React.FC<Props> = ({
   setMaps,
   setAdminControls,
   setGigListOpen,
+  userSelectedMode,
+  setUserSelectedMode,
 }) => {
   const [emojiBar, setEmojiBar] = useState<boolean>(false);
   const [tickerBar, setTickerBar] = useState<boolean>(false);
@@ -111,6 +115,7 @@ export const Chat: React.FC<Props> = ({
   let fixedTime: string;
   let fixedDate: string;
   let fixedHours: number;
+  let timePreFix: string;
   let msgDate;
   let msgTime;
   let diff = new Date().getTimezoneOffset() / -60;
@@ -120,8 +125,10 @@ export const Chat: React.FC<Props> = ({
     setAdminControls(false);
     setMaps(false);
     setChatMode(true);
-    setDarkMode(darkMode);
+
     setChatScrollBarPosition(elemRef);
+
+    setDarkMode(userSelectedMode);
   }, []);
 
   useEffect(() => {
@@ -182,14 +189,21 @@ export const Chat: React.FC<Props> = ({
         msgTime[0] = msgTime[0].slice(1, 2);
       }
       fixedHours = Number(msgTime[0]) + 6 + diff;
-      // +6 here applies to my hosting service timezone settings, otherwise it should not be there
+      // +6 in "fixedHours" applies to my hosting service timezone settings, otherwise it should not be there
       if (fixedHours == 24) {
         fixedHours = 0;
       }
       if (fixedHours > 24) {
         fixedHours = fixedHours - 24;
       }
-      fixedTime = fixedHours + ":" + msgTime[1] + ":" + msgTime[2];
+
+      if (fixedHours < 10) {
+        timePreFix = `0`;
+      } else {
+        timePreFix = "";
+      }
+
+      fixedTime = timePreFix + fixedHours + ":" + msgTime[1] + ":" + msgTime[2];
     }
   };
 
@@ -197,7 +211,7 @@ export const Chat: React.FC<Props> = ({
     axios
       .post("/set-page-mode", { darkMode: !darkMode })
       .then(({ data }) => {
-        console.log(data);
+        setUserSelectedMode(!darkMode);
         setDarkMode(!darkMode);
       })
       .catch((err) => {
@@ -308,8 +322,8 @@ export const Chat: React.FC<Props> = ({
                 {chatBan && (
                   <div className="chatBanCover">
                     YOU'VE BEEN BANNED !<span>Take a Deep Breath,</span>{" "}
-                    <span>or Chill Your Ass and.. </span>
-                    <a href="https://thousandgigs.herokuapp.com">Try Again</a>
+                    <span>Chill Your Ass and.. </span>
+                    <a onClick={() => location.replace("/")}>Try Again</a>
                     {chatBan && (
                       <div id="timer" ref={timerRef}>
                         {banTimer && banTimer}

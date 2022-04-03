@@ -197,7 +197,7 @@ export const Community: React.FC<Props> = ({
               onClick={() => setError(false)}
             />
 
-            {!upload && (
+            {!upload && file && (
               <div
                 title="Upload Image"
                 className="upload"

@@ -277,7 +277,13 @@ export const GigEditor: React.FC<Props> = ({
             {gigsList &&
               gigsList
                 .map((gig: any) => (
-                  <option value={gig.date} key={gig.id}>
+                  <option
+                    value={gig.date}
+                    key={gig.id}
+                    style={{
+                      color: (selectedGig.id == gig.id && `black`) || ``,
+                    }}
+                  >
                     {gig.date} {gig.venue}
                   </option>
                 ))

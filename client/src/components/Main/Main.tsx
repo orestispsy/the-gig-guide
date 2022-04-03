@@ -18,6 +18,8 @@ interface Props {
   setLoadedMain: (e: boolean) => void;
   loadedMain: boolean;
   setGigEntry: (e: number | null) => void;
+  setUserSelectedMode: (e: boolean) => void;
+  userSelectedMode: boolean;
 }
 
 export const Main: React.FC<Props> = ({
@@ -36,6 +38,8 @@ export const Main: React.FC<Props> = ({
   setLoadedMain,
   loadedMain,
   setGigEntry,
+  setUserSelectedMode,
+  userSelectedMode,
 }) => {
   const [firstView, setFirstView] = useState<boolean>(true);
   useEffect(function () {
@@ -47,6 +51,7 @@ export const Main: React.FC<Props> = ({
     setGigListOpen(false);
     setFirstView(false);
     setGigEntry(null);
+    setDarkMode(userSelectedMode);
   }, []);
 
   const logOut = () => {
@@ -64,7 +69,7 @@ export const Main: React.FC<Props> = ({
     axios
       .post("/set-page-mode", { darkMode: !darkMode })
       .then(({ data }) => {
-        console.log(data);
+        setUserSelectedMode(!darkMode);
         setDarkMode(!darkMode);
       })
       .catch((err) => {

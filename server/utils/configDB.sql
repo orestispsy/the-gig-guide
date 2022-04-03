@@ -11,7 +11,10 @@ CREATE TABLE community (
     created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     online BOOLEAN DEFAULT false,
     last_online  TIMESTAMP DEFAULT null,
-    dark_mode BOOLEAN DEFAULT false
+    dark_mode BOOLEAN DEFAULT false,
+    ban BOOLEAN DEFAULT false,
+    ban_time VARCHAR DEFAULT '',
+      ban_time_sec VARCHAR DEFAULT ''
 );
 
 CREATE TABLE gigs (
