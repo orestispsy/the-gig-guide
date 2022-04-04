@@ -9,6 +9,7 @@ interface Props {
   aboutMode: boolean;
   darkMode: boolean;
   maps: boolean;
+  myUserId: number | undefined;
   myChatImg: string;
   chatNotification: boolean;
   myNickname: string;
@@ -33,12 +34,18 @@ interface Props {
   setLoaded: (e: boolean) => void;
   setTop: (e: number) => void;
   setLeft: (e: number) => void;
+  addMode: boolean;
+  editMode: boolean;
+  animeMode: boolean;
+  gigEntryMode: boolean;
+  mapMode: boolean;
 }
 
 export const AppLayout: React.FC<Props> = ({
   maps,
   aboutMode,
   darkMode,
+  myUserId,
   myChatImg,
   chatNotification,
   myNickname,
@@ -58,6 +65,11 @@ export const AppLayout: React.FC<Props> = ({
   setLoaded,
   setTop,
   setLeft,
+  addMode,
+  editMode,
+  animeMode,
+  gigEntryMode,
+  mapMode,
 }) => {
   let elemRef = useRef<any>();
   const [dotCounter, setDotCounter] = useState(0);
@@ -120,6 +132,7 @@ export const AppLayout: React.FC<Props> = ({
         }
       >
         <AppBar
+          myUserId={myUserId}
           myChatImg={myChatImg}
           myNickname={myNickname}
           setNightFlightProg={(e: any) => setNightFlightProg(e)}
@@ -140,8 +153,15 @@ export const AppLayout: React.FC<Props> = ({
           setChatNotification={(e: boolean) => setChatNotification(e)}
           chatNotification={chatNotification}
           chatMode={chatMode}
+          aboutMode={aboutMode}
           setAboutMode={(e: boolean) => setAboutMode(e)}
           adminControls={adminControls}
+          editMode={editMode}
+          addMode={addMode}
+          gigListOpen={gigListOpen}
+          animeMode={animeMode}
+          gigEntryMode={gigEntryMode}
+          mapMode={mapMode}
         />
         <Outlet />
       </div>

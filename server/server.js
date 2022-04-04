@@ -436,6 +436,7 @@ app.post("/change-password", (req, res) => {
 app.get("/logout", (req, res) => {
   req.session = null;
   res.redirect("/");
+  n;
 });
 
 app.get("/counter", (req, res) => {

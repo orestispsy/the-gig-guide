@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ReactPlayer from "react-player";
 import radioBroadcasts from "../../common/radioBroadcasts";
 import { useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import hyperfx from "./../../../public/hyperfx.mp3";
 const { chatNewPostNotification } = require("./AppBarUtils");
 
 interface Props {
+  myUserId: number | undefined;
   myChatImg: string;
   chatNotification: boolean;
   maps: boolean;
@@ -28,14 +29,21 @@ interface Props {
   ) => void;
   setChatNotification: (e: boolean) => void;
   chatMode: boolean;
+  aboutMode: boolean;
   setAboutMode: (e: boolean) => void;
   adminControls: boolean;
-
   setTop: (e: number) => void;
   setLeft: (e: number) => void;
+  addMode: boolean;
+  editMode: boolean;
+  gigListOpen: boolean;
+  animeMode: boolean;
+  gigEntryMode: boolean;
+  mapMode: boolean;
 }
 
 export const AppBar: React.FC<Props> = ({
+  myUserId,
   myChatImg,
   chatNotification,
   maps,
@@ -49,15 +57,26 @@ export const AppBar: React.FC<Props> = ({
   setPlayerPosition,
   setChatNotification,
   chatMode,
+  aboutMode,
   setAboutMode,
   adminControls,
   setTop,
   setLeft,
+  addMode,
+  editMode,
+  gigListOpen,
+  animeMode,
+  gigEntryMode,
+  mapMode,
 }) => {
   const [playSlideFx] = useSound(hyperfx, { volume: 0.6 });
 
-  const chatBan = useSelector((state: any) => state && state.chat_ban);
+  const navigate = useNavigate();
 
+  const browserCount = useSelector((state: any) => state && state.count);
+
+  const chatBan = useSelector((state: any) => state && state.chat_ban);
+  const onlineUsers = useSelector((state: any) => state && state.onlineUsers);
   const chatMessages = useSelector((state: any) => state && state.chatMessages);
   useEffect(
     function () {
@@ -114,31 +133,35 @@ export const AppBar: React.FC<Props> = ({
         </a>
       )}
 
-      {maps && (
+      {(maps ||
+        adminControls ||
+        aboutMode ||
+        addMode ||
+        editMode ||
+        gigListOpen ||
+        animeMode ||
+        gigEntryMode) && (
         <Link
-          to="/"
+          to={
+            (gigEntryMode && !mapMode && "") ||
+            ((animeMode || gigEntryMode) && "/gig-list") ||
+            (mapMode && "") ||
+            "/"
+          }
           className="barMainLink"
           title="Back"
           onClick={(e) => {
             setGigEntry(null);
             mapVisible(false);
             setAboutMode(false);
+
+            if (mapMode || gigEntryMode) {
+              navigate(-1);
+            }
           }}
         ></Link>
       )}
 
-      {adminControls && (
-        <Link
-          to="/"
-          className="barMainLink"
-          title="Back"
-          onClick={(e) => {
-            setGigEntry(null);
-            mapVisible(false);
-            setAboutMode(false);
-          }}
-        ></Link>
-      )}
       {nightFlightProg && (
         <div
           className="mixCloudPlayerControls"
@@ -210,36 +233,26 @@ export const AppBar: React.FC<Props> = ({
           <div
             className="dragPlayer"
             draggable
-            onDragCapture={(e) => {
-              setPlayerPosition(
-                e.pageY,
-                e.screenX + e.screenX * 0.5 - e.screenX * 0.1,
-                setTop,
-                setLeft
-              );
+            onDragCapture={(e: any) => {
+              if (e.screenX > 0) {
+                setPlayerPosition(e.clientY, e.clientX, setTop, setLeft);
+              }
             }}
             onDragEndCapture={(e) => {
-              setPlayerPosition(
-                e.pageY,
-                e.screenX + e.screenX * 0.5 - e.screenX * 0.1,
-                setTop,
-                setLeft
-              );
+              setPlayerPosition(e.clientY, e.clientX, setTop, setLeft);
             }}
             onTouchStart={(e) => {
               setPlayerPosition(
-                e.changedTouches[0].pageY,
-                e.changedTouches[0].screenX +
-                  e.changedTouches[0].screenX * 0.5 -
-                  e.changedTouches[0].screenX * 0.1,
+                e.changedTouches[0].clientY,
+                e.changedTouches[0].clientX,
                 setTop,
                 setLeft
               );
             }}
             onTouchMoveCapture={(e) => {
               setPlayerPosition(
-                e.changedTouches[0].pageY,
-                e.changedTouches[0].pageX,
+                e.changedTouches[0].clientY,
+                e.changedTouches[0].clientX,
                 setTop,
                 setLeft
               );

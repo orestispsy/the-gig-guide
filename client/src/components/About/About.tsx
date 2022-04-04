@@ -46,18 +46,6 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
       }}
     >
       <div className="aboutDescription">
-        <Link
-          to="/"
-          className="buttonBack"
-          id="aboutClose"
-          title="Back"
-          onClick={(e) => {
-            setAboutMode(false);
-          }}
-        >
-          X
-        </Link>
-
         <Link to="/">
           <div className="logo2About"></div>
         </Link>

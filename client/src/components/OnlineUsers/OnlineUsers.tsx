@@ -118,7 +118,6 @@ export const OnlineUsers: React.FC<Props> = ({
           console.log("error", err);
         });
     }
-    setNewNickname(myNickname);
   }, []);
 
   useEffect(() => {
@@ -215,12 +214,14 @@ export const OnlineUsers: React.FC<Props> = ({
         } else {
           setErrorMsg(true);
           setUploading(false);
+          setFile(null);
         }
       })
       .catch((err) => {
         console.log("error", err);
         setErrorMsg(true);
         setUploading(false);
+        setFile(null);
       });
   };
 
@@ -249,22 +250,32 @@ export const OnlineUsers: React.FC<Props> = ({
     setUserConfig(!userConfig);
   };
 
-  const changeInfo = (ev1: string, ev2?: string) => {
+  const changeInfo = (ev1?: string, ev2?: string) => {
     axios
       .post("/change-nickname", { nickname: ev1 })
       .then(({ data }) => {
         if (data.errorDuplicate) {
-          setErrorDuplicate(true);
-        } else if (data) {
-          setMyNickname(newNickname);
-          setUserConfig(false);
-          let updatedNickUsers = onlineUsers;
-          updatedNickUsers.forEach((user: any) => {
-            if (user.id == myUserId) {
-              user.nickname = newNickname;
-            }
-          });
-          socket.emit("ONLINE USERS", updatedNickUsers);
+          if (myNickname !== ev1) {
+            setErrorDuplicate(true);
+          } else {
+            changePassword();
+          }
+        }
+        if (data.data) {
+          if (myNickname !== ev1) {
+            setMyNickname(data.data[0].nickname);
+            setUserConfig(false);
+            setErrorDuplicate(false);
+            let updatedNickUsers = onlineUsers;
+            updatedNickUsers.forEach((user: any) => {
+              if (user.id == myUserId) {
+                user.nickname = data.data[0].nickname;
+              }
+            });
+            socket.emit("ONLINE USERS", updatedNickUsers);
+            setNewNickname(false);
+            changePassword();
+          }
         } else {
           setErrorMsg(true);
         }
@@ -274,21 +285,27 @@ export const OnlineUsers: React.FC<Props> = ({
         setErrorMsg(true);
       });
 
-    if (ev2) {
-      axios
-        .post("/change-password", { password: ev2 })
-        .then(({ data }) => {
-          if (data) {
-            setUserConfig(false);
-          } else {
+    const changePassword = () => {
+      if (ev2 && !errorDuplicate) {
+        axios
+          .post("/change-password", {
+            nickname: ev1,
+            password: ev2,
+          })
+          .then(({ data }) => {
+            if (data.data) {
+              setUserConfig(false);
+              setNewPassword(false);
+            } else {
+              setErrorMsg(true);
+            }
+          })
+          .catch((err) => {
+            console.log("error", err);
             setErrorMsg(true);
-          }
-        })
-        .catch((err) => {
-          console.log("error", err);
-          setErrorMsg(true);
-        });
-    }
+          });
+      }
+    };
   };
 
   return (
@@ -672,17 +689,25 @@ export const OnlineUsers: React.FC<Props> = ({
                 <div
                   className="changeNickButton"
                   onClick={(e) => {
-                    if (myNickname === newNickname) {
+                    if (myNickname === newNickname && newPassword === "") {
                       return;
-                    } else {
-                      if (!newNickname.includes("Guest")) {
-                        setAdmin(true);
+                    }
+
+                    // if (!newNickname.includes("Guest")) {
+                    //   setAdmin(true);
+                    // }
+                    else if (!newNickname) {
+                      if (newPassword && newPassword !== "") {
+                        changeInfo(myNickname, newPassword);
                       }
-                      if (newNickname != "") {
+                    } else if (newNickname) {
+                      if (newPassword) {
                         changeInfo(newNickname, newPassword);
                       } else {
-                        setErrorMsgInfo(true);
+                        changeInfo(newNickname);
                       }
+                    } else {
+                      setErrorMsgInfo(true);
                     }
                   }}
                 >
@@ -715,6 +740,9 @@ export const OnlineUsers: React.FC<Props> = ({
                 {!uploading && (
                   <div className="uploadChat">
                     <h1
+                      style={{
+                        animation: file && `2s linear infinite blinkerAvatar`,
+                      }}
                       onClick={() => {
                         handleUploaderClick();
                         setUploading(true);
@@ -728,6 +756,7 @@ export const OnlineUsers: React.FC<Props> = ({
                         onClick={() => {
                           setErrorMsg(false);
                           toggleUploader();
+                          setFile(null);
                         }}
                       >
                         CLOSE
@@ -757,6 +786,7 @@ export const OnlineUsers: React.FC<Props> = ({
                     setEmojiBar(false);
                     setErrorMsgInfo(false);
                     setConfigTimer(false);
+                    setErrorDuplicate(false);
                   }}
                 ></div>
                 {!guest && !userConfig && (
@@ -771,14 +801,17 @@ export const OnlineUsers: React.FC<Props> = ({
                 )}
 
                 {userConfig && (
-                  <img
+                  <div
                     className="uploaderTogglerImg"
+                    title="Change Chat Image"
                     onClick={() => {
                       toggleUploader();
                       setErrorMsgInfo(false);
                       setConfigTimer(false);
+                      setErrorDuplicate(false);
+                      setErrorMsg(false);
                     }}
-                  ></img>
+                  ></div>
                 )}
                 {!userConfig && (
                   <input

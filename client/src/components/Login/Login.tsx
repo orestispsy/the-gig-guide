@@ -85,6 +85,7 @@ export const Login: React.FC<Props> = ({}) => {
                 placeholder="Nickname"
                 onChange={(e: any) => {
                   setNickname(e.target.value);
+                  setError(false);
                 }}
                 onClick={() => {
                   setError(false);
@@ -98,6 +99,7 @@ export const Login: React.FC<Props> = ({}) => {
                 type="password"
                 onChange={(e: any) => {
                   setPassword(e.target.value);
+                  setError(false);
                 }}
                 onClick={() => {
                   setError(false);
@@ -122,7 +124,7 @@ export const Login: React.FC<Props> = ({}) => {
                 {secondsLeft !== 0 && `Seconds Left:`}
                 {(secondsLeft !== 0 && <span>{secondsLeft}</span>) ||
                   (secondsLeft === 0 && (
-                    <span>`Check Again Your Account !`</span>
+                    <span>Check Again Your Account !</span>
                   ))}
               </div>
             </p>

@@ -15,6 +15,9 @@ interface Props {
   setGigEntry: (e: number | null) => void;
   selectedGigEntry: number | null;
   guest: boolean;
+  setGigEntryMode: (e: boolean) => void;
+  setMapMode: (e: boolean) => void;
+  mapVisible: (e: boolean) => void;
 }
 
 export const GigEntry: React.FC<Props> = ({
@@ -25,8 +28,11 @@ export const GigEntry: React.FC<Props> = ({
   setDarkMode,
   setLoaded,
   setGigEntry,
+  setGigEntryMode,
   selectedGigEntry,
   guest,
+  setMapMode,
+  mapVisible,
 }) => {
   const [city, setCity] = useState<string>("");
   const [gigId, setGigId] = useState<string>("");
@@ -43,6 +49,9 @@ export const GigEntry: React.FC<Props> = ({
   useEffect(function () {
     setTimeout(() => {
       setDarkMode(true);
+      setGigEntryMode(true);
+      setMapMode(true);
+      mapVisible(false);
     }, 300);
 
     axios

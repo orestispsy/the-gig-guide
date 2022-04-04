@@ -15,6 +15,7 @@ interface Props {
   selectedGigEntry: number | null;
   setGigEntry: (e: number | null) => void;
   setDarkMode: (e: boolean) => void;
+  setMapMode: (e: boolean) => void;
 }
 
 const MyMap: React.FC<Props> = ({
@@ -23,6 +24,7 @@ const MyMap: React.FC<Props> = ({
   selectedGigEntry,
   setGigEntry,
   setDarkMode,
+  setMapMode,
 }) => {
   const [selectedGig, setSelectedGig] = useState(null);
   const [style, setStyle] = useState(mapStyles.styles[0]);
@@ -43,6 +45,7 @@ const MyMap: React.FC<Props> = ({
     setTimeout(() => {
       mapVisible(true);
       setDarkMode(true);
+      setMapMode(true);
     }, 250);
   }, []);
 

@@ -9,11 +9,15 @@ import track2 from "./../../../public/supervan.mp3";
 interface Props {
   gigsList: any;
   setDarkMode: (e: boolean) => void;
+  setAnimeMode: (e: boolean) => void;
+  setGigListOpen: (e: boolean) => void;
 }
 
 export const GigListAnimation: React.FC<Props> = ({
   gigsList,
   setDarkMode,
+  setAnimeMode,
+  setGigListOpen,
 }) => {
   const [go, setGo] = useState<boolean>(false);
   const [track, setTrack] = useState<any>(track1);
@@ -41,6 +45,8 @@ export const GigListAnimation: React.FC<Props> = ({
   useEffect(function () {
     setTimeout(() => {
       setDarkMode(true);
+      setAnimeMode(true);
+      setGigListOpen(false);
     }, 300);
   }, []);
 

@@ -20,6 +20,11 @@ interface Props {
   setGigEntry: (e: number | null) => void;
   setUserSelectedMode: (e: boolean) => void;
   userSelectedMode: boolean;
+  setEditMode: (e: boolean) => void;
+  setAddMode: (e: boolean) => void;
+  setAnimeMode: (e: boolean) => void;
+  setGigEntryMode: (e: boolean) => void;
+  setMapMode: (e: boolean) => void;
 }
 
 export const Main: React.FC<Props> = ({
@@ -40,6 +45,11 @@ export const Main: React.FC<Props> = ({
   setGigEntry,
   setUserSelectedMode,
   userSelectedMode,
+  setEditMode,
+  setAddMode,
+  setAnimeMode,
+  setGigEntryMode,
+  setMapMode,
 }) => {
   const [firstView, setFirstView] = useState<boolean>(true);
   useEffect(function () {
@@ -52,6 +62,11 @@ export const Main: React.FC<Props> = ({
     setFirstView(false);
     setGigEntry(null);
     setDarkMode(userSelectedMode);
+    setEditMode(false);
+    setAddMode(false);
+    setAnimeMode(false);
+    setGigEntryMode(false);
+    setMapMode(false);
   }, []);
 
   const logOut = () => {

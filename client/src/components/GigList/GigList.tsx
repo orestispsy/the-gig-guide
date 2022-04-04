@@ -7,6 +7,10 @@ interface Props {
   year: string | number | readonly string[] | undefined;
   setYear: (e: string | number | readonly string[] | undefined) => void;
   setGigListOpen: (e: boolean) => void;
+  setAnimeMode: (e: boolean) => void;
+  mapVisible: (e: boolean) => void;
+  setGigEntryMode: (e: boolean) => void;
+  setMapMode: (e: boolean) => void;
 }
 
 export const GigList: React.FC<Props> = ({
@@ -15,6 +19,10 @@ export const GigList: React.FC<Props> = ({
   year,
   setYear,
   setGigListOpen,
+  setAnimeMode,
+  mapVisible,
+  setGigEntryMode,
+  setMapMode,
 }) => {
   const [sortedGigs, setSortedGigs] = useState<any>(false);
   const [sortedMonths, setSortedMonths] = useState<any>([]);
@@ -37,7 +45,11 @@ export const GigList: React.FC<Props> = ({
   const elemRef = useRef<HTMLDivElement>(null);
 
   useEffect(function () {
+    setAnimeMode(false);
     setGigListOpen(true);
+    mapVisible(false);
+    setMapMode(false);
+    setGigEntryMode(false);
     if (year) {
       gigListFiltering(year);
     }
@@ -74,11 +86,6 @@ export const GigList: React.FC<Props> = ({
   return (
     <div className="gigListContainer" style={{}}>
       <div className="gigEntriesBox">
-        <div id="gigListCloseTab">
-          <Link to="/" className="buttonBack">
-            X
-          </Link>
-        </div>
         <h1>Gig Entries</h1>
         <div className="gigListControls">
           <div className="sortedGigRange">2006</div>

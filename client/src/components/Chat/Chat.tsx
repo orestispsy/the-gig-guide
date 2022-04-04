@@ -256,24 +256,6 @@ export const Chat: React.FC<Props> = ({
               className="chatHeadline"
               id={(darkMode && "chatHeadlineDark") || ""}
             >
-              {!chatBan && (
-                <Link
-                  to="/"
-                  className="buttonBack"
-                  onClick={(e) => {
-                    setChatMode(false);
-                    {
-                      if (browserCount == 1) {
-                        socket.emit("A CHAT MSG", "--##--left--##--");
-                        chatUserOnlineChecker(false, onlineUsers, myUserId);
-                      }
-                    }
-                  }}
-                >
-                  X
-                </Link>
-              )}
-
               {!chatBan && <div id="chatTitle">Chat Room</div>}
             </div>
 
@@ -538,6 +520,22 @@ export const Chat: React.FC<Props> = ({
             changePageMode();
           }}
         ></div>
+      )}
+      {!chatBan && (
+        <Link
+          to="/"
+          className="barMainLink"
+          id="chatBackLink"
+          onClick={(e) => {
+            setChatMode(false);
+            {
+              if (browserCount == 1) {
+                socket.emit("A CHAT MSG", "--##--left--##--");
+                chatUserOnlineChecker(false, onlineUsers, myUserId);
+              }
+            }
+          }}
+        ></Link>
       )}
     </div>
   );

@@ -11,6 +11,7 @@ interface Props {
   admin: boolean;
   darkMode: boolean;
   setGigsList: (e: any) => any;
+  setEditMode: (e: boolean) => any;
 }
 
 export const GigEditor: React.FC<Props> = ({
@@ -18,6 +19,7 @@ export const GigEditor: React.FC<Props> = ({
   admin,
   darkMode,
   setGigsList,
+  setEditMode,
 }) => {
   const [file, setFile] = useState<any>();
   const [error, setError] = useState<boolean>(false);
@@ -47,6 +49,7 @@ export const GigEditor: React.FC<Props> = ({
     if (!admin) {
       location.replace("/");
     }
+    setEditMode(true);
   }, []);
 
   useEffect(
@@ -218,13 +221,6 @@ export const GigEditor: React.FC<Props> = ({
         id={(darkMode && "logoBoxDarkEdit") || ""}
       >
         <form>
-          {!posterSection && !mapView && (
-            <div id="editorCloseTab">
-              <Link to="/" className="buttonBack">
-                X
-              </Link>
-            </div>
-          )}
           {posterSection && (
             <div
               title="Back"

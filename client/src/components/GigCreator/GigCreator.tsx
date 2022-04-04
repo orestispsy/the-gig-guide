@@ -8,12 +8,14 @@ interface Props {
   admin: boolean;
   darkMode: boolean;
   setGigsList: (e: any) => void;
+  setAddMode: (e: boolean) => any;
 }
 
 export const GigCreator: React.FC<Props> = ({
   admin,
   darkMode,
   setGigsList,
+  setAddMode,
 }) => {
   const [date, setDate] = useState("");
   const [venue, setVenue] = useState("");
@@ -30,6 +32,7 @@ export const GigCreator: React.FC<Props> = ({
     if (!admin) {
       location.replace("/");
     }
+    setAddMode(true);
   }, []);
 
   const createGigEntry = () => {
@@ -75,13 +78,6 @@ export const GigCreator: React.FC<Props> = ({
         className="gigCreatorContainerInner"
         id={(darkMode && "logoBoxDarkEdit") || ""}
       >
-        {!mapView && (
-          <div id="creatorCloseTab">
-            <Link to="/" className="buttonBack">
-              X
-            </Link>
-          </div>
-        )}
         {mapView && (
           <div
             title="Back"
