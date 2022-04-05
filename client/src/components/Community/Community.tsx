@@ -115,16 +115,7 @@ export const Community: React.FC<Props> = ({
 
   return (
     <div className="communityContainer">
-      <Link
-        to="/gig-list"
-        className="buttonBack"
-        id="buttonBack"
-        style={{
-          marginBottom: `-2.5vmax`,
-        }}
-      >
-        X
-      </Link>
+      
       <div className="gallery">Gallery</div>
       <div className="communityPhotos" ref={elemRef}>
         {images && images.length == 0 && <h1>Nothing here yet .</h1>}

@@ -35,27 +35,29 @@ const {
 } = require("./ChatUtils");
 
 interface Props {
-  myChatImg: string;
-  myUserId: number | undefined;
-  myChatColor: string;
-  admin: boolean;
-  superAdmin: boolean;
-  setAdmin: (e: boolean) => void;
-  setMyChatImg: (e: string) => void;
-  myNickname: string;
-  setMyNickname: (e: string) => void;
-  guest: boolean;
-  darkMode: boolean;
-  setDarkMode: (e: boolean) => void;
-  setNightFlightProg: (e: any) => void;
-  nightFlightProg: any;
-  setChatMode: (e: boolean) => void;
-  radioBroadcasts: any;
-  setMaps: (e: boolean) => void;
-  setAdminControls: (e: boolean) => void;
-  setGigListOpen: (e: boolean) => void;
-  userSelectedMode: boolean;
-  setUserSelectedMode: (e: boolean) => void;
+    myChatImg: string;
+    myUserId: number | undefined;
+    myChatColor: string;
+    admin: boolean;
+    superAdmin: boolean;
+    setAdmin: (e: boolean) => void;
+    setMyChatImg: (e: string) => void;
+    myNickname: string;
+    setMyNickname: (e: string) => void;
+    guest: boolean;
+    darkMode: boolean;
+    setDarkMode: (e: boolean) => void;
+    setNightFlightProg: (e: any) => void;
+    nightFlightProg: any;
+    setChatMode: (e: boolean) => void;
+    radioBroadcasts: any;
+    setMaps: (e: boolean) => void;
+    setAdminControls: (e: boolean) => void;
+    setGigListOpen: (e: boolean) => void;
+    userSelectedMode: boolean;
+    setUserSelectedMode: (e: boolean) => void;
+    setMapMode: (e: boolean) => void;
+    setGigEntryMode: (e: boolean) => void;
 }
 
 export const Chat: React.FC<Props> = ({
@@ -80,6 +82,8 @@ export const Chat: React.FC<Props> = ({
   setGigListOpen,
   userSelectedMode,
   setUserSelectedMode,
+  setMapMode,
+  setGigEntryMode
 }) => {
   const [emojiBar, setEmojiBar] = useState<boolean>(false);
   const [tickerBar, setTickerBar] = useState<boolean>(false);
@@ -125,9 +129,9 @@ export const Chat: React.FC<Props> = ({
     setAdminControls(false);
     setMaps(false);
     setChatMode(true);
-
+setMapMode(false);
+setGigEntryMode(false)
     setChatScrollBarPosition(elemRef);
-
     setDarkMode(userSelectedMode);
   }, []);
 

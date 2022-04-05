@@ -39,6 +39,7 @@ interface Props {
   animeMode: boolean;
   gigEntryMode: boolean;
   mapMode: boolean;
+  gigLocation:string
 }
 
 export const AppLayout: React.FC<Props> = ({
@@ -70,6 +71,7 @@ export const AppLayout: React.FC<Props> = ({
   animeMode,
   gigEntryMode,
   mapMode,
+  gigLocation
 }) => {
   let elemRef = useRef<any>();
   const [dotCounter, setDotCounter] = useState(0);
@@ -162,6 +164,7 @@ export const AppLayout: React.FC<Props> = ({
           animeMode={animeMode}
           gigEntryMode={gigEntryMode}
           mapMode={mapMode}
+          gigLocation={gigLocation}
         />
         <Outlet />
       </div>
