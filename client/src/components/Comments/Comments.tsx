@@ -95,6 +95,7 @@ export const Comments: React.FC<Props> = ({
     <div className="commentsContainer">
       <div
         className="buttonBack"
+        title="Close Comments"
         id="buttonBack"
         style={{
           marginBottom: `-2vmax`,

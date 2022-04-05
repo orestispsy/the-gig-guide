@@ -115,7 +115,6 @@ export const Community: React.FC<Props> = ({
 
   return (
     <div className="communityContainer">
-      
       <div className="gallery">Gallery</div>
       <div className="communityPhotos" ref={elemRef}>
         {images && images.length == 0 && <h1>Nothing here yet .</h1>}
@@ -202,10 +201,11 @@ export const Community: React.FC<Props> = ({
               <div
                 className="onlineUsersRedDot"
                 id="commentsBack"
-                title="Back"
+                title="Close File Uploader"
                 onClick={() => {
                   setContribute(false);
                   setError(false);
+                  setFile(null);
                 }}
               ></div>
             </div>

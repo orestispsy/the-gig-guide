@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
+
 import axios from "../../common/Axios/axios";
 import { socket } from "../../common/Socket/socket";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { OnlineUsers } from "../OnlineUsers/OnlineUsers";
 import { Ticker } from "../Ticker/Ticker";
 import { PrivateMSGS } from "../PrivateMSGS/PrivateMSGS";
@@ -35,29 +36,34 @@ const {
 } = require("./ChatUtils");
 
 interface Props {
-    myChatImg: string;
-    myUserId: number | undefined;
-    myChatColor: string;
-    admin: boolean;
-    superAdmin: boolean;
-    setAdmin: (e: boolean) => void;
-    setMyChatImg: (e: string) => void;
-    myNickname: string;
-    setMyNickname: (e: string) => void;
-    guest: boolean;
-    darkMode: boolean;
-    setDarkMode: (e: boolean) => void;
-    setNightFlightProg: (e: any) => void;
-    nightFlightProg: any;
-    setChatMode: (e: boolean) => void;
-    radioBroadcasts: any;
-    setMaps: (e: boolean) => void;
-    setAdminControls: (e: boolean) => void;
-    setGigListOpen: (e: boolean) => void;
-    userSelectedMode: boolean;
-    setUserSelectedMode: (e: boolean) => void;
-    setMapMode: (e: boolean) => void;
-    setGigEntryMode: (e: boolean) => void;
+  myChatImg: string;
+  myUserId: number | undefined;
+  myChatColor: string;
+  admin: boolean;
+  superAdmin: boolean;
+  setAdmin: (e: boolean) => void;
+  setMyChatImg: (e: string) => void;
+  myNickname: string;
+  setMyNickname: (e: string) => void;
+  guest: boolean;
+  darkMode: boolean;
+  setDarkMode: (e: boolean) => void;
+  setNightFlightProg: (e: any) => void;
+  nightFlightProg: any;
+  setChatMode: (e: boolean) => void;
+  radioBroadcasts: any;
+  setMaps: (e: boolean) => void;
+  setAdminControls: (e: boolean) => void;
+  setGigListOpen: (e: boolean) => void;
+  userSelectedMode: boolean;
+  setUserSelectedMode: (e: boolean) => void;
+  setMapMode: (e: boolean) => void;
+  setGigEntryMode: (e: boolean) => void;
+  privateMode: boolean;
+  setPrivateMode: (e: boolean) => void;
+  chatMode: boolean;
+  chatModeClosed: boolean;
+  setChatModeClosed: (e: boolean) => void;
 }
 
 export const Chat: React.FC<Props> = ({
@@ -83,14 +89,19 @@ export const Chat: React.FC<Props> = ({
   userSelectedMode,
   setUserSelectedMode,
   setMapMode,
-  setGigEntryMode
+  setGigEntryMode,
+  privateMode,
+  setPrivateMode,
+  chatMode,
+  chatModeClosed,
+  setChatModeClosed,
 }) => {
   const [emojiBar, setEmojiBar] = useState<boolean>(false);
   const [tickerBar, setTickerBar] = useState<boolean>(false);
   const [mute, setMute] = useState<boolean>(false);
   const [postScroll, setPostScroll] = useState<boolean>(false);
   const [scrollTop, setScrollTop] = useState<number>(2);
-  const [privateMode, setPrivateMode] = useState<boolean>(false);
+
   const [userPrivate, setUserPrivate] = useState<number | undefined>();
   const [privatePic, setPrivatePic] = useState<any>(false);
   const [privateNick, setPrivateNick] = useState(false);
@@ -124,15 +135,18 @@ export const Chat: React.FC<Props> = ({
   let msgTime;
   let diff = new Date().getTimezoneOffset() / -60;
 
+  let navigate = useNavigate();
+
   useEffect(() => {
     setGigListOpen(false);
     setAdminControls(false);
     setMaps(false);
     setChatMode(true);
-setMapMode(false);
-setGigEntryMode(false)
+    setMapMode(false);
+    setGigEntryMode(false);
     setChatScrollBarPosition(elemRef);
     setDarkMode(userSelectedMode);
+    setPrivateMode(false);
   }, []);
 
   useEffect(() => {
@@ -141,6 +155,20 @@ setGigEntryMode(false)
       banCountDown(timerRef, playKickedOut, banTimer);
     }
   }, [chatBan]);
+
+  useEffect(() => {
+    if (!chatModeClosed) {
+      {
+        if (browserCount == 1) {
+          socket.emit("A CHAT MSG", "--##--left--##--");
+          chatUserOnlineChecker(false, onlineUsers, myUserId);
+        }
+      }
+      setTimeout(() => {
+        navigate("/");
+      }, 300);
+    }
+  }, [chatModeClosed]);
 
   useEffect(() => {
     if (chatMessages && elemRef.current) {
@@ -245,6 +273,8 @@ setGigEntryMode(false)
             playNotification(mute, playPrivateMsg)
           }
           mute={mute}
+          privateMode={privateMode}
+          setPrivateMode={(e: boolean) => setPrivateMode(e)}
         />
       )}
 
@@ -256,13 +286,6 @@ setGigEntryMode(false)
             }
             id={(darkMode && "chatContainerDark") || ""}
           >
-            <div
-              className="chatHeadline"
-              id={(darkMode && "chatHeadlineDark") || ""}
-            >
-              {!chatBan && <div id="chatTitle">Chat Room</div>}
-            </div>
-
             {!chatBan && (
               <div className="chatNextControls">
                 <div
@@ -290,6 +313,13 @@ setGigEntryMode(false)
                 </div>
               </div>
             )}
+            <div
+              className="chatHeadline"
+              id={(darkMode && "chatHeadlineDark") || ""}
+            >
+              {!chatBan && <div id="chatTitle">Chat Room</div>}
+            </div>
+
             <div
               className="chatScreenBack"
               id={(shakeUser && horn && "hornShake") || ""}
@@ -524,22 +554,6 @@ setGigEntryMode(false)
             changePageMode();
           }}
         ></div>
-      )}
-      {!chatBan && (
-        <Link
-          to="/"
-          className="barMainLink"
-          id="chatBackLink"
-          onClick={(e) => {
-            setChatMode(false);
-            {
-              if (browserCount == 1) {
-                socket.emit("A CHAT MSG", "--##--left--##--");
-                chatUserOnlineChecker(false, onlineUsers, myUserId);
-              }
-            }
-          }}
-        ></Link>
       )}
     </div>
   );

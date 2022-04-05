@@ -10,13 +10,13 @@ import mapStyles from "../../common/mapStyles";
 let secrets: any = require("../../../../secrets.json");
 
 interface Props {
-    gigsList: any[] | undefined;
-    mapVisible: (e: boolean) => void;
-    selectedGigEntry: number | null;
-    setGigEntry: (e: number | null) => void;
-    setDarkMode: (e: boolean) => void;
-    setMapMode: (e: boolean) => void;
-    setGigLocation: (e: string) => void;
+  gigsList: any[] | undefined;
+  mapVisible: (e: boolean) => void;
+  selectedGigEntry: number | null;
+  setGigEntry: (e: number | null) => void;
+  setDarkMode: (e: boolean) => void;
+  setMapMode: (e: boolean) => void;
+  setGigLocation: (e: string) => void;
 }
 
 const MyMap: React.FC<Props> = ({
@@ -26,7 +26,7 @@ const MyMap: React.FC<Props> = ({
   setGigEntry,
   setDarkMode,
   setMapMode,
-  setGigLocation
+  setGigLocation,
 }) => {
   const [selectedGig, setSelectedGig] = useState<any>(null);
   const [style, setStyle] = useState(mapStyles.styles[0]);
@@ -42,27 +42,25 @@ const MyMap: React.FC<Props> = ({
   });
 
   const navigate = useNavigate();
-  const location =useLocation()
+  const location = useLocation();
 
   useEffect(
-      function () {
-          if (selectedGigEntry) {
-              setGigLocation(`/api/gig/${selectedGigEntry}`);
-          }
-      },
-      [selectedGigEntry]
+    function () {
+      if (selectedGigEntry) {
+        setGigLocation(`/api/gig/${selectedGigEntry}`);
+      }
+    },
+    [selectedGigEntry]
   );
 
-    useEffect(function () {
+  useEffect(function () {
     setTimeout(() => {
       mapVisible(true);
       setDarkMode(true);
       setMapMode(true);
-                if(selectedGig){
-
-    
-          setGigLocation(`/api/gig/${selectedGig.id}`)   }
-      
+      if (selectedGig) {
+        setGigLocation(`/api/gig/${selectedGig.id}`);
+      }
     }, 250);
   }, []);
 

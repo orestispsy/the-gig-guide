@@ -128,6 +128,21 @@ export const OnlineUsers: React.FC<Props> = ({
   }, [horn]);
 
   useEffect(() => {
+    if (!privateMode) {
+      setPrivateMode(false);
+      setEmojiBar(false);
+      axios
+        .get("/filtered-private")
+        .then(({ data }) => {
+          setFilteredPrivateMessages(data.data);
+        })
+        .catch((err) => {
+          console.log("error", err);
+        });
+    }
+  }, [privateMode]);
+
+  useEffect(() => {
     if (shakeUser) {
       const timer = setTimeout(() => {
         setShakeUser(false);
@@ -330,68 +345,22 @@ export const OnlineUsers: React.FC<Props> = ({
                 "",
             }}
           >
-            {privateMode && (
-              <div
-                className="buttonBack"
-                style={{
-                  marginBottom: `-1vmax`,
-                  color: `white`,
-                  zIndex: `325423`,
-                }}
-                onClick={(e) => {
-                  setPrivateMode(false);
-                  setEmojiBar(false);
-                  axios
-                    .get("/filtered-private")
-                    .then(({ data }) => {
-                      setFilteredPrivateMessages(data.data);
-                    })
-                    .catch((err) => {
-                      console.log("error", err);
-                    });
-                }}
-              >
-                X
-              </div>
-            )}
-            {!userPicBar && !privateMode && !userConfig && !networkList && (
-              <Link to="/">
-                {" "}
-                <div className="onlineUsersRedDot" title="Main Page"></div>
-              </Link>
-            )}
-            {!userPicBar && !privateMode && networkList && !userConfig && (
-              <div
-                className="onlineUsersRedDot"
-                title="Online List"
-                onClick={(e) => {
-                  setEmojiBar(false);
-                  setNetworkList(false);
-                }}
-              ></div>
-            )}
-            {!userPicBar && !privateMode && userConfig && (
-              <div
-                className="onlineUsersRedDot"
-                title="Back"
-                onClick={(e) => {
-                  setEmojiBar(false);
-
-                  setUserConfig(false);
-                  setConfigTimer(false);
-                }}
-              ></div>
-            )}
             {!userPicBar && !userConfig && (
               <div className="mobileOnlineUsers">
-                {!privateMode && (
+                {!privateMode && !networkList && (
                   <div className="chatUserHeadline">
                     {!networkList && "Online"}
                   </div>
                 )}
 
                 {!privateMode && networkList && (
-                  <div className="chatUserHeadline" id="chatUserHeadline">
+                  <div
+                    className="chatUserHeadline"
+                    style={{
+                      fontFamily:
+                        (networkList && '"Black Ops One", cursive') || "",
+                    }}
+                  >
                     Network
                   </div>
                 )}
@@ -629,6 +598,9 @@ export const OnlineUsers: React.FC<Props> = ({
                   {privateMode && (
                     <div>
                       <img
+                        onClick={(e) => {
+                          setPrivateMode(false);
+                        }}
                         src={(privatePic && privatePic) || "./../avatar.png"}
                         id="privateUserImage"
                       ></img>

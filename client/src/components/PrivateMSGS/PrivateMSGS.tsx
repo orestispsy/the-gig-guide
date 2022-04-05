@@ -16,6 +16,8 @@ interface Props {
   playNotification: (e: boolean, playPrivateMsg: () => void) => void;
   playPrivateMsg: () => void;
   mute: boolean;
+  privateMode: boolean;
+  setPrivateMode: (e: boolean) => void;
 }
 
 export const PrivateMSGS: React.FC<Props> = ({
@@ -30,6 +32,8 @@ export const PrivateMSGS: React.FC<Props> = ({
   playNotification,
   playPrivateMsg,
   mute,
+  privateMode,
+  setPrivateMode,
 }) => {
   const [firstMsg, setFirstMsg] = useState<any>(null);
 
@@ -47,6 +51,7 @@ export const PrivateMSGS: React.FC<Props> = ({
   }, [messages]);
 
   useEffect(() => {
+    setPrivateMode(true);
     if (myUserId && userPrivate) {
       axios
         .post("/get-private-messages", {

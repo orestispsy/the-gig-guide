@@ -237,9 +237,6 @@ export const SuperAdmin: React.FC<Props> = ({
           <div className="superList">
             <div className="superListItemBack">
               <div className="superListItem">
-                <Link to="/" className="buttonBack" id="superCloseTab">
-                  X
-                </Link>
                 <img src={"avatar.png"}></img>
                 <div className="superAdminGuestList" id="superAdminGuestsHead">
                   Guests

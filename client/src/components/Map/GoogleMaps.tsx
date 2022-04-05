@@ -29,7 +29,6 @@ interface Props {
   historyCheck: (e: any) => void;
   mapVisible: (e: any) => void;
   setCenter: (e: any) => void;
-  
 }
 export const GoogleMaps: React.FC<Props> = ({
   gigsList,

@@ -25,6 +25,7 @@ interface Props {
   setAnimeMode: (e: boolean) => void;
   setGigEntryMode: (e: boolean) => void;
   setMapMode: (e: boolean) => void;
+  setChatModeClosed: (e: boolean) => void;
 }
 
 export const Main: React.FC<Props> = ({
@@ -50,9 +51,11 @@ export const Main: React.FC<Props> = ({
   setAnimeMode,
   setGigEntryMode,
   setMapMode,
+  setChatModeClosed,
 }) => {
   const [firstView, setFirstView] = useState<boolean>(true);
   useEffect(function () {
+    setChatModeClosed(true);
     setAboutMode(false);
     setChatMode(false);
     setChatNotification(false);

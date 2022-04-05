@@ -11,6 +11,8 @@ interface Props {
   setDarkMode: (e: boolean) => void;
   setAnimeMode: (e: boolean) => void;
   setGigListOpen: (e: boolean) => void;
+  animeMusic: boolean;
+  setAnimeMusic: (e: boolean) => void;
 }
 
 export const GigListAnimation: React.FC<Props> = ({
@@ -18,6 +20,8 @@ export const GigListAnimation: React.FC<Props> = ({
   setDarkMode,
   setAnimeMode,
   setGigListOpen,
+  animeMusic,
+  setAnimeMusic,
 }) => {
   const [go, setGo] = useState<boolean>(false);
   const [track, setTrack] = useState<any>(track1);
@@ -42,11 +46,22 @@ export const GigListAnimation: React.FC<Props> = ({
     [track]
   );
 
+  useEffect(
+    function () {
+      if (!animeMusic) {
+        stop();
+        pause();
+      }
+    },
+    [animeMusic]
+  );
+
   useEffect(function () {
     setTimeout(() => {
       setDarkMode(true);
       setAnimeMode(true);
       setGigListOpen(false);
+      setAnimeMusic(true);
     }, 300);
   }, []);
 
@@ -88,16 +103,6 @@ export const GigListAnimation: React.FC<Props> = ({
           </div>
         </div>
       )}
-      <Link
-        to="/gig-list"
-        className="backLink"
-        onClick={() => {
-          stop();
-          pause();
-        }}
-      >
-        Back
-      </Link>
     </div>
   );
 };

@@ -39,7 +39,14 @@ interface Props {
   animeMode: boolean;
   gigEntryMode: boolean;
   mapMode: boolean;
-  gigLocation:string
+  gigLocation: string;
+  setAnimeMusic: (e: boolean) => void;
+  animeMusic: boolean;
+  setChatMode: (e: boolean) => void;
+  chatModeClosed: boolean;
+  setChatModeClosed: (e: boolean) => void;
+  privateMode: boolean;
+  setPrivateMode: (e: boolean) => void;
 }
 
 export const AppLayout: React.FC<Props> = ({
@@ -71,7 +78,14 @@ export const AppLayout: React.FC<Props> = ({
   animeMode,
   gigEntryMode,
   mapMode,
-  gigLocation
+  gigLocation,
+  animeMusic,
+  setAnimeMusic,
+  setChatMode,
+  chatModeClosed,
+  setChatModeClosed,
+  privateMode,
+  setPrivateMode,
 }) => {
   let elemRef = useRef<any>();
   const [dotCounter, setDotCounter] = useState(0);
@@ -165,6 +179,13 @@ export const AppLayout: React.FC<Props> = ({
           gigEntryMode={gigEntryMode}
           mapMode={mapMode}
           gigLocation={gigLocation}
+          animeMusic={animeMusic}
+          setAnimeMusic={(e: boolean) => setAnimeMusic(e)}
+          setChatMode={(e: boolean) => setAnimeMusic(e)}
+          setChatModeClosed={(e: boolean) => setChatModeClosed(e)}
+          chatModeClosed={chatModeClosed}
+          privateMode={privateMode}
+          setPrivateMode={(e: boolean) => setPrivateMode(e)}
         />
         <Outlet />
       </div>
