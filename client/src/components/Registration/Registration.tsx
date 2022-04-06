@@ -13,21 +13,27 @@ export const Registration: React.FC<Props> = ({}) => {
   useEffect(function () {}, []);
 
   const registerUser = () => {
-    axios
-      .post("/register", { nickname: nickname, password: password })
-      .then(({ data }) => {
-        if (data.errorDuplicate) {
-          setErrorDuplicate(true);
-        } else if (data.data) {
-          location.replace("/");
-        } else {
+    let nickChecker = nickname.trim();
+    let passChecker = password.trim();
+    if (nickChecker !== "" && passChecker !== "") {
+      axios
+        .post("/register", { nickname: nickname, password: password })
+        .then(({ data }) => {
+          if (data.errorDuplicate) {
+            setErrorDuplicate(true);
+          } else if (data.data) {
+            location.replace("/");
+          } else {
+            setError(true);
+          }
+        })
+        .catch((err) => {
           setError(true);
-        }
-      })
-      .catch((err) => {
-        setError(true);
-        console.log(err);
-      });
+          console.log(err);
+        });
+    } else {
+      setError(true);
+    }
   };
 
   const submitEnter = (e: any) => {
@@ -48,6 +54,7 @@ export const Registration: React.FC<Props> = ({}) => {
       <input
         autoComplete="none"
         name="nickname"
+        maxLength={20}
         placeholder="Nickname"
         onChange={(e) => setNickname(e.target.value)}
         onClick={() => {

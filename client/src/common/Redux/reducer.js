@@ -75,7 +75,12 @@ export default function (state = {}, action) {
       images: state.images.filter((img) => img.id != action.image.id),
     };
   }
-
+  if (action.type == "NEXT_PRIVATE_MESSAGES") {
+    nextState = {
+      ...state,
+      messages: state.messages.reverse().concat(action.msgs).reverse(),
+    };
+  }
   if (action.type == "PRIVATE_MESSAGES") {
     nextState = {
       ...state,

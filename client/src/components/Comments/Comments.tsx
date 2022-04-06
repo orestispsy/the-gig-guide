@@ -60,29 +60,33 @@ export const Comments: React.FC<Props> = ({
     if (!post) {
       return;
     } else {
-      axios
-        .post("/add-comment/", {
-          selectedGigId: selectedGigId,
-          myUserId: myUserId,
-          comment: post,
-        })
-        .then(({ data }) => {
-          socket.emit("ADD COMMENT", {
-            ...data.data[0],
-            nickname: myNickname,
+      let emptyMsgChecker = post.trim();
+      if (emptyMsgChecker !== "") {
+        axios
+          .post("/add-comment/", {
+            selectedGigId: selectedGigId,
+            myUserId: myUserId,
+            comment: post,
+          })
+          .then(({ data }) => {
+            socket.emit("ADD COMMENT", {
+              ...data.data[0],
+              nickname: myNickname,
+            });
+            elem[0].value = "";
+            setPost(null);
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          elem[0].value = "";
-          setPost(null);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      }
     }
   };
 
   const keyCheck = (e: any) => {
     if (e.key === "Enter") {
-      if (e.target.value !== "") {
+      let emptyMsgChecker = e.target.value.trim();
+      if (emptyMsgChecker !== "") {
         e.preventDefault();
         addComment();
         e.target.value = "";

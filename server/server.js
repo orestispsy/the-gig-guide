@@ -876,6 +876,16 @@ io.on("connection", function (socket) {
     socket.emit("images", images);
   });
 
+  socket.on("NEXT PRIVATE MSGS", (data) => {
+    db.getNextPrivateMsgs(data.sender_id, data.receiver_id, data.id)
+      .then(({ rows }) => {
+        if (rows[0]) {
+          socket.emit("nextPrivateMessages", rows);
+        }
+      })
+      .catch((err) => console.log(err));
+  });
+
   socket.on("PRIVATE MESSAGES", (messages) => {
     socket.emit("privateMessages", messages);
   });

@@ -381,7 +381,7 @@ export const Chat: React.FC<Props> = ({
                             <div className="userChatDetails">
                               <img
                                 className="postImg"
-                                src={msg.chat_img || "./../na.jpg"}
+                                src={msg.chat_img || "./../avatar.png"}
                               ></img>
                               <h1>{msg.nickname}</h1>
                             </div>

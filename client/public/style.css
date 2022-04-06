@@ -1191,7 +1191,7 @@ input {
   .logo2 {
     width: 25vmax !important;
     height: 8vmax !important;
-    margin: 0 0 0 -5vmax !important;
+    margin: 0 !important;
   }
 
   #chatContainerDark {
@@ -1294,7 +1294,7 @@ input {
 
   .chatUserHeadline {
     font-size: 4vmax !important;
-    margin: 1vmax 0 0 0 !important;
+    margin: 2vmax 0 2vmax 0 !important;
   }
   .onlineUsers {
     margin-right: 0.5vmax !important;
@@ -1362,7 +1362,7 @@ input {
   .usersBack {
     min-height: 17vmax !important;
     min-width: 25vmax !important;
-    padding: 1vmax !important;
+    padding: 0vmax 1vmax !important;
   }
 
   .onlineUsersBack {
@@ -1645,6 +1645,10 @@ input {
 
   .aboutBack {
     width: 90vw !important;
+  }
+
+  .aboutDescription {
+    width: unset !important;
   }
 
   .gigEditorContainerInner form {
@@ -1968,9 +1972,18 @@ input {
     width: 3.5vmax !important;
   }
 
+  .sendAboutCommentToggler {
+    margin: 0 !important;
+  }
+
+  .aboutCommentControls {
+    margin-top: 1vmax !important;
+  }
+
   .saySomethingBack {
-    margin: 0 4vmax 2vmax 4vmax !important;
-    width: 80vw !important;
+    margin: 0 !important;
+    align-self: center !important;
+    width: 82vw !important;
   }
   .blogEntry {
     width: 70vw !important;
@@ -1986,6 +1999,10 @@ input {
 }
 
 @media only screen and (min-device-width: 273px) and (max-device-width: 1024px) and (orientation: landscape) {
+  .chatUserHeadline {
+    margin: 0 0 1vmax 0 !important;
+  }
+
   .appBar {
     z-index: 1 !important;
   }
@@ -2213,8 +2230,13 @@ input {
   }
 
   .emoticons {
-    width: 20vmax !important;
-    height: 12vmax !important;
+    width: 25vmax !important;
+    height: 7vmax !important;
+    overflow-x: scroll !important;
+    overflow-y: unset !important;
+    justify-content: unset !important;
+    align-items: unset !important;
+    flex-wrap: unset !important;
   }
 
   #appBar {
@@ -3643,7 +3665,7 @@ font-family: 'Ultra', serif; */
   scrollbar-color: rgba(255, 255, 0, 0.39) rgba(172, 255, 104, 0.041);
   text-align: center;
   box-shadow: -0 0 5px rgba(0, 0, 0, 0.308), 0 -0 5px rgba(0, 0, 0, 0.308),
-    -0 -0 5px rgba(0, 0, 0, 0.308), -0 -0 5px rgba(0, 0, 0, 0.308);
+    -0 -0 5px rgba(0, 0, 0, 0.308), 0 0 5px rgba(0, 0, 0, 0.308);
   border-radius: 0.5vmax;
   padding-top: 0.7vmax;
 }
@@ -5308,7 +5330,7 @@ input[type="number"] {
 }
 
 .lightMode {
-  background-image: url("darkMode.jpg");
+  background-image: url("darkMode.png");
   border-radius: 50%;
   width: 3vmax;
   height: 3vmax;
@@ -5500,8 +5522,8 @@ input[type="number"] {
   position: relative;
   filter: hue-rotate(15deg) sepia(0.95) brightness(1.3) contrast(2);
   border-radius: 1vh;
-  width: 96vw;
-  height: 86vh;
+  width: 99vw;
+  height: 90vh;
   opacity: 50%;
   background-size: cover;
   background-repeat: no-repeat;
@@ -5513,8 +5535,8 @@ input[type="number"] {
 
 .aboutDescription {
   border-radius: 1vh;
-  height: 82vh;
-  width: 90vw;
+  height: 90vh;
+  width: 99vw;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -5524,6 +5546,14 @@ input[type="number"] {
   font-size: 2vmax;
   font-family: "Darker Grotesque", sans-serif;
   cursor: pointer;
+}
+
+.aboutDescriptionTop {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  width: 85vw;
 }
 
 .aboutDescription a {
@@ -5552,24 +5582,27 @@ input[type="number"] {
   text-align: center;
   font-family: "Poller One", cursive;
   font-size: 3vmax;
+  padding: 0 2vmax;
   color: black;
   border-bottom: 1px solid rgba(0, 0, 0, 0.258);
+  text-shadow: -1px 1px 0 white, 1px -1px 0 white, -1px -1px 0 white,
+    1px 1px 0 white;
 }
 
 .aboutText a {
-  color: black;
   text-shadow: none;
   font-size: 2vmax;
   font-family: "Bangers", cursive;
   letter-spacing: 2px;
-  text-shadow: -1px 1px 0 rgb(255, 255, 255), 1px -1px 0 rgb(255, 255, 255),
-    -1px -1px 0 rgb(255, 255, 255), 1px 1px 0 rgb(255, 255, 255);
-}
-
-.aboutText a:hover {
   color: rgb(220, 20, 60);
   text-shadow: -1px 1px 0 yellow, 1px -1px 0 yellow, -1px -1px 0 yellow,
     1px 1px 0 yellow;
+}
+
+.aboutText a:hover {
+  color: black;
+  text-shadow: -1px 1px 0 rgb(255, 255, 255), 1px -1px 0 rgb(255, 255, 255),
+    -1px -1px 0 rgb(255, 255, 255), 1px 1px 0 rgb(255, 255, 255);
 }
 
 .authorText,
@@ -5626,11 +5659,12 @@ input[type="number"] {
 }
 
 .aboutBack {
-  margin: 2vh auto 0 auto;
-  height: 63vh;
-  background-color: rgba(0, 0, 0, 0.33);
+  margin: 2vh 0 0 0;
   overflow-y: auto;
-  border-radius: 1vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 #aboutClose {
@@ -5653,7 +5687,6 @@ input[type="number"] {
 
 .saySomethingBack {
   padding: 1vh;
-  min-height: 40vh;
   margin: 1vmax 4vmax 2vmax 6vmax;
   width: 60vw;
   border-radius: 1vh;

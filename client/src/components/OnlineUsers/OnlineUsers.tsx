@@ -265,7 +265,7 @@ export const OnlineUsers: React.FC<Props> = ({
     setUserConfig(!userConfig);
   };
 
-  const changeInfo = (ev1?: string, ev2?: string) => {
+  const changeInfo = (ev1: string, ev2?: string) => {
     axios
       .post("/change-nickname", { nickname: ev1 })
       .then(({ data }) => {
@@ -302,23 +302,26 @@ export const OnlineUsers: React.FC<Props> = ({
 
     const changePassword = () => {
       if (ev2 && !errorDuplicate) {
-        axios
-          .post("/change-password", {
-            nickname: ev1,
-            password: ev2,
-          })
-          .then(({ data }) => {
-            if (data.data) {
-              setUserConfig(false);
-              setNewPassword(false);
-            } else {
+        let emptyMsgChecker = ev2.trim();
+        if (emptyMsgChecker !== "") {
+          axios
+            .post("/change-password", {
+              nickname: ev1,
+              password: ev2,
+            })
+            .then(({ data }) => {
+              if (data.data) {
+                setUserConfig(false);
+                setNewPassword(false);
+              } else {
+                setErrorMsg(true);
+              }
+            })
+            .catch((err) => {
+              console.log("error", err);
               setErrorMsg(true);
-            }
-          })
-          .catch((err) => {
-            console.log("error", err);
-            setErrorMsg(true);
-          });
+            });
+        }
       }
     };
   };
@@ -620,6 +623,7 @@ export const OnlineUsers: React.FC<Props> = ({
                 <input
                   type="text"
                   placeholder="nickname"
+                  maxLength={20}
                   defaultValue={myNickname}
                   onChange={(e) => setNewNickname(e.target.value)}
                   onClick={(e) => {

@@ -35,6 +35,8 @@ export const PrivateMSGS: React.FC<Props> = ({
   privateMode,
   setPrivateMode,
 }) => {
+  const [scrollTop, setScrollTop] = useState<number>(2);
+  const [postScroll, setPostScroll] = useState<boolean>(false);
   const [firstMsg, setFirstMsg] = useState<any>(null);
 
   const messages = useSelector((state: any) => state && state.messages);
@@ -42,13 +44,25 @@ export const PrivateMSGS: React.FC<Props> = ({
   const elemRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (elemRef.current && messages) {
-      const newScrollTop =
-        elemRef.current.scrollHeight - elemRef.current.clientHeight;
-      elemRef.current.scrollTop = newScrollTop;
+    if (!postScroll) {
+      setTimeout(() => {
+        setChatScrollBarPosition(elemRef);
+      }, 100);
     }
+
     setFirstMsg(messages[messages.length - 1]);
+
+    setPostScroll(false);
   }, [messages]);
+
+  useEffect(() => {
+    if (messages && elemRef.current) {
+      if (scrollTop < 1) {
+        elemRef.current.scrollTop = 300;
+        next20ChatMsgs(elemRef, setPostScroll, messages);
+      }
+    }
+  }, [scrollTop]);
 
   useEffect(() => {
     setPrivateMode(true);
@@ -77,6 +91,7 @@ export const PrivateMSGS: React.FC<Props> = ({
           console.log("error", err);
         });
     }
+    setChatScrollBarPosition(elemRef);
   }, []);
 
   useEffect(() => {
@@ -112,6 +127,32 @@ export const PrivateMSGS: React.FC<Props> = ({
     }
   }, [firstMsg]);
 
+  const next20ChatMsgs = (
+    elemRef: any,
+    setPostScroll: (e: boolean) => void,
+    chatMessages: any
+  ) => {
+    if (elemRef.current && elemRef.current.scrollTop == 0) {
+      elemRef.current.scrollTop = elemRef.current.scrollTop + 1;
+    }
+
+    setPostScroll(true);
+    socket.emit("NEXT PRIVATE MSGS", {
+      sender_id: myUserId,
+      receiver_id: userPrivate,
+
+      id: chatMessages[0].id,
+    });
+  };
+
+  const setChatScrollBarPosition = (elemRef: any) => {
+    if (elemRef.current) {
+      const newScrollTop =
+        elemRef.current.scrollHeight - elemRef.current.clientHeight;
+      elemRef.current.scrollTop = newScrollTop;
+    }
+  };
+
   const setPrivateMsgsIfSeen = (e: any) => {
     axios
       .post("/seen-private-messages", {
@@ -124,25 +165,25 @@ export const PrivateMSGS: React.FC<Props> = ({
   };
 
   const addPrivateMsg = (e: string) => {
-    if (e == "") {
-      return;
-    }
-    axios
-      .post("/add-private-message/", {
-        myUserId,
-        userPrivate,
-        message: e,
-      })
-      .then(({ data }) => {
-        socket.emit("PRIVATE MESSAGE", {
-          ...data.data[0],
-          chat_img: myChatImg,
+    let emptyMsgChecker = e.trim();
+    if (emptyMsgChecker !== "") {
+      axios
+        .post("/add-private-message/", {
+          myUserId,
+          userPrivate,
+          message: e,
+        })
+        .then(({ data }) => {
+          socket.emit("PRIVATE MESSAGE", {
+            ...data.data[0],
+            chat_img: myChatImg,
+          });
+          elem[0].value = "";
+        })
+        .catch((err) => {
+          console.log(err);
         });
-        elem[0].value = "";
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    }
   };
 
   let fixedTime: string;
@@ -187,7 +228,8 @@ export const PrivateMSGS: React.FC<Props> = ({
 
   const keyCheck = (e: any) => {
     if (e.key === "Enter") {
-      if (e.target.value !== "") {
+      let emptyMsgChecker = e.target.value.trim();
+      if (emptyMsgChecker !== "") {
         e.preventDefault();
         var msgLink = e.target.value.split(/\s+/);
         msgLink.forEach((element: any, index: number) => {
@@ -219,6 +261,9 @@ export const PrivateMSGS: React.FC<Props> = ({
             className="chatScreen"
             id={(darkMode && "chatScreenDark") || ""}
             ref={elemRef}
+            onScrollCapture={() =>
+              elemRef.current && setScrollTop(elemRef.current.scrollTop)
+            }
           >
             {messages &&
               messages.map((msg: any, index: number) => {

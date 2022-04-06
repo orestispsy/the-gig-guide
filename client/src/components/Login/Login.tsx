@@ -82,6 +82,7 @@ export const Login: React.FC<Props> = ({}) => {
               <input
                 autoComplete="none"
                 name="nickname"
+                maxLength={20}
                 placeholder="Nickname"
                 onChange={(e: any) => {
                   setNickname(e.target.value);

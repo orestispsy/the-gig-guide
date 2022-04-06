@@ -34,6 +34,67 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
     axiosGetAboutComments(setBlogComments);
   }, []);
 
+  const commentChecker = () => {
+    let userCheck: string;
+    let comCheck: string;
+    let emailCheck: string;
+    let replyCheck: string;
+    if (
+      typeof comment === "string" &&
+      typeof userName === "string" &&
+      typeof email === "string"
+    ) {
+      comCheck = comment.trim();
+      userCheck = userName.trim();
+      emailCheck = email.trim();
+      if (comCheck !== "" && userCheck !== "" && emailCheck !== "") {
+        sendComment(
+          comment,
+          userName,
+          email,
+          website,
+          replyText,
+          reply,
+          selectedComment,
+          setCommentSection,
+          setBlogComments,
+          setComment,
+          setUserName,
+          setEmail,
+          setWebsite,
+          setReplyText,
+          setReply
+        );
+      }
+    } else if (
+      typeof replyText === "string" &&
+      typeof userName === "string" &&
+      typeof email === "string"
+    ) {
+      replyCheck = replyText.trim();
+      userCheck = userName.trim();
+      emailCheck = email.trim();
+      if (replyCheck !== "" && userCheck !== "" && emailCheck !== "") {
+        sendComment(
+          comment,
+          userName,
+          email,
+          website,
+          replyText,
+          reply,
+          selectedComment,
+          setCommentSection,
+          setBlogComments,
+          setComment,
+          setUserName,
+          setEmail,
+          setWebsite,
+          setReplyText,
+          setReply
+        );
+      }
+    }
+  };
   return (
     <div
       className="aboutContainer"
@@ -46,13 +107,14 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
       }}
     >
       <div className="aboutDescription">
-        <Link to="/">
-          <div className="logo2About"></div>
-        </Link>
-        <Link to="/">
-          <div className="logo2AboutDesc"> The Gig Guide</div>
-        </Link>
-
+        <div className="aboutDescriptionTop">
+          <Link to="/">
+            <div className="logo2About"></div>
+          </Link>
+          <Link to="/">
+            <div className="logo2AboutDesc"> The Gig Guide</div>
+          </Link>
+        </div>
         <div className="aboutBack">
           {commentSection && (
             <Fragment>
@@ -288,23 +350,7 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
                                   "sendReply"
                                 }
                                 onClick={(e) => {
-                                  sendComment(
-                                    comment,
-                                    userName,
-                                    email,
-                                    website,
-                                    replyText,
-                                    reply,
-                                    selectedComment,
-                                    setCommentSection,
-                                    setBlogComments,
-                                    setComment,
-                                    setUserName,
-                                    setEmail,
-                                    setWebsite,
-                                    setReplyText,
-                                    setReply
-                                  );
+                                  commentChecker();
                                 }}
                               >
                                 Send Reply
@@ -322,6 +368,9 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
             <textarea
               placeholder="Write Something..."
               className="saySomethingBack"
+              style={{
+                minHeight: (!commentSection && `40vh`) || "",
+              }}
               onChange={(e) => {
                 setComment(e.target.value);
               }}
@@ -379,23 +428,7 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
                   ""
                 }
                 onClick={(e) => {
-                  sendComment(
-                    comment,
-                    userName,
-                    email,
-                    website,
-                    replyText,
-                    reply,
-                    selectedComment,
-                    setCommentSection,
-                    setBlogComments,
-                    setComment,
-                    setUserName,
-                    setEmail,
-                    setWebsite,
-                    setReplyText,
-                    setReply
-                  );
+                  commentChecker();
                 }}
               >
                 Send

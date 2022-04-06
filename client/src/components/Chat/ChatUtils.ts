@@ -91,7 +91,8 @@ module.exports.setScrollBarBottom = (elemRef: any, scrollTop: number) => {
 
 module.exports.keyCheck = (e: any) => {
   if (e.key === "Enter") {
-    if (e.target.value !== "") {
+    let emptyMsgChecker = e.target.value.trim();
+    if (emptyMsgChecker !== "") {
       e.preventDefault();
       var msgLink = e.target.value.split(/\s+/);
       msgLink.forEach((element: any, index: number) => {
@@ -121,9 +122,14 @@ module.exports.sendChatMSGButton = (
   chatTypeLine: any
 ) => {
   if (chatMSG) {
-    socket.emit("A CHAT MSG", chatMSG);
-    setChatMSG(false);
-    chatTypeLine[0].value = "";
+    let emptyMsgChecker = chatMSG.trim();
+    {
+      if (emptyMsgChecker !== "") {
+        socket.emit("A CHAT MSG", chatMSG);
+        setChatMSG(false);
+        chatTypeLine[0].value = "";
+      }
+    }
   }
 };
 

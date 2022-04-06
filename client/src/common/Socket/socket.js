@@ -10,6 +10,7 @@ import {
   images,
   addImageAct,
   deleteImageAct,
+  nextPrivateMessages,
   privateMessagesAct,
   privateMessageAct,
   browserCountAct,
@@ -66,6 +67,10 @@ export const init = (store) => {
 
     socket.on("deleteImage", (data) => {
       store.dispatch(deleteImageAct(data));
+    });
+
+    socket.on("nextPrivateMessages", (data) => {
+      store.dispatch(nextPrivateMessages(data));
     });
 
     socket.on("privateMessages", (data) => {

@@ -381,9 +381,33 @@ module.exports.getPrivateMsgs = (sender_id, receiver_id) => {
         OR msg_sender_id = $2 AND
         msg_receiver_id = $1
         ORDER BY created_at DESC
-        LIMIT 10;
+        LIMIT 20;
     `;
   const params = [sender_id, receiver_id];
+  return db.query(q, params);
+};
+
+module.exports.getNextPrivateMsgs = (sender_id, receiver_id, msg_id) => {
+  const q = `
+        SELECT * FROM private_messages
+        WHERE private_messages.id < $3
+        AND ((msg_sender_id = $1
+        AND msg_receiver_id = $2)
+        OR (msg_sender_id = $2 AND
+        msg_receiver_id = $1))
+        ORDER BY id DESC
+        LIMIT 20;
+    `;
+  const params = [sender_id, receiver_id, msg_id];
+  return db.query(q, params);
+};
+
+module.exports.lastPrivateMsgChecker = () => {
+  const q = `
+   SELECT * FROM private_messages
+   LIMIT 1;
+    `;
+  const params = [];
   return db.query(q, params);
 };
 
@@ -417,20 +441,6 @@ module.exports.addPrivateMsg = (msg_sender_id, msg_receiver_id, message) => {
         RETURNING *
     `;
   const params = [msg_sender_id, msg_receiver_id, message];
-  return db.query(q, params);
-};
-
-module.exports.getPrivateMsgs = (sender_id, receiver_id) => {
-  const q = `
-        SELECT * FROM private_messages
-        WHERE msg_sender_id = $1
-        AND msg_receiver_id = $2
-        OR msg_sender_id = $2 AND
-        msg_receiver_id = $1
-        ORDER BY created_at DESC
-        LIMIT 10;
-    `;
-  const params = [sender_id, receiver_id];
   return db.query(q, params);
 };
 
