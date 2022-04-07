@@ -133,7 +133,7 @@ module.exports.addChatMsg = (msg_sender_id, chat_msg) => {
 
 module.exports.getChatMsgs = () => {
   const q = `
-        SELECT chatroom.id, chatroom.created_at, nickname, chat_img, chat_color, msg_sender_id, chat_msg
+        SELECT chatroom.id, community.super_admin, chatroom.created_at, nickname, chat_img, chat_color, msg_sender_id, chat_msg
         FROM chatroom
         JOIN community
         ON (community.id = msg_sender_id)
@@ -205,7 +205,7 @@ module.exports.addChatColor = (id, color) => {
 
 module.exports.getNextMsgs = (id) => {
   const q = `
-        SELECT chatroom.id, chatroom.created_at, nickname, chat_img, chat_color, msg_sender_id, chat_msg 
+        SELECT chatroom.id, community.super_admin, chatroom.created_at, nickname, chat_img, chat_color, msg_sender_id, chat_msg 
         FROM chatroom
          JOIN community
         ON (community.id = msg_sender_id)
@@ -508,7 +508,7 @@ module.exports.addAboutComment = (userName, email, website, comment, reply) => {
 module.exports.getAboutComments = () => {
   const q = `
        SELECT * FROM about_comments
-        ORDER BY reply DESC;
+        ORDER BY id DESC;
     `;
 
   return db.query(q);
@@ -577,5 +577,16 @@ module.exports.setUserBanSeconds = (id, sec) => {
         RETURNING *
     `;
   const params = [id, sec];
+  return db.query(q, params);
+};
+
+module.exports.setMute = (id, boolean) => {
+  const q = `
+        UPDATE community
+        SET mute = $2
+        WHERE community.id = $1
+        RETURNING *
+    `;
+  const params = [id, boolean];
   return db.query(q, params);
 };

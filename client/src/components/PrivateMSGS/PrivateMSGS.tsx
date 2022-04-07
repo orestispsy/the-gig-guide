@@ -58,7 +58,7 @@ export const PrivateMSGS: React.FC<Props> = ({
   useEffect(() => {
     if (messages && elemRef.current) {
       if (scrollTop < 1) {
-        elemRef.current.scrollTop = 300;
+        elemRef.current.scrollTop = 100;
         next20ChatMsgs(elemRef, setPostScroll, messages);
       }
     }
@@ -144,12 +144,23 @@ export const PrivateMSGS: React.FC<Props> = ({
       id: chatMessages[0].id,
     });
   };
-
   const setChatScrollBarPosition = (elemRef: any) => {
     if (elemRef.current) {
       const newScrollTop =
         elemRef.current.scrollHeight - elemRef.current.clientHeight;
       elemRef.current.scrollTop = newScrollTop;
+    }
+  };
+
+  const moveScrollbarToTop = (elemRef: any) => {
+    if (elemRef.current) {
+      elemRef.current.scrollTop = 3;
+    }
+  };
+  const moveScrollbarToBottom = (elemRef: any) => {
+    if (elemRef.current) {
+      elemRef.current.scrollTop =
+        elemRef.current.scrollHeight - elemRef.current.clientHeight;
     }
   };
 
@@ -255,6 +266,31 @@ export const PrivateMSGS: React.FC<Props> = ({
         className="chatContainer"
         id={(darkMode && "chatContainerDark") || ""}
       >
+        <div className="chatNextControls">
+          <div className="chatNextArrows">
+            <div
+              title="Chat Top"
+              className="up"
+              onClick={() => moveScrollbarToTop(elemRef)}
+            >
+              ▲
+            </div>
+            <div
+              title="Chat Bottom"
+              className="down"
+              onClick={() => moveScrollbarToBottom(elemRef)}
+            >
+              ▼
+            </div>
+          </div>
+          <div
+            title="Load More Chat Messages"
+            className="next"
+            onClick={() => next20ChatMsgs(elemRef, setPostScroll, messages)}
+          >
+            ⦿
+          </div>
+        </div>
         <h1 id="chatTitlePriv">Private Chat</h1>
         <div className="chatScreenBack">
           <div

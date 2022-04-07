@@ -6,6 +6,7 @@ CREATE TABLE community (
     password_hash VARCHAR NOT NULL CHECK (password_hash <> ''),
     chat_img VARCHAR,
     chat_color VARCHAR,
+    mute BOOLEAN DEFAULT false,
     admin BOOLEAN DEFAULT false,
     super_admin BOOLEAN DEFAULT false,
     created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

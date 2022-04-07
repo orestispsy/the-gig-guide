@@ -207,13 +207,26 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
                               })}
                             </div>
                             <div className="blogName">
-                              <span>
-                                {blogEntry.website == "" && blogEntry.name}
-                              </span>{" "}
-                              {blogEntry.website != "" && (
-                                <a href={blogEntry.website} target={"_blank"}>
-                                  {blogEntry.name}
-                                </a>
+                              <span>{blogEntry.name}</span>
+
+                              {superAdmin && (
+                                <div className="blogUserExtLinks">
+                                  <a
+                                    className="blogEmail"
+                                    href={`mailto:${blogEntry.email}`}
+                                  >
+                                    email
+                                  </a>
+                                  {blogEntry.website != "" && (
+                                    <a
+                                      className="blogWebsite"
+                                      href={blogEntry.website}
+                                      target={"_blank"}
+                                    >
+                                      website
+                                    </a>
+                                  )}
+                                </div>
                               )}
                             </div>
 
@@ -229,7 +242,7 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
                                           className="blogEntryBack"
                                           id="reply"
                                         >
-                                          <div className="blogName">
+                                          <div className="replyName">
                                             <div className="replyTitle">
                                               <span>Reply:</span>
                                               {superAdmin && (
@@ -249,7 +262,29 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
                                                 </span>
                                               )}
                                             </div>{" "}
-                                            <span>{reply.name}</span>{" "}
+                                            <div className="replyNameBox">
+                                              <span>{reply.name}</span>
+
+                                              {superAdmin && (
+                                                <div className="blogUserExtLinks">
+                                                  <a
+                                                    className="blogEmail"
+                                                    href={`mailto:${blogEntry.email}`}
+                                                  >
+                                                    email
+                                                  </a>
+                                                  {blogEntry.website != "" && (
+                                                    <a
+                                                      className="blogWebsite"
+                                                      href={blogEntry.website}
+                                                      target={"_blank"}
+                                                    >
+                                                      website
+                                                    </a>
+                                                  )}
+                                                </div>
+                                              )}
+                                            </div>
                                           </div>
                                           <div
                                             className="blogText"
@@ -303,6 +338,7 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
                               <textarea
                                 placeholder="Write Something..."
                                 className="replyArea"
+                                maxLength={1500}
                                 onChange={(e) => {
                                   setReplyText(e.target.value);
                                 }}
@@ -314,22 +350,29 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
                               className="aboutCommentControls"
                               id="aboutReplyControls"
                             >
-                              <input
-                                autoComplete="none"
-                                placeholder="Your Name"
-                                className="aboutInput"
-                                onChange={(e) => {
-                                  setUserName(e.target.value);
-                                }}
-                              ></input>
-                              <input
-                                className="aboutInput"
-                                autoComplete="none"
-                                placeholder="Your Email"
-                                onChange={(e) => {
-                                  setEmail(e.target.value);
-                                }}
-                              ></input>
+                              <div className="aboutInputBack">
+                                <input
+                                  autoComplete="none"
+                                  placeholder="Your Name"
+                                  maxLength={20}
+                                  className="aboutInput"
+                                  onChange={(e) => {
+                                    setUserName(e.target.value);
+                                  }}
+                                ></input>
+                                <div>*required</div>
+                              </div>
+                              <div className="aboutInputBack">
+                                <input
+                                  className="aboutInput"
+                                  autoComplete="none"
+                                  placeholder="Your Email"
+                                  onChange={(e) => {
+                                    setEmail(e.target.value);
+                                  }}
+                                ></input>
+                                <div>*required</div>
+                              </div>
                               <input
                                 className="aboutInput"
                                 autoComplete="none"
@@ -368,6 +411,7 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
             <textarea
               placeholder="Write Something..."
               className="saySomethingBack"
+              maxLength={1500}
               style={{
                 minHeight: (!commentSection && `40vh`) || "",
               }}
@@ -393,22 +437,29 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
           )}
           {!commentSection && (
             <div className="aboutCommentControls">
-              <input
-                autoComplete="none"
-                placeholder="Your Name"
-                className="aboutInput"
-                onChange={(e) => {
-                  setUserName(e.target.value);
-                }}
-              ></input>
-              <input
-                className="aboutInput"
-                autoComplete="none"
-                placeholder="Your Email"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              ></input>
+              <div className="aboutInputBack">
+                <input
+                  autoComplete="none"
+                  placeholder="Your Name"
+                  maxLength={20}
+                  className="aboutInput"
+                  onChange={(e) => {
+                    setUserName(e.target.value);
+                  }}
+                ></input>
+                <div>*required</div>
+              </div>
+              <div className="aboutInputBack">
+                <input
+                  className="aboutInput"
+                  autoComplete="none"
+                  placeholder="Your Email"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                ></input>
+                <div>*required</div>
+              </div>
               <input
                 className="aboutInput"
                 autoComplete="none"

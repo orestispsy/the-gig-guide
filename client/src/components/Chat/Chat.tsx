@@ -64,6 +64,8 @@ interface Props {
   chatMode: boolean;
   chatModeClosed: boolean;
   setChatModeClosed: (e: boolean) => void;
+  mute: boolean;
+  setMute: (e: boolean) => void;
 }
 
 export const Chat: React.FC<Props> = ({
@@ -95,10 +97,12 @@ export const Chat: React.FC<Props> = ({
   chatMode,
   chatModeClosed,
   setChatModeClosed,
+  setMute,
+  mute,
 }) => {
   const [emojiBar, setEmojiBar] = useState<boolean>(false);
   const [tickerBar, setTickerBar] = useState<boolean>(false);
-  const [mute, setMute] = useState<boolean>(false);
+
   const [postScroll, setPostScroll] = useState<boolean>(false);
   const [scrollTop, setScrollTop] = useState<number>(2);
 
@@ -148,6 +152,19 @@ export const Chat: React.FC<Props> = ({
     setDarkMode(userSelectedMode);
     setPrivateMode(false);
   }, []);
+
+  useEffect(() => {
+    if (myUserId) {
+      setTimeout(() => {
+        axios
+          .post("/set-mute", { mute: mute })
+          .then(({ data }) => {})
+          .catch((err) => {
+            console.log(err);
+          });
+      }, 300);
+    }
+  }, [mute]);
 
   useEffect(() => {
     if (chatBan) {
@@ -288,19 +305,21 @@ export const Chat: React.FC<Props> = ({
           >
             {!chatBan && (
               <div className="chatNextControls">
-                <div
-                  title="Chat Top"
-                  className="up"
-                  onClick={() => moveScrollbarToTop(elemRef)}
-                >
-                  ▲
-                </div>
-                <div
-                  title="Chat Bottom"
-                  className="down"
-                  onClick={() => moveScrollbarToBottom(elemRef)}
-                >
-                  ▼
+                <div className="chatNextArrows">
+                  <div
+                    title="Chat Top"
+                    className="up"
+                    onClick={() => moveScrollbarToTop(elemRef)}
+                  >
+                    ▲
+                  </div>
+                  <div
+                    title="Chat Bottom"
+                    className="down"
+                    onClick={() => moveScrollbarToBottom(elemRef)}
+                  >
+                    ▼
+                  </div>
                 </div>
                 <div
                   title="Load More Chat Messages"

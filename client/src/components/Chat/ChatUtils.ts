@@ -176,7 +176,7 @@ module.exports.next20ChatMsgs = (
 
 module.exports.moveScrollbarToTop = (elemRef: any) => {
   if (elemRef.current) {
-    elemRef.current.scrollTop = -elemRef.current.scrollTop;
+    elemRef.current.scrollTop = 3;
   }
 };
 module.exports.moveScrollbarToBottom = (elemRef: any) => {

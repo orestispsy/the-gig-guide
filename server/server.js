@@ -759,6 +759,14 @@ app.post("/set-page-mode", (req, res) => {
     });
 });
 
+app.post("/set-mute", (req, res) => {
+  db.setMute(req.session.userId, req.body.mute)
+    .then(({ rows }) => {
+      res.json({ rows });
+    })
+    .catch((err) => console.log(err));
+});
+
 app.get("*", function (req, res) {
   if (!req.session.userId) {
     res.redirect("/welcome");

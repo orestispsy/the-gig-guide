@@ -66,6 +66,7 @@ export const App: React.FC<Props> = ({}) => {
   const [gigLocation, setGigLocation] = useState<string>("");
   const [animeMusic, setAnimeMusic] = useState<boolean>(true);
   const [chatModeClosed, setChatModeClosed] = useState<boolean>(true);
+  const [mute, setMute] = useState<boolean>(false);
 
   useEffect(function () {
     setMaps(false);
@@ -79,7 +80,8 @@ export const App: React.FC<Props> = ({}) => {
       setGuest,
       setDarkMode,
       setUserSelectedMode,
-      setProfileBanned
+      setProfileBanned,
+      setMute
     );
     axiosGetGigs(setGigsList);
     axiosGetCounter(setVisitors);
@@ -291,6 +293,8 @@ export const App: React.FC<Props> = ({}) => {
                 chatMode={chatMode}
                 setChatModeClosed={(e: boolean) => setChatModeClosed(e)}
                 chatModeClosed={chatModeClosed}
+                setMute={(e: boolean) => setMute(e)}
+                mute={mute}
               />
             }
           ></Route>

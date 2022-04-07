@@ -1257,7 +1257,7 @@ input {
     flex-direction: column !important;
     height: fit-content !important;
     width: fit-content !important;
-    padding: 1vmax !important;
+    padding: 0 1vmax 1vmax 1vmax !important;
   }
 
   .chatContainerBan {
@@ -1273,12 +1273,25 @@ input {
   }
 
   .chatNextControls {
+    align-items: flex-end !important;
+    flex-direction: column-reverse !important;
     width: 87vw !important;
-    margin-left: -3vmax !important;
+    margin: 1vmax -2vmax -9vmax 0vmax !important;
   }
 
-  .down {
-    margin: 0 0.6vw 0 1vw !important;
+  .chatNextArrows {
+    flex-direction: column !important;
+  }
+
+  .up,
+  .down,
+  .next {
+    font-size: 2.5vmax !important;
+    margin: 0 !important;
+  }
+
+  .next {
+    margin: 0 0.1vmax 0 0 !important;
   }
 
   .typeLine {
@@ -2172,7 +2185,13 @@ input {
   }
 
   .chatNextControls {
-    margin-left: -3vmax !important;
+    margin: 0 0 -3vmax -2vmax !important;
+  }
+
+  .up,
+  .down,
+  .next {
+    font-size: 3vmax !important;
   }
 
   .down {
@@ -3350,10 +3369,16 @@ font-family: 'Ultra', serif; */
   align-items: center;
   justify-content: flex-end;
   text-shadow: -0 0 5px black, 0 -0 5px black, -0 -0 5px black, -0 -0 5px black;
-  margin-bottom: -2.5vmax;
   width: inherit;
-  margin-left: -1vmax;
+  margin: 0.5vmax 0 -2.5vmax -1vmax;
   z-index: 2;
+}
+
+.chatNextArrows {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
 }
 .up {
   font-size: 2vmax;
@@ -5321,7 +5346,7 @@ input[type="number"] {
   left: 1vmax;
   bottom: 0.5vmax;
   cursor: pointer;
-  transition: 0.5s;
+  transition: 1s;
 }
 
 .darkMode:hover {
@@ -5343,7 +5368,8 @@ input[type="number"] {
 }
 
 .lightMode:hover {
-  animation: 1.1s linear infinite blinker2;
+  transform: rotate(-360deg);
+  transition: 1s;
 }
 
 #mixCloudPlayer {
@@ -5707,12 +5733,11 @@ input[type="number"] {
 
 .aboutCommentControls {
   display: flex;
-  align-items: center;
   justify-content: space-evenly;
 }
 
 .aboutCommentControls input {
-  margin-bottom: 1vmax !important;
+  margin: 0 1vmax !important;
   background-color: black;
   border: 1px solid rgba(255, 255, 255, 0.445);
 }
@@ -5788,8 +5813,53 @@ input[type="number"] {
   padding-top: 0.5vmax;
 }
 
+.blogUserExtLinks {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
 .blogName,
-.blogName a {
+.replyNameBox {
+  display: flex;
+}
+
+.replyNameBox span {
+  background-color: rgba(184, 22, 22, 0.151);
+}
+
+.blogEmail,
+.blogWebsite {
+  color: #ffd900a1 !important;
+  margin: 0 0 0 0.5vmax;
+  font-size: 0.7vmax !important;
+}
+
+.blogEmail:hover,
+.blogWebsite:hover {
+  color: white !important;
+}
+
+.blogHomepage {
+  color: yellow !important;
+  margin-left: 0.5vmax;
+  font-size: 0.7vmax !important;
+}
+
+.aboutInputBack {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.aboutInputBack div {
+  color: orangered;
+  font-size: 0.7vmax;
+}
+
+.blogName,
+.replyName {
   text-shadow: none;
   font-size: 1.7vmax;
   color: #ffd900a1;
@@ -5804,6 +5874,7 @@ input[type="number"] {
 }
 
 .blogText {
+  overflow-wrap: break-word;
   color: white;
   font-size: 1.5vmax;
   text-shadow: -1px 1px 10px rgba(255, 255, 255, 0.2),
@@ -5824,6 +5895,7 @@ input[type="number"] {
 }
 
 .replyTitle {
+  display: flex;
   border-bottom: 1px solid rgba(0, 0, 0, 0.233);
   color: #ffd900a1;
   text-indent: 0.3vmax;
