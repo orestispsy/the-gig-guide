@@ -66,6 +66,8 @@ interface Props {
   setChatModeClosed: (e: boolean) => void;
   mute: boolean;
   setMute: (e: boolean) => void;
+  setTimelineMode: (e: boolean) => void;
+  setTimelineScrollTop: (e: number) => void;
 }
 
 export const Chat: React.FC<Props> = ({
@@ -99,6 +101,8 @@ export const Chat: React.FC<Props> = ({
   setChatModeClosed,
   setMute,
   mute,
+  setTimelineMode,
+  setTimelineScrollTop,
 }) => {
   const [emojiBar, setEmojiBar] = useState<boolean>(false);
   const [tickerBar, setTickerBar] = useState<boolean>(false);
@@ -151,6 +155,8 @@ export const Chat: React.FC<Props> = ({
     setChatScrollBarPosition(elemRef);
     setDarkMode(userSelectedMode);
     setPrivateMode(false);
+    setTimelineMode(false);
+    setTimelineScrollTop(0);
   }, []);
 
   useEffect(() => {

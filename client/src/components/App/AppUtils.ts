@@ -1,4 +1,5 @@
 import axios from "../../common/Axios/axios";
+import { socket } from "../../common/Socket/socket";
 
 module.exports.axiosGetUserDetails = (
   setMyUserId: (e: number | undefined) => void,
@@ -54,11 +55,16 @@ module.exports.axiosGetGigs = (setGigsList: (e: any) => void) => {
     });
 };
 
-module.exports.axiosGetCounter = (setVisitors: (e: number | null) => void) => {
+module.exports.axiosGetCounter = (
+  setVisitors: (e: number | boolean) => void
+) => {
+  setVisitors(false);
   axios
     .get("/counter")
     .then(({ data }) => {
-      setVisitors(data.data);
+      setTimeout(() => {
+        socket.emit("VISITORS", data.data);
+      }, 1000);
     })
     .catch((err) => {
       console.log(err);

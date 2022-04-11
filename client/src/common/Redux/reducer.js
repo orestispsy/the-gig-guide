@@ -118,6 +118,12 @@ export default function (state = {}, action) {
       horn: action.horn,
     };
   }
+  if (action.type == "VISITORS") {
+    nextState = {
+      ...state,
+      visitors: action.visitors,
+    };
+  }
 
   // console.log("NEXT State", nextState);
   return nextState;

@@ -1,6 +1,3 @@
-import axios from "../../common/Axios/axios";
-import { socket } from "../../common/Socket/socket";
-
 module.exports.chatNewPostNotification = (
   chatNotification: boolean,
   chatMode: boolean,

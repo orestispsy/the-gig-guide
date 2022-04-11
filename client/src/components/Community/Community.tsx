@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { socket } from "../../common/Socket/socket";
 import { useSelector } from "react-redux";
 
+const { axiosGetImages } = require("./CommunityUtils");
+
 interface Props {
   selectedGigId: string;
   myUserId: number | undefined;
@@ -12,6 +14,8 @@ interface Props {
   setOpenComments: (e: boolean) => void;
   openComments: boolean;
   guest: boolean;
+  imagesTimeline: any;
+  setImagesTimeline: (e: any) => void;
 }
 
 export const Community: React.FC<Props> = ({
@@ -22,6 +26,8 @@ export const Community: React.FC<Props> = ({
   setOpenComments,
   openComments,
   guest,
+  imagesTimeline,
+  setImagesTimeline,
 }) => {
   const [contribute, setContribute] = useState<boolean>(false);
   const [file, setFile] = useState<any>("");
@@ -69,6 +75,7 @@ export const Community: React.FC<Props> = ({
       .then(({ data }) => {
         if (data.success) {
           socket.emit("DELETE IMAGE", data.data);
+          axiosGetImages(setImagesTimeline);
         }
       })
       .catch((err) => {
@@ -97,6 +104,7 @@ export const Community: React.FC<Props> = ({
       .then(({ data }) => {
         if (data.success) {
           socket.emit("ADD IMAGE", data.rows[0]);
+          axiosGetImages(setImagesTimeline);
           setContribute(false);
           setError(false);
           setFile("");
@@ -144,11 +152,7 @@ export const Community: React.FC<Props> = ({
                   <a href={img.img_url} target="_blank">
                     <img src={img.img_url}></img>
                   </a>
-                  Uploaded by:{" "}
-                  <div>
-                    {(img.nickname.includes("Guest") && "Anonymous") ||
-                      img.nickname}
-                  </div>
+                  Uploaded by: <div>{img.nickname}</div>
                 </div>
               )}
             </div>

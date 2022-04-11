@@ -54,6 +54,54 @@ module.exports.getGigs = () => {
   return db.query(q);
 };
 
+module.exports.getGigsTimeline = () => {
+  const q = `
+        SELECT *
+        FROM gigs
+        ORDER BY gigs.id DESC
+        LIMIT 10
+    `;
+
+  return db.query(q);
+};
+
+module.exports.getGigsUpdatedTimeline = () => {
+  const q = `
+        SELECT *
+        FROM gigs
+        WHERE gigs.updated_at IS NOT NULL
+        ORDER BY gigs.updated_at DESC
+        LIMIT 10
+    `;
+
+  return db.query(q);
+};
+
+module.exports.getNextGigsTimeline = (id) => {
+  const q = `
+        SELECT *
+        FROM gigs
+           WHERE id < $1
+        ORDER BY id DESC
+        LIMIT 10
+    `;
+  const params = [id];
+  return db.query(q, params);
+};
+
+module.exports.getNextGigsUpdatedTimeline = (updated_at) => {
+  const q = `
+        SELECT *
+        FROM gigs
+        WHERE gigs.updated_at IS NOT NULL 
+        AND  gigs.updated_at < $1
+        ORDER BY gigs.updated_at DESC
+        LIMIT 10
+    `;
+  const params = [updated_at];
+  return db.query(q, params);
+};
+
 module.exports.getGigToEdit = (date) => {
   const q = `
         SELECT *
@@ -75,7 +123,7 @@ module.exports.getGig = (id) => {
 module.exports.updateGig = (date, venue, lat, lng, tour_name, city, poster) => {
   const q = `
         UPDATE gigs
-        SET date = $1, venue = $2, lat = $3, lng = $4, tour_name = $5, city = $6, poster = $7
+        SET date = $1, venue = $2, lat = $3, lng = $4, tour_name = $5, city = $6, poster = $7, updated_at= NOW()
         WHERE gigs.date = $1
         RETURNING *
     `;
@@ -93,10 +141,30 @@ module.exports.deleteGig = (date) => {
   return db.query(q, params);
 };
 
+module.exports.deleteGigImages = (id) => {
+  const q = `
+        DELETE FROM images
+        WHERE gig_id = $1
+        RETURNING *
+    `;
+  const params = [id];
+  return db.query(q, params);
+};
+
+module.exports.deleteUserImages = (id) => {
+  const q = `
+        DELETE FROM images
+        WHERE img_sender_id = $1
+        RETURNING *
+    `;
+  const params = [id];
+  return db.query(q, params);
+};
+
 module.exports.addImage = (id, url) => {
   const q = `
         UPDATE gigs
-        SET poster = $2
+        SET poster = $2, updated_at= NOW()
         WHERE gigs.id = $1
         RETURNING *
     `;
@@ -119,6 +187,18 @@ module.exports.getOnlineUsers = (Ids) => {
   const q = "SELECT * FROM community WHERE id = ANY($1)";
   const params = [Ids];
   return db.query(q, params);
+};
+
+module.exports.getLastUsersTimeline = () => {
+  const q = "SELECT * FROM community ORDER BY id DESC;";
+
+  return db.query(q);
+};
+
+module.exports.getLastOnlineTimeline = () => {
+  const q = "SELECT * FROM community ORDER BY last_online DESC;";
+
+  return db.query(q);
 };
 
 module.exports.addChatMsg = (msg_sender_id, chat_msg) => {
@@ -322,6 +402,34 @@ module.exports.getCommunityImages = (id) => {
   return db.query(q, params);
 };
 
+module.exports.getTimelineImages = () => {
+  const q = `
+        SELECT images.gig_id, gigs.id, gigs.city,gigs.date, images.created_at, images.nickname, images.img_url
+        FROM images
+         JOIN gigs
+        ON (images.gig_id = gigs.id)
+        ORDER BY images.created_at DESC
+        LIMIT 5;
+        ;
+    `;
+
+  return db.query(q);
+};
+
+module.exports.getNextTimelineImages = (created_at) => {
+  const q = `
+        SELECT images.gig_id, gigs.id, gigs.city,gigs.date, images.created_at, images.nickname, images.img_url
+        FROM images
+         JOIN gigs
+        ON (images.gig_id = gigs.id)
+           WHERE images.created_at < $1
+        ORDER BY images.created_at DESC
+        LIMIT 5;
+    `;
+  const params = [created_at];
+  return db.query(q, params);
+};
+
 module.exports.deleteCommunityImage = (id) => {
   const q = `
         DELETE FROM images
@@ -340,6 +448,38 @@ module.exports.getComments = (id) => {
         ON (community.id = comments.msg_sender_id) WHERE comments.gig_id = $1;
     `;
   const params = [id];
+  return db.query(q, params);
+};
+
+module.exports.getCommentsTimeline = () => {
+  const q = `
+        SELECT  comments.id, gigs.id AS gigsId, msg_sender_id, comment, comments.created_at, community.nickname, gigs.city, gigs.date,gigs.poster
+        FROM comments
+        JOIN gigs 
+        ON (gigs.id=comments.gig_id)
+            JOIN community
+        ON (community.id = comments.msg_sender_id) 
+                ORDER BY comments.id DESC
+                    LIMIT 10 ;
+    
+    `;
+
+  return db.query(q);
+};
+
+module.exports.getNextCommentsTimeline = (created_at) => {
+  const q = `
+        SELECT  comments.id, gigs.id AS gigsId, msg_sender_id, comment, comments.created_at, community.nickname, gigs.city, gigs.date,gigs.poster
+        FROM comments
+        JOIN gigs 
+        ON (gigs.id=comments.gig_id)
+            JOIN community
+        ON (community.id = comments.msg_sender_id)
+        WHERE comments.id < $1    
+        ORDER BY comments.id DESC
+        LIMIT 10 ;       
+    `;
+  const params = [created_at];
   return db.query(q, params);
 };
 

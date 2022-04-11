@@ -5,7 +5,7 @@ import axios from "../../common/Axios/axios";
 interface Props {
   superAdmin: boolean;
   admin: boolean;
-  visitors: number | null;
+  visitors: number | boolean;
   darkMode: boolean;
   setDarkMode: (e: boolean) => void;
   setChatMode: (e: boolean) => void;
@@ -26,6 +26,15 @@ interface Props {
   setGigEntryMode: (e: boolean) => void;
   setMapMode: (e: boolean) => void;
   setChatModeClosed: (e: boolean) => void;
+  currentVisitors: number;
+  setVisitors: (e: number | boolean) => void;
+  setTimelineMode: (e: boolean) => void;
+  setTimelineCommentsMode: (e: boolean) => void;
+
+  setTimelineGigsMode: (e: boolean) => void;
+
+  setTimelineGalleriesMode: (e: boolean) => void;
+  setTimelineScrollTop: (e: number) => void;
 }
 
 export const Main: React.FC<Props> = ({
@@ -52,6 +61,13 @@ export const Main: React.FC<Props> = ({
   setGigEntryMode,
   setMapMode,
   setChatModeClosed,
+  currentVisitors,
+  setVisitors,
+  setTimelineMode,
+  setTimelineCommentsMode,
+  setTimelineGalleriesMode,
+  setTimelineGigsMode,
+  setTimelineScrollTop,
 }) => {
   const [firstView, setFirstView] = useState<boolean>(true);
   useEffect(function () {
@@ -70,6 +86,11 @@ export const Main: React.FC<Props> = ({
     setAnimeMode(false);
     setGigEntryMode(false);
     setMapMode(false);
+    setTimelineMode(false);
+    setTimelineCommentsMode(false);
+    setTimelineGalleriesMode(false);
+    setTimelineGigsMode(false);
+    setTimelineScrollTop(0);
   }, []);
 
   const logOut = () => {
@@ -169,6 +190,7 @@ export const Main: React.FC<Props> = ({
             </div>
           </div>
           <div
+            title={(!darkMode && "Dark Mode") || "Light Mode"}
             className={
               (darkMode && "DarkMode") || (!darkMode && "lightMode") || ""
             }
@@ -176,26 +198,52 @@ export const Main: React.FC<Props> = ({
               changePageMode();
             }}
           ></div>
+
           {superAdmin && (
             <Link to="/about">
-              <div className="aboutButton"></div>
+              <div className="aboutButton" title="About"></div>
             </Link>
           )}
           {superAdmin && (
             <Link to="/super-admin">
-              <div className="superAdminButton">
+              <div className="superAdminButton" title="Admin Controls">
                 <img src="superAdmin.png"></img>
               </div>
             </Link>
           )}
-          {visitors && (
-            <div className="visitors">
-              Visitors<div>{visitors}</div>
-              <div className="logout" onClick={() => logOut()}>
-                LogOut
+          {currentVisitors && (
+            <div className="mainOptionsBox">
+              <div className="visitors_lougout_box">
+                <div className="visitors">
+                  <div className="visitorsTitle">Visitors</div>{" "}
+                  <div
+                    onAnimationEndCapture={(e) => {
+                      setVisitors(false);
+                    }}
+                    style={{
+                      animation:
+                        (visitors && "blinkerTextCyan 3s ease-in-out") || "",
+                    }}
+                  >
+                    {currentVisitors}
+                  </div>
+                </div>
+
+                <div className="logout" onClick={() => logOut()}>
+                  LogOut
+                </div>
               </div>
             </div>
           )}
+          <Link
+            to="/timeline"
+            className={(!superAdmin && "timeline") || "timelineSuper"}
+            title="Timeline"
+          >
+            <div>
+              <img src="timeline.png"></img>
+            </div>
+          </Link>
         </div>
       )}
     </>

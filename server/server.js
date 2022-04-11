@@ -254,8 +254,10 @@ app.post("/gig-delete", (req, res) => {
       }
       db.deleteCommentsEditor(req.body.selectedGig.id)
         .then(({ rows }) => {
-          db.deleteGig(req.body.selectedGig.date).then(({ rows }) => {
-            res.json({ deleteSuccess: true });
+          db.deleteGigImages(req.body.selectedGig.id).then(({ rows }) => {
+            db.deleteGig(req.body.selectedGig.date).then(({ rows }) => {
+              res.json({ deleteSuccess: true });
+            });
           });
         })
         .catch((err) => console.log(err));
@@ -449,19 +451,25 @@ app.get("/counter", (req, res) => {
   }
   let ipFiltered = ip.split(":");
   ipFiltered = ipFiltered[ipFiltered.length - 1];
+  let checkIps = () => {
+    db.checkAllVisitorIps()
+      .then(({ rows }) => {
+        res.json({ data: rows.length });
+      })
+      .catch((err) => console.log(err));
+  };
 
   db.checkVisitorIps(ipFiltered)
     .then(({ rows }) => {
       if (!rows[0]) {
         db.addVisitorIp(ipFiltered)
-          .then(({ rows }) => {})
+          .then(({ rows }) => {
+            checkIps();
+          })
           .catch((err) => console.log(err));
+      } else {
+        checkIps();
       }
-      db.checkAllVisitorIps()
-        .then(({ rows }) => {
-          res.json({ data: rows.length });
-        })
-        .catch((err) => console.log(err));
     })
     .catch((err) => console.log(err));
 });
@@ -528,31 +536,35 @@ app.post("/delete-user", (req, res) => {
         .then(({ rows }) => {
           db.deleteComments(req.body.id)
             .then(({ rows }) => {
-              db.deleteUser(req.body.id)
+              db.deleteUserImages(req.body.id)
                 .then(({ rows }) => {
-                  if (rows[0].chat_img) {
-                    fs.unlink(
-                      path.join(
-                        __dirname,
-                        "..",
-                        "client",
-                        "public",
-                        `${rows[0].chat_img}`
-                      ),
-                      function (err) {
-                        if (err) {
-                          console.log(err);
-                        }
+                  db.deleteUser(req.body.id)
+                    .then(({ rows }) => {
+                      if (rows[0].chat_img) {
+                        fs.unlink(
+                          path.join(
+                            __dirname,
+                            "..",
+                            "client",
+                            "public",
+                            `${rows[0].chat_img}`
+                          ),
+                          function (err) {
+                            if (err) {
+                              console.log(err);
+                            }
+                          }
+                        );
                       }
-                    );
-                  }
 
-                  fs.rmdirSync(
-                    __dirname +
-                      `/../client/public/uploads/users/${rows[0].id}/`,
-                    { recursive: true }
-                  );
-                  res.json({ data: rows });
+                      fs.rmdirSync(
+                        __dirname +
+                          `/../client/public/uploads/users/${rows[0].id}/`,
+                        { recursive: true }
+                      );
+                      res.json({ data: rows });
+                    })
+                    .catch((err) => console.log(err));
                 })
                 .catch((err) => console.log(err));
             })
@@ -767,6 +779,86 @@ app.post("/set-mute", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+app.post("/get-gigs-timeline", (req, res) => {
+  if (req.body.boolean) {
+    db.getGigsTimeline()
+      .then(({ rows }) => {
+        res.json({ data: rows });
+      })
+      .catch((err) => console.log(err));
+  } else {
+    db.getGigsUpdatedTimeline()
+      .then(({ rows }) => {
+        res.json({ data: rows });
+      })
+      .catch((err) => console.log(err));
+  }
+});
+
+app.post("/get-next-gigs-timeline", (req, res) => {
+  db.getNextGigsTimeline(req.body.id)
+    .then(({ rows }) => {
+      res.json({ data: rows });
+    })
+    .catch((err) => console.log(err));
+});
+
+app.post("/get-next-gigs-updated-timeline", (req, res) => {
+  db.getNextGigsUpdatedTimeline(req.body.updated_at)
+    .then(({ rows }) => {
+      res.json({ data: rows });
+    })
+    .catch((err) => console.log(err));
+});
+
+app.get("/get-images-timeline", (req, res) => {
+  db.getTimelineImages()
+    .then(({ rows }) => {
+      res.json({ data: rows });
+    })
+    .catch((err) => console.log(err));
+});
+
+app.post("/get-next-images-timeline", (req, res) => {
+  db.getNextTimelineImages(req.body.created_at)
+    .then(({ rows }) => {
+      res.json({ data: rows });
+    })
+    .catch((err) => console.log(err));
+});
+
+app.get("/get-comments-timeline", (req, res) => {
+  db.getCommentsTimeline()
+    .then(({ rows }) => {
+      res.json({ data: rows });
+    })
+    .catch((err) => console.log(err));
+});
+
+app.post("/get-next-comments-timeline", (req, res) => {
+  db.getNextCommentsTimeline(req.body.id)
+    .then(({ rows }) => {
+      res.json({ data: rows });
+    })
+    .catch((err) => console.log(err));
+});
+
+app.post("/get-last-online-timeline", (req, res) => {
+  if (req.body.boolean) {
+    db.getLastOnlineTimeline()
+      .then(({ rows }) => {
+        res.json({ data: rows });
+      })
+      .catch((err) => console.log(err));
+  } else {
+    db.getLastUsersTimeline()
+      .then(({ rows }) => {
+        res.json({ data: rows });
+      })
+      .catch((err) => console.log(err));
+  }
+});
+
 app.get("*", function (req, res) {
   if (!req.session.userId) {
     res.redirect("/welcome");
@@ -904,6 +996,10 @@ io.on("connection", function (socket) {
 
   socket.on("ONLINE USERS", (users) => {
     io.emit("usersOnline", users);
+  });
+
+  socket.on("VISITORS", (users) => {
+    io.emit("visitors", users);
   });
 
   socket.on("forceDisconnect", (data) => {

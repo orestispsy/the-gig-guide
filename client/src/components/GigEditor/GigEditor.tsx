@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import axios from "../../common/Axios/axios";
 import React, { useState, useEffect, useRef } from "react";
 
+const { axiosGetGigs } = require("./GigEditorUtils");
+
 import EditMap from "../EditMap/EditMap";
 
 import { Posters } from "../Posters/Posters";
@@ -12,6 +14,8 @@ interface Props {
   darkMode: boolean;
   setGigsList: (e: any) => any;
   setEditMode: (e: boolean) => any;
+  gigsListTimeline: any;
+  setGigsListTimeline: (e: any) => void;
 }
 
 export const GigEditor: React.FC<Props> = ({
@@ -20,6 +24,8 @@ export const GigEditor: React.FC<Props> = ({
   darkMode,
   setGigsList,
   setEditMode,
+  gigsListTimeline,
+  setGigsListTimeline,
 }) => {
   const [file, setFile] = useState<any>();
   const [error, setError] = useState<boolean>(false);
@@ -83,6 +89,7 @@ export const GigEditor: React.FC<Props> = ({
         if (data.data) {
           updateDatabase();
           setDoneUpdate(true);
+          axiosGetGigs(setGigsListTimeline);
         } else {
           setError(true);
           setFile(null);
@@ -108,7 +115,7 @@ export const GigEditor: React.FC<Props> = ({
       .then(({ data }) => {
         if (data.success) {
           setSelectedPoster(data.data[0].poster);
-
+          axiosGetGigs(setGigsListTimeline);
           selectedGigUpdater(data.data);
           setSelectedGig(selectedGigHelper);
 
@@ -177,6 +184,7 @@ export const GigEditor: React.FC<Props> = ({
       .post("/gig-delete", { selectedGig: selectedGig })
       .then(({ data }) => {
         if (data.deleteSuccess) {
+          axiosGetGigs(setGigsListTimeline);
           updateDatabase();
           setSelectedGig(false);
           setSelectedPoster("");

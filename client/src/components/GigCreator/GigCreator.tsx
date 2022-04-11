@@ -4,11 +4,15 @@ import axios from "../../common/Axios/axios";
 
 import EditMap from "../EditMap/EditMap";
 
+const { axiosGetGigs } = require("./GigCreatorUtils");
+
 interface Props {
   admin: boolean;
   darkMode: boolean;
   setGigsList: (e: any) => void;
   setAddMode: (e: boolean) => any;
+  gigsListTimeline: any;
+  setGigsListTimeline: (e: any) => void;
 }
 
 export const GigCreator: React.FC<Props> = ({
@@ -16,6 +20,8 @@ export const GigCreator: React.FC<Props> = ({
   darkMode,
   setGigsList,
   setAddMode,
+  gigsListTimeline,
+  setGigsListTimeline,
 }) => {
   const [date, setDate] = useState("");
   const [venue, setVenue] = useState("");
@@ -40,6 +46,7 @@ export const GigCreator: React.FC<Props> = ({
       .post("/gig-creator", { date, venue, lat, lng, tourName, city })
       .then(({ data }) => {
         if (data.success) {
+          axiosGetGigs(setGigsListTimeline);
           updateDatabase();
           setSuccess(true);
           const timer = setTimeout(() => {

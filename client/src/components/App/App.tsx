@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "../../common/Axios/axios";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import { useSelector } from "react-redux";
 import { AppLayout } from "../AppLayout/AppLayout";
 import { Main } from "../Main/Main";
 import MyMap from "../Map/Map";
@@ -13,6 +14,7 @@ import { GigListAnimation } from "../GigListAnimation/GigListAnimation";
 import { GigEntry } from "../GigEntry/GigEntry";
 import { SuperAdmin } from "../SuperAdmin/SuperAdmin";
 import { About } from "../About/About";
+import { Timeline } from "../Timeline/Timeline";
 
 import "./../../../public/style.css";
 
@@ -38,7 +40,7 @@ export const App: React.FC<Props> = ({}) => {
   const [maps, setMaps] = useState<boolean>(false);
   const [adminControls, setAdminControls] = useState<boolean>(false);
   const [gigListOpen, setGigListOpen] = useState<boolean>(false);
-  const [visitors, setVisitors] = useState<number | null>(null);
+  const [visitors, setVisitors] = useState<number | boolean>(false);
   const [top, setTop] = useState<number | string>("1%");
   const [left, setLeft] = useState<number | string>("35%");
   const [selectedGigEntry, setSelectedGigEntry] = useState<number | null>(0);
@@ -67,6 +69,18 @@ export const App: React.FC<Props> = ({}) => {
   const [animeMusic, setAnimeMusic] = useState<boolean>(true);
   const [chatModeClosed, setChatModeClosed] = useState<boolean>(true);
   const [mute, setMute] = useState<boolean>(false);
+  const [timelineMode, setTimelineMode] = useState<boolean>(false);
+  const [timelineCommentsMode, setTimelineCommentsMode] =
+    useState<boolean>(false);
+  const [timelineGigsMode, setTimelineGigsMode] = useState<boolean>(false);
+  const [timelineGalleriesMode, setTimelineGalleriesMode] =
+    useState<boolean>(false);
+  const [gigsListTimeline, setGigsListTimeline] = useState<any>();
+  const [imagesTimeline, setImagesTimeline] = useState<any>();
+  const [commentsTimeline, setCommentsTimeline] = useState<any>();
+
+  const currentVisitors = useSelector((state: any) => state && state.visitors);
+  const [timelineScrollTop, setTimelineScrollTop] = useState<number>(0);
 
   useEffect(function () {
     setMaps(false);
@@ -86,6 +100,16 @@ export const App: React.FC<Props> = ({}) => {
     axiosGetGigs(setGigsList);
     axiosGetCounter(setVisitors);
   }, []);
+
+  useEffect(
+    function () {
+      if (!visitors) {
+        axiosGetCounter(setVisitors);
+        setVisitors(true);
+      }
+    },
+    [currentVisitors]
+  );
 
   return (
     <Router>
@@ -136,6 +160,19 @@ export const App: React.FC<Props> = ({}) => {
               chatModeClosed={chatModeClosed}
               privateMode={privateMode}
               setPrivateMode={(e: boolean) => setPrivateMode(e)}
+              timelineMode={timelineMode}
+              admin={admin}
+              superAdmin={superAdmin}
+              timelineCommentsMode={timelineCommentsMode}
+              setTimelineCommentsMode={(e: boolean) =>
+                setTimelineCommentsMode(e)
+              }
+              timelineGigsMode={timelineGigsMode}
+              setTimelineGigsMode={(e: boolean) => setTimelineGigsMode(e)}
+              timelineGalleriesMode={timelineGalleriesMode}
+              setTimelineGalleriesMode={(e: boolean) =>
+                setTimelineGalleriesMode(e)
+              }
             />
           }
         >
@@ -166,6 +203,17 @@ export const App: React.FC<Props> = ({}) => {
                 setGigEntryMode={(e: boolean) => setGigEntryMode(e)}
                 setMapMode={(e: boolean) => setMapMode(e)}
                 setChatModeClosed={(e: boolean) => setChatModeClosed(e)}
+                currentVisitors={currentVisitors}
+                setVisitors={(e: number | boolean) => setVisitors(e)}
+                setTimelineMode={(e: boolean) => setTimelineMode(e)}
+                setTimelineCommentsMode={(e: boolean) =>
+                  setTimelineCommentsMode(e)
+                }
+                setTimelineGigsMode={(e: boolean) => setTimelineGigsMode(e)}
+                setTimelineGalleriesMode={(e: boolean) =>
+                  setTimelineGalleriesMode(e)
+                }
+                setTimelineScrollTop={(e: number) => setTimelineScrollTop(e)}
               />
             }
           ></Route>
@@ -178,6 +226,8 @@ export const App: React.FC<Props> = ({}) => {
                 darkMode={darkMode}
                 setGigsList={(e: any) => setGigsList(e)}
                 setAddMode={(e: boolean) => setAddMode(e)}
+                gigsListTimeline={gigsListTimeline}
+                setGigsListTimeline={(e: boolean) => setGigsListTimeline(e)}
               />
             }
           ></Route>
@@ -190,6 +240,8 @@ export const App: React.FC<Props> = ({}) => {
                 darkMode={darkMode}
                 setGigsList={(e: any) => setGigsList(e)}
                 setEditMode={(e: boolean) => setEditMode(e)}
+                gigsListTimeline={gigsListTimeline}
+                setGigsListTimeline={(e: boolean) => setGigsListTimeline(e)}
               />
             }
           ></Route>
@@ -255,6 +307,10 @@ export const App: React.FC<Props> = ({}) => {
                 setGigEntryMode={(e: boolean) => setGigEntryMode(e)}
                 setMapMode={(e: boolean) => setMapMode(e)}
                 mapVisible={(e: boolean) => setMaps(e)}
+                imagesTimeline={imagesTimeline}
+                setImagesTimeline={(e: boolean) => setImagesTimeline(e)}
+                commentsTimeline={commentsTimeline}
+                setCommentsTimeline={(e: boolean) => setCommentsTimeline(e)}
               />
             }
           ></Route>
@@ -295,6 +351,8 @@ export const App: React.FC<Props> = ({}) => {
                 chatModeClosed={chatModeClosed}
                 setMute={(e: boolean) => setMute(e)}
                 mute={mute}
+                setTimelineMode={(e: boolean) => setTimelineMode(e)}
+                setTimelineScrollTop={(e: number) => setTimelineScrollTop(e)}
               />
             }
           ></Route>
@@ -317,6 +375,29 @@ export const App: React.FC<Props> = ({}) => {
               <About
                 setAboutMode={(e: boolean) => setAboutMode(e)}
                 superAdmin={superAdmin}
+              />
+            }
+          ></Route>
+          <Route
+            path="/timeline"
+            element={
+              <Timeline
+                setTimelineMode={(e: boolean) => setTimelineMode(e)}
+                setTimelineCommentsMode={(e: boolean) =>
+                  setTimelineCommentsMode(e)
+                }
+                setTimelineGigsMode={(e: boolean) => setTimelineGigsMode(e)}
+                setTimelineGalleriesMode={(e: boolean) =>
+                  setTimelineGalleriesMode(e)
+                }
+                gigsListTimeline={gigsListTimeline}
+                setGigsListTimeline={(e: boolean) => setGigsListTimeline(e)}
+                commentsTimeline={commentsTimeline}
+                setCommentsTimeline={(e: boolean) => setCommentsTimeline(e)}
+                imagesTimeline={imagesTimeline}
+                setImagesTimeline={(e: boolean) => setImagesTimeline(e)}
+                timelineScrollTop={timelineScrollTop}
+                setTimelineScrollTop={(e: number) => setTimelineScrollTop(e)}
               />
             }
           ></Route>

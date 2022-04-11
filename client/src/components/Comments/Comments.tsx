@@ -3,6 +3,8 @@ import axios from "../../common/Axios/axios";
 import { socket } from "../../common/Socket/socket";
 import { useSelector } from "react-redux";
 
+const { axiosGetComments } = require("./CommentsUtils");
+
 interface Props {
   selectedGigId: string;
   myUserId: number | undefined;
@@ -10,6 +12,8 @@ interface Props {
   myNickname: string;
   setOpenComments: (e: boolean) => void;
   openComments: boolean;
+  commentsTimeline: any;
+  setCommentsTimeline: (e: any) => void;
 }
 
 export const Comments: React.FC<Props> = ({
@@ -19,6 +23,8 @@ export const Comments: React.FC<Props> = ({
   myNickname,
   setOpenComments,
   openComments,
+  commentsTimeline,
+  setCommentsTimeline,
 }) => {
   const [post, setPost] = useState<string | null>(null);
 
@@ -73,6 +79,7 @@ export const Comments: React.FC<Props> = ({
               ...data.data[0],
               nickname: myNickname,
             });
+            axiosGetComments(setCommentsTimeline);
             elem[0].value = "";
             setPost(null);
           })

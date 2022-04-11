@@ -48,7 +48,22 @@ interface Props {
   setChatModeClosed: (e: boolean) => void;
   privateMode: boolean;
   setPrivateMode: (e: boolean) => void;
+  timelineMode: boolean;
+  admin: boolean;
+  superAdmin: boolean;
+  timelineCommentsMode: boolean;
+
+  timelineGigsMode: boolean;
+
+  timelineGalleriesMode: boolean;
 }
+
+type LocationProps = {
+  state: {
+    previousPath: string;
+  };
+  pathname: string;
+};
 
 export const AppBar: React.FC<Props> = ({
   myUserId,
@@ -84,17 +99,24 @@ export const AppBar: React.FC<Props> = ({
   chatModeClosed,
   privateMode,
   setPrivateMode,
+  timelineMode,
+  admin,
+  superAdmin,
+  timelineCommentsMode,
+
+  timelineGigsMode,
+
+  timelineGalleriesMode,
 }) => {
   const [playSlideFx] = useSound(hyperfx, { volume: 0.6 });
 
   const navigate = useNavigate();
-  const currentLocation = useLocation();
-
-  const browserCount = useSelector((state: any) => state && state.count);
+  const currentLocation = useLocation() as unknown as LocationProps;
+  const { state, pathname } = currentLocation;
 
   const chatBan = useSelector((state: any) => state && state.chat_ban);
-  const onlineUsers = useSelector((state: any) => state && state.onlineUsers);
   const chatMessages = useSelector((state: any) => state && state.chatMessages);
+
   useEffect(
     function () {
       if (chatMessages) {
@@ -125,9 +147,16 @@ export const AppBar: React.FC<Props> = ({
                 mapVisible(false);
                 setAboutMode(false);
 
-                if (currentLocation.pathname === "/gig-list-animation") {
+                if (pathname === "/gig-list-animation") {
                   if (animeMusic) {
                     setAnimeMusic(false);
+                  }
+                  setTimeout(() => {
+                    navigate("/");
+                  }, 300);
+                } else if (pathname === "/chat") {
+                  if (chatModeClosed) {
+                    setChatModeClosed(false);
                   }
                   setTimeout(() => {
                     navigate("/");
@@ -148,7 +177,7 @@ export const AppBar: React.FC<Props> = ({
                 mapVisible(false);
                 setAboutMode(false);
 
-                if (currentLocation.pathname === "/chat") {
+                if (pathname === "/chat") {
                   if (chatModeClosed) {
                     setChatModeClosed(false);
                     setPrivateMode(false);
@@ -156,7 +185,7 @@ export const AppBar: React.FC<Props> = ({
                   setTimeout(() => {
                     navigate("/");
                   }, 300);
-                } else if (currentLocation.pathname === "/gig-list-animation") {
+                } else if (pathname === "/gig-list-animation") {
                   if (animeMusic) {
                     setAnimeMusic(false);
                   }
@@ -190,15 +219,44 @@ export const AppBar: React.FC<Props> = ({
           editMode ||
           gigListOpen ||
           animeMode ||
-          gigEntryMode) && (
+          gigEntryMode ||
+          timelineMode) && (
           <div
             className="navButton"
             onClick={(e) => {
               setGigEntry(null);
               mapVisible(false);
               setAboutMode(false);
-
-              if (maps) {
+              if (timelineGigsMode && location.pathname !== "/timeline") {
+                navigate("/timeline", {
+                  state: {
+                    previousPath: location.pathname,
+                    gigs: true,
+                  },
+                });
+              } else if (
+                timelineGalleriesMode &&
+                location.pathname !== "/timeline"
+              ) {
+                navigate("/timeline", {
+                  state: {
+                    previousPath: location.pathname,
+                    galleries: true,
+                  },
+                });
+              } else if (
+                timelineCommentsMode &&
+                location.pathname !== "/timeline"
+              ) {
+                navigate("/timeline", {
+                  state: {
+                    previousPath: location.pathname,
+                    comments: true,
+                  },
+                });
+              } else if (timelineMode) {
+                navigate("/");
+              } else if (maps) {
                 navigate(-1);
               } else if (animeMode) {
                 if (animeMusic) {
@@ -226,10 +284,7 @@ export const AppBar: React.FC<Props> = ({
                 adminControls
               ) {
                 navigate("/");
-              } else if (
-                gigLocation !== "" &&
-                gigLocation !== currentLocation.pathname
-              ) {
+              } else if (gigLocation !== "" && gigLocation !== pathname) {
                 navigate(gigLocation.toString());
               } else {
                 navigate("/");

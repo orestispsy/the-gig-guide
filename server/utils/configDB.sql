@@ -9,7 +9,7 @@ CREATE TABLE community (
     mute BOOLEAN DEFAULT false,
     admin BOOLEAN DEFAULT false,
     super_admin BOOLEAN DEFAULT false,
-    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     online BOOLEAN DEFAULT false,
     last_online  TIMESTAMP DEFAULT null,
     dark_mode BOOLEAN DEFAULT false,
@@ -26,6 +26,7 @@ CREATE TABLE gigs (
     lng VARCHAR NOT NULL CHECK (lng <> '') ,
     tour_name VARCHAR DEFAULT false,
     created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+       updated_at TIME,
     city VARCHAR DEFAULT false,
     poster VARCHAR
 );
@@ -54,8 +55,8 @@ CREATE TABLE visitors(
 
 CREATE TABLE images (
     id            SERIAL PRIMARY KEY,
-    gig_id  VARCHAR,   
-    img_sender_id  VARCHAR,
+    gig_id  INT REFERENCES gigs(id),   
+    img_sender_id  INT REFERENCES community(id), 
     nickname VARCHAR,   
     img_url VARCHAR,
     created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP

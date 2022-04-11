@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../common/Axios/axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
 
 import { Community } from "../Community/Community";
 import { Comments } from "../Comments/Comments";
@@ -18,7 +18,19 @@ interface Props {
   setGigEntryMode: (e: boolean) => void;
   setMapMode: (e: boolean) => void;
   mapVisible: (e: boolean) => void;
+  imagesTimeline: any;
+  setImagesTimeline: (e: any) => void;
+  commentsTimeline: any;
+  setCommentsTimeline: (e: any) => void;
 }
+
+type LocationProps = {
+  state: {
+    previousPath: string;
+    comments: boolean;
+  };
+  pathname: string;
+};
 
 export const GigEntry: React.FC<Props> = ({
   gigsList,
@@ -33,6 +45,10 @@ export const GigEntry: React.FC<Props> = ({
   guest,
   setMapMode,
   mapVisible,
+  imagesTimeline,
+  commentsTimeline,
+  setCommentsTimeline,
+  setImagesTimeline,
 }) => {
   const [city, setCity] = useState<string>("");
   const [gigId, setGigId] = useState<string>("");
@@ -45,6 +61,20 @@ export const GigEntry: React.FC<Props> = ({
 
   let navigate = useNavigate();
   let { id } = useParams();
+
+  const location = useLocation() as unknown as LocationProps;
+  const { state } = location;
+
+  useEffect(
+    function () {
+      if (state && state.previousPath === "/timeline" && state.comments) {
+        setTimeout((e) => {
+          setOpenComments(true);
+        }, 500);
+      }
+    },
+    [state]
+  );
 
   useEffect(function () {
     setTimeout(() => {
@@ -151,6 +181,8 @@ export const GigEntry: React.FC<Props> = ({
             setOpenComments={(e: boolean) => setOpenComments(e)}
             openComments={openComments}
             guest={guest}
+            imagesTimeline={imagesTimeline}
+            setImagesTimeline={(e: boolean) => setImagesTimeline(e)}
           />
         )}
         {openComments && (
@@ -161,6 +193,8 @@ export const GigEntry: React.FC<Props> = ({
             myNickname={myNickname}
             setOpenComments={(e: boolean) => setOpenComments(e)}
             openComments={openComments}
+            commentsTimeline={commentsTimeline}
+            setCommentsTimeline={(e: boolean) => setCommentsTimeline(e)}
           />
         )}
       </div>

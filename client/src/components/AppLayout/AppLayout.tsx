@@ -47,6 +47,15 @@ interface Props {
   setChatModeClosed: (e: boolean) => void;
   privateMode: boolean;
   setPrivateMode: (e: boolean) => void;
+  timelineMode: boolean;
+  admin: boolean;
+  superAdmin: boolean;
+  timelineCommentsMode: boolean;
+  setTimelineCommentsMode: (e: boolean) => void;
+  timelineGigsMode: boolean;
+  setTimelineGigsMode: (e: boolean) => void;
+  timelineGalleriesMode: boolean;
+  setTimelineGalleriesMode: (e: boolean) => void;
 }
 
 export const AppLayout: React.FC<Props> = ({
@@ -86,6 +95,15 @@ export const AppLayout: React.FC<Props> = ({
   setChatModeClosed,
   privateMode,
   setPrivateMode,
+  timelineMode,
+  admin,
+  superAdmin,
+  timelineCommentsMode,
+  setTimelineCommentsMode,
+  timelineGigsMode,
+  setTimelineGigsMode,
+  timelineGalleriesMode,
+  setTimelineGalleriesMode,
 }) => {
   let elemRef = useRef<any>();
   const [dotCounter, setDotCounter] = useState(0);
@@ -121,6 +139,7 @@ export const AppLayout: React.FC<Props> = ({
           (aboutMode && "appContainerAbout") ||
           (gigListOpen && "appContainerDark") ||
           (adminControls && "appContainerDark") ||
+          (timelineMode && "appContainerDark") ||
           (maps && "appContainerMap") ||
           (darkMode && "appContainerDark") ||
           (!darkMode && "appContainer") ||
@@ -137,6 +156,7 @@ export const AppLayout: React.FC<Props> = ({
               !gigListOpen &&
               !adminControls &&
               !maps &&
+              !timelineMode &&
               !darkMode &&
               "url('/road.png')") ||
             "",
@@ -186,6 +206,12 @@ export const AppLayout: React.FC<Props> = ({
           chatModeClosed={chatModeClosed}
           privateMode={privateMode}
           setPrivateMode={(e: boolean) => setPrivateMode(e)}
+          timelineMode={timelineMode}
+          admin={admin}
+          superAdmin={superAdmin}
+          timelineCommentsMode={timelineCommentsMode}
+          timelineGigsMode={timelineGigsMode}
+          timelineGalleriesMode={timelineGalleriesMode}
         />
         <Outlet />
       </div>

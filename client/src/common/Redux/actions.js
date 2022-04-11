@@ -123,3 +123,10 @@ export function hornAct(arg) {
     horn: arg,
   };
 }
+
+export function visitors(arg) {
+  return {
+    type: "VISITORS",
+    visitors: arg,
+  };
+}
