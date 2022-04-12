@@ -8,6 +8,8 @@ interface Props {
   setTimelineGigsMode: (e: boolean) => void;
   setTimelineGalleriesMode: (e: boolean) => void;
   dateTimeHandler: (e: string) => void;
+  timelineScrollTop: number;
+  setScrollTopHistory: (e: number) => void;
 }
 
 export const TimelineComments: React.FC<Props> = ({
@@ -16,6 +18,8 @@ export const TimelineComments: React.FC<Props> = ({
   setTimelineGigsMode,
   setTimelineGalleriesMode,
   dateTimeHandler,
+  timelineScrollTop,
+  setScrollTopHistory,
 }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -34,6 +38,7 @@ export const TimelineComments: React.FC<Props> = ({
               <img
                 src={(gig.poster && gig.poster) || "./na.jpg"}
                 onClick={(e) => {
+                  setScrollTopHistory(timelineScrollTop);
                   navigate(`/api/gig/${gig.gigsid}`, {
                     state: {
                       previousPath: pathname,

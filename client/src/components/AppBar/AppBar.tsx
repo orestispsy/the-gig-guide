@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import ReactPlayer from "react-player";
 import radioBroadcasts from "../../common/radioBroadcasts";
@@ -61,6 +61,7 @@ interface Props {
 type LocationProps = {
   state: {
     previousPath: string;
+    latest?: boolean;
   };
   pathname: string;
 };
@@ -117,6 +118,8 @@ export const AppBar: React.FC<Props> = ({
   const chatBan = useSelector((state: any) => state && state.chat_ban);
   const chatMessages = useSelector((state: any) => state && state.chatMessages);
 
+  const [gigUpdatedMode, setGigUpdatedMode] = useState<boolean>(false);
+
   useEffect(
     function () {
       if (chatMessages) {
@@ -132,6 +135,15 @@ export const AppBar: React.FC<Props> = ({
       }
     },
     [chatMessages]
+  );
+
+  useEffect(
+    function () {
+      if (state && state.latest && state.previousPath === "/timeline") {
+        setGigUpdatedMode(true);
+      }
+    },
+    [state]
   );
 
   return (
@@ -232,8 +244,10 @@ export const AppBar: React.FC<Props> = ({
                   state: {
                     previousPath: location.pathname,
                     gigs: true,
+                    latest: gigUpdatedMode,
                   },
                 });
+                setGigUpdatedMode(false);
               } else if (
                 timelineGalleriesMode &&
                 location.pathname !== "/timeline"

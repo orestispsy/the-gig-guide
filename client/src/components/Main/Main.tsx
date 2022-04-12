@@ -200,11 +200,6 @@ export const Main: React.FC<Props> = ({
           ></div>
 
           {superAdmin && (
-            <Link to="/about">
-              <div className="aboutButton" title="About"></div>
-            </Link>
-          )}
-          {superAdmin && (
             <Link to="/super-admin">
               <div className="superAdminButton" title="Admin Controls">
                 <img src="superAdmin.png"></img>
@@ -235,15 +230,18 @@ export const Main: React.FC<Props> = ({
               </div>
             </div>
           )}
-          <Link
-            to="/timeline"
-            className={(!superAdmin && "timeline") || "timelineSuper"}
-            title="Timeline"
-          >
-            <div>
-              <img src="timeline.png"></img>
-            </div>
-          </Link>
+          <div className="mainTopRightButtons">
+            <Link to="/timeline" className="timeline" title="Timeline">
+              <div>
+                <img src="timeline.png"></img>
+              </div>
+            </Link>
+            {superAdmin && (
+              <Link to="/about">
+                <div className="aboutButton" title="About"></div>
+              </Link>
+            )}
+          </div>
         </div>
       )}
     </>

@@ -8,6 +8,8 @@ interface Props {
   setTimelineCommentsMode: (e: boolean) => void;
   setTimelineGalleriesMode: (e: boolean) => void;
   dateTimeHandler: (e: string) => void;
+  timelineScrollTop: number;
+  setScrollTopHistory: (e: number) => void;
 }
 
 export const TimelineImages: React.FC<Props> = ({
@@ -16,6 +18,8 @@ export const TimelineImages: React.FC<Props> = ({
   setTimelineGalleriesMode,
   setTimelineGigsMode,
   dateTimeHandler,
+  timelineScrollTop,
+  setScrollTopHistory,
 }) => {
   const navigate = useNavigate();
   useEffect(function () {
@@ -33,6 +37,7 @@ export const TimelineImages: React.FC<Props> = ({
               <img
                 src={gig.img_url}
                 onClick={(e) => {
+                  setScrollTopHistory(timelineScrollTop);
                   navigate(`/api/gig/${Number(gig.id)}`);
                 }}
               ></img>

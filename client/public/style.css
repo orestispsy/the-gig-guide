@@ -674,6 +674,7 @@ form option {
   align-items: center;
   justify-content: flex-start;
   width: 4vmax;
+  cursor: pointer;
 }
 
 .lngLtdMenu {
@@ -696,7 +697,6 @@ form option {
   width: 3vmax;
   height: 3vmax;
   background-size: cover;
-  cursor: pointer;
   z-index: 2;
   border-radius: 50%;
   filter: invert(70%);
@@ -1108,16 +1108,7 @@ input {
     width: unset !important;
   }
 
-  .timelineSuper,
-  .timeline {
-    z-index: 3 !important;
-  }
-
-  .timelineSuper {
-    right: 5vmax !important;
-  }
-  .timeline img,
-  .timelineSuper img {
+  .timeline img {
     width: 4vmax !important;
     height: 4vmax !important;
   }
@@ -2034,19 +2025,9 @@ input {
 }
 
 @media only screen and (min-device-width: 273px) and (max-device-width: 1024px) and (orientation: landscape) {
-  .timeline img,
-  .timelineSuper img {
-    width: 3.5vmax !important;
-    height: 3.5vmax !important;
-  }
-
-  .timelineSuper,
-  .timeline {
-    z-index: 3 !important;
-  }
-
-  .timelineSuper {
-    right: 5vmax !important;
+  .timeline img {
+    width: 3.7vmax !important;
+    height: 3.7vmax !important;
   }
 
   .chatUserHeadline {
@@ -4794,6 +4775,7 @@ input[type="number"] {
   flex-direction: column-reverse;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .editorGallery div {
@@ -4818,9 +4800,7 @@ input[type="number"] {
   font-size: 1.3vmax;
   font-family: "Black Ops One", cursive;
   color: cyan;
-  cursor: pointer;
   text-shadow: 0 0 10px black, 0 0 10px black, 0 0 10px black, 0 0 10px black;
-
   margin-top: -0.5vmax;
   padding-bottom: 1vmax;
 }
@@ -5595,33 +5575,6 @@ input[type="number"] {
   background-image: url("jukebox2.png");
 }
 
-.aboutButton {
-  border-radius: 50%;
-  position: fixed;
-  top: 1vmax;
-  right: 1vmax;
-  font-size: 1.5vmax;
-  color: white;
-  background-image: url("about.png");
-  width: 2vmax;
-  height: 2vmax;
-  background-size: cover;
-  filter: invert(100%);
-  z-index: 3;
-
-  box-shadow: -0 0 10px rgba(255, 255, 255, 0.15),
-    0 -0 10px rgba(255, 255, 255, 0.15), -0 -0 10px rgba(255, 255, 255, 0.15),
-    -0 -0 10px rgba(255, 255, 255, 0.15);
-
-  opacity: 80%;
-}
-
-.aboutButton:hover {
-  box-shadow: -0 0 7px rgba(128, 20, 20, 0.4), 0 -0 7px rgba(128, 20, 20, 0.4),
-    -0 -0 7px rgba(128, 20, 20, 0.4), -0 -0 7px rgba(128, 20, 20, 0.4);
-  background-color: rgba(128, 20, 20, 0.2);
-}
-
 .aboutContainer {
   color: yellow;
   width: 100vw;
@@ -6139,30 +6092,50 @@ input[type="number"] {
   margin: 0;
 }
 
-.timelineSuper {
+.mainTopRightButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   top: 0;
-  right: 4vmax;
-  margin-top: 0.9vmax;
+  right: 0;
+  margin: 0.5vmax 1vmax;
+  z-index: 3;
 }
 
-.timeline {
-  position: fixed;
-  top: 0;
-  right: 1vmax;
-  margin-top: 0.9vmax;
+.aboutButton {
+  border-radius: 50%;
+
+  font-size: 1.5vmax;
+  color: white;
+  background-image: url("about.png");
+  width: 2vmax;
+  height: 2vmax;
+  background-size: cover;
+  filter: invert(100%);
+
+  box-shadow: -0 0 10px rgba(255, 255, 255, 0.15),
+    0 -0 10px rgba(255, 255, 255, 0.15), -0 -0 10px rgba(255, 255, 255, 0.15),
+    -0 -0 10px rgba(255, 255, 255, 0.15);
+
+  opacity: 80%;
 }
 
-.timeline:hover,
-.timelineSuper:hover {
+.aboutButton:hover {
+  box-shadow: -0 0 7px rgba(128, 20, 20, 0.4), 0 -0 7px rgba(128, 20, 20, 0.4),
+    -0 -0 7px rgba(128, 20, 20, 0.4), -0 -0 7px rgba(128, 20, 20, 0.4);
+  background-color: rgba(128, 20, 20, 0.2);
+}
+
+.timeline:hover {
   animation: 1s timeline ease-in-out;
 }
 
-.timeline img,
-.timelineSuper img {
-  width: 5vh;
-  height: 5vh;
+.timeline img {
+  width: 2.5vmax;
+  height: 2.5vmax;
   background-size: contain;
+  margin: 0 1vmax;
 }
 
 .timelineContainer {
@@ -6292,12 +6265,13 @@ input[type="number"] {
 }
 
 .gigEntryTimelineDetails img {
-  width: 12vmax;
-  height: 15vmax;
+  width: 17vmax;
+  height: auto;
   box-shadow: -0 0 4px rgba(0, 0, 0, 0.281), 0 -0 4px rgba(0, 0, 0, 0.281),
     -0 -0 4px rgba(0, 0, 0, 0.281), -0 -0 4px rgba(0, 0, 0, 0.281);
-  margin: 5vh;
+  margin: 2vmax;
   align-self: center;
+  object-fit: fill;
 }
 
 .detailedTimelineEntry {
@@ -6336,9 +6310,27 @@ input[type="number"] {
 }
 
 .timelineToggler {
+  display: flex;
   position: absolute;
   cursor: pointer;
-  color: yellow;
   text-shadow: 0 0 5px rgb(0 0 0 / 70%), 0 0 5px rgb(0 0 0 / 70%),
     0 0 5px rgb(0 0 0 / 70%), 0 0 5px rgb(0 0 0 / 70%);
+  border: 1px solid cyan;
+  color: rgb(247, 91, 64);
+  padding: 0.5vmax 1vmax;
+  border-radius: 10vh;
+  font-size: 0.7vmax;
+  background-color: rgba(255, 255, 255, 0.158);
+  z-index: 3;
+  margin: 0.5vmax;
+}
+
+.timelineToggler:hover {
+  background-color: rgba(255, 255, 255, 0.258);
+  color: rgb(247, 91, 64);
+}
+
+.timelineToggler:active {
+  background-color: rgba(172, 255, 104, 0.288);
+  color: yellow;
 }

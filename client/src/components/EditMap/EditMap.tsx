@@ -78,20 +78,6 @@ export const GoogleMapComponent: React.FC<Props> = ({
           lng: (selectedGig && parseFloat(selectedGig.lng)) || center.lng,
         }}
       />
-
-      {showCoordinates && (
-        <InfoWindow
-          position={{
-            lat: center.lat,
-            lng: center.lng,
-          }}
-          onCloseClick={() => {
-            setShowCoordinates(false);
-          }}
-        >
-          <div className="locationEditor">New Location</div>
-        </InfoWindow>
-      )}
     </GoogleMap>
   );
 };

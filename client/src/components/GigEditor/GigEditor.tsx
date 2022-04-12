@@ -388,15 +388,27 @@ export const GigEditor: React.FC<Props> = ({
               </div>
               <div className="coordinatesMenuFlipper">
                 {selectedGig && !deleteSuccess && (
-                  <div className="coordinatesMenu">
-                    <div className="lngLtdMenu">
+                  <div
+                    className="coordinatesMenu"
+                    onClick={() => setMapView(!mapView)}
+                  >
+                    <div
+                      className="lngLtdMenu"
+                      style={{
+                        animation:
+                          (newLat &&
+                            newLng &&
+                            mapView &&
+                            "blinkerBan 3s infinite ease-in-out ") ||
+                          "",
+                      }}
+                    >
                       {!mapView && "Select On Map"} {mapView && "Close"}
                     </div>
 
                     <div
-                      title="Open Map"
+                      title={(!mapView && "Select On Map") || "Close Map"}
                       className="editMapTogglerGlobe"
-                      onClick={() => setMapView(!mapView)}
                     ></div>
                   </div>
                 )}
@@ -438,7 +450,16 @@ export const GigEditor: React.FC<Props> = ({
                 />
               </div>
               {selectedGig.id && (
-                <div className="editorGallery">
+                <div
+                  className="editorGallery"
+                  onClick={(e) => {
+                    setPosterSection(!posterSection);
+                    setError(false);
+                    setError2(false);
+                    setDeleteFile(false);
+                    setDoneUpdate(false);
+                  }}
+                >
                   <img
                     title={
                       (!posterSection && "Poster Gallery") ||
@@ -449,13 +470,6 @@ export const GigEditor: React.FC<Props> = ({
                     src={
                       selectedPoster || poster || selectedGig.poster || "na.jpg"
                     }
-                    onClick={(e) => {
-                      setPosterSection(!posterSection);
-                      setError(false);
-                      setError2(false);
-                      setDeleteFile(false);
-                      setDoneUpdate(false);
-                    }}
                   ></img>
                   {!posterSection && <div>Poster Gallery</div>}
                 </div>

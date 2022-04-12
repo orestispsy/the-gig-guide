@@ -76,11 +76,14 @@ export const App: React.FC<Props> = ({}) => {
   const [timelineGalleriesMode, setTimelineGalleriesMode] =
     useState<boolean>(false);
   const [gigsListTimeline, setGigsListTimeline] = useState<any>();
+  const [gigsListUpdatedTimeline, setGigsListUpdatedTimeline] = useState<any>();
   const [imagesTimeline, setImagesTimeline] = useState<any>();
   const [commentsTimeline, setCommentsTimeline] = useState<any>();
 
   const currentVisitors = useSelector((state: any) => state && state.visitors);
   const [timelineScrollTop, setTimelineScrollTop] = useState<number>(0);
+  const [scrollTopHistory, setScrollTopHistory] = useState<number>(0);
+  const [latestUpdatesMode, setLatestUpdatesMode] = useState<boolean>(false);
 
   useEffect(function () {
     setMaps(false);
@@ -392,12 +395,20 @@ export const App: React.FC<Props> = ({}) => {
                 }
                 gigsListTimeline={gigsListTimeline}
                 setGigsListTimeline={(e: boolean) => setGigsListTimeline(e)}
+                gigsListUpdatedTimeline={gigsListUpdatedTimeline}
+                setGigsListUpdatedTimeline={(e: boolean) =>
+                  setGigsListUpdatedTimeline(e)
+                }
                 commentsTimeline={commentsTimeline}
                 setCommentsTimeline={(e: boolean) => setCommentsTimeline(e)}
                 imagesTimeline={imagesTimeline}
                 setImagesTimeline={(e: boolean) => setImagesTimeline(e)}
                 timelineScrollTop={timelineScrollTop}
                 setTimelineScrollTop={(e: number) => setTimelineScrollTop(e)}
+                scrollTopHistory={scrollTopHistory}
+                setScrollTopHistory={(e: number) => setScrollTopHistory(e)}
+                latestUpdatesMode={latestUpdatesMode}
+                setLatestUpdatesMode={(e: boolean) => setLatestUpdatesMode(e)}
               />
             }
           ></Route>

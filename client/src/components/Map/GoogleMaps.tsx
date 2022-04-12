@@ -89,13 +89,10 @@ export const GoogleMaps: React.FC<Props> = ({
       {gigsList &&
         gigsList.map((gig) => {
           var dot = "greendot.gif";
-          let date = new Date();
-          let dateFixed = gig.date.split("-");
-          if (
-            Number(dateFixed[0]) >= Number(date.getUTCFullYear()) &&
-            Number(dateFixed[1]) >= Number(date.getUTCMonth() + 1) &&
-            Number(dateFixed[2]) >= Number(date.getUTCDate())
-          ) {
+          let dateNow = new Date();
+          let dateGig = new Date(gig.date);
+
+          if (dateGig > dateNow) {
             dot = "yellowdot.gif";
             scaleParam = 15;
           }

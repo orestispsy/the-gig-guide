@@ -163,16 +163,25 @@ export const GigCreator: React.FC<Props> = ({
               />
             </div>
             <div className="coordinatesMenuFlipper">
-              <div className="coordinatesMenu">
-                <div className="lngLtdMenu">
-                  {!mapView && "Select On Map"} {mapView && "Close"}
+              <div
+                className="coordinatesMenu"
+                onClick={() => setMapView(!mapView)}
+              >
+                <div
+                  className="lngLtdMenu"
+                  style={{
+                    animation:
+                      (lat &&
+                        lng &&
+                        mapView &&
+                        "blinkerBan 3s infinite ease-in-out ") ||
+                      "",
+                  }}
+                >
+                  {!mapView && "Select On Map"} {mapView && "Close Map"}
                 </div>
 
-                <div
-                  title="Open Map"
-                  className="editMapTogglerGlobe"
-                  onClick={() => setMapView(!mapView)}
-                ></div>
+                <div title="Open Map" className="editMapTogglerGlobe"></div>
               </div>
 
               <div className="inputBack">
