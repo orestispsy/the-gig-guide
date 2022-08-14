@@ -4170,7 +4170,6 @@ font-family: 'Ultra', serif; */
   margin-top: 1vmax;
   font-size: 2vmax;
   cursor: pointer;
-
 }
 
 .chatBanCover a:hover {
@@ -4181,8 +4180,8 @@ font-family: 'Ultra', serif; */
   font-family: "Black Ops One", cursive !important;
   color: cyan;
   font-size: 4vmax !important;
-    animation : blinkerTextCyan 1s infinite;
-    animation-delay: 1s;
+  animation: blinkerTextCyan 1s infinite;
+  animation-delay: 1s;
 }
 
 .timerConfig {
@@ -6930,4 +6929,17 @@ input[type="number"] {
 
 .retroList a:nth-child(odd) {
   color: white !important;
+}
+
+.superEditName {
+  background-color: rgba(0, 255, 255, 0.171);
+  box-shadow: none;
+  color: rgba(170, 255, 0, 0.897);
+  text-align: center;
+  height: unset;
+  border-radius: 0%;
+  margin: 0;
+  text-shadow: 0 0 5px orange, 0 0 5px orange, 0 0 5px orange, 0 0 5px orange;
+  font-size: 3vmax;
+  font-family: "Poller One", cursive;
 }

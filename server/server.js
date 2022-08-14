@@ -423,6 +423,28 @@ app.post("/change-nickname", (req, res) => {
     });
 });
 
+app.post("/change-super-nickname", (req, res) => {
+  db.loginCheck(req.body.nickname)
+    .then(({ rows }) => {
+      if (!rows[0]) {
+        db.changeNickname(req.body.nickname, req.body.id)
+          .then(({ rows }) => {
+            res.json({ data: rows });
+          })
+          .catch((err) => {
+            res.json({ error: true });
+            console.log(err);
+          });
+      } else {
+        res.json({ errorDuplicate: true });
+      }
+    })
+    .catch((err) => {
+      res.json({ error: true });
+      console.log(err);
+    });
+});
+
 app.post("/change-password", (req, res) => {
   hash(req.body.password)
     .then((password_hash) => {
@@ -1038,6 +1060,7 @@ io.on("connection", function (socket) {
     for (var [key, value] of Object.entries(onlineUsers)) {
       if (value == message.msg_receiver_id) {
         socket.broadcast.to(key).emit("privateMessage", message);
+        socket.emit("privateMessage", message);
       }
     }
   });

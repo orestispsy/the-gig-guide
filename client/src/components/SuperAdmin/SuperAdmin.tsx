@@ -32,6 +32,8 @@ export const SuperAdmin: React.FC<Props> = ({
   const [guestUser, setGuestUser] = useState<any>(0);
   const [guestDeleteConfirm, setGuestDeleteConfirm] = useState<boolean>(false);
   const [networkUsers, setNetworkUsers] = useState<any>(false);
+  const [newUserName, setNewUserName] = useState<string>("");
+  const [editName, setEditName] = useState<boolean>(false);
 
   const currentLocation = useLocation() as unknown as LocationProps;
   const { state, pathname } = currentLocation;
@@ -41,6 +43,19 @@ export const SuperAdmin: React.FC<Props> = ({
       location.replace("/");
     }
     setAdminControls(true);
+    updateUsers();
+  }, []);
+
+  useEffect(
+    function () {
+      if (state && state.user) {
+        setSelectedUser(state.user.id);
+      }
+    },
+    [state]
+  );
+
+  const updateUsers = () => {
     axios
       .get("/get-all-users")
       .then(({ data }) => {
@@ -65,21 +80,30 @@ export const SuperAdmin: React.FC<Props> = ({
       .catch((err) => {
         console.log(err);
       });
-  }, []);
-
-  useEffect(
-    function () {
-      if (state && state.user) {
-        setSelectedUser(state.user.id);
-      }
-    },
-    [state]
-  );
+  };
 
   const deleteGuests = () => {
     axios
       .get("/delete-guests")
       .then(({ data }) => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const submitEnter = (e: any, id: number) => {
+    if (e.keyCode === 13) {
+      updateUserNickname(id);
+      setEditName(false);
+    }
+  };
+
+  const updateUserNickname = (id: number) => {
+    axios
+      .post("/change-super-nickname", { nickname: newUserName, id: id })
+      .then(({ data }) => {
+        updateUsers();
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -407,7 +431,26 @@ export const SuperAdmin: React.FC<Props> = ({
                     <div className="superListItemBack">
                       <div className="superListItem">
                         <img src={user.chat_img || "avatar.png"}></img>
-                        <h1>{user.nickname}</h1>
+                        {!editName && (
+                          <h1
+                            onClick={() => {
+                              setEditName(true);
+                            }}
+                          >
+                            {user.nickname}
+                          </h1>
+                        )}
+                        {editName && (
+                          <input
+                            onKeyDown={(e) => submitEnter(e, user.id)}
+                            onBlur={() => setEditName(false)}
+                            defaultValue={user.nickname}
+                            className="superEditName"
+                            onChange={(e) => {
+                              setNewUserName(e.target.value);
+                            }}
+                          ></input>
+                        )}
                         <div>Last Online</div>
                         <span>{fixedDate}</span>
                         <span>{fixedTime}</span>

@@ -86,7 +86,7 @@ export const init = (store) => {
     socket.on("browserCount", (data) => {
       store.dispatch(browserCountAct(data));
     });
-    socket.on("disc", (data) => {
+    socket.on("disc", () => {
       socket.disconnect();
     });
     socket.on("chatBan", (data) => {
