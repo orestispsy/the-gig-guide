@@ -53,6 +53,8 @@ export const App: React.FC<Props> = ({}) => {
     boolean | any[] | string
   >(false);
   const [chatNotification, setChatNotification] = useState<boolean>(false);
+  const [privateMsgNotification, setPrivateMsgNotification] =
+    useState<boolean>(false);
   const [chatMode, setChatMode] = useState<boolean>(false);
   const [aboutMode, setAboutMode] = useState<boolean>(false);
   const [addMode, setAddMode] = useState<boolean>(false);
@@ -61,6 +63,7 @@ export const App: React.FC<Props> = ({}) => {
   const [loaded, setLoaded] = useState<boolean>(false);
   const [loadedMain, setLoadedMain] = useState<boolean>(false);
   const [profileBanned, setProfileBanned] = useState<boolean>(false);
+  const [profileBlocked, setProfileBlocked] = useState<boolean>(false);
   const [animeMode, setAnimeMode] = useState<boolean>(false);
   const [gigEntryMode, setGigEntryMode] = useState<boolean>(false);
   const [mapMode, setMapMode] = useState<boolean>(false);
@@ -79,11 +82,12 @@ export const App: React.FC<Props> = ({}) => {
   const [gigsListUpdatedTimeline, setGigsListUpdatedTimeline] = useState<any>();
   const [imagesTimeline, setImagesTimeline] = useState<any>();
   const [commentsTimeline, setCommentsTimeline] = useState<any>();
-
   const currentVisitors = useSelector((state: any) => state && state.visitors);
+  const chatBan = useSelector((state: any) => state && state.chat_ban);
+  const blocked = useSelector((state: any) => state && state.block);
   const [timelineScrollTop, setTimelineScrollTop] = useState<number>(0);
-  const [scrollTopHistory, setScrollTopHistory] = useState<number>(0);
   const [latestUpdatesMode, setLatestUpdatesMode] = useState<boolean>(false);
+  const [retroList, setRetroList] = useState<boolean>(false);
 
   useEffect(function () {
     setMaps(false);
@@ -98,6 +102,7 @@ export const App: React.FC<Props> = ({}) => {
       setDarkMode,
       setUserSelectedMode,
       setProfileBanned,
+      setProfileBlocked,
       setMute
     );
     axiosGetGigs(setGigsList);
@@ -112,6 +117,35 @@ export const App: React.FC<Props> = ({}) => {
       }
     },
     [currentVisitors]
+  );
+  const logOut = () => {
+    axios
+      .get("/logout")
+      .then(() => {
+        location.replace("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(
+    function () {
+      setProfileBlocked(blocked);
+      if (blocked) {
+        setTimeout(() => {
+          logOut();
+        }, 8000);
+      }
+    },
+    [blocked]
+  );
+
+  useEffect(
+    function () {
+      setProfileBanned(chatBan);
+    },
+    [chatBan]
   );
 
   return (
@@ -142,6 +176,10 @@ export const App: React.FC<Props> = ({}) => {
               ) => setPlayerPosition(x, y, setTop, setLeft)}
               setChatNotification={(e: boolean) => setChatNotification(e)}
               chatNotification={chatNotification}
+              privateMsgNotification={privateMsgNotification}
+              setPrivateMsgNotification={(e: boolean) =>
+                setPrivateMsgNotification(e)
+              }
               chatMode={chatMode}
               setAboutMode={(e: boolean) => setAboutMode(e)}
               adminControls={adminControls}
@@ -176,6 +214,9 @@ export const App: React.FC<Props> = ({}) => {
               setTimelineGalleriesMode={(e: boolean) =>
                 setTimelineGalleriesMode(e)
               }
+              profileBlocked={profileBlocked}
+              profileBanned={profileBanned}
+              mute={mute}
             />
           }
         >
@@ -217,6 +258,7 @@ export const App: React.FC<Props> = ({}) => {
                   setTimelineGalleriesMode(e)
                 }
                 setTimelineScrollTop={(e: number) => setTimelineScrollTop(e)}
+                guest={guest}
               />
             }
           ></Route>
@@ -277,6 +319,8 @@ export const App: React.FC<Props> = ({}) => {
                 mapVisible={(e: boolean) => setMaps(e)}
                 setGigEntryMode={(e: boolean) => setGigEntryMode(e)}
                 setMapMode={(e: boolean) => setMapMode(e)}
+                retroList={retroList}
+                setRetroList={(e: boolean) => setRetroList(e)}
               />
             }
           ></Route>
@@ -298,6 +342,7 @@ export const App: React.FC<Props> = ({}) => {
             path="/api/gig/:id"
             element={
               <GigEntry
+                darkMode={darkMode}
                 gigsList={gigsList}
                 myUserId={myUserId}
                 superAdmin={superAdmin}
@@ -356,6 +401,9 @@ export const App: React.FC<Props> = ({}) => {
                 mute={mute}
                 setTimelineMode={(e: boolean) => setTimelineMode(e)}
                 setTimelineScrollTop={(e: number) => setTimelineScrollTop(e)}
+                setPrivateMsgNotification={(e: boolean) =>
+                  setPrivateMsgNotification(e)
+                }
               />
             }
           ></Route>
@@ -405,10 +453,10 @@ export const App: React.FC<Props> = ({}) => {
                 setImagesTimeline={(e: boolean) => setImagesTimeline(e)}
                 timelineScrollTop={timelineScrollTop}
                 setTimelineScrollTop={(e: number) => setTimelineScrollTop(e)}
-                scrollTopHistory={scrollTopHistory}
-                setScrollTopHistory={(e: number) => setScrollTopHistory(e)}
                 latestUpdatesMode={latestUpdatesMode}
                 setLatestUpdatesMode={(e: boolean) => setLatestUpdatesMode(e)}
+                superAdmin={superAdmin}
+                guest={guest}
               />
             }
           ></Route>

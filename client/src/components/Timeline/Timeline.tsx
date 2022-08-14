@@ -1,10 +1,10 @@
-import { useEffect, useState, useRef } from "react";
-import { useLocation } from "react-router-dom";
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { TimelineGigs } from "./components/TimelineGigs";
 import { TimelineImages } from "./components/TimelineImages";
 import { TimelineComments } from "./components/TimelineComments";
 import { TimelineLastOnline } from "./components/TimelineLastOnline";
+import { TimelineUpdates } from "./components/TimelineUpdates";
 
 const {
   axiosGetGigs,
@@ -15,15 +15,12 @@ const {
   axiosGetComments,
   axiosGetLastOnline,
   axiosGetNextComments,
-
   dateTimeHandler,
 } = require("./TimelineUtils");
 
 interface Props {
   setTimelineMode: (e: boolean) => void;
-
   setTimelineCommentsMode: (e: boolean) => void;
-
   setTimelineGigsMode: (e: boolean) => void;
   setTimelineGalleriesMode: (e: boolean) => void;
   gigsListTimeline: any;
@@ -36,10 +33,11 @@ interface Props {
   setImagesTimeline: (e: any) => void;
   timelineScrollTop: number;
   setTimelineScrollTop: (e: number) => void;
-  scrollTopHistory: number;
-  setScrollTopHistory: (e: number) => void;
+
   latestUpdatesMode: boolean;
   setLatestUpdatesMode: (e: boolean) => void;
+  superAdmin: boolean;
+  guest: boolean;
 }
 
 type LocationProps = {
@@ -67,10 +65,10 @@ export const Timeline: React.FC<Props> = ({
   setImagesTimeline,
   timelineScrollTop,
   setTimelineScrollTop,
-  scrollTopHistory,
-  setScrollTopHistory,
   latestUpdatesMode,
   setLatestUpdatesMode,
+  superAdmin,
+  guest,
 }) => {
   const [updatesOn, setUpdatesOn] = useState<boolean>(false);
   const [gigEntriesOn, setGigEntriesOn] = useState<boolean>(false);
@@ -81,8 +79,19 @@ export const Timeline: React.FC<Props> = ({
   const elemRef = useRef<HTMLDivElement>(null);
   const [lastUsersMode, setLastUsersMode] = useState<boolean>(false);
 
+  const navigate = useNavigate();
+
   const location = useLocation() as unknown as LocationProps;
   const { state } = location;
+
+  useEffect(
+    function () {
+      if (guest) {
+        navigate("/");
+      }
+    },
+    [guest]
+  );
 
   useEffect(function () {
     setTimelineMode(true);
@@ -120,11 +129,11 @@ export const Timeline: React.FC<Props> = ({
       setTimeout((e) => {
         if (elemRef && elemRef.current) {
           elemRef.current.scrollTo({
-            top: scrollTopHistory - 2,
+            top: timelineScrollTop - 2,
             behavior: "smooth",
           });
         }
-      });
+      }, 500);
     }
   }, []);
 
@@ -372,7 +381,6 @@ export const Timeline: React.FC<Props> = ({
                 dateTimeHandler={(e: string) => dateTimeHandler(e)}
                 latestUpdatesMode={latestUpdatesMode}
                 timelineScrollTop={timelineScrollTop}
-                setScrollTopHistory={(e: number) => setScrollTopHistory(e)}
               />
             )}
             {imagesTimeline && gigGalleryOn && (
@@ -387,7 +395,6 @@ export const Timeline: React.FC<Props> = ({
                 imagesTimeline={imagesTimeline}
                 dateTimeHandler={(e: string) => dateTimeHandler(e)}
                 timelineScrollTop={timelineScrollTop}
-                setScrollTopHistory={(e: number) => setScrollTopHistory(e)}
               />
             )}
             {commentsTimeline && gigCommentsOn && (
@@ -402,7 +409,6 @@ export const Timeline: React.FC<Props> = ({
                 }
                 dateTimeHandler={(e: string) => dateTimeHandler(e)}
                 timelineScrollTop={timelineScrollTop}
-                setScrollTopHistory={(e: number) => setScrollTopHistory(e)}
               />
             )}
             {lastOnlineTimeline && lastOnlineOn && (
@@ -410,6 +416,12 @@ export const Timeline: React.FC<Props> = ({
                 lastOnlineTimeline={lastOnlineTimeline}
                 lastUsersMode={lastUsersMode}
                 dateTimeHandler={(e: string) => dateTimeHandler(e)}
+              />
+            )}
+            {updatesOn && (
+              <TimelineUpdates
+                dateTimeHandler={(e: string) => dateTimeHandler(e)}
+                superAdmin={superAdmin}
               />
             )}
           </div>

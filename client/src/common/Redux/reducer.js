@@ -124,6 +124,13 @@ export default function (state = {}, action) {
       visitors: action.visitors,
     };
   }
+  if (action.type == "BLOCK") {
+    console.log(action);
+    nextState = {
+      ...state,
+      block: action.block,
+    };
+  }
 
   // console.log("NEXT State", nextState);
   return nextState;

@@ -130,3 +130,10 @@ export function visitors(arg) {
     visitors: arg,
   };
 }
+
+export function blockAct(arg) {
+  return {
+    type: "BLOCK",
+    block: arg,
+  };
+}

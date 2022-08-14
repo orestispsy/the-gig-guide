@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import React, { useState, useEffect, Fragment, useRef } from "react";
+import axios from "../../common/Axios/axios";
 
 interface Props {
   gigsList: any;
@@ -11,9 +12,13 @@ interface Props {
   mapVisible: (e: boolean) => void;
   setGigEntryMode: (e: boolean) => void;
   setMapMode: (e: boolean) => void;
+  setRetroList: (e: boolean) => void;
+  retroList: boolean;
 }
 
 export const GigList: React.FC<Props> = ({
+  retroList,
+  setRetroList,
   gigsList,
   setDarkMode,
   year,
@@ -24,8 +29,12 @@ export const GigList: React.FC<Props> = ({
   setGigEntryMode,
   setMapMode,
 }) => {
+  const [searchFieldOpen, setSearchFieldOpen] = useState<boolean>(false);
+  const [searchResults, setSearchResults] = useState<any>(false);
   const [sortedGigs, setSortedGigs] = useState<any>(false);
   const [sortedMonths, setSortedMonths] = useState<any>([]);
+  const [reverseList, setReverseList] = useState<boolean>(false);
+
   const [months, setMonths] = useState([
     { id: "01", month: "January" },
     { id: "02", month: "February" },
@@ -44,6 +53,8 @@ export const GigList: React.FC<Props> = ({
 
   const elemRef = useRef<HTMLDivElement>(null);
 
+  const retroListRef = useRef<HTMLDivElement>(null);
+
   useEffect(function () {
     setAnimeMode(false);
     setGigListOpen(true);
@@ -54,6 +65,15 @@ export const GigList: React.FC<Props> = ({
       gigListFiltering(year);
     }
   }, []);
+
+  useEffect(
+    function () {
+      if (retroListRef.current) {
+        retroListRef.current.scrollTop = -retroListRef.current.scrollHeight;
+      }
+    },
+    [reverseList]
+  );
 
   var sortedGigsHelper: any = [];
   useEffect(
@@ -81,145 +101,278 @@ export const GigList: React.FC<Props> = ({
   const gigsReset = () => {
     setYear(undefined);
     setSortedGigs(false);
+    setSearchResults(false);
+    setSearchFieldOpen(false);
+  };
+
+  const gigFinder = (e: string) => {
+    axios
+      .post("/find-gig", { keyword: e })
+      .then(({ data }) => {
+        if (data.data) {
+          setSearchResults(data.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const dateModifier = (e: string, retro?: boolean) => {
+    if (!retro) {
+      let dateFull = e.split("-");
+      return dateFull[2] + ` • ` + dateFull[1] + ` • ` + dateFull[0];
+    } else {
+      let dateFull = e.split("-");
+      return dateFull[2] + `.` + dateFull[1] + `.` + dateFull[0];
+    }
   };
 
   return (
-    <div className="gigListContainer" style={{}}>
-      <div className="gigEntriesBox">
-        <h1>Gig Entries</h1>
-        <div className="gigListControls">
-          <div className="sortedGigRange">2006</div>
-          <input
-            value={(year && year) || ""}
-            title="Set Year"
-            type="range"
-            min="2006"
-            max="2022"
-            className="selectGigEntry"
-            onChange={(e) => {
-              gigListFiltering(e.target.value);
-              setYear(e.target.value);
-            }}
-          ></input>
-          <div className="sortedGigRange">2022</div>
+    <div className="gigListContainer">
+      {retroList && (
+        <div className="retroListHead">
+          <div className="retroTitle">Gig Entries</div>
         </div>
-        {year && (
+      )}
+      {retroList && (
+        <div className="retroListCategories">
           <div
-            title="Reset"
-            className="sortedGigReset"
-            onClick={() => {
-              gigsReset();
+            title={"Reverse List"}
+            onClick={(e) => {
+              setReverseList(!reverseList);
             }}
           >
-            show all
+            #
           </div>
-        )}
-        <div className="year"> {(year && year) || "Total"}</div>
-      </div>
-      <div className="gigEntriesCounter">
-        {gigsList && !sortedGigs && gigsList.length}
-        {sortedGigs && sortedGigs.length}
-      </div>
-      <div className="gigEntriesBack">
-        {!year && <div className="latestEntries">Latest</div>}
+          <div>Date</div>
+          <div>Venue</div>
+          <div>City</div>
+          <div>Tour Name</div>
+        </div>
+      )}
+      {retroList && (
         <div
-          id={(!year && "gigEntries") || ""}
-          className="gigEntries"
+          className="retroList"
+          ref={retroListRef}
           style={{
-            height: (year && `54vh`) || "",
-            marginTop: (!year && `1vmax`) || "",
-          }}
-          ref={elemRef}
-          onScrollCapture={() => {
-            if (
-              elemRef.current &&
-              elemRef.current.scrollTop + elemRef.current.clientHeight + 1 >=
-                elemRef.current.scrollHeight
-            ) {
-              if (shownGigs >= gigsList.length - 1) {
-                setShownGigs(gigsList.length);
-                return;
-              } else {
-                const timer = setTimeout(() => {
-                  setShownGigs(shownGigs + 4);
-                }, 200);
-                return () => clearTimeout(timer);
-              }
-            } else {
-              return;
-            }
+            flexDirection: (reverseList && "column-reverse") || "column",
           }}
         >
-          {sortedGigs && year && (
-            <div className="gigListMonths">
-              {months &&
-                months.map((month: any) => (
-                  <React.Fragment key={month.id}>
-                    {sortedMonths.includes(month.id) && (
-                      <div className="exactMonth">
-                        <div className="exactMonthTitle">{month.month}</div>
-
-                        <div className="monthInnerBox">
-                          {sortedGigs &&
-                            sortedGigs.map((gig: any) => {
-                              var splitDate = gig.date.split("-");
-
-                              return (
-                                <React.Fragment key={gig.id}>
-                                  {splitDate[1] == month.id && (
-                                    <Link
-                                      onClick={(e) => {
-                                        setYear(year);
-                                      }}
-                                      to={`/api/gig/${gig.id}`}
-                                    >
-                                      <div className="gigBox" id="gigBox">
-                                        <div id="gigBoxDateSorted">
-                                          {gig.date.split("-")[2]}
-                                        </div>
-                                        <div
-                                          style={{
-                                            color: `lime`,
-                                          }}
-                                        >
-                                          {gig.venue}
-                                        </div>
-                                        <div
-                                          style={{
-                                            color: `white`,
-                                          }}
-                                        >
-                                          {gig.city}
-                                        </div>
-                                      </div>
-                                    </Link>
-                                  )}
-                                </React.Fragment>
-                              );
-                            })}
-                        </div>
-                      </div>
-                    )}
-                  </React.Fragment>
-                ))}{" "}
-            </div>
-          )}
           {gigsList &&
-            !year &&
-            !sortedGigs &&
-            gigsList
-              .slice(gigsList.length - shownGigs, gigsList.length)
-              .reverse()
-              .map((gig: any) => (
+            gigsList.map((gig: any, index: number) => (
+              <Link to={`/api/gig/${gig.id}`} key={gig.id}>
+                <div>{index + 1}</div>
+                <div>{dateModifier(gig.date, true)} </div>
+                <div> {gig.venue}</div>
+                <div> {gig.city}</div>
+                <div> {gig.tour_name}</div>
+              </Link>
+            ))}
+        </div>
+      )}
+      {!retroList && (
+        <div className="gigEntriesBoxBack">
+          <div className="gigEntriesBox">
+            <h1>Gig Entries</h1>
+            <div className="gigListControls">
+              <div className="sortedGigRange">2006</div>
+              <input
+                value={(year && year) || ""}
+                title="Set Year"
+                type="range"
+                min="2006"
+                max="2022"
+                className="selectGigEntry"
+                onChange={(e) => {
+                  gigListFiltering(e.target.value);
+                  setYear(e.target.value);
+                  setSearchResults(false);
+                  setSearchFieldOpen(false);
+                }}
+              ></input>
+              <div className="sortedGigRange">2022</div>
+            </div>
+            {year && (
+              <div
+                title="Reset"
+                className="sortedGigReset"
+                onClick={() => {
+                  gigsReset();
+                }}
+              >
+                show all
+              </div>
+            )}
+            <div
+              className="gigListSearch"
+              onClick={(e) => {
+                setSearchFieldOpen(!searchFieldOpen);
+                setSearchResults(false);
+              }}
+            ></div>
+            {searchFieldOpen && (
+              <input
+                placeholder="Search for City or Venue"
+                type="text"
+                className="searchFieldGigList"
+                onChange={(e) => gigFinder(e.target.value)}
+              ></input>
+            )}
+            <div className="year">
+              {" "}
+              {(year && !searchFieldOpen && year) || "Total"}
+            </div>
+          </div>
+          <div className="gigEntriesCounter">
+            {!searchResults &&
+              !searchFieldOpen &&
+              gigsList &&
+              !sortedGigs &&
+              gigsList.length}
+            {!searchResults &&
+              !searchFieldOpen &&
+              sortedGigs &&
+              sortedGigs.length}
+            {(searchFieldOpen && !searchResults.length && "0") ||
+              searchResults.length}
+          </div>
+        </div>
+      )}
+      {!retroList && (
+        <div className="gigEntriesBack">
+          {!year && !searchResults && !searchFieldOpen && (
+            <div className="latestEntries">Latest</div>
+          )}
+
+          {searchResults && <div className="latestEntries">Gigs Found</div>}
+          <div
+            id={(!year && "gigEntries") || ""}
+            className="gigEntries"
+            style={{
+              height: (year && `54vh`) || "",
+              marginTop: (!year && `1vmax`) || "",
+            }}
+            ref={elemRef}
+            onScrollCapture={() => {
+              if (
+                elemRef.current &&
+                elemRef.current.scrollTop + elemRef.current.clientHeight + 1 >=
+                  elemRef.current.scrollHeight
+              ) {
+                if (shownGigs >= gigsList.length - 1) {
+                  setShownGigs(gigsList.length);
+                  return;
+                } else {
+                  const timer = setTimeout(() => {
+                    setShownGigs(shownGigs + 4);
+                  }, 200);
+                  return () => clearTimeout(timer);
+                }
+              } else {
+                return;
+              }
+            }}
+          >
+            {sortedGigs && !searchResults && !searchFieldOpen && year && (
+              <div className="gigListMonths">
+                {months &&
+                  months.map((month: any) => (
+                    <React.Fragment key={month.id}>
+                      {sortedMonths.includes(month.id) && (
+                        <div className="exactMonth">
+                          <div className="exactMonthTitle">{month.month}</div>
+
+                          <div className="monthInnerBox">
+                            {sortedGigs &&
+                              sortedGigs.map((gig: any) => {
+                                var splitDate = gig.date.split("-");
+
+                                return (
+                                  <React.Fragment key={gig.id}>
+                                    {splitDate[1] == month.id && (
+                                      <Link
+                                        onClick={(e) => {
+                                          setYear(year);
+                                        }}
+                                        to={`/api/gig/${gig.id}`}
+                                      >
+                                        <div className="gigBox" id="gigBox">
+                                          <div id="gigBoxDateSorted">
+                                            {gig.date.split("-")[2]}
+                                          </div>
+                                          <div
+                                            style={{
+                                              color: `lime`,
+                                            }}
+                                          >
+                                            {gig.venue}
+                                          </div>
+                                          <div
+                                            style={{
+                                              color: `white`,
+                                            }}
+                                          >
+                                            {gig.city}
+                                          </div>
+                                        </div>
+                                      </Link>
+                                    )}
+                                  </React.Fragment>
+                                );
+                              })}
+                          </div>
+                        </div>
+                      )}
+                    </React.Fragment>
+                  ))}{" "}
+              </div>
+            )}
+            {gigsList &&
+              !searchResults &&
+              !searchFieldOpen &&
+              !year &&
+              !sortedGigs &&
+              gigsList
+                .slice(gigsList.length - shownGigs, gigsList.length)
+                .reverse()
+                .map((gig: any) => (
+                  <Link to={`/api/gig/${gig.id}`} key={gig.id}>
+                    <div className="gigBox">
+                      <div
+                        style={{
+                          color: `yellow`,
+                        }}
+                      >
+                        {dateModifier(gig.date)}
+                      </div>
+                      <div
+                        style={{
+                          color: `lime`,
+                        }}
+                      >
+                        {gig.venue}
+                      </div>
+                      <div
+                        style={{
+                          color: `white`,
+                        }}
+                      >
+                        {gig.city}
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+            {searchResults &&
+              searchResults.map((gig: any) => (
                 <Link to={`/api/gig/${gig.id}`} key={gig.id}>
                   <div className="gigBox">
                     <div
                       style={{
                         color: `yellow`,
-                        fontFamily: `"Black Ops One", cursive `,
                       }}
                     >
-                      {gig.date}
+                      {dateModifier(gig.date)}
                     </div>
                     <div
                       style={{
@@ -238,11 +391,21 @@ export const GigList: React.FC<Props> = ({
                   </div>
                 </Link>
               ))}
+          </div>
         </div>
+      )}
+      <div className="gigListOptions">
+        <div
+          title={(!retroList && "Full List View") || "Gig Entries"}
+          className={(retroList && "listBoxes") || "listLines"}
+          onClick={(e) => setRetroList(!retroList)}
+        ></div>
+        <Link
+          title="Animated List"
+          to="/gig-list-animation"
+          className="gigAnimationLink"
+        ></Link>
       </div>
-      <Link to="/gig-list-animation" className="gigAnimationLink">
-        Animate
-      </Link>
     </div>
   );
 };

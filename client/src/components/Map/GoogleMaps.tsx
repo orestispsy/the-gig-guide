@@ -81,7 +81,7 @@ export const GoogleMaps: React.FC<Props> = ({
             north: 85,
             south: -80,
             west: -179,
-            east: 179,
+            east: 185,
           },
         },
       }}
@@ -101,7 +101,6 @@ export const GoogleMaps: React.FC<Props> = ({
             dot = "redBall.gif";
             scaleParam = 15;
           }
-
           return (
             <Marker
               key={gig.id}

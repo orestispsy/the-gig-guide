@@ -15,7 +15,8 @@ CREATE TABLE community (
     dark_mode BOOLEAN DEFAULT false,
     ban BOOLEAN DEFAULT false,
     ban_time VARCHAR DEFAULT '',
-      ban_time_sec VARCHAR DEFAULT ''
+    ban_time_sec VARCHAR DEFAULT '',
+    blocked BOOLEAN DEFAULT false
 );
 
 CREATE TABLE gigs (
@@ -78,5 +79,19 @@ CREATE TABLE about_comments (
     website VARCHAR,
     comment TEXT,
     reply integer,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE updates (
+    id SERIAL PRIMARY KEY,
+    update VARCHAR,  
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE gigs_visited (
+    id SERIAL PRIMARY KEY,
+    user INT REFERENCES community(id),
+    visited JSON,      
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

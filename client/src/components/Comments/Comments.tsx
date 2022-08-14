@@ -3,7 +3,7 @@ import axios from "../../common/Axios/axios";
 import { socket } from "../../common/Socket/socket";
 import { useSelector } from "react-redux";
 
-const { axiosGetComments } = require("./CommentsUtils");
+const { axiosGetComments, dateTimeHandler } = require("./CommentsUtils");
 
 interface Props {
   selectedGigId: string;
@@ -120,18 +120,23 @@ export const Comments: React.FC<Props> = ({
       <div className="commentBox" ref={elemRef}>
         {comments && comments.length == 0 && <h1>Nothing here yet .</h1>}
         {comments &&
-          comments.map((comment: any) => (
-            <div key={comment.id}>
-              {comment.gig_id == selectedGigId && (
-                <div>
-                  <div className="comment" id={comment.id}>
-                    {comment.comment}
-                    <div>{comment.nickname}</div>
+          comments.map((comment: any) => {
+            return (
+              <div key={comment.id}>
+                {comment.gig_id == selectedGigId && (
+                  <div>
+                    <div className="comment" id={comment.id}>
+                      {comment.comment}
+                      <div>
+                        {comment.nickname} -{" "}
+                        {dateTimeHandler(comment.created_at)}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-          ))}
+                )}
+              </div>
+            );
+          })}
       </div>
       <textarea
         rows={1}

@@ -26,6 +26,7 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
   const [blogComments, setBlogComments] = useState<any[] | undefined>([]);
   const [reply, setReply] = useState<boolean>(false);
   const [selectedComment, setSelectedComment] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   let expBlogComments: any;
 
@@ -104,6 +105,7 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
         } else {
           setImgCount(2);
         }
+        setIsLoaded(false);
       }}
     >
       <div className="aboutDescription">
@@ -489,11 +491,18 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
         </div>
       </div>
       <div
-        className="aboutCover"
-        style={{
-          backgroundImage: `url(/about/about${imgCount}.jpg)`,
-        }}
-      ></div>
+        className="aboutCoverBack"
+        id={(!isLoaded && "blurred") || "unblurred"}
+      >
+        <img
+          className="aboutCover"
+          src={`/about/about${imgCount}.jpg`}
+          onLoad={() => {
+            setIsLoaded(true);
+          }}
+          id={(isLoaded && "coverVisible") || "coverHidden"}
+        ></img>
+      </div>
     </div>
   );
 };

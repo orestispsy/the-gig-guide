@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import axios from "../../common/Axios/axios";
 import React, { useState, useEffect, useRef } from "react";
 
@@ -7,6 +7,15 @@ const { axiosGetGigs } = require("./GigEditorUtils");
 import EditMap from "../EditMap/EditMap";
 
 import { Posters } from "../Posters/Posters";
+
+type LocationProps = {
+  state: {
+    gig: {
+      date: string;
+    };
+  };
+  pathname: string;
+};
 
 interface Props {
   gigsList: any;
@@ -46,10 +55,13 @@ export const GigEditor: React.FC<Props> = ({
   const [tourName, setTourName] = useState("");
   const [city, setCity] = useState<string>("");
   const [poster, setPoster] = useState<string>("");
-  const [gigToView, setGigToView] = useState("");
+  const [gigToView, setGigToView] = useState<string | number>("");
   const [selectedGig, setSelectedGig] = useState<any>("");
 
   const elemRef = useRef<any>();
+
+  const currentLocation = useLocation() as unknown as LocationProps;
+  const { state, pathname } = currentLocation;
 
   useEffect(function () {
     if (!admin) {
@@ -57,6 +69,17 @@ export const GigEditor: React.FC<Props> = ({
     }
     setEditMode(true);
   }, []);
+
+  useEffect(
+    function () {
+      if (state && state.gig) {
+        setTimeout(() => {
+          setGigToView(state.gig.date);
+        }, 1500);
+      }
+    },
+    [state]
+  );
 
   useEffect(
     function () {
@@ -158,7 +181,6 @@ export const GigEditor: React.FC<Props> = ({
       .then(({ data }) => {
         if (data.data) {
           setSelectedGig(data.data);
-          data = data.data;
         }
       })
       .catch((err) => {
@@ -403,7 +425,7 @@ export const GigEditor: React.FC<Props> = ({
                           "",
                       }}
                     >
-                      {!mapView && "Select On Map"} {mapView && "Close"}
+                      {!mapView && "Select On Map"} {mapView && "Close Map"}
                     </div>
 
                     <div

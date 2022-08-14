@@ -22,15 +22,27 @@ export const Posters: React.FC<Props> = ({ setSelectedPoster }) => {
   return (
     <div className="posterEdit">
       {posters &&
-        posters.rows.map((poster: any) => (
-          <img
-            title={poster.poster || ""}
-            src={poster.poster}
-            key={poster.id}
-            className="posterEditPreview"
-            onClick={(e) => setSelectedPoster(poster.poster)}
-          ></img>
-        ))}
+        posters.rows.map((poster: any) => {
+          if (poster.poster.includes("na.jpg")) {
+            return;
+          } else {
+            return (
+              <img
+                title={poster.poster || ""}
+                src={poster.poster}
+                key={poster.id}
+                className="posterEditPreview"
+                onClick={(e) => setSelectedPoster(poster.poster)}
+              ></img>
+            );
+          }
+        })}
+      <img
+        title={"No Picture"}
+        src={"na.jpg"}
+        className="posterEditPreview"
+        onClick={(e) => setSelectedPoster("/na.jpg")}
+      ></img>
     </div>
   );
 };

@@ -18,6 +18,7 @@ import {
   banTimerAct,
   hornAct,
   visitors,
+  blockAct,
 } from "./../Redux/actions";
 import { io } from "socket.io-client";
 
@@ -99,6 +100,9 @@ export const init = (store) => {
     });
     socket.on("visitors", (data) => {
       store.dispatch(visitors(data));
+    });
+    socket.on("block", (data) => {
+      store.dispatch(blockAct(data));
     });
   }
 };

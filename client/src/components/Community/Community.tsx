@@ -165,7 +165,7 @@ export const Community: React.FC<Props> = ({
             className="mainMenuLink"
             onClick={() => setContribute(true)}
           >
-            Contribute!
+            Contribute
           </div>
           {!guest && (
             <div

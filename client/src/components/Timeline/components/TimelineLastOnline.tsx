@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface Props {
   lastOnlineTimeline: any;
@@ -19,7 +18,11 @@ export const TimelineLastOnline: React.FC<Props> = ({
       {lastOnlineTimeline &&
         lastOnlineTimeline.map((user: any, index: number) => {
           return (
-            <div className="gigEntryTimelineDetails" key={index}>
+            <div
+              className="gigEntryTimelineDetails"
+              id="timelineUsers"
+              key={index}
+            >
               <img
                 className="timelineOnlineUsersPic"
                 src={user.chat_img || "./avatar.png"}

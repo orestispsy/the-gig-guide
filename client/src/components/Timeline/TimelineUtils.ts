@@ -142,7 +142,7 @@ module.exports.dateTimeHandler = (e: string) => {
   }
 
   let fixedDateTime: string =
-    year + "-" + month + "-" + day + " • " + timePreFix + hours + ":" + minutes;
+    day + "-" + month + "-" + year + " • " + timePreFix + hours + ":" + minutes;
 
   return fixedDateTime;
 };

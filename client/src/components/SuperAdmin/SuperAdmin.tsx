@@ -1,6 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "../../common/Axios/axios";
+import { socket } from "../../common/Socket/socket";
+
+type LocationProps = {
+  state: {
+    user: {
+      id: number;
+    };
+  };
+  pathname: string;
+};
+
 interface Props {
   setDarkMode: (e: boolean) => void;
   myUserId: number | undefined;
@@ -21,6 +32,9 @@ export const SuperAdmin: React.FC<Props> = ({
   const [guestUser, setGuestUser] = useState<any>(0);
   const [guestDeleteConfirm, setGuestDeleteConfirm] = useState<boolean>(false);
   const [networkUsers, setNetworkUsers] = useState<any>(false);
+
+  const currentLocation = useLocation() as unknown as LocationProps;
+  const { state, pathname } = currentLocation;
 
   useEffect(function () {
     if (!superAdmin) {
@@ -52,6 +66,15 @@ export const SuperAdmin: React.FC<Props> = ({
         console.log(err);
       });
   }, []);
+
+  useEffect(
+    function () {
+      if (state && state.user) {
+        setSelectedUser(state.user.id);
+      }
+    },
+    [state]
+  );
 
   const deleteGuests = () => {
     axios
@@ -97,7 +120,6 @@ export const SuperAdmin: React.FC<Props> = ({
 
   let fixedTime: string;
   let fixedDate: string;
-  let fixedHours: number;
   let msgDate: string[];
   let msgTime: string[];
   let diff = new Date().getTimezoneOffset() / -60;
@@ -147,6 +169,24 @@ export const SuperAdmin: React.FC<Props> = ({
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const setUserBlock = (e: any, id: any, boolean: boolean) => {
+    for (var x = 0; x < networkUsers.length; x++) {
+      if (networkUsers[x].id == e.target.id) {
+        let newBlockedList = [...networkUsers];
+        newBlockedList[x].blocked = !boolean;
+        setUserList(newBlockedList);
+      }
+    }
+    axios
+      .post("/block-user", { id: id, boolean: !boolean })
+      .then(({ data }) => {})
+      .catch((err) => {
+        console.log(err);
+      });
+
+    socket.emit("forceBlock", { id: id, boolean: boolean });
   };
 
   return (
@@ -438,24 +478,50 @@ export const SuperAdmin: React.FC<Props> = ({
                               CONFIRM
                             </div>
                           ))}
-                        {(user.ban && (
-                          <div
-                            id={user.id || ""}
-                            className="adminYes"
-                            onClick={(e) => setUserBan(e, user.id, user.ban)}
-                          >
-                            BAN
-                          </div>
-                        )) ||
-                          (!user.ban && (
+                        <div className="punishBox">
+                          {(user.ban && (
                             <div
                               id={user.id || ""}
-                              className="adminNo"
+                              className="adminYes"
                               onClick={(e) => setUserBan(e, user.id, user.ban)}
                             >
                               BAN
                             </div>
-                          ))}
+                          )) ||
+                            (!user.ban && (
+                              <div
+                                id={user.id || ""}
+                                className="adminNo"
+                                onClick={(e) =>
+                                  setUserBan(e, user.id, user.ban)
+                                }
+                              >
+                                BAN
+                              </div>
+                            ))}
+                          {(user.blocked && (
+                            <div
+                              id={user.id || ""}
+                              className="adminYes"
+                              onClick={(e) =>
+                                setUserBlock(e, user.id, user.blocked)
+                              }
+                            >
+                              BLOCK
+                            </div>
+                          )) ||
+                            (!user.blocked && (
+                              <div
+                                id={user.id || ""}
+                                className="adminNo"
+                                onClick={(e) =>
+                                  setUserBlock(e, user.id, user.blocked)
+                                }
+                              >
+                                BLOCK
+                              </div>
+                            ))}
+                        </div>
                       </div>
                     </div>
                   </div>

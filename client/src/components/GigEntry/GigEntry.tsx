@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "../../common/Axios/axios";
 import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
 
@@ -6,6 +6,7 @@ import { Community } from "../Community/Community";
 import { Comments } from "../Comments/Comments";
 
 interface Props {
+  darkMode: boolean;
   gigsList: any;
   myUserId: number | undefined;
   superAdmin: boolean;
@@ -28,11 +29,13 @@ type LocationProps = {
   state: {
     previousPath: string;
     comments: boolean;
+    gig: number;
   };
   pathname: string;
 };
 
 export const GigEntry: React.FC<Props> = ({
+  darkMode,
   gigsList,
   myUserId,
   superAdmin,
@@ -54,16 +57,44 @@ export const GigEntry: React.FC<Props> = ({
   const [gigId, setGigId] = useState<string>("");
   const [venue, setVenue] = useState<string>("");
   const [date, setDate] = useState<string>("");
+  const [fullDate, setFullDate] = useState<string>("");
   const [tourName, setTourName] = useState<string>("");
   const [poster, setPoster] = useState<string>("");
   const [selectedGig, setSelectedGig] = useState<any>("");
   const [openComments, setOpenComments] = useState<boolean>(false);
+  const [resize, setResize] = useState<boolean>(false);
+  const [posterZoom, setPosterZoom] = useState<boolean>(false);
+  const [months, setMonths] = useState([
+    { month: "January" },
+    { month: "February" },
+    { month: "March" },
+    { month: "April" },
+    { month: "May" },
+    { month: "June" },
+    { month: "July" },
+    { month: "August" },
+    { month: "September" },
+    { month: "October" },
+    { month: "November" },
+    { month: "December" },
+  ]);
+  const [days, setDays] = useState([
+    { day: "Sunday" },
+    { day: "Monday" },
+    { day: "Tuesday" },
+    { day: "Wednesday" },
+    { day: "Thursday" },
+    { day: "Friday" },
+    { day: "Saturday" },
+  ]);
 
   let navigate = useNavigate();
   let { id } = useParams();
 
   const location = useLocation() as unknown as LocationProps;
-  const { state } = location;
+  const { state, pathname } = location;
+
+  const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(
     function () {
@@ -76,30 +107,68 @@ export const GigEntry: React.FC<Props> = ({
     [state]
   );
 
-  useEffect(function () {
-    setTimeout(() => {
-      setDarkMode(true);
-      setGigEntryMode(true);
-      setMapMode(true);
-      mapVisible(false);
-    }, 300);
+  useEffect(
+    function () {
+      setTimeout(() => {
+        setGigEntryMode(true);
+        setMapMode(true);
+        mapVisible(false);
+      }, 300);
+      axios
+        .get("/gig/" + id)
+        .then(({ data }) => {
+          setCity(data.data.city);
+          setGigId(data.data.id);
+          setVenue(data.data.venue);
+          setDate(data.data.date);
+          setTourName(data.data.tour_name);
+          setPoster(data.data.poster);
+          setSelectedGig(data.data.date);
+          setGigEntry(data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    [pathname]
+  );
 
-    axios
-      .get("/gig/" + id)
-      .then(({ data }) => {
-        setCity(data.data.city);
-        setGigId(data.data.id);
-        setVenue(data.data.venue);
-        setDate(data.data.date);
-        setTourName(data.data.tour_name);
-        setPoster(data.data.poster);
-        setSelectedGig(data.data.date);
-        setGigEntry(data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  useEffect(
+    function () {
+      if (!poster) {
+        setPosterZoom(false);
+      }
+      setResize(false);
+      setTimeout((e) => {
+        if (
+          poster &&
+          imgRef.current &&
+          imgRef.current.naturalHeight < imgRef.current.naturalWidth
+        ) {
+          setResize(true);
+        }
+      }, 300);
+    },
+    [poster]
+  );
+
+  useEffect(
+    function () {
+      if (date) {
+        dateModifier();
+      }
+    },
+    [date]
+  );
+
+  useEffect(
+    function () {
+      if (!darkMode) {
+        setDarkMode(true);
+      }
+    },
+    [darkMode]
+  );
 
   useEffect(
     function () {
@@ -130,6 +199,18 @@ export const GigEntry: React.FC<Props> = ({
       });
   };
 
+  const dateModifier = () => {
+    let full_date = new Date(date);
+    let fullday = full_date.getUTCDay();
+    let fullNumberday = full_date.getDate();
+    let fullMonth = full_date.getMonth();
+    let fullYear = full_date.getUTCFullYear();
+
+    setFullDate(
+      `${days[fullday].day}, ${fullNumberday} ${months[fullMonth].month} ${fullYear}`
+    );
+  };
+
   return (
     <div className="gigEntryContainer">
       <form>
@@ -157,22 +238,73 @@ export const GigEntry: React.FC<Props> = ({
               ))
               .reverse()}
         </select>
-      </form>
-      <div className="gigEntryDetailsBack">
-        <div className="gigEntryDetails">
-          {poster && <img src={poster}></img>}
-          <div className="detailedEntry">
-            <span>Venue</span>
-            <h1>{venue}</h1>
-            <span>City</span>
-            <h1> {(selectedGig && selectedGig.city) || city}</h1>
-            <span>Tour Name</span>
-            <h1>{tourName}</h1>
-            <span>Date</span>
-            <h1>{date}</h1>
+        {superAdmin && (
+          <div
+            className="editGigButton"
+            onClick={() => {
+              navigate("/gig-editor", {
+                state: {
+                  previousPath: pathname,
+                  gig: selectedGigEntry,
+                },
+              });
+            }}
+          >
+            EDIT
           </div>
-        </div>
-        {!openComments && (
+        )}
+      </form>
+
+      <div
+        className="gigEntryDetailsBack"
+        style={{
+          overflowY: (posterZoom && `auto`) || `unset`,
+        }}
+      >
+        {posterZoom && (
+          <img
+            className="gigEntryZoomedImg"
+            onClick={(e) => setPosterZoom(false)}
+            src={poster}
+          ></img>
+        )}
+        {!posterZoom && (
+          <div className="gigEntryDetails">
+            {poster && (
+              <img
+                onClick={(e) => setPosterZoom(true)}
+                src={poster}
+                ref={imgRef}
+                style={{
+                  height: (resize && "unset") || "",
+                }}
+              ></img>
+            )}
+            <div className="detailedEntry">
+              <div>
+                {" "}
+                <span>Venue</span>
+                <h1>{venue || " "}</h1>
+              </div>
+              <div>
+                {" "}
+                <span>City</span>
+                <h1>{city || " "}</h1>
+              </div>
+              <div>
+                {" "}
+                <span>Tour Name</span>
+                <h1>{tourName || " "}</h1>
+              </div>
+              <div>
+                {" "}
+                <span>Date</span>
+                <h1>{fullDate}</h1>
+              </div>
+            </div>
+          </div>
+        )}
+        {!openComments && !posterZoom && (
           <Community
             selectedGigId={gigId}
             myUserId={myUserId}
@@ -185,7 +317,7 @@ export const GigEntry: React.FC<Props> = ({
             setImagesTimeline={(e: boolean) => setImagesTimeline(e)}
           />
         )}
-        {openComments && (
+        {openComments && !posterZoom && (
           <Comments
             selectedGigId={gigId}
             myUserId={myUserId}

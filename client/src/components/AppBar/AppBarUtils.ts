@@ -3,7 +3,9 @@ module.exports.chatNewPostNotification = (
   chatMode: boolean,
   chatMessages: any,
   setChatNotification: (e: boolean) => void,
-  playSlideFx: () => void
+  setPrivateMsgNotification: (e: boolean) => void,
+  playSlideFx: () => void,
+  mute: boolean
 ) => {
   const timer = setTimeout(() => {
     if (!chatNotification && !chatMode && chatMessages.length > 10) {
@@ -14,8 +16,11 @@ module.exports.chatNewPostNotification = (
       ) {
         return;
       }
+      setPrivateMsgNotification(false);
       setChatNotification(true);
-      playSlideFx();
+      if (!mute) {
+        playSlideFx();
+      }
     }
   }, 1000);
   return () => clearTimeout(timer);

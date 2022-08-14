@@ -12,6 +12,7 @@ module.exports.axiosGetUserDetails = (
   setDarkMode: (e: boolean) => void,
   setUserSelectedMode: (e: boolean) => void,
   setProfileBanned: (e: boolean) => void,
+  setProfileBlocked: (e: boolean) => void,
   setMute: (e: boolean) => void
 ) => {
   axios
@@ -29,6 +30,7 @@ module.exports.axiosGetUserDetails = (
         setDarkMode(data.data.dark_mode);
         setUserSelectedMode(data.data.dark_mode);
         setProfileBanned(data.data.ban);
+        setProfileBlocked(data.data.blocked);
         setMute(data.data.mute);
 
         if (data.data.nickname) {

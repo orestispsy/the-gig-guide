@@ -9,6 +9,7 @@ interface Props {}
 export const Login: React.FC<Props> = ({}) => {
   const [error, setError] = useState<boolean>(false);
   const [banError, setBanError] = useState<boolean>(false);
+  const [blockError, setBlockError] = useState<boolean>(false);
   const [nickname, setNickname] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [secondsLeft, setSecondsLeft] = useState<any>(0);
@@ -40,6 +41,8 @@ export const Login: React.FC<Props> = ({}) => {
         .then(({ data }) => {
           if (data.data) {
             location.replace("/");
+          } else if (data.errorBlock) {
+            setBlockError(true);
           } else if (data.errorBan) {
             setSecondsLeft(Math.round(-Number(data.secondsLeft)));
 
@@ -91,6 +94,7 @@ export const Login: React.FC<Props> = ({}) => {
                 onClick={() => {
                   setError(false);
                   setBanError(false);
+                  setBlockError(false);
                 }}
               />
               <span>Password</span>
@@ -105,6 +109,7 @@ export const Login: React.FC<Props> = ({}) => {
                 onClick={() => {
                   setError(false);
                   setBanError(false);
+                  setBlockError(false);
                 }}
               />
 
@@ -130,6 +135,7 @@ export const Login: React.FC<Props> = ({}) => {
               </div>
             </p>
           )}
+          {blockError && <p className="errorBan">THIS ACCOUNT IS BLOCKED</p>}
         </div>
         <div className="loginContainerRight">
           <span className="regSpan">Not a Member?</span>

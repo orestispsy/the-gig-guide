@@ -2,9 +2,16 @@ import { useSelector } from "react-redux";
 import { socket } from "../../common/Socket/socket";
 import React, { useEffect, useState } from "react";
 import axios from "../../common/Axios/axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 let emoji = require("./../../common/customEmoj.json");
+
+type LocationProps = {
+  state: {
+    previousPath: string;
+  };
+  pathname: string;
+};
 
 interface Props {
   myChatImg: string;
@@ -32,7 +39,6 @@ interface Props {
   configTimer: any;
   setConfigTimer: (e: any) => void;
   onlineUsers: any;
-  chatBan: boolean;
   horn: any;
   playNotification: (e: boolean, playPrivateMsg: () => void) => void;
   playPrivateMsg: () => void;
@@ -62,7 +68,7 @@ export const OnlineUsers: React.FC<Props> = ({
   setFilteredPrivateMessages,
   configTimer,
   setConfigTimer,
-  chatBan,
+
   horn,
   playNotification,
   playPrivateMsg,
@@ -95,6 +101,10 @@ export const OnlineUsers: React.FC<Props> = ({
   );
 
   const statePrivateMsgs = useSelector((state: any) => state && state.messages);
+
+  const navigate = useNavigate();
+  const location = useLocation() as unknown as LocationProps;
+  const { state, pathname } = location;
 
   useEffect(() => {
     axios
@@ -328,154 +338,73 @@ export const OnlineUsers: React.FC<Props> = ({
 
   return (
     <>
-      {!chatBan && (
+      <div
+        className="onlineUsersBack"
+        style={{
+          marginBottom:
+            (emojiBar && `-3vmax`) || (privateMode && `-2vmax`) || "",
+          marginLeft: (privateMode && `1vmax`) || "",
+        }}
+      >
         <div
-          className="onlineUsersBack"
+          className="onlineUsers"
+          id={(darkMode && "onlineUsersDark") || ""}
           style={{
-            marginBottom:
-              (emojiBar && `-5vmax`) || (privateMode && `-2vmax`) || "",
-            marginLeft: (privateMode && `1vmax`) || "",
+            boxShadow:
+              (privateMode &&
+                `-0 0 10px rgba(0, 0, 0, 0.308), 0 -0 10px rgba(0, 0, 0, 0.308),
+        -0 -0 10px rgba(0, 0, 0, 0.308), -0 -0 10px rgba(0, 0, 0, 0.308)`) ||
+              "",
           }}
         >
-          <div
-            className="onlineUsers"
-            id={(darkMode && "onlineUsersDark") || ""}
-            style={{
-              boxShadow:
-                (privateMode &&
-                  `-0 0 10px rgba(0, 0, 0, 0.308), 0 -0 10px rgba(0, 0, 0, 0.308),
-        -0 -0 10px rgba(0, 0, 0, 0.308), -0 -0 10px rgba(0, 0, 0, 0.308)`) ||
-                "",
-            }}
-          >
-            {!userPicBar && !userConfig && (
-              <div className="mobileOnlineUsers">
-                {!privateMode && !networkList && (
-                  <div className="chatUserHeadline">
-                    {!networkList && "Online"}
-                  </div>
-                )}
+          {!userPicBar && !userConfig && (
+            <div className="mobileOnlineUsers">
+              {!privateMode && !networkList && (
+                <div className="chatUserHeadline">
+                  {!networkList && "Online"}
+                </div>
+              )}
 
-                {!privateMode && networkList && (
-                  <div
-                    className="chatUserHeadline"
-                    style={{
-                      fontFamily:
-                        (networkList && '"Black Ops One", cursive') || "",
-                    }}
-                  >
-                    Network
-                  </div>
-                )}
-                {!privateMode && (
-                  <span className="onlineUserCounter">
-                    {!networkList && onlineUsers && onlineUsers.length}
-                    {networkList &&
-                      networkUsers.filter(
-                        (user: any) => !user.nickname.includes("Guest")
-                      ).length}
-                  </span>
-                )}
+              {!privateMode && networkList && (
                 <div
-                  className="usersBack"
-                  id={(darkMode && "usersBackDark") || ""}
+                  className="chatUserHeadline"
                   style={{
-                    marginTop: (privateMode && `-0.2vmax`) || "",
-                    boxShadow: (privateMode && `none`) || "",
-                    border: (privateMode && `none`) || "",
-                    backgroundColor:
-                      (!privateMode && `rgba(255, 255, 255, 0.027)`) || "",
+                    fontFamily:
+                      (networkList && '"Black Ops One", cursive') || "",
                   }}
                 >
-                  {!privateMode &&
-                    networkList &&
-                    networkUsers &&
-                    networkUsers.map((user: any) => (
-                      <div key={user.id}>
-                        {!user.nickname.includes("Guest") && (
-                          <div>
-                            <div
-                              className="onlineList"
-                              onClick={(e) => {
-                                if (user.id != myUserId) {
-                                  setEmojiBar(false);
-                                  setPrivateMode(!privateMode);
-                                  setUserPrivate(user.id);
-                                  setPrivatePic(user.chat_img);
-                                  setPrivateNick(user.nickname);
-                                }
-                              }}
-                            >
-                              <div id="networkUser">
-                                <img
-                                  className="onlineListImg"
-                                  alt={user.nickname}
-                                  src={
-                                    (myUserId == user.id && onlineUserPic) ||
-                                    (user.chat_img && user.chat_img) ||
-                                    "./../avatar.png"
-                                  }
-                                ></img>
-                              </div>
-                              <span
-                                title={
-                                  (user.id != myUserId &&
-                                    "Send Private Message") ||
-                                  ""
-                                }
-                                style={{
-                                  color:
-                                    (myUserId == user.id && chatColor) ||
-                                    user.chat_color ||
-                                    `yellow`,
-                                }}
-                              >
-                                {user.nickname}
-                              </span>
-                              {privateMessages &&
-                                privateMessages.map((msg: any) => {
-                                  if (
-                                    !msg.receiver_seen &&
-                                    msg.msg_sender_id == user.id
-                                  ) {
-                                    return (
-                                      <div
-                                        className="notification"
-                                        key={msg.id}
-                                      ></div>
-                                    );
-                                  } else {
-                                    return;
-                                  }
-                                })}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-
-                  {onlineUsers &&
-                    !networkList &&
-                    !privateMode &&
-                    onlineUsers.map((user: any) => (
-                      <div key={user.id}>
-                        <div
-                          style={{
-                            backgroundColor:
-                              horn &&
-                              horn.admin_shaked == user.id &&
-                              `#fbff0413`,
-                          }}
-                          className="onlineList"
-                          id={
-                            (shakeUser &&
-                              user.id == selectUserToKick &&
-                              "hornShake") ||
-                            ""
-                          }
-                        >
+                  Network
+                </div>
+              )}
+              {!privateMode && (
+                <span className="onlineUserCounter">
+                  {!networkList && onlineUsers && onlineUsers.length}
+                  {networkList &&
+                    networkUsers.filter(
+                      (user: any) => !user.nickname.includes("Guest")
+                    ).length}
+                </span>
+              )}
+              <div
+                className="usersBack"
+                id={(darkMode && "usersBackDark") || ""}
+                style={{
+                  marginTop: (privateMode && `-0.2vmax`) || "",
+                  boxShadow: (privateMode && `none`) || "",
+                  border: (privateMode && `none`) || "",
+                  backgroundColor:
+                    (!privateMode && `rgba(255, 255, 255, 0.027)`) || "",
+                }}
+              >
+                {!privateMode &&
+                  networkList &&
+                  networkUsers &&
+                  networkUsers.map((user: any) => (
+                    <div key={user.id}>
+                      {!user.nickname.includes("Guest") && (
+                        <div>
                           <div
-                            className="onlineListDetails"
+                            className="onlineList"
                             onClick={(e) => {
                               if (user.id != myUserId) {
                                 setEmojiBar(false);
@@ -486,12 +415,7 @@ export const OnlineUsers: React.FC<Props> = ({
                               }
                             }}
                           >
-                            <div
-                              id={
-                                (user.online && "online") ||
-                                (!user.online && "offline")
-                              }
-                            >
+                            <div id="networkUser">
                               <img
                                 className="onlineListImg"
                                 alt={user.nickname}
@@ -502,7 +426,7 @@ export const OnlineUsers: React.FC<Props> = ({
                                 }
                               ></img>
                             </div>
-                            {user.super_admin && <div id="OnlineListImg"></div>}
+
                             <span
                               title={
                                 (user.id != myUserId &&
@@ -513,13 +437,11 @@ export const OnlineUsers: React.FC<Props> = ({
                                 color:
                                   (myUserId == user.id && chatColor) ||
                                   user.chat_color ||
-                                  `lime`,
+                                  `yellow`,
                               }}
                             >
-                              {(user.id == myUserId && myNickname) ||
-                                user.nickname}
+                              {user.nickname}
                             </span>
-
                             {privateMessages &&
                               privateMessages.map((msg: any) => {
                                 if (
@@ -537,291 +459,389 @@ export const OnlineUsers: React.FC<Props> = ({
                                 }
                               })}
                           </div>
-                          {configTimer && selectUserToKick == user.id && (
-                            <div className="timerConfig">
-                              <div id="timerConfigBox">
-                                <div>BAN TIME</div>
-                                <div className="banInputBox">
-                                  <input
-                                    type="number"
-                                    onKeyDown={(e) => keyCheck(e, user.id)}
-                                    onChange={(e) =>
-                                      socket.emit("BAN TIMER", {
-                                        time: e.target.value,
-                                        id: user.id,
-                                        nickname: user.nickname,
-                                      })
-                                    }
-                                  ></input>
-                                  <div>sec</div>
-                                </div>
-                              </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
 
-                              <div
-                                className="kickOut"
-                                style={{
-                                  animation: `1.1s linear infinite blinker2`,
-                                }}
-                                onClick={(e) => {
-                                  setConfigTimer(false);
-                                  if (user.id != myUserId) {
-                                    socket.emit("forceDisconnect", user.id);
+                {onlineUsers &&
+                  !networkList &&
+                  !privateMode &&
+                  onlineUsers.map((user: any) => (
+                    <div key={user.id}>
+                      <div
+                        style={{
+                          backgroundColor:
+                            horn && horn.admin_shaked == user.id && `#fbff0413`,
+                        }}
+                        className="onlineList"
+                        id={
+                          (shakeUser &&
+                            user.id == selectUserToKick &&
+                            "hornShake") ||
+                          ""
+                        }
+                      >
+                        <div
+                          className="onlineListDetails"
+                          onClick={(e) => {
+                            if (user.id != myUserId) {
+                              setEmojiBar(false);
+                              setPrivateMode(!privateMode);
+                              setUserPrivate(user.id);
+                              setPrivatePic(user.chat_img);
+                              setPrivateNick(user.nickname);
+                            }
+                          }}
+                        >
+                          <div
+                            id={
+                              (user.online && "online") ||
+                              (!user.online && "offline")
+                            }
+                          >
+                            <img
+                              className="onlineListImg"
+                              alt={user.nickname}
+                              src={
+                                (myUserId == user.id && onlineUserPic) ||
+                                (user.chat_img && user.chat_img) ||
+                                "./../avatar.png"
+                              }
+                            ></img>
+                          </div>
+                          {user.super_admin && <div id="OnlineListImg"></div>}
+
+                          <span
+                            title={
+                              (user.id != myUserId && "Send Private Message") ||
+                              ""
+                            }
+                            style={{
+                              color:
+                                (myUserId == user.id && chatColor) ||
+                                user.chat_color ||
+                                `lime`,
+                            }}
+                          >
+                            {(user.id == myUserId && myNickname) ||
+                              user.nickname}
+                          </span>
+                          {privateMessages &&
+                            privateMessages.map((msg: any) => {
+                              if (
+                                !msg.receiver_seen &&
+                                msg.msg_sender_id == user.id
+                              ) {
+                                return (
+                                  <div
+                                    className="notification"
+                                    key={msg.id}
+                                  ></div>
+                                );
+                              } else {
+                                return;
+                              }
+                            })}
+                        </div>
+
+                        {configTimer && selectUserToKick == user.id && (
+                          <div className="timerConfig">
+                            <div id="timerConfigBox">
+                              <div>BAN TIME</div>
+                              <div className="banInputBox">
+                                <input
+                                  type="number"
+                                  onKeyDown={(e) => keyCheck(e, user.id)}
+                                  onChange={(e) =>
+                                    socket.emit("BAN TIMER", {
+                                      time: e.target.value,
+                                      id: user.id,
+                                      nickname: user.nickname,
+                                    })
                                   }
-                                }}
-                              ></div>
+                                ></input>
+                                <div>sec</div>
+                              </div>
                             </div>
-                          )}
-                          {user.id != myUserId && !configTimer && superAdmin && (
+
                             <div
                               className="kickOut"
+                              title={`Kick User ${user.nickname}`}
+                              style={{
+                                animation: `1.1s linear infinite blinker2`,
+                              }}
                               onClick={(e) => {
-                                setConfigTimer(true);
-                                setSelectUserToKick(user.id);
+                                setConfigTimer(false);
+                                if (user.id != myUserId) {
+                                  socket.emit("forceDisconnect", user.id);
+                                }
                               }}
                             ></div>
-                          )}
-                          {user.id != myUserId && !guest && (
-                            <div
-                              className="horn"
-                              onClick={(e) => {
-                                setSelectUserToKick(user.id);
-                                setShakeUser(true);
-                                socket.emit("HORN", {
-                                  user: user.id,
-                                  horn: true,
-                                  admin_shaked: myUserId,
-                                });
-                              }}
-                            ></div>
-                          )}
-                        </div>
+                          </div>
+                        )}
+                        {user.id != myUserId && !configTimer && superAdmin && (
+                          <div
+                            className="kickOut"
+                            title={`Ban Settings`}
+                            onClick={(e) => {
+                              setConfigTimer(true);
+                              setSelectUserToKick(user.id);
+                            }}
+                          ></div>
+                        )}
+                        {user.id != myUserId && !guest && (
+                          <div
+                            className="horn"
+                            title={`Hit a Horn to ${user.nickname}`}
+                            onClick={(e) => {
+                              setSelectUserToKick(user.id);
+                              setShakeUser(true);
+                              socket.emit("HORN", {
+                                user: user.id,
+                                horn: true,
+                                admin_shaked: myUserId,
+                              });
+                            }}
+                          ></div>
+                        )}
+                        {user.id != myUserId && superAdmin && (
+                          <div
+                            title={`Edit User ${user.nickname}`}
+                            className="editSuperMode"
+                            onClick={() => {
+                              navigate("/super-admin", {
+                                state: {
+                                  previousPath: pathname,
+                                  user: user,
+                                },
+                              });
+                            }}
+                          ></div>
+                        )}
                       </div>
-                    ))}
-
-                  {privateMode && (
-                    <div>
-                      <img
-                        onClick={(e) => {
-                          setPrivateMode(false);
-                        }}
-                        src={(privatePic && privatePic) || "./../avatar.png"}
-                        id="privateUserImage"
-                      ></img>
                     </div>
-                  )}
-                </div>
+                  ))}
+
                 {privateMode && (
-                  <div id="privateMsgUserNick">{privateNick}</div>
-                )}
-              </div>
-            )}
-
-            {userConfig && (
-              <div className="changeNickBox">
-                <div className="changeNickInstructions">Edit Profile</div>
-                <div className="changeNickBoxThread">Nickname</div>
-                <input
-                  type="text"
-                  placeholder="nickname"
-                  maxLength={20}
-                  defaultValue={myNickname}
-                  onChange={(e) => setNewNickname(e.target.value)}
-                  onClick={(e) => {
-                    setErrorMsgInfo(false);
-                    setErrorDuplicate(false);
-                  }}
-                ></input>
-                {errorDuplicate && (
-                  <div className="errorNickname">
-                    This Nickname Exists Already !
-                  </div>
-                )}
-                {!errorDuplicate && (
-                  <div className="changeNickBoxThread">Password</div>
-                )}
-                {!errorDuplicate && (
-                  <div className="userConfigPwdBack">
-                    <input
-                      type={
-                        (!pwdReveal && "password") ||
-                        (pwdReveal && "text") ||
-                        ""
-                      }
-                      placeholder="password"
-                      onChange={(e) => setNewPassword(e.target.value)}
-                    ></input>
-                    <div
-                      className={
-                        (pwdReveal && "pwdNOTvisible") ||
-                        (!pwdReveal && "pwdVisibility") ||
-                        ""
-                      }
+                  <div>
+                    <img
                       onClick={(e) => {
-                        setPwdReveal(!pwdReveal);
+                        setPrivateMode(false);
                       }}
-                    ></div>
+                      src={(privatePic && privatePic) || "./../avatar.png"}
+                      id="privateUserImage"
+                    ></img>
                   </div>
                 )}
-                <div
-                  className="changeNickButton"
-                  onClick={(e) => {
-                    if (myNickname === newNickname && newPassword === "") {
-                      return;
-                    }
-
-                    // if (!newNickname.includes("Guest")) {
-                    //   setAdmin(true);
-                    // }
-                    else if (!newNickname) {
-                      if (newPassword && newPassword !== "") {
-                        changeInfo(myNickname, newPassword);
-                      }
-                    } else if (newNickname) {
-                      if (newPassword) {
-                        changeInfo(newNickname, newPassword);
-                      } else {
-                        changeInfo(newNickname);
-                      }
-                    } else {
-                      setErrorMsgInfo(true);
-                    }
-                  }}
-                >
-                  Confirm
-                </div>
-                {errorMsgInfo && (
-                  <p className="error" id="error">
-                    Please Enter A Proper Nickname
-                  </p>
-                )}
               </div>
-            )}
+              {privateMode && <div id="privateMsgUserNick">{privateNick}</div>}
+            </div>
+          )}
 
-            {userPicBar && (
-              <div className="fileUploaderChat">
-                <img
-                  src={myChatImg || "./../avatar.png"}
-                  id="privateUserImage"
-                ></img>
-                <h1>Chat Image</h1>
+          {userConfig && (
+            <div className="changeNickBox">
+              <div className="changeNickInstructions">Edit Profile</div>
+              <div className="changeNickBoxThread">Nickname</div>
+              <input
+                type="text"
+                placeholder="nickname"
+                maxLength={20}
+                defaultValue={myNickname}
+                onChange={(e) => setNewNickname(e.target.value)}
+                onClick={(e) => {
+                  setErrorMsgInfo(false);
+                  setErrorDuplicate(false);
+                }}
+              ></input>
+              {errorDuplicate && (
+                <div className="errorNickname">
+                  This Nickname Exists Already !
+                </div>
+              )}
+              {!errorDuplicate && (
+                <div className="changeNickBoxThread">Password</div>
+              )}
+              {!errorDuplicate && (
+                <div className="userConfigPwdBack">
+                  <input
+                    type={
+                      (!pwdReveal && "password") || (pwdReveal && "text") || ""
+                    }
+                    placeholder="password"
+                    onChange={(e) => setNewPassword(e.target.value)}
+                  ></input>
+                  <div
+                    className={
+                      (pwdReveal && "pwdNOTvisible") ||
+                      (!pwdReveal && "pwdVisibility") ||
+                      ""
+                    }
+                    onClick={(e) => {
+                      setPwdReveal(!pwdReveal);
+                    }}
+                  ></div>
+                </div>
+              )}
+              <div
+                className="changeNickButton"
+                onClick={(e) => {
+                  if (myNickname === newNickname && newPassword === "") {
+                    return;
+                  }
 
-                <input
-                  type="file"
-                  name="file"
-                  accept="image/*"
-                  onChange={(e) => handleUploaderChange(e)}
-                  onClick={(e) => setErrorMsg(false)}
-                />
+                  // if (!newNickname.includes("Guest")) {
+                  //   setAdmin(true);
+                  // }
+                  else if (!newNickname) {
+                    if (newPassword && newPassword !== "") {
+                      changeInfo(myNickname, newPassword);
+                    }
+                  } else if (newNickname) {
+                    if (newPassword) {
+                      changeInfo(newNickname, newPassword);
+                    } else {
+                      changeInfo(newNickname);
+                    }
+                  } else {
+                    setErrorMsgInfo(true);
+                  }
+                }}
+              >
+                Confirm
+              </div>
+              {errorMsgInfo && (
+                <p className="error" id="error">
+                  Please Enter A Proper Nickname
+                </p>
+              )}
+            </div>
+          )}
 
-                {!uploading && (
-                  <div className="uploadChat">
+          {userPicBar && (
+            <div className="fileUploaderChat">
+              <img
+                src={myChatImg || "./../avatar.png"}
+                id="privateUserImage"
+              ></img>
+              <h1>Chat Image</h1>
+
+              <input
+                type="file"
+                name="file"
+                accept="image/*"
+                onChange={(e) => handleUploaderChange(e)}
+                onClick={(e) => setErrorMsg(false)}
+              />
+
+              {!uploading && (
+                <div className="uploadChat">
+                  <h1
+                    style={{
+                      animation: file && `2s linear infinite blinkerAvatar`,
+                    }}
+                    onClick={() => {
+                      handleUploaderClick();
+                      setUploading(true);
+                    }}
+                  >
+                    UPDATE
+                  </h1>
+                  {closeTag && (
                     <h1
-                      style={{
-                        animation: file && `2s linear infinite blinkerAvatar`,
-                      }}
+                      className="toggleChatUploader"
                       onClick={() => {
-                        handleUploaderClick();
-                        setUploading(true);
+                        setErrorMsg(false);
+                        toggleUploader();
+                        setFile(null);
                       }}
                     >
-                      UPDATE
+                      CLOSE
                     </h1>
-                    {closeTag && (
-                      <h1
-                        className="toggleChatUploader"
-                        onClick={() => {
-                          setErrorMsg(false);
-                          toggleUploader();
-                          setFile(null);
-                        }}
-                      >
-                        CLOSE
-                      </h1>
-                    )}
-                  </div>
-                )}
-                {uploading && (
-                  <div className="uploadChat">
-                    <div className="uploadSuccess"></div>
-                  </div>
-                )}
-                {errorMsg && (
-                  <p className="error" id="error">
-                    Select an Image [Max Size: 10MB]
-                  </p>
-                )}
-              </div>
-            )}
-            {!closeTag && !privateMode && (
-              <div className="chatMenuOptions">
+                  )}
+                </div>
+              )}
+              {uploading && (
+                <div className="uploadChat">
+                  <div className="uploadSuccess"></div>
+                </div>
+              )}
+              {errorMsg && (
+                <p className="error" id="error">
+                  Select an Image [Max Size: 10MB]
+                </p>
+              )}
+            </div>
+          )}
+          {!closeTag && !privateMode && (
+            <div className="chatMenuOptions">
+              <div
+                className="chatMenuConfigButton"
+                title={(!userConfig && "Edit Account") || "Close"}
+                onClick={(e) => {
+                  setUserConfig(!userConfig);
+                  setEmojiBar(false);
+                  setErrorMsgInfo(false);
+                  setConfigTimer(false);
+                  setErrorDuplicate(false);
+                }}
+              ></div>
+              {!guest && !userConfig && (
                 <div
-                  className="chatMenuConfigButton"
-                  title={(!userConfig && "Edit Account") || "Close"}
-                  onClick={(e) => {
-                    setUserConfig(!userConfig);
-                    setEmojiBar(false);
+                  title="User Network"
+                  className="networkList"
+                  onClick={() => {
+                    setNetworkList(!networkList);
+                    setConfigTimer(false);
+                  }}
+                ></div>
+              )}
+
+              {userConfig && (
+                <div
+                  className="uploaderTogglerImg"
+                  title="Change Chat Image"
+                  onClick={() => {
+                    toggleUploader();
                     setErrorMsgInfo(false);
                     setConfigTimer(false);
                     setErrorDuplicate(false);
+                    setErrorMsg(false);
                   }}
                 ></div>
-                {!guest && !userConfig && (
-                  <div
-                    title="User Network"
-                    className="networkList"
-                    onClick={() => {
-                      setNetworkList(!networkList);
-                      setConfigTimer(false);
-                    }}
-                  ></div>
-                )}
-
-                {userConfig && (
-                  <div
-                    className="uploaderTogglerImg"
-                    title="Change Chat Image"
-                    onClick={() => {
-                      toggleUploader();
-                      setErrorMsgInfo(false);
-                      setConfigTimer(false);
-                      setErrorDuplicate(false);
-                      setErrorMsg(false);
-                    }}
-                  ></div>
-                )}
-                {!userConfig && (
-                  <input
-                    className="colorSelector"
-                    title="Change Chat Color"
-                    type="color"
-                    defaultValue={chatColor || myChatColor || `#00f01c`}
-                    style={{
-                      boxShadow:
-                        (chatColor &&
-                          `-0 0 10px ${chatColor}, 0 -0 10px ${chatColor},
+              )}
+              {!userConfig && (
+                <input
+                  className="colorSelector"
+                  title="Change Chat Color"
+                  type="color"
+                  defaultValue={chatColor || myChatColor || `#00f01c`}
+                  style={{
+                    boxShadow:
+                      (chatColor &&
+                        `-0 0 10px ${chatColor}, 0 -0 10px ${chatColor},
         -0 -0 10px ${chatColor}, -0 -0 10px ${chatColor}`) ||
-                        "",
-                    }}
-                    onChange={(e) => {
-                      handleColorChange(e);
-                    }}
-                  ></input>
-                )}
-              </div>
-            )}
-          </div>
-          {emojiBar && (
-            <div className="emoticons" id={(darkMode && "emoticonsDark") || ""}>
-              {emoji &&
-                emoji.map((emoj: any) => (
-                  <div key={emoj.id}>
-                    <img src={emoj.url} onClick={(e) => sendEmoji(e)}></img>
-                  </div>
-                ))}
+                      "",
+                  }}
+                  onChange={(e) => {
+                    handleColorChange(e);
+                  }}
+                ></input>
+              )}
             </div>
           )}
         </div>
-      )}
+        {emojiBar && (
+          <div className="emoticons" id={(darkMode && "emoticonsDark") || ""}>
+            {emoji &&
+              emoji.map((emoj: any) => (
+                <div key={emoj.id}>
+                  <img src={emoj.url} onClick={(e) => sendEmoji(e)}></img>
+                </div>
+              ))}
+          </div>
+        )}
+      </div>
     </>
   );
 };

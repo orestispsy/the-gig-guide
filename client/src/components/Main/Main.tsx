@@ -7,6 +7,7 @@ interface Props {
   admin: boolean;
   visitors: number | boolean;
   darkMode: boolean;
+  guest: boolean;
   setDarkMode: (e: boolean) => void;
   setChatMode: (e: boolean) => void;
   setChatNotification: (e: boolean) => void;
@@ -68,6 +69,7 @@ export const Main: React.FC<Props> = ({
   setTimelineGalleriesMode,
   setTimelineGigsMode,
   setTimelineScrollTop,
+  guest,
 }) => {
   const [firstView, setFirstView] = useState<boolean>(true);
   useEffect(function () {
@@ -123,7 +125,10 @@ export const Main: React.FC<Props> = ({
         <div
           className="mainContainer"
           id={(firstView && `mainContainerIntro`) || ``}
-          style={{ visibility: (loaded && `visible`) || `hidden` }}
+          style={{
+            visibility: (loaded && `visible`) || `hidden`,
+            justifyContent: (!darkMode && "flex-start") || "center",
+          }}
         >
           <div id={(darkMode && "logoBoxDark") || ""}>
             <div className="logoBack">
@@ -231,11 +236,13 @@ export const Main: React.FC<Props> = ({
             </div>
           )}
           <div className="mainTopRightButtons">
-            <Link to="/timeline" className="timeline" title="Timeline">
-              <div>
-                <img src="timeline.png"></img>
-              </div>
-            </Link>
+            {!guest && (
+              <Link to="/timeline" className="timeline" title="Timeline">
+                <div>
+                  <img src="timeline.png"></img>
+                </div>
+              </Link>
+            )}
             {superAdmin && (
               <Link to="/about">
                 <div className="aboutButton" title="About"></div>

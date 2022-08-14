@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 interface Props {
@@ -9,7 +8,6 @@ interface Props {
   setTimelineGalleriesMode: (e: boolean) => void;
   dateTimeHandler: (e: string) => void;
   timelineScrollTop: number;
-  setScrollTopHistory: (e: number) => void;
 }
 
 export const TimelineComments: React.FC<Props> = ({
@@ -19,7 +17,6 @@ export const TimelineComments: React.FC<Props> = ({
   setTimelineGalleriesMode,
   dateTimeHandler,
   timelineScrollTop,
-  setScrollTopHistory,
 }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -35,10 +32,10 @@ export const TimelineComments: React.FC<Props> = ({
         commentsTimeline.map((gig: any, index: number) => {
           return (
             <div className="gigEntryTimelineDetails" key={index}>
-              <img
-                src={(gig.poster && gig.poster) || "./na.jpg"}
+              <div
+                className="detailedTimelineEntry"
+                id="timelineEntryComments"
                 onClick={(e) => {
-                  setScrollTopHistory(timelineScrollTop);
                   navigate(`/api/gig/${gig.gigsid}`, {
                     state: {
                       previousPath: pathname,
@@ -46,9 +43,7 @@ export const TimelineComments: React.FC<Props> = ({
                     },
                   });
                 }}
-              ></img>
-
-              <div className="detailedTimelineEntry">
+              >
                 <span>{gig.city}</span>
 
                 <h1>{gig.date}</h1>

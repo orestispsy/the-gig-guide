@@ -87,7 +87,9 @@ app.post("/login", (req, res) => {
         compare(req.body.password, rows[0].password_hash)
           .then((match) => {
             if (match) {
-              if (rows[0].ban) {
+              if (rows[0].blocked) {
+                res.json({ errorBlock: true });
+              } else if (rows[0].ban) {
                 if (rows[0].ban_time) {
                   let dateNow = new Date();
 
@@ -291,7 +293,10 @@ app.post("/gig-update", (req, res) => {
     req.body.lng || lng,
     req.body.tourName || tourName,
     req.body.city || city,
-    req.body.poster || req.body.selectedPoster || poster
+    req.body.poster ||
+      (req.body.selectedPoster.includes("/na.jpg") && null) ||
+      req.body.selectedPoster ||
+      poster
   )
     .then(({ rows }) => {
       res.json({ data: rows[0] });
@@ -438,7 +443,6 @@ app.post("/change-password", (req, res) => {
 app.get("/logout", (req, res) => {
   req.session = null;
   res.redirect("/");
-  n;
 });
 
 app.get("/counter", (req, res) => {
@@ -859,6 +863,46 @@ app.post("/get-last-online-timeline", (req, res) => {
   }
 });
 
+app.post("/add-update", (req, res) => {
+  db.addUpdate(req.body.update)
+    .then(({ rows }) => {
+      res.json({ data: rows });
+    })
+    .catch((err) => console.log(err));
+});
+
+app.get("/get-updates", (req, res) => {
+  db.getUpdates()
+    .then(({ rows }) => {
+      res.json({ data: rows });
+    })
+    .catch((err) => console.log(err));
+});
+
+app.post("/delete-update", (req, res) => {
+  db.deleteUpdate(req.body.id)
+    .then(({ rows }) => {
+      res.json({ data: rows });
+    })
+    .catch((err) => console.log(err));
+});
+
+app.post("/find-gig", (req, res) => {
+  db.findGig(req.body.keyword)
+    .then(({ rows }) => {
+      res.json({ data: rows });
+    })
+    .catch((err) => console.log(err));
+});
+
+app.post("/block-user", (req, res) => {
+  db.blockUser(req.body.id, req.body.boolean)
+    .then(({ rows }) => {
+      res.json({ data: rows });
+    })
+    .catch((err) => console.log(err));
+});
+
 app.get("*", function (req, res) {
   if (!req.session.userId) {
     res.redirect("/welcome");
@@ -991,7 +1035,11 @@ io.on("connection", function (socket) {
   });
 
   socket.on("PRIVATE MESSAGE", (message) => {
-    io.emit("privateMessage", message);
+    for (var [key, value] of Object.entries(onlineUsers)) {
+      if (value == message.msg_receiver_id) {
+        socket.broadcast.to(key).emit("privateMessage", message);
+      }
+    }
   });
 
   socket.on("ONLINE USERS", (users) => {
@@ -1007,6 +1055,14 @@ io.on("connection", function (socket) {
       if (value == data) {
         socket.broadcast.to(key).emit("chatBan", { chat_ban: true });
         socket.broadcast.to(key).emit("disc");
+      }
+    }
+  });
+
+  socket.on("forceBlock", (data) => {
+    for (var [key, value] of Object.entries(onlineUsers)) {
+      if (value == data.id) {
+        socket.broadcast.to(key).emit("block", { block: data.boolean });
       }
     }
   });

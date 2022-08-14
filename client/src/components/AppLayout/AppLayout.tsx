@@ -1,9 +1,12 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
+import useSound from "use-sound";
 import { AppBar } from "../AppBar/AppBar";
+import kickedOut from "./../../../public/kickedOut.mp3";
 
-const { runDotAnime } = require("./AppLayoutUtils");
+const { runDotAnime, banCountDown } = require("./AppLayoutUtils");
 
 interface Props {
   aboutMode: boolean;
@@ -26,6 +29,8 @@ interface Props {
     setLeft: (e: number) => void
   ) => void;
   setChatNotification: (e: boolean) => void;
+  setPrivateMsgNotification: (e: boolean) => void;
+  privateMsgNotification: boolean;
   chatMode: boolean;
   setAboutMode: (e: boolean) => void;
   adminControls: boolean;
@@ -56,6 +61,9 @@ interface Props {
   setTimelineGigsMode: (e: boolean) => void;
   timelineGalleriesMode: boolean;
   setTimelineGalleriesMode: (e: boolean) => void;
+  profileBlocked: boolean;
+  profileBanned: boolean;
+  mute: boolean;
 }
 
 export const AppLayout: React.FC<Props> = ({
@@ -104,9 +112,26 @@ export const AppLayout: React.FC<Props> = ({
   setTimelineGigsMode,
   timelineGalleriesMode,
   setTimelineGalleriesMode,
+  profileBlocked,
+  profileBanned,
+  privateMsgNotification,
+  setPrivateMsgNotification,
+  mute,
 }) => {
   let elemRef = useRef<any>();
   const [dotCounter, setDotCounter] = useState(0);
+  const [aboutBackIsLoaded, setAboutBackIsLoaded] = useState(false);
+
+  const banTimer = useSelector((state: any) => state && state.ban_timer);
+
+  const timerRef = useRef<HTMLDivElement>(null);
+
+  const [playKickedOut] = useSound(kickedOut, { volume: 0.75 });
+  useEffect(() => {
+    if (profileBanned) {
+      banCountDown(timerRef, playKickedOut, banTimer);
+    }
+  }, [profileBanned]);
 
   useEffect(() => {
     if (elemRef.current) {
@@ -134,6 +159,15 @@ export const AppLayout: React.FC<Props> = ({
           </div>
         </div>
       )}
+      {aboutMode && (
+        <img
+          onLoad={() => {
+            setAboutBackIsLoaded(true);
+          }}
+          src="/about/about1.jpg"
+          className="aboutBackground"
+        ></img>
+      )}
       <div
         className={
           (aboutMode && "appContainerAbout") ||
@@ -149,9 +183,9 @@ export const AppLayout: React.FC<Props> = ({
           justifyContent: (!loaded && `center`) || ``,
           visibility: (loaded && `visible`) || `hidden`,
           animation: (loaded && `fadeAbout 1s ease-in-out`) || ``,
-          height: (!loaded && `0`) || `100vh`,
+          height: (!loaded && `0`) || `100%`,
           backgroundImage:
-            (aboutMode && `url(/about/about1.jpg)`) ||
+            (aboutMode && "none") ||
             (!aboutMode &&
               !gigListOpen &&
               !adminControls &&
@@ -212,8 +246,30 @@ export const AppLayout: React.FC<Props> = ({
           timelineCommentsMode={timelineCommentsMode}
           timelineGigsMode={timelineGigsMode}
           timelineGalleriesMode={timelineGalleriesMode}
+          privateMsgNotification={privateMsgNotification}
+          setPrivateMsgNotification={(e: boolean) =>
+            setPrivateMsgNotification(e)
+          }
+          mute={mute}
         />
-        <Outlet />
+        {(!profileBlocked && !profileBanned && <Outlet />) ||
+          (profileBanned && (
+            <div className="banContainer">
+              <div className="chatBanCover">
+                YOU'VE BEEN BANNED !<span>Take a Deep Breath,</span>{" "}
+                <span>and Try Again </span>
+                <h1>Seconds Remaining</h1>
+                <div id="timer" ref={timerRef}>
+                  {banTimer && banTimer}
+                </div>
+              </div>
+            </div>
+          )) ||
+          (profileBlocked && (
+            <div className="blockContainer">
+              <div>YOU'VE BEEN BLOCKED</div>
+            </div>
+          ))}
       </div>
     </div>
   );

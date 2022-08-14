@@ -12,7 +12,6 @@ import useSound from "use-sound";
 
 import chatSfx from "./../../../public/msg.mp3";
 import chatEnterSfx from "./../../../public/chatEnter.mp3";
-import kickedOut from "./../../../public/kickedOut.mp3";
 import hornSfx from "./../../../public/horn.mp3";
 import privateMSGSfx from "./../../../public/privateMSG.mp3";
 
@@ -26,7 +25,6 @@ const {
   keyCheck,
   setChatMSGChange,
   sendChatMSGButton,
-  banCountDown,
   next20ChatMsgs,
   moveScrollbarToTop,
   moveScrollbarToBottom,
@@ -68,6 +66,7 @@ interface Props {
   setMute: (e: boolean) => void;
   setTimelineMode: (e: boolean) => void;
   setTimelineScrollTop: (e: number) => void;
+  setPrivateMsgNotification: (e: boolean) => void;
 }
 
 export const Chat: React.FC<Props> = ({
@@ -103,6 +102,7 @@ export const Chat: React.FC<Props> = ({
   mute,
   setTimelineMode,
   setTimelineScrollTop,
+  setPrivateMsgNotification,
 }) => {
   const [emojiBar, setEmojiBar] = useState<boolean>(false);
   const [tickerBar, setTickerBar] = useState<boolean>(false);
@@ -120,17 +120,14 @@ export const Chat: React.FC<Props> = ({
 
   const [play] = useSound(chatSfx, { volume: 0.75 });
   const [playIntro] = useSound(chatEnterSfx, { volume: 0.5 });
-  const [playKickedOut] = useSound(kickedOut, { volume: 0.75 });
   const [playHorn] = useSound(hornSfx, { volume: 0.75 });
   const [playPrivateMsg] = useSound(privateMSGSfx, { volume: 0.75 });
 
   const elemRef = useRef<HTMLDivElement>(null);
-  const timerRef = useRef<HTMLDivElement>(null);
 
   const chatMessages = useSelector((state: any) => state && state.chatMessages);
   const browserCount = useSelector((state: any) => state && state.count);
   const onlineUsers = useSelector((state: any) => state && state.onlineUsers);
-  const chatBan = useSelector((state: any) => state && state.chat_ban);
   const banTimer = useSelector((state: any) => state && state.ban_timer);
   const horn = useSelector((state: any) => state && state.horn);
 
@@ -157,6 +154,7 @@ export const Chat: React.FC<Props> = ({
     setPrivateMode(false);
     setTimelineMode(false);
     setTimelineScrollTop(0);
+    setPrivateMsgNotification(false);
   }, []);
 
   useEffect(() => {
@@ -171,13 +169,6 @@ export const Chat: React.FC<Props> = ({
       }, 300);
     }
   }, [mute]);
-
-  useEffect(() => {
-    if (chatBan) {
-      setPrivateMode(false);
-      banCountDown(timerRef, playKickedOut, banTimer);
-    }
-  }, [chatBan]);
 
   useEffect(() => {
     if (!chatModeClosed) {
@@ -215,8 +206,9 @@ export const Chat: React.FC<Props> = ({
   useEffect(() => {
     if (horn && horn.horn && !mute) {
       playHorn();
-
-      horn.admin_shaked = false;
+      setTimeout((e) => {
+        horn.admin_shaked = false;
+      }, 500);
     }
   }, [horn]);
 
@@ -304,45 +296,42 @@ export const Chat: React.FC<Props> = ({
       <div className="mobileChat">
         {!privateMode && (
           <div
-            className={
-              (!chatBan && "chatContainer") || (chatBan && "chatContainerBan")
-            }
+            className="chatContainer"
             id={(darkMode && "chatContainerDark") || ""}
           >
-            {!chatBan && (
-              <div className="chatNextControls">
-                <div className="chatNextArrows">
-                  <div
-                    title="Chat Top"
-                    className="up"
-                    onClick={() => moveScrollbarToTop(elemRef)}
-                  >
-                    ▲
-                  </div>
-                  <div
-                    title="Chat Bottom"
-                    className="down"
-                    onClick={() => moveScrollbarToBottom(elemRef)}
-                  >
-                    ▼
-                  </div>
+            <div className="chatNextControls">
+              <div className="chatNextArrows">
+                <div
+                  title="Chat Top"
+                  className="up"
+                  onClick={() => moveScrollbarToTop(elemRef)}
+                >
+                  ▲
                 </div>
                 <div
-                  title="Load More Chat Messages"
-                  className="next"
-                  onClick={() =>
-                    next20ChatMsgs(elemRef, setPostScroll, chatMessages)
-                  }
+                  title="Chat Bottom"
+                  className="down"
+                  onClick={() => moveScrollbarToBottom(elemRef)}
                 >
-                  ⦿
+                  ▼
                 </div>
               </div>
-            )}
+              <div
+                title="Load More Chat Messages"
+                className="next"
+                onClick={() =>
+                  next20ChatMsgs(elemRef, setPostScroll, chatMessages)
+                }
+              >
+                ⦿
+              </div>
+            </div>
+
             <div
               className="chatHeadline"
               id={(darkMode && "chatHeadlineDark") || ""}
             >
-              {!chatBan && <div id="chatTitle">Chat Room</div>}
+              <div id="chatTitle">Chat Room</div>
             </div>
 
             <div
@@ -351,29 +340,13 @@ export const Chat: React.FC<Props> = ({
             >
               <div
                 className="chatScreen"
-                style={{
-                  margin: chatBan && `4vmax`,
-                }}
                 id={(darkMode && "chatScreenDark") || ""}
                 ref={elemRef}
                 onScrollCapture={() =>
                   elemRef.current && setScrollTop(elemRef.current.scrollTop)
                 }
               >
-                {chatBan && (
-                  <div className="chatBanCover">
-                    YOU'VE BEEN BANNED !<span>Take a Deep Breath,</span>{" "}
-                    <span>Chill Your Ass and.. </span>
-                    <a onClick={() => location.replace("/")}>Try Again</a>
-                    {chatBan && (
-                      <div id="timer" ref={timerRef}>
-                        {banTimer && banTimer}
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {!chatBan &&
+                {chatMessages &&
                   chatMessages.map((msg: any) => {
                     handleTime(msg);
 
@@ -464,49 +437,48 @@ export const Chat: React.FC<Props> = ({
                   })}
               </div>
             </div>
-            {!chatBan && (
-              <div className="typeLine">
-                <textarea
-                  rows={1}
-                  className="chatTypeLine"
-                  onKeyDown={(e) => keyCheck(e)}
-                  onChange={(e) => {
-                    setChatMSGChange(e, setChatMSG);
-                  }}
-                ></textarea>
-                <div
-                  id={(darkMode && "sendChatMsgDark") || ""}
-                  title="Send Message"
-                  className="sendChatMsg"
-                  onClick={() =>
-                    sendChatMSGButton(chatMSG, setChatMSG, chatTypeLine)
-                  }
-                ></div>
-                <div className="chatControls">
-                  {!mute && (
-                    <div
-                      title="Mute"
-                      className="mute"
-                      onClick={() => {
-                        setMute(!mute);
-                      }}
-                    ></div>
-                  )}
-                  {mute && (
-                    <div
-                      title="Play"
-                      className="play"
-                      onClick={() => setMute(!mute)}
-                    ></div>
-                  )}
-                </div>
-                <div
-                  title="Emojis!"
-                  className="emojiBarToggler"
-                  onClick={(e) => setEmojiBar(!emojiBar)}
-                ></div>
+
+            <div className="typeLine">
+              <textarea
+                rows={1}
+                className="chatTypeLine"
+                onKeyDown={(e) => keyCheck(e)}
+                onChange={(e) => {
+                  setChatMSGChange(e, setChatMSG);
+                }}
+              ></textarea>
+              <div
+                id={(darkMode && "sendChatMsgDark") || ""}
+                title="Send Message"
+                className="sendChatMsg"
+                onClick={() =>
+                  sendChatMSGButton(chatMSG, setChatMSG, chatTypeLine)
+                }
+              ></div>
+              <div className="chatControls">
+                {!mute && (
+                  <div
+                    title="Mute"
+                    className="mute"
+                    onClick={() => {
+                      setMute(!mute);
+                    }}
+                  ></div>
+                )}
+                {mute && (
+                  <div
+                    title="Play"
+                    className="play"
+                    onClick={() => setMute(!mute)}
+                  ></div>
+                )}
               </div>
-            )}
+              <div
+                title="Emojis!"
+                className="emojiBarToggler"
+                onClick={(e) => setEmojiBar(!emojiBar)}
+              ></div>
+            </div>
           </div>
         )}
         <OnlineUsers
@@ -535,7 +507,6 @@ export const Chat: React.FC<Props> = ({
           superAdmin={superAdmin}
           configTimer={configTimer}
           setConfigTimer={(e: any) => setConfigTimer(e)}
-          chatBan={chatBan}
           horn={horn}
           playNotification={(mute: boolean, playPrivateMsg: () => void) =>
             playNotification(mute, playPrivateMsg)
@@ -546,40 +517,37 @@ export const Chat: React.FC<Props> = ({
           mute={mute}
         />
       </div>
-      {!chatBan && (
-        <div
-          className="jukeBox"
-          onClick={(e) => {
-            if (!nightFlightProg) {
-              setNightFlightProg(
-                radioBroadcasts.radioBroadcasts[
-                  radioBroadcasts.radioBroadcasts.length - 1
-                ]
-              );
-            } else {
-              setNightFlightProg(false);
-            }
-          }}
-        ></div>
-      )}
-      {!chatBan && (
-        <div
-          className="tickerButton"
-          onClick={(e) => {
-            toggleTicker(!tickerBar, setTickerBar);
-          }}
-        >
-          {tickerBar && `Stop Ticker`} {!tickerBar && `Start Ticker`}
-        </div>
-      )}
-      {!chatBan && (
-        <div
-          className={(darkMode && "DarkMode") || "lightMode"}
-          onClick={(e) => {
-            changePageMode();
-          }}
-        ></div>
-      )}
+
+      <div
+        className="jukeBox"
+        onClick={(e) => {
+          if (!nightFlightProg) {
+            setNightFlightProg(
+              radioBroadcasts.radioBroadcasts[
+                radioBroadcasts.radioBroadcasts.length - 1
+              ]
+            );
+          } else {
+            setNightFlightProg(false);
+          }
+        }}
+      ></div>
+
+      <div
+        className="tickerButton"
+        onClick={(e) => {
+          toggleTicker(!tickerBar, setTickerBar);
+        }}
+      >
+        {tickerBar && `Stop Ticker`} {!tickerBar && `Start Ticker`}
+      </div>
+
+      <div
+        className={(darkMode && "DarkMode") || "lightMode"}
+        onClick={(e) => {
+          changePageMode();
+        }}
+      ></div>
     </div>
   );
 };

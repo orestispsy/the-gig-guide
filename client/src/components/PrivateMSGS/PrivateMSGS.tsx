@@ -58,7 +58,8 @@ export const PrivateMSGS: React.FC<Props> = ({
   useEffect(() => {
     if (messages && elemRef.current) {
       if (scrollTop < 1) {
-        elemRef.current.scrollTop = 100;
+        elemRef.current.scrollTop = 1000;
+
         next20ChatMsgs(elemRef, setPostScroll, messages);
       }
     }
@@ -75,7 +76,7 @@ export const PrivateMSGS: React.FC<Props> = ({
         })
         .then(({ data }) => {
           socket.emit("PRIVATE MESSAGES", data.data);
-          if (data.data[0]) {
+          if (data.data[0] && data.data[data.data.length - 1]) {
             setFirstMsg(data.data[data.data.length - 1]);
           }
         })

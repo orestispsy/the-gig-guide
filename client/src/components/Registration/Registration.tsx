@@ -9,13 +9,14 @@ export const Registration: React.FC<Props> = ({}) => {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<boolean>(false);
   const [errorDuplicate, setErrorDuplicate] = useState<boolean>(false);
+  const [errorNickname, setErrorNickname] = useState<boolean>(false);
 
   useEffect(function () {}, []);
 
   const registerUser = () => {
     let nickChecker = nickname.trim();
     let passChecker = password.trim();
-    if (nickChecker !== "" && passChecker !== "") {
+    if (nickChecker !== "" && passChecker !== "" && !errorNickname) {
       axios
         .post("/register", { nickname: nickname, password: password })
         .then(({ data }) => {
@@ -42,6 +43,14 @@ export const Registration: React.FC<Props> = ({}) => {
     }
   };
 
+  const nickNameChecker = (e: string) => {
+    if ((e.length > 20 || e.length < 3) && e.length !== 0) {
+      setErrorNickname(true);
+    } else {
+      setErrorNickname(false);
+    }
+  };
+
   return (
     <div className="registerContainer" onKeyDown={(e) => submitEnter(e)}>
       <div className="logoBackLogin">
@@ -56,7 +65,10 @@ export const Registration: React.FC<Props> = ({}) => {
         name="nickname"
         maxLength={20}
         placeholder="Nickname"
-        onChange={(e) => setNickname(e.target.value)}
+        onChange={(e) => {
+          setNickname(e.target.value);
+          nickNameChecker(e.target.value);
+        }}
         onClick={() => {
           setError(false);
           setErrorDuplicate(false);
@@ -86,8 +98,12 @@ export const Registration: React.FC<Props> = ({}) => {
           Login
         </Link>
       </div>
-
-      {error && (
+      {errorNickname && (
+        <p className="error">
+          {"Your Nickname must have a - min 3 | max 20 - length of characters"}
+        </p>
+      )}
+      {error && !errorNickname && (
         <p className="error">{"Insert A Nickname And A Password to Proceed"}</p>
       )}
     </div>

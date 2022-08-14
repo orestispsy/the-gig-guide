@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 
 import useSound from "use-sound";
 import hyperfx from "./../../../public/hyperfx.mp3";
+import privateMSGSfx from "./../../../public/privateMSG.mp3";
 
 const { chatNewPostNotification } = require("./AppBarUtils");
 
@@ -52,10 +53,11 @@ interface Props {
   admin: boolean;
   superAdmin: boolean;
   timelineCommentsMode: boolean;
-
   timelineGigsMode: boolean;
-
   timelineGalleriesMode: boolean;
+  setPrivateMsgNotification: (e: boolean) => void;
+  privateMsgNotification: boolean;
+  mute: boolean;
 }
 
 type LocationProps = {
@@ -104,19 +106,21 @@ export const AppBar: React.FC<Props> = ({
   admin,
   superAdmin,
   timelineCommentsMode,
-
   timelineGigsMode,
-
   timelineGalleriesMode,
+  privateMsgNotification,
+  setPrivateMsgNotification,
+  mute,
 }) => {
   const [playSlideFx] = useSound(hyperfx, { volume: 0.6 });
+  const [playPrivateMsg] = useSound(privateMSGSfx, { volume: 0.75 });
 
   const navigate = useNavigate();
   const currentLocation = useLocation() as unknown as LocationProps;
   const { state, pathname } = currentLocation;
 
-  const chatBan = useSelector((state: any) => state && state.chat_ban);
   const chatMessages = useSelector((state: any) => state && state.chatMessages);
+  const privateMessages = useSelector((state: any) => state && state.messages);
 
   const [gigUpdatedMode, setGigUpdatedMode] = useState<boolean>(false);
 
@@ -128,13 +132,39 @@ export const AppBar: React.FC<Props> = ({
           chatMode,
           chatMessages,
           setChatNotification,
-          playSlideFx
+          setPrivateMsgNotification,
+          playSlideFx,
+          mute
         );
       } else {
         return;
       }
     },
     [chatMessages]
+  );
+
+  useEffect(
+    function () {
+      if (
+        privateMessages &&
+        privateMessages[privateMessages.length - 1] &&
+        !chatMode
+      ) {
+        if (
+          privateMessages[privateMessages.length - 1].msg_receiver_id ==
+          myUserId
+        ) {
+          setChatNotification(false);
+          setPrivateMsgNotification(true);
+          if (!mute) {
+            playPrivateMsg();
+          }
+        }
+      } else {
+        return;
+      }
+    },
+    [privateMessages]
   );
 
   useEffect(
@@ -148,73 +178,79 @@ export const AppBar: React.FC<Props> = ({
 
   return (
     <div className="appBar" id={(maps && "appBar") || ""}>
-      {!chatBan && (
-        <div className="barLeftSection">
-          <>
-            <img
-              title="Main Page"
-              src={myChatImg || "../../avatar.png"}
-              className="barProfileImage"
-              onClick={(e) => {
-                mapVisible(false);
-                setAboutMode(false);
+      <div className="barLeftSection">
+        <>
+          <img
+            title="Main Page"
+            src={myChatImg || "../../avatar.png"}
+            className="barProfileImage"
+            onClick={(e) => {
+              mapVisible(false);
+              setAboutMode(false);
 
-                if (pathname === "/gig-list-animation") {
-                  if (animeMusic) {
-                    setAnimeMusic(false);
-                  }
-                  setTimeout(() => {
-                    navigate("/");
-                  }, 300);
-                } else if (pathname === "/chat") {
-                  if (chatModeClosed) {
-                    setChatModeClosed(false);
-                  }
-                  setTimeout(() => {
-                    navigate("/");
-                  }, 300);
-                } else {
+              if (pathname === "/gig-list-animation") {
+                if (animeMusic) {
+                  setAnimeMusic(false);
+                }
+                setTimeout(() => {
                   navigate("/");
+                }, 300);
+              } else if (pathname === "/chat") {
+                if (chatModeClosed) {
+                  setChatModeClosed(false);
                 }
-              }}
-            ></img>
-          </>
+                setTimeout(() => {
+                  navigate("/");
+                }, 300);
+              } else {
+                navigate("/");
+              }
+            }}
+          ></img>
+        </>
 
-          <div>
-            <div
-              title="Chat Room"
-              className="chatBar"
-              id={(chatNotification && !chatMode && "chatBar") || ""}
-              onClick={(e) => {
-                mapVisible(false);
-                setAboutMode(false);
+        <div>
+          <div
+            title="Chat Room"
+            className="chatBar"
+            onTransitionEndCapture={() => {
+              setPrivateMsgNotification(false);
+            }}
+            id={
+              (privateMsgNotification && "privateChatBar") ||
+              (chatNotification && !chatMode && "chatBar") ||
+              ""
+            }
+            onClick={(e) => {
+              mapVisible(false);
+              setAboutMode(false);
 
-                if (pathname === "/chat") {
-                  if (chatModeClosed) {
-                    setChatModeClosed(false);
-                    setPrivateMode(false);
-                  }
-                  setTimeout(() => {
-                    navigate("/");
-                  }, 300);
-                } else if (pathname === "/gig-list-animation") {
-                  if (animeMusic) {
-                    setAnimeMusic(false);
-                  }
-                  setTimeout(() => {
-                    navigate("/chat");
-                  }, 300);
-                } else {
+              if (pathname === "/chat") {
+                if (chatModeClosed) {
+                  setChatModeClosed(false);
+                  setPrivateMode(false);
+                }
+                setTimeout(() => {
+                  navigate("/");
+                }, 300);
+              } else if (pathname === "/gig-list-animation") {
+                if (animeMusic) {
+                  setAnimeMusic(false);
+                }
+                setTimeout(() => {
                   navigate("/chat");
-                }
-              }}
-            ></div>
-          </div>
-
-          <div className="barProfile">{!maps && myNickname}</div>
+                }, 300);
+              } else {
+                navigate("/chat");
+              }
+            }}
+          ></div>
         </div>
-      )}
-      {maps && !chatBan && (
+
+        <div className="barProfile">{!maps && myNickname}</div>
+      </div>
+
+      {maps && (
         <a target="_blank" href="https://www.1000mods.com">
           <div className="logo2Back">
             <div className="logo2"></div>
@@ -272,6 +308,10 @@ export const AppBar: React.FC<Props> = ({
                 navigate("/");
               } else if (maps) {
                 navigate(-1);
+              } else if (adminControls) {
+                navigate(-1);
+              } else if (editMode) {
+                navigate(-1);
               } else if (animeMode) {
                 if (animeMusic) {
                   setAnimeMusic(false);
@@ -290,13 +330,7 @@ export const AppBar: React.FC<Props> = ({
                     navigate("/");
                   }, 300);
                 }
-              } else if (
-                editMode ||
-                addMode ||
-                gigListOpen ||
-                aboutMode ||
-                adminControls
-              ) {
+              } else if (addMode || gigListOpen || aboutMode || adminControls) {
                 navigate("/");
               } else if (gigLocation !== "" && gigLocation !== pathname) {
                 navigate(gigLocation.toString());

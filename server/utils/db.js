@@ -442,7 +442,7 @@ module.exports.deleteCommunityImage = (id) => {
 
 module.exports.getComments = (id) => {
   const q = `
-        SELECT  comments.id, gig_id, msg_sender_id, comment, community.nickname
+        SELECT  comments.created_at, comments.id, gig_id, msg_sender_id, comment, community.nickname
         FROM comments
         JOIN community
         ON (community.id = comments.msg_sender_id) WHERE comments.gig_id = $1;
@@ -598,6 +598,7 @@ module.exports.deletePrivateMessages = (id) => {
 module.exports.getNetworkUsers = () => {
   const q = `
         SELECT * FROM community
+          WHERE community.id != '1'
         ORDER BY created_at;
     `;
 
@@ -726,6 +727,54 @@ module.exports.setMute = (id, boolean) => {
         SET mute = $2
         WHERE community.id = $1
         RETURNING *
+    `;
+  const params = [id, boolean];
+  return db.query(q, params);
+};
+
+module.exports.addUpdate = (update) => {
+  const q = `
+        INSERT INTO updates (update)
+        VALUES ($1)
+        RETURNING *
+    `;
+  const params = [update];
+  return db.query(q, params);
+};
+
+module.exports.getUpdates = () => {
+  const q = `
+        SELECT * FROM updates
+                ORDER BY id DESC;
+    `;
+
+  return db.query(q);
+};
+
+module.exports.deleteUpdate = (id) => {
+  const q = `
+        DELETE FROM updates
+        WHERE id = $1;
+    `;
+  const params = [id];
+  return db.query(q, params);
+};
+
+module.exports.findGig = (val) => {
+  const q = `
+        SELECT * FROM gigs WHERE 
+    upper(city) ~ upper($1) OR  upper(venue) ~ upper($1)
+        ORDER BY gigs.date DESC;
+    `;
+  const params = [val];
+  return db.query(q, params);
+};
+
+module.exports.blockUser = (id, boolean) => {
+  const q = `
+        UPDATE community 
+        SET blocked = $2
+        WHERE id=$1
     `;
   const params = [id, boolean];
   return db.query(q, params);
