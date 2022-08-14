@@ -19,6 +19,7 @@ import {
   hornAct,
   visitors,
   blockAct,
+  updateUsersAct,
 } from "./../Redux/actions";
 import { io } from "socket.io-client";
 
@@ -103,6 +104,9 @@ export const init = (store) => {
     });
     socket.on("block", (data) => {
       store.dispatch(blockAct(data));
+    });
+    socket.on("updateUsers", (data) => {
+      store.dispatch(updateUsersAct(data));
     });
   }
 };

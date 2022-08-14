@@ -103,6 +103,7 @@ export const SuperAdmin: React.FC<Props> = ({
       .post("/change-super-nickname", { nickname: newUserName, id: id })
       .then(({ data }) => {
         updateUsers();
+        socket.emit("UPDATE USERS", { nickname: newUserName, id: id });
       })
       .catch((err) => {
         console.log(err);

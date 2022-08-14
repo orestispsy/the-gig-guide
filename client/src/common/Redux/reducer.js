@@ -25,6 +25,17 @@ export default function (state = {}, action) {
       onlineUsers: action.onlineUsers,
     };
   }
+  if (action.type == "UPDATE_USERS") {
+    nextState = {
+      ...state,
+      onlineUsers: state.onlineUsers.map((user) => {
+        if (user.id == action.updated.id) {
+          user.nickname = action.updated.nickname;
+        }
+        return user;
+      }),
+    };
+  }
   if (action.type == "USER_JOINED") {
     nextState = {
       ...state,
@@ -125,7 +136,6 @@ export default function (state = {}, action) {
     };
   }
   if (action.type == "BLOCK") {
-    console.log(action);
     nextState = {
       ...state,
       block: action.block,

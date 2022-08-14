@@ -1052,6 +1052,10 @@ io.on("connection", function (socket) {
       .catch((err) => console.log(err));
   });
 
+  socket.on("UPDATE USERS", (data) => {
+    io.emit("updateUsers", data);
+  });
+
   socket.on("PRIVATE MESSAGES", (messages) => {
     socket.emit("privateMessages", messages);
   });

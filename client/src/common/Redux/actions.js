@@ -137,3 +137,10 @@ export function blockAct(arg) {
     block: arg,
   };
 }
+
+export function updateUsersAct(arg) {
+  return {
+    type: "UPDATE_USERS",
+    updated: arg,
+  };
+}

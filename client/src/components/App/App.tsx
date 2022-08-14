@@ -83,6 +83,7 @@ export const App: React.FC<Props> = ({}) => {
   const [imagesTimeline, setImagesTimeline] = useState<any>();
   const [commentsTimeline, setCommentsTimeline] = useState<any>();
   const currentVisitors = useSelector((state: any) => state && state.visitors);
+  const onlineUsers = useSelector((state: any) => state && state.onlineUsers);
   const chatBan = useSelector((state: any) => state && state.chat_ban);
   const blocked = useSelector((state: any) => state && state.block);
   const [timelineScrollTop, setTimelineScrollTop] = useState<number>(0);
@@ -108,6 +109,19 @@ export const App: React.FC<Props> = ({}) => {
     axiosGetGigs(setGigsList);
     axiosGetCounter(setVisitors);
   }, []);
+
+  useEffect(
+    function () {
+      if (onlineUsers) {
+        onlineUsers.forEach((user: any) => {
+          if (user.id === myUserId && myNickname !== user.nickname) {
+            setMyNickname(user.nickname);
+          }
+        });
+      }
+    },
+    [onlineUsers]
+  );
 
   useEffect(
     function () {
@@ -404,6 +418,7 @@ export const App: React.FC<Props> = ({}) => {
                 setPrivateMsgNotification={(e: boolean) =>
                   setPrivateMsgNotification(e)
                 }
+                onlineUsers={onlineUsers}
               />
             }
           ></Route>
