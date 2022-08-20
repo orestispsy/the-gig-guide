@@ -4,7 +4,7 @@ import axios from "../../common/Axios/axios";
 import { socket } from "../../common/Socket/socket";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { OnlineUsers } from "./SideBar/SideBar";
+import { SideBar } from "./SideBar/SideBar";
 import { ChatScreen } from "./ChatScreen/ChatScreen";
 import { Ticker } from "../Ticker/Ticker";
 import { PrivateMSGS } from "./PrivateMSGS/PrivateMSGS";
@@ -274,12 +274,11 @@ export const Chat: React.FC<Props> = ({
           setScrollTop={(e: number) => setScrollTop(e)}
         />
 
-        <OnlineUsers
+        <SideBar
           myChatImg={myChatImg}
           myUserId={myUserId}
           emojiBar={emojiBar}
           setEmojiBar={(e: boolean) => setEmojiBar(e)}
-          sendEmoji={(e: any) => sendEmoji(e)}
           myChatColor={myChatColor}
           setMyChatImg={(e: string) => setMyChatImg(e)}
           setUserPrivate={(e: any) => setUserPrivate(e)}

@@ -72,59 +72,55 @@ export const UserPic: React.FC<Props> = ({
   };
 
   return (
-    <>
-      {userPicBar && (
-        <div className="fileUploaderChat">
-          <img src={myChatImg || "./../avatar.png"} id="privateUserImage"></img>
-          <h1>Chat Image</h1>
+    <div className="fileUploaderChat">
+      <img src={myChatImg || "./../avatar.png"} id="privateUserImage"></img>
+      <h1>Chat Image</h1>
 
-          <input
-            type="file"
-            name="file"
-            accept="image/*"
-            onChange={(e) => handleUploaderChange(e)}
-            onClick={(e) => setErrorMsg(false)}
-          />
+      <input
+        type="file"
+        name="file"
+        accept="image/*"
+        onChange={(e) => handleUploaderChange(e)}
+        onClick={(e) => setErrorMsg(false)}
+      />
 
-          {!uploading && (
-            <div className="uploadChat">
-              <h1
-                style={{
-                  animation: file && `2s linear infinite blinkerAvatar`,
-                }}
-                onClick={() => {
-                  handleUploaderClick();
-                  setUploading(true);
-                }}
-              >
-                UPDATE
-              </h1>
-              {closeTag && (
-                <h1
-                  className="toggleChatUploader"
-                  onClick={() => {
-                    setErrorMsg(false);
-                    toggleUploader();
-                    setFile(null);
-                  }}
-                >
-                  CLOSE
-                </h1>
-              )}
-            </div>
-          )}
-          {uploading && (
-            <div className="uploadChat">
-              <div className="uploadSuccess"></div>
-            </div>
-          )}
-          {errorMsg && (
-            <p className="error" id="error">
-              Select an Image [Max Size: 10MB]
-            </p>
+      {!uploading && (
+        <div className="uploadChat">
+          <h1
+            style={{
+              animation: file && `2s linear infinite blinkerAvatar`,
+            }}
+            onClick={() => {
+              handleUploaderClick();
+              setUploading(true);
+            }}
+          >
+            UPDATE
+          </h1>
+          {closeTag && (
+            <h1
+              className="toggleChatUploader"
+              onClick={() => {
+                setErrorMsg(false);
+                toggleUploader();
+                setFile(null);
+              }}
+            >
+              CLOSE
+            </h1>
           )}
         </div>
       )}
-    </>
+      {uploading && (
+        <div className="uploadChat">
+          <div className="uploadSuccess"></div>
+        </div>
+      )}
+      {errorMsg && (
+        <p className="error" id="error">
+          Select an Image [Max Size: 10MB]
+        </p>
+      )}
+    </div>
   );
 };
