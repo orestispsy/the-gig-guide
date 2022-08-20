@@ -4,7 +4,7 @@ import axios from "../../common/Axios/axios";
 import { socket } from "../../common/Socket/socket";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { OnlineUsers } from "./OnlineUsers/OnlineUsers";
+import { OnlineUsers } from "./SideBar/SideBar";
 import { ChatScreen } from "./ChatScreen/ChatScreen";
 import { Ticker } from "../Ticker/Ticker";
 import { PrivateMSGS } from "./PrivateMSGS/PrivateMSGS";
@@ -248,7 +248,6 @@ export const Chat: React.FC<Props> = ({
             playNotification(mute, playPrivateMsg)
           }
           mute={mute}
-          privateMode={privateMode}
           setPrivateMode={(e: boolean) => setPrivateMode(e)}
         />
       )}

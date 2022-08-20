@@ -16,7 +16,6 @@ interface Props {
   playNotification: (e: boolean, playPrivateMsg: () => void) => void;
   playPrivateMsg: () => void;
   mute: boolean;
-  privateMode: boolean;
   setPrivateMode: (e: boolean) => void;
 }
 
@@ -32,7 +31,6 @@ export const PrivateMSGS: React.FC<Props> = ({
   playNotification,
   playPrivateMsg,
   mute,
-  privateMode,
   setPrivateMode,
 }) => {
   const [scrollTop, setScrollTop] = useState<number>(2);
