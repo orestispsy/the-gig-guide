@@ -197,118 +197,116 @@ export const SideBar: React.FC<Props> = ({
   };
 
   return (
+    <div
+      className="sideBarBack"
+      style={{
+        marginBottom: (emojiBar && `-3vmax`) || (privateMode && `-2vmax`) || "",
+        marginLeft: (privateMode && `1vmax`) || "",
+      }}
+    >
       <div
-        className="sideBarBack"
+        className="sideBar"
+        id={(darkMode && "sideBarDark") || ""}
         style={{
-          marginBottom:
-            (emojiBar && `-3vmax`) || (privateMode && `-2vmax`) || "",
-          marginLeft: (privateMode && `1vmax`) || "",
+          boxShadow:
+            (privateMode &&
+              `-0 0 10px rgba(0, 0, 0, 0.308), 0 -0 10px rgba(0, 0, 0, 0.308),
+        -0 -0 10px rgba(0, 0, 0, 0.308), -0 -0 10px rgba(0, 0, 0, 0.308)`) ||
+            "",
         }}
       >
-        <div
-          className="sideBar"
-          id={(darkMode && "sideBarDark") || ""}
-          style={{
-            boxShadow:
-              (privateMode &&
-                `-0 0 10px rgba(0, 0, 0, 0.308), 0 -0 10px rgba(0, 0, 0, 0.308),
-        -0 -0 10px rgba(0, 0, 0, 0.308), -0 -0 10px rgba(0, 0, 0, 0.308)`) ||
-              "",
-          }}
-        >
-          {!userPicBar && !userConfig && (
-            <UserList
-              privateMode={privateMode}
-              darkMode={darkMode}
-              superAdmin={superAdmin}
-              horn={horn}
-              shakeUser={shakeUser}
-              setEmojiBar={(e: boolean) => setEmojiBar(e)}
-              myUserId={myUserId}
-              userPicBar={userPicBar}
-              networkList={networkList}
-              onlineUsers={onlineUsers}
-              setPrivateMode={(e: boolean) => setPrivateMode(e)}
-              privateMessages={privateMessages}
-              selectUserToKick={selectUserToKick}
-              networkUsers={networkUsers}
-              privateNick={privateNick}
-              privatePic={privatePic}
-              configTimer={configTimer}
-              myNickname={myNickname}
-              chatColor={chatColor}
-              setConfigTimer={(e: boolean) => setConfigTimer(e)}
-              setSelectUserToKick={(e: number | boolean) =>
-                setSelectUserToKick(e)
-              }
-              guest={guest}
-              setShakeUser={(e: boolean) => setShakeUser(e)}
-              setUserPrivate={(e: any) => setUserPrivate(e)}
-              setPrivateNick={(e: string | boolean) => setPrivateNick(e)}
-              setPrivatePic={(e: string) => setPrivatePic(e)}
-              onlineUserPic={onlineUserPic}
-            />
-          )}
-          {userConfig && (
-            <UserConfig
-              myUserId={myUserId}
-              myNickname={myNickname}
-              onlineUsers={onlineUsers}
-              setNewNickname={(e: any) => setNewNickname(e)}
-              setNewPassword={(e: any) => setNewPassword(e)}
-              setErrorMsg={(e: boolean) => setErrorMsg(e)}
-              setErrorMsgInfo={(e: boolean) => setErrorMsgInfo(e)}
-              setErrorDuplicate={(e: boolean) => setErrorDuplicate}
-              errorDuplicate={errorDuplicate}
-              pwdReveal={pwdReveal}
-              setPwdReveal={(e: boolean) => setPwdReveal(e)}
-              setUserConfig={(e: boolean) => setUserConfig(e)}
-              newPassword={newPassword}
-              newNickname={newNickname}
-              setMyNickname={(e: string) => setMyNickname(e)}
-              errorMsgInfo={errorMsgInfo}
-            />
-          )}
-          {userPicBar && (
-            <UserPic
-              errorMsg={errorMsg}
-              setErrorMsg={(e: boolean) => setErrorMsg(e)}
-              setOnlineUserPic={(e: string) => setOnlineUserPic(e)}
-              setUserPicBar={(e: boolean) => setUserPicBar(e)}
-              setcloseTag={(e: boolean) => setcloseTag(e)}
-              setMyChatImg={(e: string) => setMyChatImg(e)}
-              userPicBar={userPicBar}
-              closeTag={closeTag}
-              myUserId={myUserId}
-              onlineUsers={onlineUsers}
-              myChatImg={myChatImg}
-              toggleUploader={() => toggleUploader()}
-            />
-          )}
+        {!userPicBar && !userConfig && (
+          <UserList
+            privateMode={privateMode}
+            darkMode={darkMode}
+            superAdmin={superAdmin}
+            horn={horn}
+            shakeUser={shakeUser}
+            setEmojiBar={(e: boolean) => setEmojiBar(e)}
+            myUserId={myUserId}
+            userPicBar={userPicBar}
+            networkList={networkList}
+            onlineUsers={onlineUsers}
+            setPrivateMode={(e: boolean) => setPrivateMode(e)}
+            privateMessages={privateMessages}
+            selectUserToKick={selectUserToKick}
+            networkUsers={networkUsers}
+            privateNick={privateNick}
+            privatePic={privatePic}
+            configTimer={configTimer}
+            myNickname={myNickname}
+            chatColor={chatColor}
+            setConfigTimer={(e: boolean) => setConfigTimer(e)}
+            setSelectUserToKick={(e: number | boolean) =>
+              setSelectUserToKick(e)
+            }
+            guest={guest}
+            setShakeUser={(e: boolean) => setShakeUser(e)}
+            setUserPrivate={(e: any) => setUserPrivate(e)}
+            setPrivateNick={(e: string | boolean) => setPrivateNick(e)}
+            setPrivatePic={(e: string) => setPrivatePic(e)}
+            onlineUserPic={onlineUserPic}
+          />
+        )}
+        {userConfig && (
+          <UserConfig
+            myUserId={myUserId}
+            myNickname={myNickname}
+            onlineUsers={onlineUsers}
+            setNewNickname={(e: any) => setNewNickname(e)}
+            setNewPassword={(e: any) => setNewPassword(e)}
+            setErrorMsg={(e: boolean) => setErrorMsg(e)}
+            setErrorMsgInfo={(e: boolean) => setErrorMsgInfo(e)}
+            setErrorDuplicate={(e: boolean) => setErrorDuplicate}
+            errorDuplicate={errorDuplicate}
+            pwdReveal={pwdReveal}
+            setPwdReveal={(e: boolean) => setPwdReveal(e)}
+            setUserConfig={(e: boolean) => setUserConfig(e)}
+            newPassword={newPassword}
+            newNickname={newNickname}
+            setMyNickname={(e: string) => setMyNickname(e)}
+            errorMsgInfo={errorMsgInfo}
+          />
+        )}
+        {userPicBar && (
+          <UserPic
+            errorMsg={errorMsg}
+            setErrorMsg={(e: boolean) => setErrorMsg(e)}
+            setOnlineUserPic={(e: string) => setOnlineUserPic(e)}
+            setUserPicBar={(e: boolean) => setUserPicBar(e)}
+            setcloseTag={(e: boolean) => setcloseTag(e)}
+            setMyChatImg={(e: string) => setMyChatImg(e)}
+            userPicBar={userPicBar}
+            closeTag={closeTag}
+            myUserId={myUserId}
+            onlineUsers={onlineUsers}
+            myChatImg={myChatImg}
+            toggleUploader={() => toggleUploader()}
+          />
+        )}
 
-          {!closeTag && !privateMode && (
-            <SideBarBottom
-              setErrorMsg={(e: boolean) => setErrorMsg(e)}
-              toggleUploader={() => toggleUploader()}
-              setUserConfig={(e: boolean) => setUserConfig(e)}
-              userConfig={userConfig}
-              setEmojiBar={(e: boolean) => setEmojiBar(e)}
-              guest={guest}
-              setConfigTimer={(e: boolean) => setConfigTimer(e)}
-              chatColor={chatColor}
-              myChatColor={myChatColor}
-              onlineUsers={onlineUsers}
-              myUserId={myUserId}
-              setChatColor={(e: string) => setChatColor(e)}
-              setErrorMsgInfo={(e: boolean) => setErrorMsgInfo(e)}
-              setErrorDuplicate={(e: boolean) => setErrorDuplicate}
-              networkList={networkList}
-              setNetworkList={(e: boolean) => setNetworkList(e)}
-            />
-          )}
-        </div>
-        {emojiBar && <Emojis darkMode={darkMode} />}
+        {!closeTag && !privateMode && (
+          <SideBarBottom
+            setErrorMsg={(e: boolean) => setErrorMsg(e)}
+            toggleUploader={() => toggleUploader()}
+            setUserConfig={(e: boolean) => setUserConfig(e)}
+            userConfig={userConfig}
+            setEmojiBar={(e: boolean) => setEmojiBar(e)}
+            guest={guest}
+            setConfigTimer={(e: boolean) => setConfigTimer(e)}
+            chatColor={chatColor}
+            myChatColor={myChatColor}
+            onlineUsers={onlineUsers}
+            myUserId={myUserId}
+            setChatColor={(e: string) => setChatColor(e)}
+            setErrorMsgInfo={(e: boolean) => setErrorMsgInfo(e)}
+            setErrorDuplicate={(e: boolean) => setErrorDuplicate}
+            networkList={networkList}
+            setNetworkList={(e: boolean) => setNetworkList(e)}
+          />
+        )}
       </div>
-
+      {emojiBar && <Emojis darkMode={darkMode} />}
+    </div>
   );
 };
