@@ -126,8 +126,6 @@ export const Chat: React.FC<Props> = ({
   const browserCount = useSelector((state: any) => state && state.count);
   const horn = useSelector((state: any) => state && state.horn);
 
-  let chatTypeLine: any = document.querySelectorAll(".chatTypeLine");
-
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -265,7 +263,6 @@ export const Chat: React.FC<Props> = ({
           elemRef={elemRef}
           admin={admin}
           chatMessages={chatMessages}
-          chatTypeLine={chatTypeLine}
           chatMSG={chatMSG}
           setChatMSG={(e: any) => setChatMSG(e)}
           setMute={(e: boolean) => setMute(e)}
