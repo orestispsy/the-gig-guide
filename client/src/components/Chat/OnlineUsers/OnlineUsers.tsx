@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
-import { socket } from "../../common/Socket/socket";
+import { socket } from "../../../common/Socket/socket";
 import React, { useEffect, useState } from "react";
-import axios from "../../common/Axios/axios";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import axios from "../../../common/Axios/axios";
+import { useNavigate, useLocation } from "react-router-dom";
 
-let emoji = require("./../../common/customEmoj.json");
+let emoji = require("../../../common/customEmoj.json");
 
 type LocationProps = {
   state: {
@@ -104,7 +104,7 @@ export const OnlineUsers: React.FC<Props> = ({
 
   const navigate = useNavigate();
   const location = useLocation() as unknown as LocationProps;
-  const { state, pathname } = location;
+  const { pathname } = location;
 
   useEffect(() => {
     axios

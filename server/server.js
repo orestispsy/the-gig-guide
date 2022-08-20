@@ -1061,10 +1061,10 @@ io.on("connection", function (socket) {
   });
 
   socket.on("PRIVATE MESSAGE", (message) => {
+    socket.emit("privateMessage", message);
     for (var [key, value] of Object.entries(onlineUsers)) {
       if (value == message.msg_receiver_id) {
         socket.broadcast.to(key).emit("privateMessage", message);
-        socket.emit("privateMessage", message);
       }
     }
   });

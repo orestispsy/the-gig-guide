@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
-import axios from "../../common/Axios/axios";
+import axios from "../../../common/Axios/axios";
 
-import { socket } from "../../common/Socket/socket";
+import { socket } from "../../../common/Socket/socket";
 import { useSelector } from "react-redux";
 
 interface Props {
@@ -43,30 +43,7 @@ export const PrivateMSGS: React.FC<Props> = ({
 
   const elemRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!postScroll) {
-      setTimeout(() => {
-        setChatScrollBarPosition(elemRef);
-      }, 100);
-    }
-
-    setFirstMsg(messages[messages.length - 1]);
-
-    setPostScroll(false);
-  }, [messages]);
-
-  useEffect(() => {
-    if (messages && elemRef.current) {
-      if (scrollTop < 1) {
-        elemRef.current.scrollTop = 1000;
-
-        next20ChatMsgs(elemRef, setPostScroll, messages);
-      }
-    }
-  }, [scrollTop]);
-
-  useEffect(() => {
-    setPrivateMode(true);
+  const getPrivateMessages = () => {
     if (myUserId && userPrivate) {
       axios
         .post("/get-private-messages", {
@@ -92,6 +69,33 @@ export const PrivateMSGS: React.FC<Props> = ({
           console.log("error", err);
         });
     }
+  };
+
+  useEffect(() => {
+    if (!postScroll) {
+      setTimeout(() => {
+        setChatScrollBarPosition(elemRef);
+      }, 100);
+    }
+
+    setFirstMsg(messages[messages.length - 1]);
+
+    setPostScroll(false);
+  }, [messages]);
+
+  useEffect(() => {
+    if (messages && elemRef.current) {
+      if (scrollTop < 1) {
+        elemRef.current.scrollTop = 1000;
+
+        next20ChatMsgs(elemRef, setPostScroll, messages);
+      }
+    }
+  }, [scrollTop]);
+
+  useEffect(() => {
+    setPrivateMode(true);
+    getPrivateMessages();
     setChatScrollBarPosition(elemRef);
   }, []);
 
