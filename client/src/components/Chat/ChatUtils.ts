@@ -1,6 +1,45 @@
 import { socket } from "../../common/Socket/socket";
 import axios from "../../common/Axios/axios";
 
+
+module.exports.handleTime = (e: any, date?: boolean) => {
+  let msgDate;
+  let msgTime;
+  let fixedDate: string;
+  let fixedHours: number;
+  let timePreFix: string;
+  let diff = new Date().getTimezoneOffset() / -60;
+  
+  if (e.created_at) {
+    msgDate = e.created_at.slice(0, 10).split("-");
+    fixedDate = msgDate[2] + "-" + msgDate[1] + "-" + msgDate[0];
+
+    msgTime = e.created_at.slice(11, 19).split(":");
+
+    if (msgTime[0].startsWith("0")) {
+      msgTime[0] = msgTime[0].slice(1, 2);
+    }
+    fixedHours = Number(msgTime[0]) + 6 + diff;
+    if (fixedHours == 24) {
+      fixedHours = 0;
+    }
+    if (fixedHours > 24) {
+      fixedHours = fixedHours - 24;
+    }
+    if (fixedHours < 10) {
+      timePreFix = `0`;
+    } else {
+      timePreFix = "";
+    }
+
+    return date
+      ? fixedDate
+      : timePreFix + fixedHours + ":" + msgTime[1] + ":" + msgTime[2];
+  } else {
+    return;
+  }
+};
+
 module.exports.setChatScrollBarPosition = (elemRef: any) => {
   if (elemRef.current) {
     const newScrollTop =

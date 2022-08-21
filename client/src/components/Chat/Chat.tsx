@@ -24,7 +24,6 @@ const {
   playNotification,
   setScrollBarBottom,
   next20ChatMsgs,
-  sendEmoji,
   toggleTicker,
 } = require("./ChatUtils");
 
@@ -231,46 +230,48 @@ export const Chat: React.FC<Props> = ({
   return (
     <div className="chatContainerBack">
       {tickerBar && <Ticker tickerBar={tickerBar} darkMode={darkMode} />}
-      {privateMode && (
-        <PrivateMSGS
-          myUserId={myUserId}
-          userPrivate={userPrivate}
-          myChatImg={myChatImg}
-          privatePic={privatePic}
-          myNickname={myNickname}
-          privateNick={privateNick}
-          setFilteredPrivateMessages={(e: any) => setFilteredPrivateMessages(e)}
-          darkMode={darkMode}
-          playPrivateMsg={() => playPrivateMsg()}
-          playNotification={(mute: boolean, playPrivateMsg: () => void) =>
-            playNotification(mute, playPrivateMsg)
-          }
-          mute={mute}
-          setPrivateMode={(e: boolean) => setPrivateMode(e)}
-        />
-      )}
-
       <div className="mobileChat">
-        <ChatScreen
-          superAdmin={superAdmin}
-          darkMode={darkMode}
-          privateMode={privateMode}
-          mute={mute}
-          setEmojiBar={(e: boolean) => setEmojiBar(e)}
-          shakeUser={shakeUser}
-          horn={horn}
-          setPostScroll={(e: boolean) => setPostScroll(e)}
-          elemRef={elemRef}
-          admin={admin}
-          chatMessages={chatMessages}
-          chatMSG={chatMSG}
-          setChatMSG={(e: any) => setChatMSG(e)}
-          setMute={(e: boolean) => setMute(e)}
-          emojiBar={emojiBar}
-          myUserId={myUserId}
-          setScrollTop={(e: number) => setScrollTop(e)}
-        />
+        {privateMode && (
+          <PrivateMSGS
+            myUserId={myUserId}
+            userPrivate={userPrivate}
+            myChatImg={myChatImg}
+            privatePic={privatePic}
+            myNickname={myNickname}
+            privateNick={privateNick}
+            setFilteredPrivateMessages={(e: any) =>
+              setFilteredPrivateMessages(e)
+            }
+            darkMode={darkMode}
+            playPrivateMsg={() => playPrivateMsg()}
+            playNotification={(mute: boolean, playPrivateMsg: () => void) =>
+              playNotification(mute, playPrivateMsg)
+            }
+            mute={mute}
+            setPrivateMode={(e: boolean) => setPrivateMode(e)}
+          />
+        )}
 
+        {!privateMode && (
+          <ChatScreen
+            superAdmin={superAdmin}
+            darkMode={darkMode}
+            mute={mute}
+            setEmojiBar={(e: boolean) => setEmojiBar(e)}
+            shakeUser={shakeUser}
+            horn={horn}
+            setPostScroll={(e: boolean) => setPostScroll(e)}
+            elemRef={elemRef}
+            admin={admin}
+            chatMessages={chatMessages}
+            chatMSG={chatMSG}
+            setChatMSG={(e: any) => setChatMSG(e)}
+            setMute={(e: boolean) => setMute(e)}
+            emojiBar={emojiBar}
+            myUserId={myUserId}
+            setScrollTop={(e: number) => setScrollTop(e)}
+          />
+        )}
         <SideBar
           myChatImg={myChatImg}
           myUserId={myUserId}

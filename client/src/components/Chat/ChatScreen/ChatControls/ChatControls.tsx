@@ -6,16 +6,22 @@ const {
   moveScrollbarToBottom,
 } = require("../../ChatUtils");
 
+const { next20PrivateMsgs } = require("../../PrivateMSGS/PrivateMessageUtils");
+
 interface Props {
   chatMessages: any;
   elemRef: any;
   setPostScroll: (e: boolean) => void;
+  myUserId?: number | undefined;
+  userPrivate?: number | undefined;
 }
 
 export const ChatControls: React.FC<Props> = ({
   chatMessages,
   setPostScroll,
   elemRef,
+  myUserId,
+  userPrivate,
 }) => {
   return (
     <div className="chatNextControls">
@@ -38,7 +44,17 @@ export const ChatControls: React.FC<Props> = ({
       <div
         title="Load More Chat Messages"
         className="next"
-        onClick={() => next20ChatMsgs(elemRef, setPostScroll, chatMessages)}
+        onClick={() => {
+          !userPrivate
+            ? next20ChatMsgs(elemRef, setPostScroll, chatMessages)
+            : next20PrivateMsgs(
+                elemRef,
+                setPostScroll,
+                chatMessages,
+                myUserId,
+                userPrivate
+              );
+        }}
       >
         ⦿
       </div>

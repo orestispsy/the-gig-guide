@@ -10,7 +10,7 @@ interface Props {
   darkMode: boolean;
 }
 
-const { handleChatPostDelete } = require("../../ChatUtils");
+const { handleChatPostDelete, handleTime } = require("../../ChatUtils");
 
 export const ChatMessages: React.FC<Props> = ({
   admin,
@@ -21,42 +21,6 @@ export const ChatMessages: React.FC<Props> = ({
   chatMessages,
   darkMode,
 }) => {
-  let fixedTime: string;
-  let fixedDate: string;
-  let fixedHours: number;
-  let timePreFix: string;
-  let msgDate;
-  let msgTime;
-  let diff = new Date().getTimezoneOffset() / -60;
-
-  const handleTime = (e: any) => {
-    if (e.created_at) {
-      msgDate = e.created_at.slice(0, 10).split("-");
-      fixedDate = msgDate[2] + "-" + msgDate[1] + "-" + msgDate[0];
-      msgTime = e.created_at.slice(11, 19).split(":");
-
-      if (msgTime[0].startsWith("0")) {
-        msgTime[0] = msgTime[0].slice(1, 2);
-      }
-      fixedHours = Number(msgTime[0]) + 6 + diff;
-      // +6 in "fixedHours" applies to my hosting service timezone settings, otherwise it should not be there
-      if (fixedHours == 24) {
-        fixedHours = 0;
-      }
-      if (fixedHours > 24) {
-        fixedHours = fixedHours - 24;
-      }
-
-      if (fixedHours < 10) {
-        timePreFix = `0`;
-      } else {
-        timePreFix = "";
-      }
-
-      fixedTime = timePreFix + fixedHours + ":" + msgTime[1] + ":" + msgTime[2];
-    }
-  };
-
   return (
     <>
       {chatMessages &&
@@ -134,9 +98,9 @@ export const ChatMessages: React.FC<Props> = ({
                 </div>
 
                 <div className="date" id={(darkMode && "dateDark") || ""}>
-                  {fixedDate}
+                  {handleTime(msg, true)}
                 </div>
-                <div className="time">{fixedTime}</div>
+                <div className="time">{handleTime(msg)}</div>
               </div>
             );
           }
