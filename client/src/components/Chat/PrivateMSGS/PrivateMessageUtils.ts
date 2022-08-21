@@ -15,7 +15,10 @@ const checkForNew = (
       privatePic,
     })
     .then(({ data }) => {
-      if (data.data[0] && (data.data[data.data.length - 1].id == messages[messages.length - 1])) {
+      if (
+        data.data[0] &&
+        data.data[data.data.length - 1].id == messages[messages.length - 1]
+      ) {
         if (
           firstMsg.msg_receiver_id == myUserId &&
           firstMsg.id == messages[messages.length - 1]
