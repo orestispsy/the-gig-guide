@@ -157,12 +157,10 @@ export const Chat: React.FC<Props> = ({
 
   useEffect(() => {
     if (!chatModeClosed) {
-      {
         if (browserCount == 1) {
           socket.emit("A CHAT MSG", "--##--left--##--");
           chatUserOnlineChecker(false, onlineUsers, myUserId);
         }
-      }
       setTimeout(() => {
         navigate("/");
       }, 300);
@@ -198,7 +196,8 @@ export const Chat: React.FC<Props> = ({
   }, [horn]);
 
   useEffect(() => {
-    chatMessageActions(
+    if (chatModeClosed){
+  chatMessageActions(
       chatMessages,
       myUserId,
       mute,
@@ -208,7 +207,9 @@ export const Chat: React.FC<Props> = ({
       postScroll,
       setPostScroll,
       scrollTop
-    );
+  );
+    }
+  
   }, [chatMessages]);
 
   const changePageMode = () => {
