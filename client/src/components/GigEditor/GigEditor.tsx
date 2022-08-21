@@ -1,11 +1,20 @@
-import { Link, useLocation } from "react-router-dom";
-import axios from "../../common/Axios/axios";
+import { useLocation } from "react-router-dom";
+
 import React, { useState, useEffect, useRef } from "react";
 
-const { axiosGetGigs } = require("./GigEditorUtils");
+const {
+  posterSelector,
+  gigSelector,
+  coordinator,
+} = require("./GigEditorUtils");
 
 import EditMap from "../EditMap/EditMap";
 
+import { GigEditorTop } from "./GigEditorTop/GigEditorTop";
+import { MainEditInputs } from "./MainEditInputs/MainEditInputs";
+import { CoordinatesInputs } from "./CoordinatesInputs/CoordinatesInputs";
+import { PosterInputs } from "./PosterInputs/PosterInputs";
+import { GigEditorBottom } from "./GigEditorBottom/GigEditorBottom";
 import { Posters } from "../Posters/Posters";
 
 type LocationProps = {
@@ -23,7 +32,6 @@ interface Props {
   darkMode: boolean;
   setGigsList: (e: any) => any;
   setEditMode: (e: boolean) => any;
-  gigsListTimeline: any;
   setGigsListTimeline: (e: any) => void;
 }
 
@@ -33,26 +41,25 @@ export const GigEditor: React.FC<Props> = ({
   darkMode,
   setGigsList,
   setEditMode,
-  gigsListTimeline,
   setGigsListTimeline,
 }) => {
   const [file, setFile] = useState<any>();
   const [error, setError] = useState<boolean>(false);
   const [error2, setError2] = useState<boolean>(false);
-  const [deleteFile, setDeleteFile] = useState(false);
+  const [deleteFile, setDeleteFile] = useState<any>(false);
   const [deleteSuccess, setDeleteSuccess] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [mapView, setMapView] = useState<boolean>(false);
-  const [selectedPoster, setSelectedPoster] = useState("");
+  const [selectedPoster, setSelectedPoster] = useState<any>("");
   const [posterSection, setPosterSection] = useState<boolean>(false);
   const [doneUpdate, setDoneUpdate] = useState<boolean>(false);
-  const [date, setDate] = useState("");
-  const [venue, setVenue] = useState("");
+  const [date, setDate] = useState<any>("");
+  const [venue, setVenue] = useState<any>("");
   const [lat, setLat] = useState<string | number>("");
   const [lng, setLng] = useState<string | number>("");
   const [newLat, setNewLat] = useState<string | number>("");
   const [newLng, setNewLng] = useState<string | number>("");
-  const [tourName, setTourName] = useState("");
+  const [tourName, setTourName] = useState<any>("");
   const [city, setCity] = useState<string>("");
   const [poster, setPoster] = useState<string>("");
   const [gigToView, setGigToView] = useState<string | number>("");
@@ -61,7 +68,7 @@ export const GigEditor: React.FC<Props> = ({
   const elemRef = useRef<any>();
 
   const currentLocation = useLocation() as unknown as LocationProps;
-  const { state, pathname } = currentLocation;
+  const { state } = currentLocation;
 
   useEffect(function () {
     if (!admin) {
@@ -83,86 +90,17 @@ export const GigEditor: React.FC<Props> = ({
 
   useEffect(
     function () {
-      gigSelector();
+      gigSelector(gigToView, setSelectedGig);
     },
     [gigToView]
   );
 
   useEffect(
     function () {
-      posterSelector();
+      posterSelector(selectedGig, selectedPoster, setSelectedGig, setPoster);
     },
     [selectedPoster]
   );
-
-  const handleClick = () => {
-    axios
-      .post("/gig-update", {
-        selectedGig: selectedGig,
-        date: date,
-        venue: venue,
-        lat: lat,
-        lng: lng,
-        tourName: tourName,
-        city: city,
-        poster: poster,
-        selectedPoster: selectedPoster,
-      })
-      .then(({ data }) => {
-        if (data.data) {
-          updateDatabase();
-          setDoneUpdate(true);
-          axiosGetGigs(setGigsListTimeline);
-        } else {
-          setError(true);
-          setFile(null);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const handleUploaderClick = () => {
-    setSuccess(true);
-    const formData = new FormData();
-    let ext = file.name.split(".");
-    formData.append(
-      "file",
-      file,
-      `${selectedGig.date}G${selectedGig.id}T.${ext[ext.length - 1]}`
-    );
-    formData.append("data", JSON.stringify(selectedGig));
-    axios
-      .post("/upload", formData)
-      .then(({ data }) => {
-        if (data.success) {
-          setSelectedPoster(data.data[0].poster);
-          axiosGetGigs(setGigsListTimeline);
-          selectedGigUpdater(data.data);
-          setSelectedGig(selectedGigHelper);
-
-          updateDatabase();
-          setDoneUpdate(true);
-          setSuccess(false);
-          setFile(null);
-          elemRef.current.value = "";
-        } else {
-          setError2(true);
-        }
-      })
-      .catch((err) => {
-        setError2(true);
-        setSuccess(false);
-      });
-  };
-  let selectedGigHelper: any;
-  const selectedGigUpdater = (e: any) => {
-    selectedGigHelper = selectedGig;
-    if (selectedGigHelper.poster) {
-      selectedGigHelper.poster = e[0].poster;
-    }
-  };
 
   const inputsReset = () => {
     setDate("");
@@ -175,75 +113,6 @@ export const GigEditor: React.FC<Props> = ({
     setSelectedPoster("");
   };
 
-  const gigSelector = () => {
-    axios
-      .post("/get-gig-to-edit", { selectedGig: gigToView })
-      .then(({ data }) => {
-        if (data.data) {
-          setSelectedGig(data.data);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const posterSelector = () => {
-    let selectedGigHelper: any = selectedGig;
-    if (selectedGigHelper.poster) {
-      selectedGigHelper.poster = selectedPoster;
-
-      setSelectedGig(selectedGigHelper);
-      setPoster(selectedPoster);
-    }
-  };
-
-  const gigDelete = () => {
-    setDeleteSuccess(true);
-    setDeleteFile(false);
-
-    axios
-      .post("/gig-delete", { selectedGig: selectedGig })
-      .then(({ data }) => {
-        if (data.deleteSuccess) {
-          axiosGetGigs(setGigsListTimeline);
-          updateDatabase();
-          setSelectedGig(false);
-          setSelectedPoster("");
-          const timer = setTimeout(() => {
-            setDeleteSuccess(false);
-          }, 2000);
-          return () => clearTimeout(timer);
-        } else {
-          return;
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const coordinator = (e: any) => {
-    let selectedGigHelper: any = selectedGig;
-
-    selectedGigHelper.lng = parseFloat(e.latLng.lng());
-    selectedGigHelper.lat = parseFloat(e.latLng.lat());
-    setSelectedGig(selectedGigHelper);
-    setNewLng(parseFloat(e.latLng.lng()));
-    setNewLat(parseFloat(e.latLng.lat()));
-  };
-
-  const updateDatabase = () => {
-    axios
-      .get("/get-gigs")
-      .then(({ data }) => {
-        setGigsList(data.data.reverse());
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   return (
     <div className="gigEditorContainer">
       <div
@@ -251,296 +120,99 @@ export const GigEditor: React.FC<Props> = ({
         id={(darkMode && "logoBoxDarkEdit") || ""}
       >
         <form>
-          {posterSection && (
-            <div
-              title="Back"
-              id="editorCloseTab"
-              onClick={(e) => {
-                setPosterSection(false);
-              }}
-            >
-              <div className="buttonBack">X</div>
-            </div>
-          )}
-          {!posterSection && mapView && (
-            <div
-              title="Back"
-              id="editorCloseTab"
-              onClick={(e) => {
-                setMapView(!mapView);
-              }}
-            >
-              <div className="buttonBack">X</div>
-            </div>
-          )}
-          <select
-            size={1}
-            name="selectedGig"
-            className="selectGig"
-            onChange={(e) => {
-              setGigToView(e.target.value);
-              gigSelector();
-              setFile(null);
-              if (elemRef.current) {
-                elemRef.current.value = "";
-              }
-            }}
-            onClick={(e) => {
-              inputsReset();
-              setError(false);
-              setError2(false);
-              setDeleteFile(false);
-              setDoneUpdate(false);
-            }}
-          >
-            <option
-              className="chooseGig"
-              value=""
-              onClick={() => inputsReset()}
-            >
-              Select Gig
-            </option>
-            {gigsList &&
-              gigsList
-                .map((gig: any) => (
-                  <option
-                    value={gig.date}
-                    key={gig.id}
-                    style={{
-                      color: (selectedGig.id == gig.id && `black`) || ``,
-                    }}
-                  >
-                    {gig.date} {gig.venue}
-                  </option>
-                ))
-                .reverse()}
-          </select>{" "}
+          <GigEditorTop
+            setDoneUpdate={(e: boolean) => setDoneUpdate(e)}
+            doneUpdate={doneUpdate}
+            setError={(e: boolean) => setError(e)}
+            setError2={(e: boolean) => setError2(e)}
+            selectedGig={selectedGig}
+            setDeleteFile={(e: any) => setDeleteFile(e)}
+            posterSection={posterSection}
+            setPosterSection={(e: boolean) => setPosterSection(e)}
+            elemRef={elemRef}
+            setSelectedGig={(e: any) => setSelectedGig(e)}
+            setFile={(e: any) => setFile(e)}
+            mapView={mapView}
+            setMapView={(e: boolean) => setMapView(e)}
+            gigToView={gigToView}
+            setGigToView={(e: string | number) => setGigToView(e)}
+            gigsList={gigsList}
+            inputsReset={() => inputsReset()}
+          />
           {posterSection && (
             <Posters setSelectedPoster={(e: any) => setSelectedPoster(e)} />
           )}
           {!mapView && !posterSection && (
-            <div className="gigMainDetails">
-              <div className="inputBack">
-                <span>Date</span>
-                <input
-                  value={date || selectedGig.date || ""}
-                  autoComplete="none"
-                  name="date"
-                  placeholder="Date"
-                  type="date"
-                  onChange={(e) => setDate(e.target.value)}
-                  onClick={(e) => {
-                    setError(false);
-                    setError2(false);
-                    setDeleteFile(false);
-                    setDoneUpdate(false);
-                  }}
-                />
-              </div>
-
-              <div className="inputBack">
-                <span>City</span>
-                <input
-                  value={city || selectedGig.city || ""}
-                  autoComplete="none"
-                  name="city"
-                  placeholder="City"
-                  onChange={(e) => setCity(e.target.value)}
-                  onClick={(e) => {
-                    setError(false);
-                    setError2(false);
-                    setDeleteFile(false);
-                    setDoneUpdate(false);
-                  }}
-                />
-              </div>
-
-              <div className="inputBack">
-                <span>Tour</span>
-                <input
-                  value={tourName || selectedGig.tour_name || ""}
-                  autoComplete="none"
-                  name="tour_name"
-                  placeholder="Tour Name"
-                  onChange={(e) => setTourName(e.target.value)}
-                  onClick={(e) => {
-                    setError(false);
-                    setError2(false);
-                    setDeleteFile(false);
-                    setDoneUpdate(false);
-                  }}
-                />
-              </div>
-
-              <div className="inputBack">
-                <span>Venue</span>
-                <input
-                  value={venue || selectedGig.venue || ""}
-                  autoComplete="none"
-                  name="venue"
-                  placeholder="Venue"
-                  onChange={(e) => setVenue(e.target.value)}
-                  onClick={(e) => {
-                    setError(false);
-                    setError2(false);
-                    setDeleteFile(false);
-                    setDoneUpdate(false);
-                  }}
-                />
-              </div>
-            </div>
+            <MainEditInputs
+              date={date}
+              venue={venue}
+              tourName={tourName}
+              city={city}
+              selectedGig={selectedGig}
+              setCity={(e: any) => setCity(e)}
+              setDate={(e: any) => setDate(e)}
+              setVenue={(e: any) => setVenue(e)}
+              setTourName={(e: any) => setTourName(e)}
+              setDeleteFile={(e: any) => setDeleteFile(e)}
+              setDoneUpdate={(e: boolean) => setDoneUpdate(e)}
+              setError={(e: boolean) => setError(e)}
+              setError2={(e: boolean) => setError2(e)}
+            />
           )}
           {!posterSection && (
-            <div className="coordinatesEditorBox">
-              <div className="inputBack">
-                <span>Latitude</span>
-                <input
-                  value={newLat || lat || selectedGig.lat || ""}
-                  autoComplete="none"
-                  name="lat"
-                  placeholder="Latitude"
-                  onChange={(e) => setLat(e.target.value)}
-                  onClick={(e) => {
-                    setError(false);
-                    setError2(false);
-                    setDeleteFile(false);
-                    setDoneUpdate(false);
-                  }}
-                />
-              </div>
-              <div className="coordinatesMenuFlipper">
-                {selectedGig && !deleteSuccess && (
-                  <div
-                    className="coordinatesMenu"
-                    onClick={() => setMapView(!mapView)}
-                  >
-                    <div
-                      className="lngLtdMenu"
-                      style={{
-                        animation:
-                          (newLat &&
-                            newLng &&
-                            mapView &&
-                            "blinkerBan 3s infinite ease-in-out ") ||
-                          "",
-                      }}
-                    >
-                      {!mapView && "Select On Map"} {mapView && "Close Map"}
-                    </div>
-
-                    <div
-                      title={(!mapView && "Select On Map") || "Close Map"}
-                      className="editMapTogglerGlobe"
-                    ></div>
-                  </div>
-                )}
-                <div className="inputBack">
-                  <span>Longitude</span>
-                  <input
-                    value={newLng || lng || selectedGig.lng || ""}
-                    autoComplete="none"
-                    name="lng"
-                    placeholder="Longitude"
-                    onChange={(e) => setLng(e.target.value)}
-                    onClick={(e) => {
-                      setError(false);
-                      setError2(false);
-                      setDeleteFile(false);
-                      setDoneUpdate(false);
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
+            <CoordinatesInputs
+              lat={lat}
+              newLat={newLat}
+              lng={lng}
+              newLng={newLng}
+              selectedGig={selectedGig}
+              setLat={(e: string | number) => setLat(e)}
+              setLng={(e: string | number) => setLng(e)}
+              setDeleteFile={(e: any) => setDeleteFile(e)}
+              setDoneUpdate={(e: boolean) => setDoneUpdate(e)}
+              setError={(e: boolean) => setError(e)}
+              setError2={(e: boolean) => setError2(e)}
+              mapView={mapView}
+              setMapView={(e: boolean) => setMapView(e)}
+              deleteSuccess={deleteSuccess}
+            />
           )}
           {!mapView && !deleteSuccess && (
-            <div className="posterEditBox">
-              <div className="inputBack">
-                <span>Poster</span>
-                <input
-                  value={selectedPoster || poster || selectedGig.poster || ""}
-                  autoComplete="none"
-                  name="poster"
-                  placeholder="Poster"
-                  onChange={(e) => setPoster(e.target.value)}
-                  onClick={(e) => {
-                    setError(false);
-                    setError2(false);
-                    setDeleteFile(false);
-                    setDoneUpdate(false);
-                  }}
-                />
-              </div>
-              {selectedGig.id && (
-                <div
-                  className="editorGallery"
-                  onClick={(e) => {
-                    setPosterSection(!posterSection);
-                    setError(false);
-                    setError2(false);
-                    setDeleteFile(false);
-                    setDoneUpdate(false);
-                  }}
-                >
-                  <img
-                    title={
-                      (!posterSection && "Poster Gallery") ||
-                      (posterSection && "Close Gallery") ||
-                      ""
-                    }
-                    className="imgPreview"
-                    src={
-                      selectedPoster || poster || selectedGig.poster || "na.jpg"
-                    }
-                  ></img>
-                  {!posterSection && <div>Poster Gallery</div>}
-                </div>
-              )}
-              {selectedGig.id && !deleteSuccess && !posterSection && (
-                <div className="fileUploader" id="fileUploaderEdit">
-                  {!success && !doneUpdate && (
-                    <div className="uploadPosterProps">
-                      <div className="uploadHead">
-                        {(!file && " Upload Poster From File:") ||
-                          "Finish Upload: "}
-                      </div>
-                      {file && (
-                        <div
-                          title="Upload Poster"
-                          id="upload"
-                          onClick={() => handleUploaderClick()}
-                        >
-                          Confirm
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  <input
-                    ref={elemRef}
-                    type="file"
-                    name="file"
-                    accept="image/*"
-                    onChange={(e) => {
-                      if (e.target.files) {
-                        setFile(e.target.files[0]);
-                      }
-                    }}
-                    onClick={(e) => {
-                      setError(false);
-                      setError2(false);
-                      setDeleteFile(false);
-                      setDoneUpdate(false);
-                    }}
-                  />
-
-                  {success && <div className="uploadSuccess"></div>}
-                </div>
-              )}
-            </div>
+            <PosterInputs
+              poster={poster}
+              selectedPoster={selectedPoster}
+              setPoster={(e: string) => setPoster(e)}
+              posterSection={posterSection}
+              setPosterSection={(e: boolean) => setPosterSection(e)}
+              doneUpdate={doneUpdate}
+              selectedGig={selectedGig}
+              deleteSuccess={deleteSuccess}
+              setDoneUpdate={(e: boolean) => setDoneUpdate(e)}
+              setError={(e: boolean) => setError(e)}
+              setError2={(e: boolean) => setError2(e)}
+              setSelectedPoster={(e: any) => setSelectedPoster(e)}
+              file={file}
+              setFile={(e: any) => setFile(e)}
+              elemRef={elemRef}
+              success={success}
+              setSuccess={(e: boolean) => setSuccess(e)}
+              setGigsListTimeline={(e: any) => setGigsListTimeline(e)}
+              setGigsList={(e: any) => setGigsList(e)}
+              setDeleteFile={(e: any) => setDeleteFile(e)}
+              setSelectedGig={(e: any) => setSelectedGig(e)}
+            />
           )}
           {mapView && selectedGig.date && !deleteSuccess && (
             <EditMap
-              coordinator={(e) => coordinator(e)}
+              coordinator={(e) =>
+                coordinator(
+                  e,
+                  selectedGig,
+                  setSelectedGig,
+                  setNewLng,
+                  setNewLat
+                )
+              }
               selectedGig={selectedGig}
             />
           )}
@@ -557,49 +229,32 @@ export const GigEditor: React.FC<Props> = ({
             </p>
           )}
         </form>
-        {!deleteSuccess && !mapView && selectedGig && (
-          <div className="formOptions">
-            {!doneUpdate && (
-              <div
-                className="button"
-                onClick={() => {
-                  if (!doneUpdate) {
-                    handleClick();
-                  } else {
-                    setSuccess(false);
-                    setDoneUpdate(false);
-                  }
-                }}
-              >
-                {!doneUpdate && "Update"}
-                {doneUpdate && "Done"}
-              </div>
-            )}
-
-            {selectedGig.date && !doneUpdate && !mapView && !posterSection && (
-              <div className="delete" onClick={(e) => setDeleteFile(true)}>
-                Delete
-              </div>
-            )}
-
-            {deleteFile && selectedGig.date && !deleteSuccess && (
-              <div className="deleteWarn" onClick={() => gigDelete()}>
-                Confirm
-              </div>
-            )}
-          </div>
-        )}
-        {deleteSuccess && <div className="deleteSuccess"></div>}
-        {doneUpdate && (
-          <div
-            className={doneUpdate && "doneUpdate"}
-            onClick={() => {
-              setDoneUpdate(false);
-            }}
-          >
-            Done
-          </div>
-        )}
+        <GigEditorBottom
+          setDoneUpdate={(e: boolean) => setDoneUpdate(e)}
+          setSelectedPoster={(e: any) => setSelectedPoster(e)}
+          posterSection={posterSection}
+          doneUpdate={doneUpdate}
+          selectedGig={selectedGig}
+          deleteSuccess={deleteSuccess}
+          setDeleteSuccess={(e: boolean) => setDeleteSuccess(e)}
+          setSuccess={(e: boolean) => setSuccess(e)}
+          deleteFile={deleteFile}
+          setDeleteFile={(e: any) => setDeleteFile(e)}
+          selectedPoster={selectedPoster}
+          setError={(e: boolean) => setError(e)}
+          setFile={(e: any) => setFile(e)}
+          setSelectedGig={(e: any) => setSelectedGig(e)}
+          mapView={mapView}
+          date={date}
+          venue={venue}
+          tourName={tourName}
+          city={city}
+          lat={lat}
+          lng={lng}
+          poster={poster}
+          setGigsList={(e: any) => setGigsList(e)}
+          setGigsListTimeline={(e: any) => setGigsListTimeline(e)}
+        />
       </div>
     </div>
   );

@@ -1,29 +1,30 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "../../common/Axios/axios";
-import { socket } from "../../common/Socket/socket";
 import { useSelector } from "react-redux";
 
-const { axiosGetComments, dateTimeHandler } = require("./CommentsUtils");
+const {
+  axiosAddComment,
+  dateTimeHandler,
+  updateComments,
+  keyCheck,
+} = require("./CommentsUtils");
+
+const { moveScrollbarToBottom } = require("./../Chat/ChatUtils");
 
 interface Props {
   selectedGigId: string;
   myUserId: number | undefined;
-  superAdmin: boolean;
   myNickname: string;
   setOpenComments: (e: boolean) => void;
   openComments: boolean;
-  commentsTimeline: any;
   setCommentsTimeline: (e: any) => void;
 }
 
 export const Comments: React.FC<Props> = ({
   selectedGigId,
   myUserId,
-  superAdmin,
   myNickname,
   setOpenComments,
   openComments,
-  commentsTimeline,
   setCommentsTimeline,
 }) => {
   const [post, setPost] = useState<string | null>(null);
@@ -34,72 +35,19 @@ export const Comments: React.FC<Props> = ({
 
   useEffect(
     function () {
-      axios
-        .post("/get-comments/", {
-          selectedGigId: selectedGigId,
-        })
-        .then(({ data }) => {
-          socket.emit("COMMENTS", data.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      updateComments(selectedGigId);
     },
     [selectedGigId]
   );
 
   useEffect(() => {
     if (elemRef.current) {
-      const newScrollTop =
-        elemRef.current.scrollHeight - elemRef.current.clientHeight;
-      elemRef.current.scrollTop = newScrollTop;
+      moveScrollbarToBottom(elemRef);
     }
   }, [comments]);
 
   const getPost = (e: any) => {
     setPost(e.target.value);
-  };
-
-  const elem: any = document.querySelectorAll("#commentsTypeLine");
-
-  const addComment = () => {
-    if (!post) {
-      return;
-    } else {
-      let emptyMsgChecker = post.trim();
-      if (emptyMsgChecker !== "") {
-        axios
-          .post("/add-comment/", {
-            selectedGigId: selectedGigId,
-            myUserId: myUserId,
-            comment: post,
-          })
-          .then(({ data }) => {
-            socket.emit("ADD COMMENT", {
-              ...data.data[0],
-              nickname: myNickname,
-            });
-            axiosGetComments(setCommentsTimeline);
-            elem[0].value = "";
-            setPost(null);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-    }
-  };
-
-  const keyCheck = (e: any) => {
-    if (e.key === "Enter") {
-      let emptyMsgChecker = e.target.value.trim();
-      if (emptyMsgChecker !== "") {
-        e.preventDefault();
-        addComment();
-        e.target.value = "";
-      }
-      e.preventDefault();
-    }
   };
 
   return (
@@ -145,12 +93,31 @@ export const Comments: React.FC<Props> = ({
         onChange={(e) => {
           getPost(e);
         }}
-        onKeyDown={(e) => keyCheck(e)}
+        onKeyDown={(e) =>
+          keyCheck(
+            e,
+            selectedGigId,
+            post,
+            myNickname,
+            myUserId,
+            setPost,
+            setCommentsTimeline
+          )
+        }
       ></textarea>
       <div
         className="mainMenuLink"
         id="commentButton"
-        onClick={() => addComment()}
+        onClick={() =>
+          axiosAddComment(
+            selectedGigId,
+            post,
+            myNickname,
+            myUserId,
+            setPost,
+            setCommentsTimeline
+          )
+        }
       >
         Send
       </div>

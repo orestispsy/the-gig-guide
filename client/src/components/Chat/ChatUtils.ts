@@ -1,7 +1,6 @@
 import { socket } from "../../common/Socket/socket";
 import axios from "../../common/Axios/axios";
 
-
 module.exports.handleTime = (e: any, date?: boolean) => {
   let msgDate;
   let msgTime;
@@ -9,9 +8,14 @@ module.exports.handleTime = (e: any, date?: boolean) => {
   let fixedHours: number;
   let timePreFix: string;
   let diff = new Date().getTimezoneOffset() / -60;
-  
+
   if (e.created_at) {
-    msgDate = e.created_at.slice(0, 10).split("-");
+    if (e.last_online) {
+      msgDate = e.last_online.slice(0, 10).split("-");
+    } else {
+      msgDate = e.created_at.slice(0, 10).split("-");
+    }
+
     fixedDate = msgDate[2] + "-" + msgDate[1] + "-" + msgDate[0];
 
     msgTime = e.created_at.slice(11, 19).split(":");

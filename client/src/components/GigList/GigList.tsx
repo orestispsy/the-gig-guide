@@ -1,6 +1,17 @@
 import { Link } from "react-router-dom";
-import React, { useState, useEffect, Fragment, useRef } from "react";
-import axios from "../../common/Axios/axios";
+import React, { useState, useEffect, useRef } from "react";
+
+import { FullList } from "./FullList/FullList";
+import { RetroList } from "./RetroList/RetroList";
+import { SearchResults } from "./SearchResults/SearchResults";
+import { SortedList } from "./SortedList/SortedList";
+import { GigListTopBar } from "./GigListTopBar/GigListTopBar";
+
+const {
+  dateModifier,
+  filterGigs,
+  gigListFiltering,
+} = require("./GigListUtils");
 
 interface Props {
   gigsList: any;
@@ -49,11 +60,9 @@ export const GigList: React.FC<Props> = ({
     { id: "11", month: "November" },
     { id: "12", month: "December" },
   ]);
-  const [shownGigs, setShownGigs] = useState(11);
+  const [shownGigs, setShownGigs] = useState<any>(11);
 
   const elemRef = useRef<HTMLDivElement>(null);
-
-  const retroListRef = useRef<HTMLDivElement>(null);
 
   useEffect(function () {
     setAnimeMode(false);
@@ -62,182 +71,45 @@ export const GigList: React.FC<Props> = ({
     setMapMode(false);
     setGigEntryMode(false);
     if (year) {
-      gigListFiltering(year);
+      gigListFiltering(year, gigsList, setSortedGigs, setSortedMonths);
     }
   }, []);
-
-  useEffect(
-    function () {
-      if (retroListRef.current) {
-        retroListRef.current.scrollTop = -retroListRef.current.scrollHeight;
-      }
-    },
-    [reverseList]
-  );
 
   var sortedGigsHelper: any = [];
   useEffect(
     function () {
       if (sortedGigs) {
-        sortedGigs.map((gig: any) => {
-          var dateSplit = gig.date.split("-");
-          if (!sortedGigsHelper.includes(dateSplit[1])) {
-            sortedGigsHelper = sortedGigsHelper.concat(dateSplit[1]);
-            setSortedMonths(sortedGigsHelper);
-          } else {
-            return;
-          }
-        });
+        filterGigs(sortedGigsHelper, sortedGigs, setSortedMonths);
       }
     },
     [sortedGigs]
   );
 
-  const gigListFiltering = (e: any) => {
-    setSortedGigs(gigsList.filter((gig: any) => gig.date.includes(e)));
-    setSortedMonths([]);
-  };
-
-  const gigsReset = () => {
-    setYear(undefined);
-    setSortedGigs(false);
-    setSearchResults(false);
-    setSearchFieldOpen(false);
-  };
-
-  const gigFinder = (e: string) => {
-    axios
-      .post("/find-gig", { keyword: e })
-      .then(({ data }) => {
-        if (data.data) {
-          setSearchResults(data.data);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const dateModifier = (e: string, retro?: boolean) => {
-    if (!retro) {
-      let dateFull = e.split("-");
-      return dateFull[2] + ` • ` + dateFull[1] + ` • ` + dateFull[0];
-    } else {
-      let dateFull = e.split("-");
-      return dateFull[2] + `.` + dateFull[1] + `.` + dateFull[0];
-    }
-  };
-
   return (
     <div className="gigListContainer">
       {retroList && (
-        <div className="retroListHead">
-          <div className="retroTitle">Gig Entries</div>
-        </div>
+        <RetroList
+          reverseList={reverseList}
+          setReverseList={(e: boolean) => setReverseList(e)}
+          gigsList={gigsList}
+        />
       )}
-      {retroList && (
-        <div className="retroListCategories">
-          <div
-            title={"Reverse List"}
-            onClick={(e) => {
-              setReverseList(!reverseList);
-            }}
-          >
-            #
-          </div>
-          <div>Date</div>
-          <div>Venue</div>
-          <div>City</div>
-          <div>Tour Name</div>
-        </div>
-      )}
-      {retroList && (
-        <div
-          className="retroList"
-          ref={retroListRef}
-          style={{
-            flexDirection: (reverseList && "column-reverse") || "column",
-          }}
-        >
-          {gigsList &&
-            gigsList.map((gig: any, index: number) => (
-              <Link to={`/api/gig/${gig.id}`} key={gig.id}>
-                <div>{index + 1}</div>
-                <div>{dateModifier(gig.date, true)} </div>
-                <div> {gig.venue}</div>
-                <div> {gig.city}</div>
-                <div> {gig.tour_name}</div>
-              </Link>
-            ))}
-        </div>
-      )}
+
       {!retroList && (
-        <div className="gigEntriesBoxBack">
-          <div className="gigEntriesBox">
-            <h1>Gig Entries</h1>
-            <div className="gigListControls">
-              <div className="sortedGigRange">2006</div>
-              <input
-                value={(year && year) || ""}
-                title="Set Year"
-                type="range"
-                min="2006"
-                max="2022"
-                className="selectGigEntry"
-                onChange={(e) => {
-                  gigListFiltering(e.target.value);
-                  setYear(e.target.value);
-                  setSearchResults(false);
-                  setSearchFieldOpen(false);
-                }}
-              ></input>
-              <div className="sortedGigRange">2022</div>
-            </div>
-            {year && (
-              <div
-                title="Reset"
-                className="sortedGigReset"
-                onClick={() => {
-                  gigsReset();
-                }}
-              >
-                show all
-              </div>
-            )}
-            <div
-              className="gigListSearch"
-              onClick={(e) => {
-                setSearchFieldOpen(!searchFieldOpen);
-                setSearchResults(false);
-              }}
-            ></div>
-            {searchFieldOpen && (
-              <input
-                placeholder="Search for City or Venue"
-                type="text"
-                className="searchFieldGigList"
-                onChange={(e) => gigFinder(e.target.value)}
-              ></input>
-            )}
-            <div className="year">
-              {" "}
-              {(year && !searchFieldOpen && year) || "Total"}
-            </div>
-          </div>
-          <div className="gigEntriesCounter">
-            {!searchResults &&
-              !searchFieldOpen &&
-              gigsList &&
-              !sortedGigs &&
-              gigsList.length}
-            {!searchResults &&
-              !searchFieldOpen &&
-              sortedGigs &&
-              sortedGigs.length}
-            {(searchFieldOpen && !searchResults.length && "0") ||
-              searchResults.length}
-          </div>
-        </div>
+        <GigListTopBar
+          year={year}
+          setYear={(e: string | number | readonly string[] | undefined) =>
+            setYear(e)
+          }
+          searchResults={searchResults}
+          setSearchResults={(e: any) => setSearchResults(e)}
+          setSearchFieldOpen={(e: boolean) => setSearchFieldOpen(e)}
+          searchFieldOpen={searchFieldOpen}
+          gigsList={gigsList}
+          setSortedGigs={(e: any) => setSortedGigs(e)}
+          setSortedMonths={(e: any) => setSortedMonths(e)}
+          sortedGigs={sortedGigs}
+        />
       )}
       {!retroList && (
         <div className="gigEntriesBack">
@@ -275,122 +147,24 @@ export const GigList: React.FC<Props> = ({
             }}
           >
             {sortedGigs && !searchResults && !searchFieldOpen && year && (
-              <div className="gigListMonths">
-                {months &&
-                  months.map((month: any) => (
-                    <React.Fragment key={month.id}>
-                      {sortedMonths.includes(month.id) && (
-                        <div className="exactMonth">
-                          <div className="exactMonthTitle">{month.month}</div>
-
-                          <div className="monthInnerBox">
-                            {sortedGigs &&
-                              sortedGigs.map((gig: any) => {
-                                var splitDate = gig.date.split("-");
-
-                                return (
-                                  <React.Fragment key={gig.id}>
-                                    {splitDate[1] == month.id && (
-                                      <Link
-                                        onClick={(e) => {
-                                          setYear(year);
-                                        }}
-                                        to={`/api/gig/${gig.id}`}
-                                      >
-                                        <div className="gigBox" id="gigBox">
-                                          <div id="gigBoxDateSorted">
-                                            {gig.date.split("-")[2]}
-                                          </div>
-                                          <div
-                                            style={{
-                                              color: `lime`,
-                                            }}
-                                          >
-                                            {gig.venue}
-                                          </div>
-                                          <div
-                                            style={{
-                                              color: `white`,
-                                            }}
-                                          >
-                                            {gig.city}
-                                          </div>
-                                        </div>
-                                      </Link>
-                                    )}
-                                  </React.Fragment>
-                                );
-                              })}
-                          </div>
-                        </div>
-                      )}
-                    </React.Fragment>
-                  ))}{" "}
-              </div>
+              <SortedList
+                sortedGigs={sortedGigs}
+                sortedMonths={sortedMonths}
+                months={months}
+                year={year}
+                setYear={(e: string | number | readonly string[] | undefined) =>
+                  setYear(e)
+                }
+              />
             )}
             {gigsList &&
               !searchResults &&
               !searchFieldOpen &&
               !year &&
-              !sortedGigs &&
-              gigsList
-                .slice(gigsList.length - shownGigs, gigsList.length)
-                .reverse()
-                .map((gig: any) => (
-                  <Link to={`/api/gig/${gig.id}`} key={gig.id}>
-                    <div className="gigBox">
-                      <div
-                        style={{
-                          color: `yellow`,
-                        }}
-                      >
-                        {dateModifier(gig.date)}
-                      </div>
-                      <div
-                        style={{
-                          color: `lime`,
-                        }}
-                      >
-                        {gig.venue}
-                      </div>
-                      <div
-                        style={{
-                          color: `white`,
-                        }}
-                      >
-                        {gig.city}
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-            {searchResults &&
-              searchResults.map((gig: any) => (
-                <Link to={`/api/gig/${gig.id}`} key={gig.id}>
-                  <div className="gigBox">
-                    <div
-                      style={{
-                        color: `yellow`,
-                      }}
-                    >
-                      {dateModifier(gig.date)}
-                    </div>
-                    <div
-                      style={{
-                        color: `lime`,
-                      }}
-                    >
-                      {gig.venue}
-                    </div>
-                    <div
-                      style={{
-                        color: `white`,
-                      }}
-                    >
-                      {gig.city}
-                    </div>
-                  </div>
-                </Link>
-              ))}
+              !sortedGigs && (
+                <FullList gigsList={gigsList} shownGigs={shownGigs} />
+              )}
+            {searchResults && <SearchResults searchResults={searchResults} />}
           </div>
         </div>
       )}

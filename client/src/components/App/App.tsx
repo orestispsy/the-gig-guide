@@ -285,7 +285,6 @@ export const App: React.FC<Props> = ({}) => {
                 darkMode={darkMode}
                 setGigsList={(e: any) => setGigsList(e)}
                 setAddMode={(e: boolean) => setAddMode(e)}
-                gigsListTimeline={gigsListTimeline}
                 setGigsListTimeline={(e: boolean) => setGigsListTimeline(e)}
               />
             }
@@ -299,7 +298,6 @@ export const App: React.FC<Props> = ({}) => {
                 darkMode={darkMode}
                 setGigsList={(e: any) => setGigsList(e)}
                 setEditMode={(e: boolean) => setEditMode(e)}
-                gigsListTimeline={gigsListTimeline}
                 setGigsListTimeline={(e: boolean) => setGigsListTimeline(e)}
               />
             }
@@ -429,7 +427,6 @@ export const App: React.FC<Props> = ({}) => {
               <SuperAdmin
                 superAdmin={superAdmin}
                 myUserId={myUserId}
-                setDarkMode={(e: boolean) => setDarkMode(e)}
                 setAdminControls={(e: boolean) => setAdminControls(e)}
               />
             }

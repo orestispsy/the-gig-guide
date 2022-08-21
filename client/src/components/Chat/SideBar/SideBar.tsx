@@ -266,6 +266,7 @@ export const SideBar: React.FC<Props> = ({
             newNickname={newNickname}
             setMyNickname={(e: string) => setMyNickname(e)}
             errorMsgInfo={errorMsgInfo}
+            setAdmin={(e: boolean) => setAdmin(e)}
           />
         )}
         {userPicBar && (

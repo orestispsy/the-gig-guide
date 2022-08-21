@@ -104,104 +104,96 @@ export const PrivateMSGS: React.FC<Props> = ({
   };
 
   return (
-    <>
-      <div
-        className="chatContainer"
-        id={(darkMode && "chatContainerDark") || ""}
-      >
-        <ChatControls
-          elemRef={elemRef}
-          setPostScroll={(e: boolean) => setPostScroll(e)}
-          chatMessages={messages}
-          myUserId={myUserId}
-          userPrivate={userPrivate}
-        />
-        <h1 id="chatTitlePriv">Private Chat</h1>
-        <div className="chatScreenBack">
-          <div
-            className="chatScreen"
-            id={(darkMode && "chatScreenDark") || ""}
-            ref={elemRef}
-            onScrollCapture={() =>
-              elemRef.current && setScrollTop(elemRef.current.scrollTop)
-            }
-          >
-            {messages &&
-              messages.map((msg: any, index: number) => {
-                return (
-                  <div key={index}>
-                    {(msg.msg_receiver_id == userPrivate ||
-                      msg.msg_sender_id == userPrivate) &&
-                      (msg.msg_receiver_id == myUserId ||
-                        msg.msg_sender_id == myUserId) && (
-                        <div className="chatPost">
-                          <div className="post">
-                            <div className="userChatDetails">
-                              <img
-                                className="postImg"
-                                src={
-                                  (msg.msg_sender_id == myUserId &&
-                                    myChatImg) ||
-                                  (msg.msg_sender_id != myUserId &&
-                                    privatePic) ||
-                                  "./../avatar.png"
-                                }
-                              ></img>
-                              <div id="nickname">
-                                {(msg.msg_sender_id == myUserId &&
-                                  myNickname) ||
-                                  privateNick}
-                              </div>
-                            </div>
-                            <div
-                              className="finalMessage"
-                              id="finalMessage"
-                              dangerouslySetInnerHTML={{
-                                __html: msg.private_msg,
-                              }}
-                            ></div>
-
-                            <div
-                              className="date"
-                              id={
-                                (darkMode && "datePrivDark") ||
-                                (!darkMode && "date") ||
-                                ""
+    <div className="chatContainer" id={(darkMode && "chatContainerDark") || ""}>
+      <ChatControls
+        elemRef={elemRef}
+        setPostScroll={(e: boolean) => setPostScroll(e)}
+        chatMessages={messages}
+        myUserId={myUserId}
+        userPrivate={userPrivate}
+      />
+      <h1 id="chatTitlePriv">Private Chat</h1>
+      <div className="chatScreenBack">
+        <div
+          className="chatScreen"
+          id={(darkMode && "chatScreenDark") || ""}
+          ref={elemRef}
+          onScrollCapture={() =>
+            elemRef.current && setScrollTop(elemRef.current.scrollTop)
+          }
+        >
+          {messages &&
+            messages.map((msg: any, index: number) => {
+              return (
+                <div key={index}>
+                  {(msg.msg_receiver_id == userPrivate ||
+                    msg.msg_sender_id == userPrivate) &&
+                    (msg.msg_receiver_id == myUserId ||
+                      msg.msg_sender_id == myUserId) && (
+                      <div className="chatPost">
+                        <div className="post">
+                          <div className="userChatDetails">
+                            <img
+                              className="postImg"
+                              src={
+                                (msg.msg_sender_id == myUserId && myChatImg) ||
+                                (msg.msg_sender_id != myUserId && privatePic) ||
+                                "./../avatar.png"
                               }
-                            >
-                              {handleTime(msg, true)}
-                            </div>
-                            <div className="time" id="time">
-                              {handleTime(msg)}
+                            ></img>
+                            <div id="nickname">
+                              {(msg.msg_sender_id == myUserId && myNickname) ||
+                                privateNick}
                             </div>
                           </div>
+                          <div
+                            className="finalMessage"
+                            id="finalMessage"
+                            dangerouslySetInnerHTML={{
+                              __html: msg.private_msg,
+                            }}
+                          ></div>
+
+                          <div
+                            className="date"
+                            id={
+                              (darkMode && "datePrivDark") ||
+                              (!darkMode && "date") ||
+                              ""
+                            }
+                          >
+                            {handleTime(msg, true)}
+                          </div>
+                          <div className="time" id="time">
+                            {handleTime(msg)}
+                          </div>
                         </div>
-                      )}
-                  </div>
-                );
-              })}
-          </div>
-          <div className="typeLine" id="typeline">
-            <textarea
-              rows={1}
-              className="chatTypeLine"
-              onKeyDown={(e) =>
-                keyCheck(e, myUserId, userPrivate, elem, myChatImg)
-              }
-              onChange={(e) => {
-                chat(e);
-              }}
-            ></textarea>
-            <div
-              title="Send Private Message"
-              className="sendChatMsg"
-              onClick={(e) =>
-                addPrivateMsg(chatMSG, myUserId, userPrivate, elem, myChatImg)
-              }
-            ></div>
-          </div>
+                      </div>
+                    )}
+                </div>
+              );
+            })}
+        </div>
+        <div className="typeLine" id="typeline">
+          <textarea
+            rows={1}
+            className="chatTypeLine"
+            onKeyDown={(e) =>
+              keyCheck(e, myUserId, userPrivate, elem, myChatImg)
+            }
+            onChange={(e) => {
+              chat(e);
+            }}
+          ></textarea>
+          <div
+            title="Send Private Message"
+            className="sendChatMsg"
+            onClick={(e) =>
+              addPrivateMsg(chatMSG, myUserId, userPrivate, elem, myChatImg)
+            }
+          ></div>
         </div>
       </div>
-    </>
+    </div>
   );
 };

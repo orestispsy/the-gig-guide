@@ -313,7 +313,6 @@ export const GigEntry: React.FC<Props> = ({
             setOpenComments={(e: boolean) => setOpenComments(e)}
             openComments={openComments}
             guest={guest}
-            imagesTimeline={imagesTimeline}
             setImagesTimeline={(e: boolean) => setImagesTimeline(e)}
           />
         )}
@@ -321,11 +320,9 @@ export const GigEntry: React.FC<Props> = ({
           <Comments
             selectedGigId={gigId}
             myUserId={myUserId}
-            superAdmin={superAdmin}
             myNickname={myNickname}
             setOpenComments={(e: boolean) => setOpenComments(e)}
             openComments={openComments}
-            commentsTimeline={commentsTimeline}
             setCommentsTimeline={(e: boolean) => setCommentsTimeline(e)}
           />
         )}

@@ -1,6 +1,56 @@
 import axios from "../../common/Axios/axios";
+import { socket } from "../../common/Socket/socket";
 
-module.exports.axiosGetComments = (setTimelineComments: (e: any) => void) => {
+const updateComments = (selectedGigId: string) => {
+  axios
+    .post("/get-comments/", {
+      selectedGigId: selectedGigId,
+    })
+    .then(({ data }) => {
+      socket.emit("COMMENTS", data.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const axiosAddComment = (
+  selectedGigId: string,
+  post: string | null,
+  myNickname: string,
+  myUserId: number | undefined,
+  setPost: (e: string | null) => void,
+  setCommentsTimeline: (e: any) => void
+) => {
+  if (!post) {
+    return;
+  } else {
+    const elem: any = document.querySelectorAll("#commentsTypeLine");
+    let emptyMsgChecker = post.trim();
+    if (emptyMsgChecker !== "") {
+      axios
+        .post("/add-comment/", {
+          selectedGigId: selectedGigId,
+          myUserId: myUserId,
+          comment: post,
+        })
+        .then(({ data }) => {
+          socket.emit("ADD COMMENT", {
+            ...data.data[0],
+            nickname: myNickname,
+          });
+          axiosGetComments(setCommentsTimeline);
+          elem[0].value = "";
+          setPost(null);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }
+};
+
+const axiosGetComments = (setTimelineComments: (e: any) => void) => {
   axios
     .get("/get-comments-timeline")
     .then(({ data }) => {
@@ -11,7 +61,7 @@ module.exports.axiosGetComments = (setTimelineComments: (e: any) => void) => {
     });
 };
 
-module.exports.dateTimeHandler = (e: string) => {
+const dateTimeHandler = (e: string) => {
   let newDate = new Date(e);
   let day: string | number = newDate.getDate();
   let month: string | number = newDate.getMonth() + 1;
@@ -46,4 +96,39 @@ module.exports.dateTimeHandler = (e: string) => {
     year + "-" + month + "-" + day + " • " + timePreFix + hours + ":" + minutes;
 
   return fixedDateTime;
+};
+
+const keyCheck = (
+  e: any,
+  selectedGigId: string,
+  post: string | null,
+  myNickname: string,
+  myUserId: number | undefined,
+  setPost: (e: string | null) => void,
+  setCommentsTimeline: (e: any) => void
+) => {
+  if (e.key === "Enter") {
+    let emptyMsgChecker = e.target.value.trim();
+    if (emptyMsgChecker !== "") {
+      e.preventDefault();
+      axiosAddComment(
+        selectedGigId,
+        post,
+        myNickname,
+        myUserId,
+        setPost,
+        setCommentsTimeline
+      );
+      e.target.value = "";
+    }
+    e.preventDefault();
+  }
+};
+
+module.exports = {
+  dateTimeHandler,
+  axiosGetComments,
+  axiosAddComment,
+  updateComments,
+  keyCheck,
 };

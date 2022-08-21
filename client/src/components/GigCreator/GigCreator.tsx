@@ -1,17 +1,14 @@
-import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import axios from "../../common/Axios/axios";
 
 import EditMap from "../EditMap/EditMap";
 
-const { axiosGetGigs } = require("./GigCreatorUtils");
+const { createGigEntry } = require("./GigCreatorUtils");
 
 interface Props {
   admin: boolean;
   darkMode: boolean;
   setGigsList: (e: any) => void;
   setAddMode: (e: boolean) => any;
-  gigsListTimeline: any;
   setGigsListTimeline: (e: any) => void;
 }
 
@@ -20,14 +17,13 @@ export const GigCreator: React.FC<Props> = ({
   darkMode,
   setGigsList,
   setAddMode,
-  gigsListTimeline,
   setGigsListTimeline,
 }) => {
-  const [date, setDate] = useState("");
-  const [venue, setVenue] = useState("");
+  const [date, setDate] = useState<any>("");
+  const [venue, setVenue] = useState<any>("");
   const [lat, setLat] = useState<string | number>("");
   const [lng, setLng] = useState<string | number>("");
-  const [tourName, setTourName] = useState("");
+  const [tourName, setTourName] = useState<any>("");
   const [city, setCity] = useState<string>("");
   const [error, setError] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
@@ -41,42 +37,9 @@ export const GigCreator: React.FC<Props> = ({
     setAddMode(true);
   }, []);
 
-  const createGigEntry = () => {
-    axios
-      .post("/gig-creator", { date, venue, lat, lng, tourName, city })
-      .then(({ data }) => {
-        if (data.success) {
-          axiosGetGigs(setGigsListTimeline);
-          updateDatabase();
-          setSuccess(true);
-          const timer = setTimeout(() => {
-            setTaskDone(true);
-          }, 2000);
-          return () => clearTimeout(timer);
-        } else {
-          setError(true);
-          return;
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   const coordinator = (e: any) => {
     setLng(parseFloat(e.latLng.lng()));
     setLat(parseFloat(e.latLng.lat()));
-  };
-
-  const updateDatabase = () => {
-    axios
-      .get("/get-gigs")
-      .then(({ data }) => {
-        setGigsList(data.data.reverse());
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   return (
@@ -203,7 +166,19 @@ export const GigCreator: React.FC<Props> = ({
               <div
                 className="button"
                 onClick={() => {
-                  createGigEntry();
+                  createGigEntry(
+                    date,
+                    venue,
+                    lat,
+                    lng,
+                    tourName,
+                    city,
+                    setGigsListTimeline,
+                    setGigsList,
+                    setSuccess,
+                    setTaskDone,
+                    setError
+                  );
                 }}
               >
                 Submit

@@ -17,6 +17,7 @@ interface Props {
   newNickname: any;
   setMyNickname: (e: string) => void;
   errorMsgInfo: boolean;
+  setAdmin: (e: boolean) => void;
 }
 
 const { changeInfo } = require("../SideBarUtils");
@@ -38,6 +39,7 @@ export const UserConfig: React.FC<Props> = ({
   newNickname,
   setMyNickname,
   errorMsgInfo,
+  setAdmin,
 }) => {
   useEffect(function () {}, []);
 

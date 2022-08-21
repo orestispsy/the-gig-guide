@@ -4,7 +4,14 @@ import { Link } from "react-router-dom";
 import { socket } from "../../common/Socket/socket";
 import { useSelector } from "react-redux";
 
-const { axiosGetImages } = require("./CommunityUtils");
+const {
+  axiosGetImages,
+  handleUploaderClick,
+  axiosGetGallery,
+  axiosDeleteImage,
+} = require("./CommunityUtils");
+
+const { moveScrollbarToBottom } = require("./../Chat/ChatUtils");
 
 interface Props {
   selectedGigId: string;
@@ -14,7 +21,6 @@ interface Props {
   setOpenComments: (e: boolean) => void;
   openComments: boolean;
   guest: boolean;
-  imagesTimeline: any;
   setImagesTimeline: (e: any) => void;
 }
 
@@ -26,7 +32,7 @@ export const Community: React.FC<Props> = ({
   setOpenComments,
   openComments,
   guest,
-  imagesTimeline,
+
   setImagesTimeline,
 }) => {
   const [contribute, setContribute] = useState<boolean>(false);
@@ -41,9 +47,7 @@ export const Community: React.FC<Props> = ({
 
   useEffect(() => {
     if (elemRef.current) {
-      const newScrollTop =
-        elemRef.current.scrollHeight - elemRef.current.clientHeight;
-      elemRef.current.scrollTop = newScrollTop;
+      moveScrollbarToBottom(elemRef);
     }
   }, [images]);
 
@@ -52,73 +56,14 @@ export const Community: React.FC<Props> = ({
       if (selectedGigId) {
         setError(false);
         setContribute(false);
-        axios
-          .post("/get-community-images/", {
-            selectedGigId: selectedGigId,
-          })
-          .then(({ data }) => {
-            socket.emit("GET IMAGES", data.rows);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        axiosGetGallery(selectedGigId);
       }
     },
     [selectedGigId]
   );
 
-  const imageDelete = (e: any) => {
-    axios
-      .post("/delete-community-image/", {
-        imageId: e.target.id,
-      })
-      .then(({ data }) => {
-        if (data.success) {
-          socket.emit("DELETE IMAGE", data.data);
-          axiosGetImages(setImagesTimeline);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   const updateFile = (e: any) => {
     setFile(e.target.files[0]);
-  };
-
-  const handleUploaderClick = () => {
-    setUpload(true);
-    const formData = new FormData();
-    let ext = file.name.split(".");
-    formData.append(
-      "file",
-      file,
-      `G${selectedGigId}U${myUserId}T.${ext[ext.length - 1]}`
-    );
-    formData.append("data", JSON.stringify(selectedGigId));
-    formData.append("user", JSON.stringify(myUserId));
-    formData.append("nickname", myNickname);
-    axios
-      .post("/upload-community-image", formData)
-      .then(({ data }) => {
-        if (data.success) {
-          socket.emit("ADD IMAGE", data.rows[0]);
-          axiosGetImages(setImagesTimeline);
-          setContribute(false);
-          setError(false);
-          setFile("");
-          setUpload(false);
-        } else if (data.error) {
-          setError(true);
-          setUpload(false);
-        }
-      })
-      .catch((err) => {
-        setError(true);
-        setUpload(false);
-        console.log(err);
-      });
   };
 
   return (
@@ -136,7 +81,7 @@ export const Community: React.FC<Props> = ({
                     className="deletecommunityPhoto"
                     title="Delete"
                     id={img.id}
-                    onClick={(e) => imageDelete(e)}
+                    onClick={(e) => axiosDeleteImage(e)}
                   ></div>
                 ))}
               {img.gig_id == selectedGigId && superAdmin && (
@@ -144,7 +89,7 @@ export const Community: React.FC<Props> = ({
                   className="deletecommunityPhoto"
                   title="Delete"
                   id={img.id}
-                  onClick={(e) => imageDelete(e)}
+                  onClick={(e) => axiosDeleteImage(e)}
                 ></div>
               )}
               {img.gig_id == selectedGigId && (
@@ -195,7 +140,19 @@ export const Community: React.FC<Props> = ({
               <div
                 title="Upload Image"
                 className="upload"
-                onClick={() => handleUploaderClick()}
+                onClick={() =>
+                  handleUploaderClick(
+                    setUpload,
+                    file,
+                    setFile,
+                    selectedGigId,
+                    myUserId,
+                    myNickname,
+                    setImagesTimeline,
+                    setContribute,
+                    setError
+                  )
+                }
               ></div>
             )}
             {upload && <div className="uploading"></div>}
