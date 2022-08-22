@@ -337,6 +337,8 @@ a:hover {
   margin-left: 0.5vmax;
   background-color: rgb(255, 255, 255);
   cursor: default;
+  box-shadow: -0 0 5px rgba(0, 0, 0, 0.2), 0 -0 5px rgba(0, 0, 0, 0.2),
+    -0 -0 5px rgba(0, 0, 0, 0.2), -0 -0 5px rgba(0, 0, 0, 0.2);
 }
 
 .barProfileImage:hover {
@@ -1219,7 +1221,7 @@ input {
   }
 
   .gigListOptions {
-    right: 6vmax !important;
+    right: 7vmax !important;
   }
   .errorNickRegister {
     font-size: 2vmax !important;
@@ -1371,7 +1373,7 @@ input {
   }
 
   .chatScreen {
-    height: 29vh !important;
+    height: 27vh !important;
     width: 80vw !important;
     margin-bottom: 0.5vmax !important;
   }
@@ -2115,9 +2117,31 @@ input {
   .sendAboutCommentClose {
     width: 85vw !important;
   }
+
+  .lightMode,
+  .darkMode {
+    width: 5vmax !important;
+    height: 5vmax !important;
+  }
+
+  .superAdminButton img {
+    width: 6.5vmax !important;
+    height: 5.5vmax !important;
+  }
 }
 
 @media only screen and (min-device-width: 273px) and (max-device-width: 1024px) and (orientation: landscape) {
+  .superAdminButton img {
+    width: 6.5vmax !important;
+    height: 5.5vmax !important;
+  }
+
+  .lightMode,
+  .darkMode {
+    width: 5vmax !important;
+    height: 5vmax !important;
+  }
+
   .editSuperMode {
     width: 2vmax !important;
     height: 2vmax !important;
@@ -2141,8 +2165,8 @@ input {
     width: 10vmax !important;
   }
   .timeline img {
-    width: 3.7vmax !important;
-    height: 3.7vmax !important;
+    width: 5vmax !important;
+    height: 5vmax !important;
   }
 
   .chatUserHeadline {
@@ -2160,12 +2184,18 @@ input {
   }
 
   .gigListOptions {
-    right: 6vmax !important;
-    top: 1vmax !important;
+    right: 7vmax !important;
+    top: 1.3vmax !important;
   }
   .arrowBack {
-    margin: 1vmax 1vmax 0 0 !important;
+    margin: 0.5vmax 1vmax 0 0 !important;
     z-index: 2 !important;
+    width: 3vmax !important;
+    height: 3vmax !important;
+  }
+  .arrow {
+    width: 1.3vmax !important;
+    height: 1.3vmax !important;
   }
 
   .errorNickRegister {
@@ -2385,7 +2415,7 @@ input {
   }
 
   .emoticons {
-    width: 25vmax !important;
+    width: 22vmax !important;
     height: 7vmax !important;
     overflow-x: scroll !important;
     overflow-y: unset !important;
@@ -2405,8 +2435,8 @@ input {
   }
 
   .barProfileImage {
-    width: 4vmax !important;
-    height: 4vmax !important;
+    width: 4.5vmax !important;
+    height: 4.5vmax !important;
     margin-top: 0.5vmax !important;
   }
 
@@ -2712,8 +2742,8 @@ input {
   }
 
   .aboutButton {
-    height: 3vmax !important;
-    width: 3vmax !important;
+    height: 4vmax !important;
+    width: 4vmax !important;
   }
 }
 
@@ -3412,6 +3442,13 @@ font-family: 'Ultra', serif; */
   margin-bottom: -2vmax;
   border-radius: 50%;
   cursor: pointer;
+  box-shadow: -0 0 3px rgba(0, 0, 0, 0.1), 0 -0 3px rgba(0, 0, 0, 0.1),
+    -0 -0 3px rgba(0, 0, 0, 0.1), -0 -0 3px rgba(0, 0, 0, 0.1);
+}
+
+.chatBar:hover {
+  transition: 1s;
+  filter: hue-rotate(360deg);
 }
 
 @keyframes blinker2 {
@@ -3699,9 +3736,7 @@ font-family: 'Ultra', serif; */
 .chatTypeLine {
   width: 27vmax;
   height: 1.4vmax;
-  box-shadow: inset 0 0 0 100vh rgba(251, 255, 0, 0.103),
-    -0 0 2px rgba(255, 255, 255, 0.308), 0 -0 2px rgba(255, 255, 255, 0.308),
-    -0 -0 2px rgba(255, 255, 255, 0.308), -0 -0 2px rgba(255, 255, 255, 0.308);
+
   resize: none;
   outline: none;
   white-space: nowrap;
@@ -3710,17 +3745,20 @@ font-family: 'Ultra', serif; */
   border-radius: 10vh;
   padding-left: 0.5vmax;
   padding-top: 0.2vmax;
-  background-color: transparent !important;
+  background-color: rgba(255, 255, 255, 0.058) !important;
   color: white;
   font-weight: bold;
   letter-spacing: 1px;
-  border: none;
+  border: 1px solid #ffffff52;
 }
 
 .chatTypeLine:focus {
-  box-shadow: inset 0 0 0 100vh rgba(43, 255, 0, 0.103),
-    -0 0 2px rgba(255, 255, 255, 0.308), 0 -0 2px rgba(255, 255, 255, 0.308),
-    -0 -0 2px rgba(255, 255, 255, 0.308), -0 -0 2px rgba(255, 255, 255, 0.308);
+  transition: 1s;
+  border-color: transparent;
+  background-color: rgba(255, 255, 255, 0.108) !important;
+  box-shadow: -0 0 2px rgba(255, 255, 255, 0.308),
+    0 -0 2px rgba(255, 255, 255, 0.308), -0 -0 2px rgba(255, 255, 255, 0.308),
+    -0 -0 2px rgba(255, 255, 255, 0.308);
 }
 
 .typeLine {
@@ -5765,6 +5803,8 @@ input[type="number"] {
   bottom: 0.5vmax;
   cursor: pointer;
   transition: 0.5s;
+  box-shadow: -0 0 5px rgba(0, 0, 0, 0.2), 0 -0 5px rgba(0, 0, 0, 0.2),
+    -0 -0 5px rgba(0, 0, 0, 0.2), -0 -0 5px rgba(0, 0, 0, 0.2);
 }
 
 .lightMode:hover {
@@ -6448,14 +6488,13 @@ input[type="number"] {
   font-size: 1.5vmax;
   color: white;
   background-image: url("about.png");
-  width: 2vmax;
-  height: 2vmax;
+  width: 2.3vmax;
+  height: 2.3vmax;
   background-size: cover;
   filter: invert(100%);
 
-  box-shadow: -0 0 10px rgba(255, 255, 255, 0.15),
-    0 -0 10px rgba(255, 255, 255, 0.15), -0 -0 10px rgba(255, 255, 255, 0.15),
-    -0 -0 10px rgba(255, 255, 255, 0.15);
+  box-shadow: -0 0 10px rgba(0, 0, 0, 0.2), 0 -0 10px rgba(0, 0, 0, 0.2),
+    -0 -0 10px rgba(0, 0, 0, 0.2), -0 -0 10px rgba(0, 0, 0, 0.2);
 
   opacity: 80%;
 }
@@ -6475,6 +6514,8 @@ input[type="number"] {
   height: 2.5vmax;
   background-size: contain;
   margin: 0.2vmax 1vmax 0 1vmax;
+  border-radius: 50%;
+  border: 1px solid #00ffaa0f;
 }
 
 .timelineContainer {
