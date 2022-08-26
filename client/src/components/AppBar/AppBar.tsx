@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import ReactPlayer from "react-player";
-import radioBroadcasts from "../../common/radioBroadcasts";
-import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 
+import { useSelector } from "react-redux";
+import { MixCloudPlayer } from "./../MixCloudPlayer/MixCloudPlayer";
 import useSound from "use-sound";
 import hyperfx from "./../../../public/hyperfx.mp3";
 import privateMSGSfx from "./../../../public/privateMSG.mp3";
 
-const { chatNewPostNotification } = require("./AppBarUtils");
+const {
+  chatNewPostNotification,
+  appNavigate,
+  chatNavigate,
+  mainPageNavigate,
+} = require("./AppBarUtils");
 
 interface Props {
   myUserId: number | undefined;
@@ -116,6 +120,7 @@ export const AppBar: React.FC<Props> = ({
   const [playPrivateMsg] = useSound(privateMSGSfx, { volume: 0.75 });
 
   const navigate = useNavigate();
+
   const currentLocation = useLocation() as unknown as LocationProps;
   const { state, pathname } = currentLocation;
 
@@ -179,35 +184,23 @@ export const AppBar: React.FC<Props> = ({
   return (
     <div className="appBar" id={(maps && "appBar") || ""}>
       <div className="barLeftSection">
-        <>
-          <img
-            title="Main Page"
-            src={myChatImg || "../../avatar.png"}
-            className="barProfileImage"
-            onClick={(e) => {
-              mapVisible(false);
-              setAboutMode(false);
-
-              if (pathname === "/gig-list-animation") {
-                if (animeMusic) {
-                  setAnimeMusic(false);
-                }
-                setTimeout(() => {
-                  navigate("/");
-                }, 300);
-              } else if (pathname === "/chat") {
-                if (chatModeClosed) {
-                  setChatModeClosed(false);
-                }
-                setTimeout(() => {
-                  navigate("/");
-                }, 300);
-              } else {
-                navigate("/");
-              }
-            }}
-          ></img>
-        </>
+        <img
+          title="Main Page"
+          src={myChatImg || "../../avatar.png"}
+          className="barProfileImage"
+          onClick={(e) => {
+            mainPageNavigate(
+              setAboutMode,
+              mapVisible,
+              animeMusic,
+              setAnimeMusic,
+              setChatModeClosed,
+              chatModeClosed,
+              navigate,
+              pathname
+            );
+          }}
+        ></img>
 
         <div>
           <div
@@ -222,27 +215,17 @@ export const AppBar: React.FC<Props> = ({
               ""
             }
             onClick={(e) => {
-              mapVisible(false);
-              setAboutMode(false);
-
-              if (pathname === "/chat") {
-                if (chatModeClosed) {
-                  setChatModeClosed(false);
-                  setPrivateMode(false);
-                }
-                setTimeout(() => {
-                  navigate("/");
-                }, 300);
-              } else if (pathname === "/gig-list-animation") {
-                if (animeMusic) {
-                  setAnimeMusic(false);
-                }
-                setTimeout(() => {
-                  navigate("/chat");
-                }, 300);
-              } else {
-                navigate("/chat");
-              }
+              chatNavigate(
+                mapVisible,
+                setAboutMode,
+                setChatModeClosed,
+                chatModeClosed,
+                setPrivateMode,
+                animeMusic,
+                setAnimeMusic,
+                navigate,
+                pathname
+              );
             }}
           ></div>
         </div>
@@ -272,71 +255,35 @@ export const AppBar: React.FC<Props> = ({
           <div
             className="navButton"
             onClick={(e) => {
-              setGigEntry(null);
-              mapVisible(false);
-              setAboutMode(false);
-              if (timelineGigsMode && location.pathname !== "/timeline") {
-                navigate("/timeline", {
-                  state: {
-                    previousPath: location.pathname,
-                    gigs: true,
-                    latest: gigUpdatedMode,
-                  },
-                });
-                setGigUpdatedMode(false);
-              } else if (
-                timelineGalleriesMode &&
-                location.pathname !== "/timeline"
-              ) {
-                navigate("/timeline", {
-                  state: {
-                    previousPath: location.pathname,
-                    galleries: true,
-                  },
-                });
-              } else if (
-                timelineCommentsMode &&
-                location.pathname !== "/timeline"
-              ) {
-                navigate("/timeline", {
-                  state: {
-                    previousPath: location.pathname,
-                    comments: true,
-                  },
-                });
-              } else if (timelineMode) {
-                navigate("/");
-              } else if (maps) {
-                navigate(-1);
-              } else if (adminControls) {
-                navigate(-1);
-              } else if (editMode) {
-                navigate(-1);
-              } else if (animeMode) {
-                if (animeMusic) {
-                  setAnimeMusic(false);
-                }
-                setTimeout(() => {
-                  navigate("/gig-list");
-                }, 300);
-              } else if (gigEntryMode) {
-                navigate("/gig-list");
-              } else if (chatMode) {
-                if (privateMode) {
-                  setPrivateMode(false);
-                } else if (!privateMode && chatModeClosed) {
-                  setChatModeClosed(false);
-                  setTimeout(() => {
-                    navigate("/");
-                  }, 300);
-                }
-              } else if (addMode || gigListOpen || aboutMode || adminControls) {
-                navigate("/");
-              } else if (gigLocation !== "" && gigLocation !== pathname) {
-                navigate(gigLocation.toString());
-              } else {
-                navigate("/");
-              }
+              appNavigate(
+                setGigEntry,
+                mapVisible,
+                setAboutMode,
+                timelineGigsMode,
+                gigUpdatedMode,
+                setGigUpdatedMode,
+                timelineGalleriesMode,
+                timelineCommentsMode,
+                timelineCommentsMode,
+                maps,
+                adminControls,
+                editMode,
+                animeMode,
+                animeMusic,
+                setAnimeMusic,
+                gigEntryMode,
+                privateMode,
+                setPrivateMode,
+                chatMode,
+                setChatModeClosed,
+                chatModeClosed,
+                addMode,
+                gigListOpen,
+                gigLocation,
+                aboutMode,
+                navigate,
+                pathname
+              );
             }}
           >
             <div title="Back" className="arrowBack">
@@ -346,102 +293,20 @@ export const AppBar: React.FC<Props> = ({
         )}
 
       {nightFlightProg && (
-        <div
-          className="mixCloudPlayerControls"
-          style={{
-            top: top,
-            left: left,
-          }}
-        >
-          <div className="broadcastScroller">
-            <div className="radioControlsSymbol">
-              <div
-                id="broadLeft"
-                onClick={(e) => {
-                  if (nightFlightProg.id <= 0) {
-                    return;
-                  } else {
-                    setNightFlightProg(
-                      radioBroadcasts.radioBroadcasts[nightFlightProg.id - 1]
-                    );
-                  }
-                }}
-              ></div>
-              <div className="radioControls">prev</div>
-            </div>
-            <div className="radioControlsSymbol">
-              <div
-                id="broadRight"
-                onClick={(e) => {
-                  if (
-                    nightFlightProg.id >=
-                    radioBroadcasts.radioBroadcasts.length - 1
-                  ) {
-                    return;
-                  } else {
-                    setNightFlightProg(
-                      radioBroadcasts.radioBroadcasts[nightFlightProg.id + 1]
-                    );
-                  }
-                }}
-              ></div>
-
-              <div className="radioControls">next</div>
-            </div>
-            <div
-              className="radioControlsSymbol"
-              onClick={(e) => {
-                setNightFlightProg(undefined);
-              }}
-            >
-              <div id="broadClose">x</div>
-
-              <div className="radioControls">close</div>
-            </div>
-          </div>
-          <ReactPlayer
-            url={nightFlightProg.href}
-            controls
-            config={{
-              mixcloud: {
-                options: {
-                  mini: true,
-                },
-              },
-            }}
-            id="mixCloudPlayer"
-            width="100%"
-            height="100%"
-          />
-          <div
-            className="dragPlayer"
-            draggable
-            onDragCapture={(e: any) => {
-              if (e.screenX > 0) {
-                setPlayerPosition(e.clientY, e.clientX, setTop, setLeft);
-              }
-            }}
-            onDragEndCapture={(e) => {
-              setPlayerPosition(e.clientY, e.clientX, setTop, setLeft);
-            }}
-            onTouchStart={(e) => {
-              setPlayerPosition(
-                e.changedTouches[0].clientY,
-                e.changedTouches[0].clientX,
-                setTop,
-                setLeft
-              );
-            }}
-            onTouchMoveCapture={(e) => {
-              setPlayerPosition(
-                e.changedTouches[0].clientY,
-                e.changedTouches[0].clientX,
-                setTop,
-                setLeft
-              );
-            }}
-          ></div>
-        </div>
+        <MixCloudPlayer
+          top={top}
+          left={left}
+          setTop={(e: number) => setTop(e)}
+          setLeft={(e: number) => setLeft(e)}
+          nightFlightProg={nightFlightProg}
+          setNightFlightProg={(e: any) => setNightFlightProg(e)}
+          setPlayerPosition={(
+            x: number,
+            y: number,
+            setTop: (e1: number) => void,
+            setLeft: (e2: number) => void
+          ) => setPlayerPosition(x, y, setTop, setLeft)}
+        />
       )}
     </div>
   );
