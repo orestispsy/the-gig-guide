@@ -2,11 +2,24 @@ import React, { useRef, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import useSound from "use-sound";
-import { AppBar } from "../AppBar/AppBar";
-import kickedOut from "./../../../public/kickedOut.mp3";
+import { BanOrBlock} from "./../BanOrBlock/BanOrBlock"
 
-const { runDotAnime, banCountDown } = require("./AppLayoutUtils");
+import {
+    LayoutContainer,
+    LoadingIntro,
+    LoadingIntroText,
+    LoadingIntroDots,
+    Dot,
+    AboutBackground,
+    GeneralAppContainer,
+
+} from "./AppLayout.style";
+
+
+import { AppBar } from "../AppBar/AppBar";
+
+
+const { runDotAnime } = require("./AppLayoutUtils");
 
 interface Props {
   aboutMode: boolean;
@@ -122,17 +135,6 @@ export const AppLayout: React.FC<Props> = ({
   const [dotCounter, setDotCounter] = useState(0);
   const [aboutBackIsLoaded, setAboutBackIsLoaded] = useState(false);
 
-  const banTimer = useSelector((state: any) => state && state.ban_timer);
-
-  const timerRef = useRef<HTMLDivElement>(null);
-
-  const [playKickedOut] = useSound(kickedOut, { volume: 0.75 });
-  useEffect(() => {
-    if (profileBanned) {
-      banCountDown(timerRef, playKickedOut, banTimer);
-    }
-  }, [profileBanned]);
-
   useEffect(() => {
     if (elemRef.current) {
       runDotAnime(loaded, elemRef, dotCounter, setDotCounter);
@@ -140,137 +142,99 @@ export const AppLayout: React.FC<Props> = ({
   }, [dotCounter]);
 
   return (
-    <div
-      className="layoutContainer"
-      style={{
-        animation:
-          (loaded && `fadeIntroColorRewind 1.5s ease-in-out`) ||
-          `fadeIntroColor 1.5s ease-in-out`,
-        backgroundColor: (loaded && `transparent `) || `rgba(0, 0, 0, 0.418)`,
-      }}
-    >
-      {!loaded && (
-        <div className="loadingIntro">
-          <div> Loading</div>
-          <div className="dots" ref={elemRef}>
-            <div className="dot">.</div>
-            <div className="dot">.</div>
-            <div className="dot">.</div>
-          </div>
-        </div>
-      )}
-      {aboutMode && (
-        <img
-          onLoad={() => {
-            setAboutBackIsLoaded(true);
-          }}
-          src="/about/about1.jpg"
-          className="aboutBackground"
-        ></img>
-      )}
-      <div
-        className={
-          (aboutMode && "appContainerAbout") ||
-          (gigListOpen && "appContainerDark") ||
-          (adminControls && "appContainerDark") ||
-          (timelineMode && "appContainerDark") ||
-          (maps && "appContainerMap") ||
-          (darkMode && "appContainerDark") ||
-          (!darkMode && "appContainer") ||
-          ""
-        }
-        style={{
-          justifyContent: (!loaded && `center`) || ``,
-          visibility: (loaded && `visible`) || `hidden`,
-          animation: (loaded && `fadeAbout 1s ease-in-out`) || ``,
-          height: (!loaded && `0`) || `100%`,
-          backgroundImage:
-            (aboutMode && "none") ||
-            (!aboutMode &&
-              !gigListOpen &&
-              !adminControls &&
-              !maps &&
-              !timelineMode &&
-              !darkMode &&
-              "url('/road.png')") ||
-            "",
-        }}
-        onLoad={(e) =>
-          setTimeout((e) => {
-            setLoaded(true);
-          }, 2000)
-        }
-      >
-        <AppBar
-          myUserId={myUserId}
-          myChatImg={myChatImg}
-          myNickname={myNickname}
-          setNightFlightProg={(e: any) => setNightFlightProg(e)}
-          nightFlightProg={nightFlightProg}
-          maps={maps}
-          setGigEntry={(e: number | null) => setGigEntry(e)}
-          mapVisible={(e: boolean) => mapVisible(e)}
-          top={top}
-          left={left}
-          setTop={(e: number) => setTop(e)}
-          setLeft={(e: number) => setLeft(e)}
-          setPlayerPosition={(
-            x: number,
-            y: number,
-            setTop: (e1: number) => void,
-            setLeft: (e2: number) => void
-          ) => setPlayerPosition(x, y, setTop, setLeft)}
-          setChatNotification={(e: boolean) => setChatNotification(e)}
-          chatNotification={chatNotification}
-          chatMode={chatMode}
-          aboutMode={aboutMode}
-          setAboutMode={(e: boolean) => setAboutMode(e)}
-          adminControls={adminControls}
-          editMode={editMode}
-          addMode={addMode}
-          gigListOpen={gigListOpen}
-          animeMode={animeMode}
-          gigEntryMode={gigEntryMode}
-          mapMode={mapMode}
-          gigLocation={gigLocation}
-          animeMusic={animeMusic}
-          setAnimeMusic={(e: boolean) => setAnimeMusic(e)}
-          setChatMode={(e: boolean) => setAnimeMusic(e)}
-          setChatModeClosed={(e: boolean) => setChatModeClosed(e)}
-          chatModeClosed={chatModeClosed}
-          privateMode={privateMode}
-          setPrivateMode={(e: boolean) => setPrivateMode(e)}
-          timelineMode={timelineMode}
-          admin={admin}
-          superAdmin={superAdmin}
-          timelineCommentsMode={timelineCommentsMode}
-          timelineGigsMode={timelineGigsMode}
-          timelineGalleriesMode={timelineGalleriesMode}
-          privateMsgNotification={privateMsgNotification}
-          setPrivateMsgNotification={(e: boolean) =>
-            setPrivateMsgNotification(e)
-          }
-          mute={mute}
-        />
-        {(!profileBlocked && !profileBanned && <Outlet />) ||
-          (profileBanned && (
-            <div className="banContainer">
-              <div className="chatBanCover">
-                YOU'VE BEEN BANNED !<span>Take a Deep Breath,</span>{" "}
-                <span>and Try Again </span>
-                <h1>Seconds Remaining</h1>
-                <div id="timer" ref={timerRef}>
-                  {banTimer && banTimer}
-                </div>
-              </div>
-            </div>
-          )) ||
-          (profileBlocked && (
-            <div className="blockContainer">
-              <div>YOU'VE BEEN BLOCKED</div>
-            </div>
-          ))}
-      </div>
-    </div>
+      <LayoutContainer loaded={loaded}>
+          {!loaded && (
+              <LoadingIntro>
+                  <LoadingIntroText> Loading</LoadingIntroText>
+                  <LoadingIntroDots ref={elemRef}>
+                      <Dot>.</Dot>
+                      <Dot>.</Dot>
+                      <Dot>.</Dot>
+                  </LoadingIntroDots>
+              </LoadingIntro>
+          )}
+          {aboutMode && (
+              <AboutBackground
+                  onLoad={() => {
+                      setAboutBackIsLoaded(true);
+                  }}
+                  src="/about/about1.jpg"
+              ></AboutBackground>
+          )}
+
+          <GeneralAppContainer
+              loaded={loaded}
+              aboutMode={aboutMode}
+              gigListOpen={gigListOpen}
+              adminControls={adminControls}
+              maps={maps}
+              timelineMode={timelineMode}
+              darkMode={darkMode}
+         
+              onLoad={() =>
+                  setTimeout(() => {
+                      setLoaded(true);
+                  }, 2000)
+              }
+          >
+              <AppBar
+                  myUserId={myUserId}
+                  myChatImg={myChatImg}
+                  myNickname={myNickname}
+                  setNightFlightProg={(e: any) => setNightFlightProg(e)}
+                  nightFlightProg={nightFlightProg}
+                  maps={maps}
+                  setGigEntry={(e: number | null) => setGigEntry(e)}
+                  mapVisible={(e: boolean) => mapVisible(e)}
+                  top={top}
+                  left={left}
+                  setTop={(e: number) => setTop(e)}
+                  setLeft={(e: number) => setLeft(e)}
+                  setPlayerPosition={(
+                      x: number,
+                      y: number,
+                      setTop: (e1: number) => void,
+                      setLeft: (e2: number) => void
+                  ) => setPlayerPosition(x, y, setTop, setLeft)}
+                  setChatNotification={(e: boolean) => setChatNotification(e)}
+                  chatNotification={chatNotification}
+                  chatMode={chatMode}
+                  aboutMode={aboutMode}
+                  setAboutMode={(e: boolean) => setAboutMode(e)}
+                  adminControls={adminControls}
+                  editMode={editMode}
+                  addMode={addMode}
+                  gigListOpen={gigListOpen}
+                  animeMode={animeMode}
+                  gigEntryMode={gigEntryMode}
+                  mapMode={mapMode}
+                  gigLocation={gigLocation}
+                  animeMusic={animeMusic}
+                  setAnimeMusic={(e: boolean) => setAnimeMusic(e)}
+                  setChatMode={(e: boolean) => setAnimeMusic(e)}
+                  setChatModeClosed={(e: boolean) => setChatModeClosed(e)}
+                  chatModeClosed={chatModeClosed}
+                  privateMode={privateMode}
+                  setPrivateMode={(e: boolean) => setPrivateMode(e)}
+                  timelineMode={timelineMode}
+                  admin={admin}
+                  superAdmin={superAdmin}
+                  timelineCommentsMode={timelineCommentsMode}
+                  timelineGigsMode={timelineGigsMode}
+                  timelineGalleriesMode={timelineGalleriesMode}
+                  privateMsgNotification={privateMsgNotification}
+                  setPrivateMsgNotification={(e: boolean) =>
+                      setPrivateMsgNotification(e)
+                  }
+                  mute={mute}
+              />
+              {(!profileBlocked && !profileBanned && <Outlet />) ||
+                  ((profileBanned || profileBlocked) && (
+                    <BanOrBlock profileBanned={profileBanned}
+                    profileBlocked={profileBlocked}
+                    />
+                      ))}
+          </GeneralAppContainer>
+      </LayoutContainer>
   );
 };

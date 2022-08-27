@@ -1,5 +1,4 @@
-import { useLocation } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ReactPlayer from "react-player";
 import radioBroadcasts from "../../common/radioBroadcasts";
 const { moveBack, moveForward } = require("./MixCloudPlayerUtils");
@@ -28,10 +27,7 @@ export const MixCloudPlayer: React.FC<Props> = ({
   nightFlightProg,
   setPlayerPosition,
 }) => {
-  useEffect(function () {}, []);
-
-  useEffect(function () {}, []);
-
+  
   return (
     <div
       className="mixCloudPlayerControls"

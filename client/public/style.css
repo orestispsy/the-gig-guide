@@ -228,14 +228,6 @@ a:hover {
   justify-content: center;
 }
 
-.layoutContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  height: 100%;
-}
-
 @keyframes fadeIntroColor {
   0% {
     background-color: transparent;
@@ -254,52 +246,7 @@ a:hover {
   }
 }
 
-.appContainerMap {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  align-self: center;
-  height: 100%;
-  width: 100%;
-  box-shadow: inset 0 0 0 100vh rgba(0, 0, 0, 0.747);
-}
 
-.appContainerDark {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-self: center;
-  height: 100%;
-  width: 100%;
-  box-shadow: inset 0 0 0 100vh rgba(0, 0, 0, 0.65);
-  animation: fadeAbout 0.3s ease-in-out;
-}
-
-.appContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-self: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  height: 100%;
-  width: 100%;
-}
-
-.appContainerAbout {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-self: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  height: 100%;
-  width: 100%;
-  position: relative;
-}
 
 .appContainerList {
   display: flex;
@@ -1446,10 +1393,6 @@ input {
     height: 25vmax !important;
   }
 
-  .appContainer {
-    background-color: rgba(0, 0, 0, 0.116) !important;
-  }
-
   .fileUploaderChat {
     margin-bottom: 1vmax !important;
     font-size: 5vw !important;
@@ -2148,9 +2091,6 @@ input {
     margin-left: 0 !important;
   }
 
-  .appContainer {
-    background-position-y: 15%;
-  }
   .listLines,
   .listBoxes {
     width: 4vmax !important;
@@ -4192,47 +4132,7 @@ font-family: 'Ultra', serif; */
     -0 -0 5px rgba(0, 0, 0, 0.308), -0 -0 5px rgba(0, 0, 0, 0.308);
 }
 
-.chatBanCover {
-  background-color: rgba(0, 0, 0, 0.705);
-  color: yellow;
-  font-family: "Black Ops One";
-  font-size: 3vmax;
-  text-align: center;
-  height: inherit;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: inherit;
-  animation: fadeAbout 1.5s ease-in-out;
-}
 
-.chatBanCover span {
-  font-size: 2vmax;
-  color: cyan;
-  font-family: "Poller One", cursive;
-  width: 75%;
-  margin: 0.2vmax 0;
-}
-
-.chatBanCover h1 {
-  color: crimson;
-  margin-top: 1vmax;
-  font-size: 2vmax;
-  cursor: pointer;
-}
-
-.chatBanCover a:hover {
-  color: white !important;
-}
-
-#timer {
-  font-family: "Black Ops One", cursive !important;
-  color: cyan;
-  font-size: 4vmax !important;
-  animation: blinkerTextCyan 1s infinite;
-  animation-delay: 1s;
-}
 
 .timerConfig {
   display: flex;
@@ -5136,28 +5036,6 @@ input[type="number"] {
   margin-bottom: auto;
 }
 
-.loadingIntro {
-  margin-top: 50vh;
-  font-family: "Darker Grotesque", sans-serif;
-  display: flex;
-  font-size: 3vmax;
-  font-family: "Black Ops One", cursive !important;
-  color: rgb(220, 20, 60);
-  text-shadow: -1px 1px 0 yellow, 1px -1px 0 yellow, -1px -1px 0 yellow,
-    1px 1px 0 yellow;
-  animation: blinkerLoading 1s infinite ease-in-out;
-  letter-spacing: 4px;
-}
-
-.dots {
-  display: flex;
-  align-items: flex-end;
-  white-space: nowrap;
-}
-
-.dot {
-  visibility: hidden;
-}
 
 @keyframes blinkerLoading {
   0% {
@@ -5971,13 +5849,6 @@ input[type="number"] {
   background-color: rgba(255, 255, 255, 0.05);
 }
 
-.aboutBackground {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  animation: fadeAbout 2s ease-in-out;
-}
 
 .aboutCover {
   filter: hue-rotate(15deg) sepia(0.95) brightness(1.3) contrast(2);
@@ -6406,13 +6277,6 @@ input[type="number"] {
   width: 48vw;
 }
 
-.banContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 92vh;
-}
 
 @keyframes bounceDesc {
   0% {
@@ -6867,38 +6731,6 @@ input[type="number"] {
   font-size: 1vmax;
   margin: 0.5vmax 1vmax;
   text-align: justify;
-}
-
-.blockContainer,
-.banContainer {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  box-shadow: inset 0 0 0 100vh rgba(223, 0, 0, 0.36);
-  height: 100vh;
-  width: 100%;
-  align-items: center;
-  justify-content: flex-start;
-  animation: fadeAbout 3s ease-in-out;
-}
-
-.banContainer {
-  box-shadow: inset 0 0 0 100vh rgba(0, 0, 0, 0.705);
-}
-
-.blockContainer div {
-  font-family: "Ultra", serif !important;
-  font-size: 3vmax;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10vh;
-  width: 50vw;
-  height: 40vh;
-  animation: fadeAbout 3s step-end;
-  text-align: center;
 }
 
 .punishBox {
