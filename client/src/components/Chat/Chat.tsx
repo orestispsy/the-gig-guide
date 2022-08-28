@@ -9,6 +9,14 @@ import { ChatScreen } from "./ChatScreen/ChatScreen";
 import { Ticker } from "../Ticker/Ticker";
 import { PrivateMSGS } from "./PrivateMSGS/PrivateMSGS";
 
+import {
+  Container,
+  MobileChat,
+  Jukebox,
+  TickerToggler,
+  ThemeToggler,
+} from "./Chat.style";
+
 import useSound from "use-sound";
 
 import chatSfx from "./../../../public/msg.mp3";
@@ -228,9 +236,9 @@ export const Chat: React.FC<Props> = ({
   }
 
   return (
-    <div className="chatContainerBack">
+    <Container>
       {tickerBar && <Ticker tickerBar={tickerBar} darkMode={darkMode} />}
-      <div className="mobileChat">
+      <MobileChat>
         {privateMode && (
           <PrivateMSGS
             myUserId={myUserId}
@@ -306,10 +314,9 @@ export const Chat: React.FC<Props> = ({
           setShakeUser={(e: boolean) => setShakeUser(e)}
           mute={mute}
         />
-      </div>
+      </MobileChat>
 
-      <div
-        className="jukeBox"
+      <Jukebox
         onClick={(e) => {
           if (!nightFlightProg) {
             setNightFlightProg(
@@ -321,23 +328,22 @@ export const Chat: React.FC<Props> = ({
             setNightFlightProg(false);
           }
         }}
-      ></div>
+      ></Jukebox>
 
-      <div
-        className="tickerButton"
+      <TickerToggler
         onClick={(e) => {
           toggleTicker(!tickerBar, setTickerBar);
         }}
       >
         {tickerBar && `Stop Ticker`} {!tickerBar && `Start Ticker`}
-      </div>
+      </TickerToggler>
 
-      <div
-        className={(darkMode && "DarkMode") || "lightMode"}
+      <ThemeToggler
+        dark={darkMode}
         onClick={(e) => {
           changePageMode();
         }}
-      ></div>
-    </div>
+      ></ThemeToggler>
+    </Container>
   );
 };

@@ -3,6 +3,14 @@ import { ChatScreenBottom } from "./ChatScreenBottom/ChatScreenBottom";
 import { ChatControls } from "./ChatControls/ChatControls";
 import { ChatMessages } from "./ChatMessages/ChatMessages";
 
+import {
+  Container,
+  Headline,
+  Title,
+  MainChatBack,
+  MainChat,
+} from "./ChatScreen.style";
+
 interface Props {
   darkMode: boolean;
   superAdmin: boolean;
@@ -45,24 +53,19 @@ export const ChatScreen: React.FC<Props> = ({
   useEffect(function () {}, []);
 
   return (
-    <div className="chatContainer" id={(darkMode && "chatContainerDark") || ""}>
+    <Container dark={darkMode}>
       <ChatControls
         elemRef={elemRef}
         setPostScroll={(e: boolean) => setPostScroll(e)}
         chatMessages={chatMessages}
       />
+      <Headline dark={darkMode}>
+        <Title dark={darkMode}>Chat Room</Title>
+      </Headline>
 
-      <div className="chatHeadline" id={(darkMode && "chatHeadlineDark") || ""}>
-        <div id="chatTitle">Chat Room</div>
-      </div>
-
-      <div
-        className="chatScreenBack"
-        id={(shakeUser && horn && "hornShake") || ""}
-      >
-        <div
-          className="chatScreen"
-          id={(darkMode && "chatScreenDark") || ""}
+      <MainChatBack shake={shakeUser} horn={horn}>
+        <MainChat
+          dark={darkMode}
           ref={elemRef}
           onScrollCapture={() =>
             elemRef.current && setScrollTop(elemRef.current.scrollTop)
@@ -77,8 +80,8 @@ export const ChatScreen: React.FC<Props> = ({
             myUserId={myUserId}
             setPostScroll={(e: boolean) => setPostScroll(e)}
           />
-        </div>
-      </div>
+        </MainChat>
+      </MainChatBack>
       <ChatScreenBottom
         mute={mute}
         setMute={(e: boolean) => setMute(e)}
@@ -88,6 +91,6 @@ export const ChatScreen: React.FC<Props> = ({
         chatMSG={chatMSG}
         setChatMSG={(e: any) => setChatMSG(e)}
       />
-    </div>
+    </Container>
   );
 };

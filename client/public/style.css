@@ -5,7 +5,7 @@ body {
   margin: 0;
   padding: 0 !important;
   background-color: black;
-  font-family: "Poller One", cursive;
+  font-family: "PollerOne";
   background-image: url("sky-full.jpg");
   background-size: cover;
   background-repeat: no-repeat;
@@ -38,10 +38,6 @@ body {
   color: white;
 }
 
-.chatScreenBack {
-  width: 100% !important;
-}
-
 select {
   border: none;
   outline: none;
@@ -67,7 +63,7 @@ a:hover {
   position: fixed;
   bottom: 0;
   left: 1vmax;
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   cursor: pointer;
 }
 
@@ -77,7 +73,7 @@ a:hover {
   justify-content: center;
   align-items: center;
   align-self: center;
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   height: 80vh;
 }
 
@@ -99,7 +95,7 @@ a:hover {
   width: max-content !important;
   color: white;
   font-size: 2vmax;
-  font-family: "Darker Grotesque", sans-serif;
+  font-family: "DarkerGrotesque";
 }
 
 .loginContainerLeft,
@@ -128,7 +124,7 @@ a:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   height: 80vh;
 }
 
@@ -228,26 +224,6 @@ a:hover {
   justify-content: center;
 }
 
-@keyframes fadeIntroColor {
-  0% {
-    background-color: transparent;
-  }
-  100% {
-    background-color: rgba(0, 0, 0, 0.418);
-  }
-}
-
-@keyframes fadeIntroColorRewind {
-  0% {
-    background-color: rgba(0, 0, 0, 0.418);
-  }
-  100% {
-    background-color: transparent;
-  }
-}
-
-
-
 .appContainerList {
   display: flex;
   flex-direction: column;
@@ -256,47 +232,6 @@ a:hover {
   align-self: center;
   height: 100%;
   box-shadow: inset 0 0 0 100vh rgba(0, 0, 0, 0.747);
-}
-
-.appBar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  text-shadow: -1px 1px 0 black, 1px -1px 0 black, -1px -1px 0 black,
-    -1px -1px 0 black;
-  font-size: 20px;
-  height: 8%;
-  width: 100%;
-}
-
-.barProfile {
-  color: white;
-  font-size: 30px;
-  margin-left: 10px;
-}
-
-.barProfileImage {
-  width: 3vmax;
-  height: 3vmax;
-  background-size: cover;
-  border-radius: 50%;
-  margin-left: 0.5vmax;
-  background-color: rgb(255, 255, 255);
-  cursor: default;
-  box-shadow: -0 0 5px rgba(0, 0, 0, 0.2), 0 -0 5px rgba(0, 0, 0, 0.2),
-    -0 -0 5px rgba(0, 0, 0, 0.2), -0 -0 5px rgba(0, 0, 0, 0.2);
-}
-
-.barProfileImage:hover {
-  animation: 1.1s linear infinite blinker2;
-}
-
-.barLeftSection {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
 }
 
 .switch {
@@ -387,7 +322,7 @@ a:hover {
 }
 
 .editGigButton {
-  font-family: "Darker Grotesque", sans-serif;
+  font-family: "DarkerGrotesque";
   margin-left: 1vmax;
   color: crimson;
   cursor: pointer;
@@ -447,14 +382,14 @@ a:hover {
   color: #00ffbf;
   font-size: 0.7vmax;
   cursor: pointer;
-  font-family: "Press Start 2P", cursive;
+  font-family: "PressStart2P";
 }
 
 .sortedGigReset {
   color: #00ffbf;
   font-size: 0.7vmax;
   cursor: pointer;
-  font-family: "Press Start 2P", cursive;
+  font-family: "PressStart2P";
   margin-top: -0.5vmax;
   padding-bottom: 1.5vmax;
 }
@@ -469,7 +404,7 @@ a:hover {
 }
 
 .gigListSearch {
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   align-self: flex-end;
   margin: 0 1vmax -2vmax 0;
   background-image: url("search.png");
@@ -506,7 +441,7 @@ a:hover {
   margin: -1vmax 0 2.5vmax 0;
   font-size: 3vmax;
   height: 3vmax;
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   letter-spacing: 2px;
   text-shadow: -0 0 5px black, 0 -0 5px black, -0 -0 5px black, -0 -0 5px black;
 }
@@ -623,7 +558,7 @@ input[type="range"]:focus::-ms-fill-upper {
   margin: 2vmax 0 0 0;
   color: rgb(255, 251, 0);
   text-shadow: -0 0 5px red, 0 -0 5px red, -0 -0 5px red, -0 -0 5px red;
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   font-size: 4vmax;
 }
 
@@ -798,7 +733,7 @@ input {
 .doneUpdate {
   color: rgb(30, 255, 0);
   border-radius: 100px;
-  font-family: "Poller One", cursive;
+  font-family: "PollerOne";
   outline: transparent;
   cursor: pointer;
   background-color: rgba(255, 255, 255, 0.103);
@@ -813,7 +748,7 @@ input {
   color: orangered;
   border-radius: 100px;
   border: 2px solid orangered;
-  font-family: "Poller One", cursive;
+  font-family: "PollerOne";
   outline: transparent;
   cursor: pointer;
   background-color: white;
@@ -835,7 +770,7 @@ input {
   color: rgb(255, 0, 0);
   border-radius: 100px;
   border: 2px solid rgb(253, 68, 0);
-  font-family: "Poller One", cursive;
+  font-family: "PollerOne";
   outline: transparent;
   cursor: pointer;
   background-color: white;
@@ -847,7 +782,7 @@ input {
   width: 20vmax;
   text-align: center;
   color: #00ff88;
-  font-family: "Poller One", cursive;
+  font-family: "PollerOne";
   font-size: 2vmax;
   margin: -1vmax 0 1vmax 0;
 }
@@ -890,12 +825,6 @@ input {
     -1px -1px 0 black;
   font-size: 0.7vmax;
   color: white !important;
-}
-
-@keyframes blinkUploader {
-  50% {
-    background-color: lime;
-  }
 }
 
 #upload {
@@ -1070,30 +999,7 @@ input {
   flex-direction: column;
   align-items: flex-start;
   align-self: center;
-  font-family: "Black Ops One", cursive;
-}
-
-@keyframes blinker {
-  5% {
-    color: rgb(241, 220, 30);
-  }
-  25% {
-    text-shadow: -0 0 10px orangered, 0 -0 10px orangered, -0 -0 10px orangered,
-      -0 -0 10px orangered;
-    color: rgb(6, 145, 170);
-  }
-
-  50% {
-    color: rgb(32, 182, 57);
-    text-shadow: -0 0 10px blue, 0 -0 10px blue, -0 -0 10px blue,
-      -0 -0 10px blue;
-  }
-
-  75% {
-    color: white;
-    text-shadow: -0 0 10px black, 0 -0 10px black, -0 -0 10px black,
-      -0 -0 10px black;
-  }
+  font-family: "BlackOpsOne";
 }
 
 .logoBack p {
@@ -1144,27 +1050,10 @@ input {
     width: unset !important;
   }
 
-  .arrowBack {
-    width: 4vmax !important;
-    height: 4vmax !important;
-  }
-
-  .arrow {
-    width: 2vmax !important;
-    height: 2vmax !important;
-  }
-
   .timeline img {
     width: 5vmax !important;
     height: 5vmax !important;
     margin-top: 0 !important;
-  }
-  .appBar {
-    z-index: 1 !important;
-  }
-
-  .arrowBack {
-    z-index: 2 !important;
   }
 
   .gigListOptions {
@@ -1237,28 +1126,9 @@ input {
     margin: 0 0 1vmax 0 !important;
   }
 
-  .tickerButton {
-    font-size: 1vmax !important;
-    right: 4vmax !important;
-  }
-
   .logo {
     width: 75vmax !important;
     height: 35vmax !important;
-  }
-
-  .logo2 {
-    width: 25vmax !important;
-    height: 8vmax !important;
-    margin: 0 !important;
-  }
-
-  #chatContainerDark {
-    border: 1px solid rgba(255, 255, 255, 0.479) !important;
-  }
-
-  #chatScreenDark {
-    border: 1px solid rgba(255, 255, 255, 0.479) !important;
   }
 
   #usersBackDark {
@@ -1308,54 +1178,6 @@ input {
 
   .mainMenu a:nth-child(2) {
     margin-top: -5vmax !important;
-  }
-  .chatContainerBack {
-    flex-direction: column !important;
-  }
-  .chatContainer {
-    flex-direction: column !important;
-    height: fit-content !important;
-    width: fit-content !important;
-    padding: 0 1vmax 1vmax 1vmax !important;
-  }
-
-  .chatScreen {
-    height: 27vh !important;
-    width: 80vw !important;
-    margin-bottom: 0.5vmax !important;
-  }
-
-  .chatNextControls {
-    align-items: flex-end !important;
-    flex-direction: column-reverse !important;
-    width: 87vw !important;
-    margin: 1vmax -2vmax -9vmax 0vmax !important;
-  }
-
-  .chatNextArrows {
-    flex-direction: column !important;
-  }
-
-  .up,
-  .down,
-  .next {
-    font-size: 2.5vmax !important;
-    margin: 0 !important;
-  }
-
-  .next {
-    margin: 0 0.1vmax 0 0 !important;
-  }
-
-  .typeLine {
-    width: 80vw !important;
-  }
-
-  .chatTypeLine {
-    padding-left: 1.7vmax !important;
-    height: 3vmax !important;
-    font-size: 2vmax !important;
-    min-width: 40vw !important;
   }
 
   .chatUserHeadline {
@@ -1457,10 +1279,6 @@ input {
     height: 3vmax !important;
   }
 
-  .mobileChat {
-    flex-direction: column !important;
-  }
-
   .chatMenuOptions {
     flex-direction: row !important;
     margin-top: 1vmax !important;
@@ -1487,32 +1305,6 @@ input {
     height: 5vmax !important;
   }
 
-  .chatBar {
-    width: 3vmax !important;
-    height: 3vmax !important;
-  }
-
-  .barProfileImage {
-    width: 6vmax !important;
-    height: 6vmax !important;
-  }
-
-  .barProfile {
-    font-size: 3vmax !important;
-  }
-
-  .mute,
-  .play {
-    width: 4vmax !important;
-    height: 4vmax !important;
-  }
-
-  .emojiBarToggler {
-    min-width: 5vmax !important;
-    min-height: 5vmax !important;
-    margin-left: 1vmax !important;
-  }
-
   .uploaderTogglerImg {
     width: 6vmax !important;
     height: 6vmax !important;
@@ -1520,12 +1312,6 @@ input {
 
   .colorSelector {
     padding: 2vmax !important;
-  }
-
-  .sendChatMsg {
-    min-width: 3.5vmax !important;
-    min-height: 2.2vmax !important;
-    margin-left: 1vmax !important;
   }
 
   .gigEntryContainer {
@@ -1675,11 +1461,6 @@ input {
     padding: 0.5vmax 2vmax !important;
   }
 
-  .gm-style .gm-style-iw-c,
-  .gm-style .gm-style-iw-t::after {
-    margin-left: 4.5vmax !important;
-  }
-
   .commentsContainer {
     margin-left: 0 !important;
   }
@@ -1817,30 +1598,9 @@ input {
     height: 4vmax !important;
   }
 
-  .chatHeadline,
-  #chatHeadline {
-    width: 88vw !important;
-  }
-
   .buttonBack {
     font-size: 1.5vmax !important;
     padding: 0.5vmax 1vmax !important;
-  }
-
-  .deleteChatMsg {
-    margin-top: -3vmax !important;
-    width: 1.2vmax !important;
-    height: 1.2vmax !important;
-    padding: 0.1vmax !important;
-  }
-
-  .postImg {
-    width: 4vmax !important;
-    height: 4vmax !important;
-  }
-
-  .userChatDetails h1 {
-    font-size: 3vmax !important;
   }
 
   .guest {
@@ -1939,12 +1699,6 @@ input {
   .mixCloudPlayerControls {
     height: 6vh !important;
     width: 60vw !important;
-  }
-
-  .jukeBox {
-    height: 4vmax !important;
-    width: 5vmax !important;
-    bottom: 3.5vmax !important;
   }
 
   .emojis {
@@ -2118,24 +1872,9 @@ input {
     min-height: 88% !important;
   }
 
-  .appBar {
-    z-index: 1 !important;
-    height: 12% !important;
-  }
-
   .gigListOptions {
     right: 7vmax !important;
     top: 1.3vmax !important;
-  }
-  .arrowBack {
-    margin: 0.5vmax 1vmax 0 0 !important;
-    z-index: 2 !important;
-    width: 3vmax !important;
-    height: 3vmax !important;
-  }
-  .arrow {
-    width: 1.3vmax !important;
-    height: 1.3vmax !important;
   }
 
   .errorNickRegister {
@@ -2153,14 +1892,6 @@ input {
 
   .gigEditorContainerInner {
     width: 60vw !important;
-  }
-
-  #chatContainerDark {
-    border: 2px solid rgba(255, 255, 255, 0.178) !important;
-  }
-
-  #chatScreenDark {
-    border: 2px solid rgba(255, 255, 255, 0.178) !important;
   }
 
   #usersBackDark {
@@ -2230,21 +1961,6 @@ input {
     margin: -3vmax 4vmax 3vmax 4vmax !important;
   }
 
-  .chatContainer {
-    flex-direction: column !important;
-    align-content: center !important;
-    justify-content: center !important;
-    min-height: fit-content !important;
-    height: fit-content !important;
-    margin-top: 0 !important;
-    width: 65vw !important;
-  }
-
-  .chatHeadline,
-  #chatHeadline {
-    width: 64vw !important;
-  }
-
   .buttonBack {
     font-size: 1.5vmax !important;
     padding: 0.5vmax 1vmax !important;
@@ -2278,32 +1994,6 @@ input {
     margin: 0 !important;
   }
 
-  .chatScreen {
-    min-height: 0vmax !important;
-    height: 40vh !important;
-    width: 60vw !important;
-    border-radius: 3vh !important;
-  }
-
-  .postImg {
-    width: 3vmax !important;
-    height: 3vmax !important;
-  }
-
-  .chatNextControls {
-    margin: 0 0 -3vmax -2vmax !important;
-  }
-
-  .up,
-  .down,
-  .next {
-    font-size: 3vmax !important;
-  }
-
-  .down {
-    margin: 0 0.7vw 0 1vw !important;
-  }
-
   .onlineList span {
     font-size: 2vmax !important;
   }
@@ -2313,42 +2003,6 @@ input {
     margin: -3vmax 0 0 -2vmax !important;
   }
 
-  .typeLine {
-    width: 60vw !important;
-    justify-content: space-evenly !important;
-  }
-
-  .mute {
-    justify-content: space-between !important;
-  }
-
-  .chatTypeLine {
-    min-height: 3vmax !important;
-    font-size: 2vmax !important;
-    padding-left: 1.3vmax !important;
-    width: 40vmax !important;
-    margin-right: 0.5vmax;
-    border-radius: 3vh !important;
-  }
-
-  .mute,
-  .play {
-    width: 3vmax !important;
-    height: 3vmax !important;
-  }
-
-  .emojiBarToggler {
-    width: 5vmax !important;
-    height: 5vmax !important;
-    margin-left: 1vmax !important;
-  }
-
-  .sendChatMsg {
-    width: 2vmax !important;
-    height: 2vmax !important;
-    padding-right: 1vmax !important;
-    padding-left: 1vmax !important;
-  }
   .emoticons img {
     width: 4vmax !important;
     height: 4vmax !important;
@@ -2362,22 +2016,6 @@ input {
     justify-content: unset !important;
     align-items: unset !important;
     flex-wrap: unset !important;
-  }
-
-  #appBar {
-    height: 12% !important;
-  }
-
-  .chatBar {
-    width: 2.5vmax !important;
-    height: 2.5vmax !important;
-    margin-left: -1vmax !important;
-  }
-
-  .barProfileImage {
-    width: 4.5vmax !important;
-    height: 4.5vmax !important;
-    margin-top: 0.5vmax !important;
   }
 
   .uploaderTogglerImg {
@@ -2449,15 +2087,6 @@ input {
     justify-content: center !important;
   }
 
-  .gm-style .gm-style-iw-c,
-  .gm-style .gm-style-iw-t::after {
-    margin-left: 8vmax !important;
-  }
-
-  .gm-style .gm-style-iw-c,
-  .gm-style .gm-style-iw-t::after {
-    top: -30px !important;
-  }
   .editorGallery div {
     margin-left: 0.7vmax !important;
   }
@@ -2519,7 +2148,6 @@ input {
       -0 -0 10px rgba(255, 255, 255, 0.432);
   }
 
-  .chatContainerBack,
   .timelineContainer,
   .aboutContainer,
   .superAdminContainer,
@@ -2545,17 +2173,6 @@ input {
 
   #headlines {
     margin: 0 !important;
-  }
-
-  .userChatDetails h1 {
-    font-size: 2vmax !important;
-  }
-
-  .deleteChatMsg {
-    margin-top: -2vmax !important;
-    width: 1.2vmax !important;
-    height: 1.2vmax !important;
-    padding: 0.1vmax !important;
   }
 
   .sideBarBack {
@@ -2589,10 +2206,6 @@ input {
     width: 2vmax !important;
     height: 2vmax !important;
     margin: 0 1vmax !important;
-  }
-
-  .gm-style-iw-d {
-    max-height: fit-content !important;
   }
 
   .guest {
@@ -2729,16 +2342,6 @@ input {
   width: 45vmax;
 }
 
-.logo2 {
-  background-image: url("logo2.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  width: 18vmax;
-  height: 5vmax;
-  margin-top: -1vmax;
-  margin-left: -3vmax;
-}
-
 .gigListMonths {
   display: flex;
   flex-direction: column;
@@ -2762,7 +2365,7 @@ input {
 .exactMonthTitle {
   padding: 0 2vmax;
   font-size: 3vmax;
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   text-shadow: -0 0 5px red, 0 -0 5px red, -0 -0 5px red, -0 -0 5px red;
   color: yellow;
   text-align: center;
@@ -2784,11 +2387,11 @@ input {
 
 .latestEntries {
   text-align: center;
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   align-self: center;
   color: rgb(255, 251, 0);
   text-shadow: 0 0 5px red, 0 0 5px red, 0 0 5px red, 0 0 5px red;
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   font-size: 5vh;
   margin-top: 1vmax;
   margin-bottom: -0.2vmax;
@@ -2830,7 +2433,7 @@ input {
   box-shadow: -0 0 2px rgba(255, 255, 255, 0.4),
     0 -0 2px rgba(255, 255, 255, 0.4), -0 -0 2px rgba(255, 255, 255, 0.4),
     -0 -0 2px rgba(255, 255, 255, 0.4);
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   padding: 0.5vmax;
 }
 
@@ -2847,7 +2450,7 @@ input {
 }
 
 .gigBox {
-  font-family: "Ultra", serif;
+  font-family: "Ultra";
   background-color: rgba(172, 255, 104, 0.075);
   border-radius: 1vmax;
   text-shadow: -2px 2px 0 black, 2px -2px 0 black, -2px -2px 0 black,
@@ -2889,7 +2492,6 @@ input {
 .saySomethingBack::-webkit-scrollbar,
 .aboutBack::-webkit-scrollbar,
 select::-webkit-scrollbar,
-.chatScreen::-webkit-scrollbar,
 .gigEntries::-webkit-scrollbar,
 .emoticons::-webkit-scrollbar,
 .commentBox::-webkit-scrollbar,
@@ -2906,7 +2508,6 @@ select::-webkit-scrollbar,
 
 select::-webkit-scrollbar-track,
 .usersBack::-webkit-scrollbar-track,
-.chatScreen::-webkit-scrollbar-track,
 .emoticons::-webkit-scrollbar-track .monthInnerBox::-webkit-scrollbar-track,
 .posterEdit::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px rgba(136, 135, 135, 0.253);
@@ -2956,7 +2557,6 @@ select::-webkit-scrollbar-thumb {
 
 .retroList::-webkit-scrollbar-thumb,
 .usersBack::-webkit-scrollbar-thumb,
-.chatScreen::-webkit-scrollbar-thumb,
 .gigEntries::-webkit-scrollbar-thumb,
 .categoryContentMain::-webkit-scrollbar-thumb,
 .emoticons::-webkit-scrollbar-thumb,
@@ -2975,7 +2575,6 @@ select::-webkit-scrollbar-thumb {
 }
 
 .usersBack::-webkit-scrollbar-thumb:hover,
-.chatScreen::-webkit-scrollbar-thumb:hover,
 .gigEntries::-webkit-scrollbar-thumb:hover,
 .emoticons::-webkit-scrollbar-thumb:hover,
 .monthInnerBox::-webkit-scrollbar-thumb:hover,
@@ -3006,7 +2605,7 @@ select::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.144);
   border-radius: 100px;
   border: 0;
-  font-family: "Poller One", cursive;
+  font-family: "PollerOne";
   color: white;
   font-size: 1vmax;
   padding: 0.5vmax;
@@ -3018,7 +2617,7 @@ select::-webkit-scrollbar-thumb {
   background-color: yellow;
   border-radius: 100px;
   border: 0;
-  font-family: "Poller One", cursive;
+  font-family: "PollerOne";
   color: orangered;
   font-size: 1vmax;
   margin-bottom: 2vh;
@@ -3044,18 +2643,13 @@ select::-webkit-scrollbar-thumb {
   text-shadow: none;
 }
 
-.gm-style div {
-  -webkit-transform: scale(1.008);
-  transform: scale(1.008);
-}
-
 .logout {
   border-radius: 1vh;
   margin-top: 0.3vmax;
   font-size: 1.1vmax;
   color: rgb(0, 102, 255);
   cursor: pointer;
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   text-shadow: -0 0 5px black, 0 -0 5px black, -0 -0 5px black, -0 -0 5px black;
   letter-spacing: 1px;
 }
@@ -3075,7 +2669,7 @@ select::-webkit-scrollbar-thumb {
 }
 
 .error {
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   font-size: 1vmax;
   color: tomato;
 
@@ -3087,7 +2681,7 @@ select::-webkit-scrollbar-thumb {
 }
 
 .errorBan {
-  font-family: "Darker Grotesque", sans-serif;
+  font-family: "DarkerGrotesque";
   font-size: 2vmax;
   color: tomato;
 
@@ -3099,7 +2693,7 @@ select::-webkit-scrollbar-thumb {
 
 .errorNickname,
 .errorNickRegister {
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   font-size: 1vmax;
   color: tomato;
   text-shadow: -1px 1px 0 black, 1px -1px 0 black, -1px -1px 0 black,
@@ -3120,93 +2714,6 @@ select::-webkit-scrollbar-thumb {
   width: 25vw;
   overflow-x: hidden;
   text-align: center;
-}
-
-.gm-style a {
-  visibility: hidden !important;
-}
-
-.gm-style-cc {
-  visibility: hidden !important;
-}
-
-.gm-style .gm-style-iw-tc::after {
-  height: 0 !important;
-  width: 0 !important;
-}
-
-.gm-ui-hover-effect {
-  background-color: white !important;
-  border-radius: 50% !important;
-  top: 6px !important;
-  right: 6px !important;
-  width: 20px !important;
-  height: 20px !important;
-
-  flex-direction: column !important;
-  justify-content: center !important;
-  align-items: center !important;
-}
-
-.gm-style-iw .gm-style-iw-c {
-  padding: 0 !important;
-}
-.gm-style .gm-style-iw-c {
-  padding-right: 13px !important;
-  max-height: fit-content !important;
-  max-width: unset !important;
-  margin-top: -1.3vmax !important;
-  margin-left: 3vmax;
-  position: absolute;
-  box-sizing: border-box;
-  outline: none !important;
-  top: 0;
-  left: 0;
-  transform: translate(-50%, -100%);
-  border-color: rgb(156, 255, 255);
-  border: 1px solid white;
-  background-color: rgb(0, 0, 0, 0.632);
-  border-radius: 8px;
-  color: lime;
-  box-shadow: -0 0 5px rgba(0, 0, 0, 0.3), 0 -0 5px rgba(0, 0, 0, 0.3),
-    -0 -0 5px rgba(229, 255, 0, 0.3), -0 -0 5px rgba(0, 0, 0, 0.3);
-  text-shadow: -0 0 5px rgba(0, 0, 0, 0.7), 0 -0 5px rgba(0, 0, 0, 0.7),
-    -0 -0 5px rgba(0, 0, 0, 0.7), -0 -0 5px rgba(0, 0, 0, 0.7);
-  animation: fadeAbout 2s ease-in-out;
-}
-
-.gm-style .gm-style-iw-c:hover {
-  border-color: rgb(156, 255, 255);
-}
-
-.gm-style-iw-d {
-  text-align: center;
-  font-family: "Black Ops One", cursive;
-  font-size: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  align-self: flex-start;
-  outline: none !important;
-  overflow: hidden !important;
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.gm-style .gm-style-iw-c,
-.gm-style .gm-style-iw-t::after {
-  top: -21px;
-}
-
-.gm-style-iw-t::after {
-  top: -21px;
-  height: 0 !important;
-}
-
-.gm-style-iw-d {
-  width: 100% !important;
-  height: 100% !important;
 }
 
 div:focus {
@@ -3366,127 +2873,6 @@ font-family: 'Poller One', cursive;
 font-family: 'Press Start 2P', cursive;
 font-family: 'Ultra', serif; */
 
-#privateChatBar {
-  background-image: url("newMsg.png") !important;
-  animation: shake 0.5s, privateNotifier 4s infinite ease-in-out,
-    blinkerBoxYellow 3s ease-in-out;
-}
-
-.chatBar {
-  background-image: url("chat.png");
-  background-position: center;
-  background-size: cover;
-  width: 1.5vmax;
-  height: 1.5vmax;
-  margin-left: -1vmax;
-  margin-bottom: -2vmax;
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: -0 0 3px rgba(0, 0, 0, 0.1), 0 -0 3px rgba(0, 0, 0, 0.1),
-    -0 -0 3px rgba(0, 0, 0, 0.1), -0 -0 3px rgba(0, 0, 0, 0.1);
-}
-
-.chatBar:hover {
-  transition: 1s;
-  filter: hue-rotate(360deg);
-}
-
-@keyframes blinker2 {
-  33% {
-    box-shadow: 0 0 5px #bbff00, 0 0 5px #bbff00, 0 0 5px #bbff00,
-      0 0 5px #bbff00;
-  }
-  55% {
-    box-shadow: 0 0 6px rgba(0, 255, 200, 0.7), 0 0 6px rgb(0, 255, 200, 0.7),
-      0 0 6px rgb(0, 255, 200, 0.7), 0 0 6px rgb(0, 255, 200, 0.7);
-  }
-  99% {
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0), 0 0 5px rgba(0, 0, 0, 0),
-      0 0 5px rgba(255, 251, 0, 0) 0 5px rgba(255, 251, 0, 0);
-  }
-}
-
-@keyframes blinkerAvatar {
-  0% {
-    text-shadow: 0 0 6px rgb(217, 255, 0, 0.4), 0 0 6px rgb(217, 255, 0, 0.4),
-      0 0 6px rgb(217, 255, 0, 0.4), 0 0 6px rgb(217, 255, 0, 0.4);
-  }
-
-  50% {
-    text-shadow: none;
-  }
-
-  100% {
-    text-shadow: 0 0 6px rgb(217, 255, 0, 0.4), 0 0 6px rgb(217, 255, 0, 0.4),
-      0 0 6px rgb(217, 255, 0, 0.4), 0 0 6px rgb(217, 255, 0, 0.4);
-  }
-}
-
-@keyframes blinkerTextCyan {
-  0% {
-    text-shadow: -0 0 5px rgba(19, 253, 50, 0.267),
-      0 -0 5px rgba(19, 253, 50, 0.267), -0 -0 5px rgba(19, 253, 50, 0.267),
-      -0 -0 5px rgba(19, 253, 50, 0.267);
-  }
-  10% {
-    font-size: 3vmax;
-  }
-  20% {
-    text-shadow: 0 0 5px yellow, 0 0 5px yellow, 0 0 5px yellow, 0 0 5px yellow;
-    color: rgb(0, 255, 213);
-  }
-  25% {
-    font-size: 1.5vmax;
-  }
-
-  85% {
-    text-shadow: -0 0 5px rgba(19, 253, 50, 0.267),
-      0 -0 5px rgba(19, 253, 50, 0.267), -0 -0 5px rgba(19, 253, 50, 0.267),
-      -0 -0 5px rgba(19, 253, 50, 0.267);
-  }
-}
-
-@keyframes blinkerText {
-  0% {
-    text-shadow: -0 0 5px rgba(19, 253, 50, 0.267),
-      0 -0 5px rgba(19, 253, 50, 0.267), -0 -0 5px rgba(19, 253, 50, 0.267),
-      -0 -0 5px rgba(19, 253, 50, 0.267);
-  }
-
-  20% {
-    text-shadow: 0 0 5px yellow, 0 0 5px yellow, 0 0 5px yellow, 0 0 5px yellow;
-    color: rgb(0, 255, 213);
-  }
-
-  85% {
-    text-shadow: -0 0 5px rgba(19, 253, 50, 0.267),
-      0 -0 5px rgba(19, 253, 50, 0.267), -0 -0 5px rgba(19, 253, 50, 0.267),
-      -0 -0 5px rgba(19, 253, 50, 0.267);
-  }
-}
-
-@keyframes blinkerBan {
-  0% {
-    color: tomato;
-  }
-
-  50% {
-    color: rgb(0, 255, 242);
-  }
-
-  100% {
-    color: tomato;
-  }
-}
-
-#chatBar {
-  animation: 1.1s linear infinite blinker2, shake 0.5s;
-}
-
-#chatHeadlineDark #chatTitle {
-  color: rgb(0, 0, 0) !important;
-}
-
 #chatHeadlineDark {
   background: radial-gradient(
     closest-side,
@@ -3494,23 +2880,6 @@ font-family: 'Ultra', serif; */
     rgba(59, 255, 255, 0.055),
     transparent
   );
-}
-
-.chatHeadline {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 60vw;
-  height: 6vmax;
-}
-
-#chatTitle {
-  font-size: 4vmax;
-  color: rgb(255, 0, 0);
-  text-shadow: -1px 1px 0 white, 1px -1px 0 white, 1px 1px 0 white,
-    -1px -1px 0 white;
-  font-family: "Black Ops One", cursive;
 }
 
 .buttonBack {
@@ -3523,7 +2892,7 @@ font-family: 'Ultra', serif; */
   );
   color: yellow;
   font-size: 1vmax;
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   padding: 0.2vmax 0.5vmax;
   border-radius: 10vh;
   box-shadow: -0 0 5px rgba(0, 0, 0, 0.133), 0 -0 5px rgba(0, 0, 0, 0.133),
@@ -3537,286 +2906,6 @@ font-family: 'Ultra', serif; */
     -0 -0 5px rgba(0, 0, 0, 0.7), -0 -0 5px rgba(0, 0, 0, 0.7);
 }
 
-.mobileChat {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-.chatContainer {
-  animation: fadeAbout 0.5s ease-in-out;
-  width: 60vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  align-self: center;
-  box-shadow: -0 0 10px rgba(0, 0, 0, 0.308), 0 -0 10px rgba(0, 0, 0, 0.308),
-    -0 -0 10px rgba(0, 0, 0, 0.308), -0 -0 10px rgba(0, 0, 0, 0.308);
-  border-radius: 1vh;
-  margin-top: 3vmax;
-  background: radial-gradient(
-    closest-side,
-    #05303380,
-    #e08216c2,
-    #ff6767,
-    #b1151542
-  );
-}
-
-#chatContainerDark {
-  background: none;
-  border: 1px solid rgba(255, 255, 255, 0.171);
-  margin-top: 3vmax;
-}
-
-#chatTitlePriv {
-  font-family: "Black Ops One", cursive;
-  font-size: 4vmax;
-  color: white;
-  margin: 0 !important;
-}
-
-.chatContainerBack {
-  display: flex;
-  flex-direction: row;
-  align-self: center;
-  margin-bottom: auto;
-}
-
-.chatScreen {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-content: center;
-  height: 60vh;
-  background-color: rgba(255, 255, 255, 0.11);
-  overflow-y: auto;
-  scrollbar-color: rgba(255, 255, 0, 0.39) rgba(172, 255, 104, 0.075);
-  color: yellowgreen;
-  box-shadow: inset 0 0 0 100vh rgba(30, 255, 0, 0.164),
-    -0 0 10px rgba(0, 0, 0, 0.308), 0 -0 10px rgba(0, 0, 0, 0.308),
-    -0 -0 10px rgba(0, 0, 0, 0.308), -0 -0 10px rgba(0, 0, 0, 0.308);
-  border-radius: 1vh;
-  margin: 0 2vmax 0 2vmax;
-}
-
-#chatScreenDark {
-  background: radial-gradient(
-    closest-side,
-    rgba(59, 255, 255, 0.055),
-    rgba(59, 255, 255, 0.055),
-    rgba(59, 255, 255, 0.055),
-    transparent
-  );
-  box-shadow: none;
-  border: 1px solid rgba(255, 255, 255, 0.171);
-}
-
-.chatNextControls {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  text-shadow: -0 0 5px black, 0 -0 5px black, -0 -0 5px black, -0 -0 5px black;
-  width: inherit;
-  margin: 0.5vmax 0 -2.5vmax -1vmax;
-  z-index: 2;
-}
-
-.chatNextArrows {
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-}
-.up {
-  font-size: 2vmax;
-  color: yellow;
-  margin-top: 0.2vmax;
-  cursor: pointer;
-}
-
-.up:hover,
-.down:hover {
-  color: white;
-}
-
-.up:active,
-.down:active {
-  color: black;
-  text-shadow: none;
-}
-
-.down {
-  font-size: 2vmax;
-  color: yellow;
-  margin-top: 0.2vmax;
-  cursor: pointer;
-}
-
-.next {
-  font-size: 2vmax;
-  font-weight: lighter;
-  color: white;
-  cursor: pointer !important;
-  text-shadow: -0 0 3px black, 0 -0 3px black, -0 -0 3px black, -0 -0 3px black;
-  margin: 0 0.4vmax;
-}
-
-.next:active {
-  text-shadow: none;
-}
-
-.next:hover {
-  color: rgb(159, 255, 231);
-}
-
-.chatTypeLine {
-  width: 27vmax;
-  height: 1.4vmax;
-
-  resize: none;
-  outline: none;
-  white-space: nowrap;
-  overflow-x: hidden;
-  font-size: 0.9vmax;
-  border-radius: 10vh;
-  padding-left: 0.5vmax;
-  padding-top: 0.2vmax;
-  background-color: rgba(255, 255, 255, 0.058) !important;
-  color: white;
-  font-weight: bold;
-  letter-spacing: 1px;
-  border: 1px solid #ffffff52;
-}
-
-.chatTypeLine:focus {
-  transition: 1s;
-  border-color: transparent;
-  background-color: rgba(255, 255, 255, 0.108) !important;
-  box-shadow: -0 0 2px rgba(255, 255, 255, 0.308),
-    0 -0 2px rgba(255, 255, 255, 0.308), -0 -0 2px rgba(255, 255, 255, 0.308),
-    -0 -0 2px rgba(255, 255, 255, 0.308);
-}
-
-.typeLine {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  align-self: center;
-}
-
-#sendChatMsgDark {
-  filter: invert(100%);
-}
-
-#sendChatMsgDark:hover {
-  filter: invert(0%);
-}
-
-.sendChatMsg {
-  background-image: url("send.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  width: 1.8vmax;
-  height: 1vmax;
-  align-self: center;
-  margin-left: 0.5vmax;
-  margin-right: 2vmax;
-  cursor: pointer;
-  filter: invert(0%);
-}
-
-.sendChatMsg:hover {
-  filter: invert(100%);
-}
-
-.userChatDetails {
-  display: flex;
-  align-content: center;
-  justify-content: flex-start;
-  align-self: flex-start;
-}
-
-.userChatDetails h1 {
-  user-select: text;
-}
-
-.post {
-  color: yellow;
-  font-family: "Poller One", cursive;
-  font-size: 20px;
-  text-shadow: -1px 1px 0 black, 1px -1px 0 black, -1px -1px 0 black,
-    -1px -1px 0 black;
-  letter-spacing: 0.15vmax;
-  margin: 0;
-}
-
-.post a {
-  color: black;
-  font-family: none;
-  font-size: 20px;
-  text-decoration: underline;
-  text-shadow: none;
-  font-weight: bold;
-  margin-right: 5px;
-}
-
-.deleteChatMsg {
-  filter: contrast(150%);
-  background-image: url("delete.png");
-  background-size: cover;
-  width: 0.8vmax;
-  height: 0.8vmax;
-  margin-top: -2.2vmax;
-  mix-blend-mode: hard-light;
-  cursor: pointer;
-  margin-left: -0.2vmax;
-}
-
-.postImg {
-  width: 2.2vmax;
-  height: 2.2vmax;
-  border-radius: 0.5vmax;
-}
-
-#dateDark {
-  color: rgba(255, 255, 0, 0.692);
-}
-
-.date {
-  color: rgba(0, 0, 0, 0.692);
-  letter-spacing: 1px;
-  text-align: right;
-  font-size: 0.5vmax;
-}
-
-.time {
-  color: rgba(255, 255, 255, 0.719);
-  letter-spacing: 1px;
-  text-align: right;
-  font-size: 0.8vmax;
-}
-
-.post h1 {
-  margin-left: 0.5vmax;
-  color: rgb(255, 64, 64);
-  font-family: "Black Ops One", cursive;
-  font-size: 2vmax;
-  text-shadow: -1px 1px 0 black, 1px -1px 0 black, -1px -1px 0 black,
-    -1px -1px 0 black;
-}
-
-.post div {
-  overflow-wrap: break-word;
-  font-family: "Ultra", serif;
-  font-size: 1.2vmax;
-}
-
 .emojis {
   position: relative;
   left: 40%;
@@ -3825,61 +2914,6 @@ font-family: 'Ultra', serif; */
   margin: 1vmax;
   margin-left: auto;
   margin-right: auto;
-}
-
-.chatPost {
-  margin: 0 10px 10px 10px;
-  background-color: rgba(255, 255, 255, 0.027);
-}
-
-.finalMessage {
-  user-select: text;
-}
-
-.finalMessage img {
-  user-select: none;
-}
-
-.userEnters {
-  font-size: 1vmax !important;
-  color: rgba(51, 255, 0, 0.719) !important;
-  margin: 5px !important;
-  text-align: center !important;
-  background-color: rgba(0, 0, 0, 0.192);
-  padding: 0.5vmax;
-  height: 1.5vmax;
-  align-self: center;
-  border-radius: 2vh;
-
-  animation: fadeAbout 0.5s ease-in-out;
-}
-
-.userLeavesNetwork {
-  font-size: 1vmax !important;
-  color: rgba(0, 132, 255, 0.671) !important;
-  margin: 5px !important;
-  text-align: center !important;
-  background-color: rgba(255, 0, 0, 0);
-  padding: 0.5vmax;
-  height: 1.5vmax;
-  align-self: center;
-  border-radius: 2vh;
-
-  animation: fadeAbout 0.5s ease-in-out;
-}
-
-.userLeaves {
-  font-size: 1vmax !important;
-  color: rgba(255, 251, 0, 0.671) !important;
-  margin: 5px !important;
-  text-align: center !important;
-  background-color: rgba(255, 0, 0, 0.267);
-  padding: 0.5vmax;
-  height: 1.5vmax;
-  align-self: center;
-  border-radius: 2vh;
-
-  animation: fadeAbout 0.5s ease-in-out;
 }
 
 .chatUserHeadline {
@@ -4058,46 +3092,6 @@ font-family: 'Ultra', serif; */
   margin-right: 0.2vmax;
 }
 
-@keyframes shake {
-  0% {
-    transform: translate(1px, 1px) rotate(0deg);
-  }
-  10% {
-    transform: translate(-1px, -2px) rotate(-1deg);
-  }
-  20% {
-    transform: translate(-3px, 0px) rotate(1deg);
-  }
-  30% {
-    transform: translate(3px, 2px) rotate(0deg);
-  }
-  40% {
-    transform: translate(1px, -1px) rotate(1deg);
-  }
-  50% {
-    transform: translate(-1px, 2px) rotate(-1deg);
-  }
-  60% {
-    transform: translate(-3px, 1px) rotate(0deg);
-  }
-  70% {
-    transform: translate(3px, 1px) rotate(-1deg);
-  }
-  80% {
-    transform: translate(-1px, -1px) rotate(1deg);
-  }
-  90% {
-    transform: translate(1px, 2px) rotate(0deg);
-  }
-  100% {
-    transform: translate(1px, -2px) rotate(-1deg);
-  }
-}
-
-#hornShake {
-  animation: shake 1s;
-}
-
 .horn {
   margin-left: 0.5vmax;
   width: 1.5vmax;
@@ -4132,8 +3126,6 @@ font-family: 'Ultra', serif; */
     -0 -0 5px rgba(0, 0, 0, 0.308), -0 -0 5px rgba(0, 0, 0, 0.308);
 }
 
-
-
 .timerConfig {
   display: flex;
   align-items: center;
@@ -4147,7 +3139,7 @@ font-family: 'Ultra', serif; */
   align-items: center;
   justify-content: center;
   margin: 0 0.5vmax;
-  font-family: "Black Ops One", cursive !important;
+  font-family: "BlackOpsOne" !important;
   color: rgb(252, 88, 88);
   font-size: 1vmax !important;
 }
@@ -4212,7 +3204,7 @@ input[type="number"] {
 .onlineList span {
   margin: 0 0.5vmax 0 0.3vmax;
   color: rgb(0, 255, 0);
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   font-size: 2vmax;
   text-shadow: -1px 1px 0 black, 1px -1px 0 black, -1px -1px 0 black,
     -1px -1px 0 black;
@@ -4335,7 +3327,7 @@ input[type="number"] {
 }
 
 .changeNickButton {
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   color: white;
   text-shadow: -0 0 3px rgba(0, 0, 0, 0.154), 0 -0 3px rgba(0, 0, 0, 0.154),
     -0 -0 3px rgba(0, 0, 0, 0.154), -0 -0 3px rgba(0, 0, 0, 0.154);
@@ -4433,41 +3425,6 @@ input[type="number"] {
   filter: hue-rotate(-380deg);
 }
 
-.mute {
-  width: 1.5vmax;
-  height: 1.5vmax;
-  cursor: pointer;
-  background-image: url("play.png");
-  background-size: cover;
-  margin: 0.5vmax;
-}
-
-.play {
-  width: 1.5vmax;
-  height: 1.5vmax;
-  cursor: pointer;
-  background-image: url("mute.png");
-  background-size: cover;
-  margin: 0.5vmax;
-}
-
-.chatControls:hover {
-  box-shadow: inset 0 0 0 100vh rgba(44, 255, 2, 0.253),
-    -0 0 5px rgba(209, 255, 4, 0.308), 0 -0 5px rgba(0, 0, 0, 0.308),
-    -0 -0 5px rgba(0, 0, 0, 0.308), -0 -0 5px rgba(0, 0, 0, 0.308);
-}
-
-.chatControls {
-  border-radius: 10vh;
-  width: fit-content;
-  height: fit-content;
-  box-shadow: inset 0 0 0 100vh rgba(0, 217, 255, 0.103),
-    -0 0 5px rgba(209, 255, 4, 0.308), 0 -0 5px rgba(0, 0, 0, 0.308),
-    -0 -0 5px rgba(0, 0, 0, 0.308), -0 -0 5px rgba(0, 0, 0, 0.308);
-  margin: 0.5vmax;
-  margin-right: 0.5vmax;
-}
-
 .emoticons {
   margin-top: 1vmax;
   margin-left: 1vmax;
@@ -4508,21 +3465,6 @@ input[type="number"] {
   top: -0.3vmax;
 }
 
-.emojiBarToggler {
-  background-image: url("styles.png");
-  background-position: center;
-  background-size: cover;
-  width: 2.5vmax;
-  height: 2.5vmax;
-  margin: 0.5vmax;
-  margin-bottom: 1vmax;
-  cursor: pointer;
-}
-
-.emojiBarToggler:hover {
-  animation: shake 1s;
-}
-
 .mainOptionsBox {
   position: fixed;
   right: 0.5vmax;
@@ -4534,7 +3476,7 @@ input[type="number"] {
 }
 
 .visitors_lougout_box {
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -4618,7 +3560,7 @@ input[type="number"] {
   margin-top: 0.5vmax;
   margin-right: 1vmax;
   text-decoration: none;
-  font-family: "Ultra", serif;
+  font-family: "Ultra";
   overflow: hidden;
   box-shadow: -0 0 5px rgba(0, 0, 0, 0.308), 0 -0 5px rgba(0, 0, 0, 0.308),
     -0 -0 5px rgba(0, 0, 0, 0.308), -0 -0 5px rgba(0, 0, 0, 0.308);
@@ -4636,35 +3578,9 @@ input[type="number"] {
   margin: 10px;
 }
 
-.tickerButton {
-  position: fixed;
-  right: 2vmax;
-  bottom: 0.5vmax;
-  cursor: pointer;
-  color: white;
-  font-family: "Press Start 2P", cursive;
-  font-size: 0.7vmax;
-  width: 3vmax;
-}
-.tickerButton:hover {
-  text-shadow: -0 0 10px rgba(255, 0, 0, 0.37), 0 -0 10px rgba(255, 0, 0, 0.37),
-    -0 -0 10px rgba(255, 0, 0, 0.37), -0 -0 10px rgba(255, 0, 0, 0.37);
-}
-
 /* Ticker !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! GIGLIST ANIMATION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
-
-@keyframes scroll {
-  from {
-    top: 200vh;
-    transform: translateZ(0) rotateX(50deg);
-  }
-  to {
-    top: -180000vh;
-    transform: translateZ(-210000vh) rotateX(40deg);
-  }
-}
 
 @media only screen and (min-device-width: 100px) and (max-device-width: 480px) and (orientation: portrait) {
   .wrapper span:nth-child(2) {
@@ -4845,10 +3761,6 @@ input[type="number"] {
   padding: 1vmax;
 }
 
-.gm-style .gm-style-iw-c {
-  color: white !important;
-}
-
 .gigEntryContainer {
   height: 92%;
   color: yellow;
@@ -4904,7 +3816,7 @@ input[type="number"] {
 
 .detailedEntry {
   height: 33vmax;
-  font-family: "Ultra", serif;
+  font-family: "Ultra";
   display: grid;
   grid-template-rows: 1fr 1fr 1fr 1fr;
   justify-content: center;
@@ -5016,7 +3928,7 @@ input[type="number"] {
 
 .posterSectionToggler {
   font-size: 1.3vmax;
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   color: cyan;
   text-shadow: 0 0 10px black, 0 0 10px black, 0 0 10px black, 0 0 10px black;
   margin-top: -0.5vmax;
@@ -5034,16 +3946,6 @@ input[type="number"] {
   height: 5vmax;
   background-size: cover;
   margin-bottom: auto;
-}
-
-
-@keyframes blinkerLoading {
-  0% {
-    opacity: 0%;
-  }
-  100% {
-    opacity: 100%;
-  }
 }
 
 .superAdminContainer {
@@ -5075,7 +3977,7 @@ input[type="number"] {
 }
 
 .superAdminGuestList {
-  font-family: "Black Ops One", cursive !important;
+  font-family: "BlackOpsOne" !important;
   font-size: 2vmax;
 }
 
@@ -5346,7 +4248,7 @@ input[type="number"] {
 #contribute,
 #commentsButton,
 #commentButton {
-  font-family: "Ultra", serif;
+  font-family: "Ultra";
 
   height: 2vmax;
   font-size: 1.5vmax;
@@ -5465,21 +4367,15 @@ input[type="number"] {
 }
 
 #date {
-  font-family: "Poller One", cursive;
+  font-family: "PollerOne";
   font-size: 0.5vmax;
   text-shadow: none;
 }
 
 #datePrivDark {
   color: rgba(255, 255, 0, 0.692);
-  font-family: "Poller One", cursive;
+  font-family: "PollerOne";
   font-size: 0.5vmax;
-  text-shadow: none;
-}
-
-#time {
-  font-family: "Poller One", cursive;
-  font-size: 0.8vmax;
   text-shadow: none;
 }
 
@@ -5487,14 +4383,6 @@ input[type="number"] {
   color: lime;
   margin-left: 0.5vmax;
   user-select: text;
-}
-
-#finalMessage {
-  color: rgb(255, 255, 255);
-}
-
-#typeline {
-  margin: 1vmax 0;
 }
 
 #privateUserImage {
@@ -5539,30 +4427,6 @@ input[type="number"] {
   transition: 0.5s;
 }
 
-@keyframes privateNotifier {
-  0% {
-    opacity: 100%;
-  }
-  25% {
-    opacity: 15%;
-  }
-  50% {
-    opacity: 100%;
-  }
-  75% {
-    opacity: 0%;
-  }
-  100% {
-    opacity: 100%;
-  }
-}
-
-@keyframes blinkerBoxYellow {
-  20% {
-    box-shadow: 0 0 5px yellow, 0 0 5px yellow, 0 0 5px yellow, 0 0 5px yellow;
-  }
-}
-
 .notification {
   background-image: url("newMsg.png");
   background-size: cover;
@@ -5605,7 +4469,7 @@ input[type="number"] {
   padding: 0.5vmax;
   width: 30vmax;
   background-color: rgba(0, 255, 255, 0.171);
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   font-size: 2vmax;
   text-shadow: -0 0 5px rgba(0, 0, 0, 0.432), 0 -0 5px rgba(0, 0, 0, 0.432),
     -0 -0 5px rgba(0, 0, 0, 0.432), -0 -0 5px rgba(0, 0, 0, 0.432);
@@ -5632,7 +4496,7 @@ input[type="number"] {
   padding: 0.5vmax;
   width: inherit;
   background-color: rgb(0, 0, 0);
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   font-size: 2vmax;
   border: none;
   text-shadow: -0 0 5px rgba(0, 0, 0, 0.432), 0 -0 5px rgba(0, 0, 0, 0.432),
@@ -5650,7 +4514,7 @@ input[type="number"] {
   color: #00ffbf !important;
   font-size: 0.7vmax !important;
   cursor: pointer;
-  font-family: "Press Start 2P", cursive;
+  font-family: "PressStart2P";
 }
 
 .darkMode {
@@ -5712,7 +4576,7 @@ input[type="number"] {
 .mixCloudPlayerControls div {
   color: rgb(0, 255, 191);
   text-align: center;
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
   font-size: 0.8vmax;
 }
 
@@ -5791,21 +4655,6 @@ input[type="number"] {
   color: rgb(255, 65, 65);
 }
 
-.jukeBox {
-  position: fixed;
-  bottom: 2.3vmax;
-  right: 1.7vmax;
-  width: 3vmax;
-  height: 2.5vmax;
-  background-size: cover;
-  background-image: url("jukebox.png");
-  cursor: pointer;
-}
-
-.jukeBox:hover {
-  animation: shake 0.2s;
-}
-
 .aboutContainer {
   color: yellow;
   width: 90%;
@@ -5815,23 +4664,6 @@ input[type="number"] {
   align-items: center;
   justify-content: center;
   animation: fadeAbout 1s step-end;
-}
-
-@keyframes fadeAbout {
-  0% {
-    opacity: 0%;
-  }
-  100% {
-    opacity: 100%;
-  }
-}
-@keyframes fadeCover {
-  0% {
-    opacity: 0%;
-  }
-  100% {
-    opacity: 50%;
-  }
 }
 
 .aboutCoverBack {
@@ -5848,7 +4680,6 @@ input[type="number"] {
   filter: blur(2px);
   background-color: rgba(255, 255, 255, 0.05);
 }
-
 
 .aboutCover {
   filter: hue-rotate(15deg) sepia(0.95) brightness(1.3) contrast(2);
@@ -5880,7 +4711,7 @@ input[type="number"] {
   color: #ffffff;
   z-index: 123;
   font-size: 2vmax;
-  font-family: "Darker Grotesque", sans-serif;
+  font-family: "DarkerGrotesque";
   cursor: pointer;
 }
 
@@ -5909,14 +4740,14 @@ input[type="number"] {
   width: max-content !important;
   color: white;
   font-size: 2vmax;
-  font-family: "Darker Grotesque", sans-serif;
+  font-family: "DarkerGrotesque";
 }
 
 .author,
 .about {
   margin-top: 4vmax;
   text-align: center;
-  font-family: "Poller One", cursive;
+  font-family: "PollerOne";
   font-size: 3vmax;
   padding: 0 2vmax;
   color: black;
@@ -5928,7 +4759,7 @@ input[type="number"] {
 .aboutText a {
   text-shadow: none;
   font-size: 2vmax;
-  font-family: "Bangers", cursive;
+  font-family: "Bangers";
   letter-spacing: 2px;
   color: rgb(220, 20, 60);
   text-shadow: -1px 1px 0 yellow, 1px -1px 0 yellow, -1px -1px 0 yellow,
@@ -6277,64 +5108,6 @@ input[type="number"] {
   width: 48vw;
 }
 
-
-@keyframes bounceDesc {
-  0% {
-    transition: 1s;
-  }
-
-  15% {
-    transform: scaleX(-1);
-    transition: 0.1s;
-  }
-
-  40% {
-    transform: scaleX(1);
-  }
-  52% {
-    transform: translateX(-1.3vmax) rotate(-90deg);
-    opacity: 100%;
-  }
-
-  90% {
-    transform: scaleX(1);
-    transition: 1s;
-    opacity: 0%;
-  }
-}
-
-.arrowBack {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  border: 3px solid white;
-  padding: 0.3vmax;
-  cursor: pointer;
-  width: 2vmax;
-  height: 2vmax;
-  margin: 0 1vmax;
-}
-
-.arrowBack:hover {
-  animation: 1.5s linear infinite blinker2, bounceDesc 2s infinite linear;
-  border-color: transparent;
-}
-
-.arrow {
-  border-radius: 50%;
-  font-size: 3vmax;
-  color: white;
-  background-image: url("arrowUp.png");
-  background-size: cover;
-  width: 0.7vmax;
-  height: 0.7vmax;
-  filter: invert(100%);
-  padding: 0.3vmax;
-  margin: 0;
-}
-
 .mainTopRightButtons {
   display: flex;
   justify-content: center;
@@ -6419,12 +5192,6 @@ input[type="number"] {
   animation: 20s timeline infinite ease-in-out;
 }
 
-@keyframes timeline {
-  50% {
-    filter: invert(0%) hue-rotate(-510deg);
-  }
-}
-
 .timelineCategory {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -6444,7 +5211,7 @@ input[type="number"] {
   padding: 0 1vmax;
   cursor: pointer;
   background-color: #00000087;
-  font-family: "Ultra", serif;
+  font-family: "Ultra";
   border-radius: 1vh;
   box-shadow: 0 0 2px rgb(0 0 0 / 28%), 0 0 2px rgb(0 0 0 / 28%),
     0 0 2px rgb(0 0 0 / 28%), 0 0 2px rgb(0 0 0 / 28%);
@@ -6477,7 +5244,7 @@ input[type="number"] {
   justify-content: center;
   align-self: stretch;
   border-radius: 1vh;
-  font-family: "Ultra", serif;
+  font-family: "Ultra";
   background-color: #00000087;
 }
 
@@ -6653,7 +5420,7 @@ input[type="number"] {
   color: crimson;
   border: 1px solid crimson;
   font-size: 1.5vmax;
-  font-family: "Black Ops One", cursive;
+  font-family: "BlackOpsOne";
 }
 
 .addUpdate:hover {
@@ -6750,7 +5517,7 @@ input[type="number"] {
 }
 
 .retroTitle {
-  font-family: "Ultra", serif;
+  font-family: "Ultra";
   color: #00ff88;
   text-shadow: 0 0 5px #9c27b0, 0 0 5px #9c27b0, 0 0 5px #9c27b0,
     0 0 5px #9c27b0;
@@ -6774,7 +5541,7 @@ input[type="number"] {
   grid-template-columns: 0.5fr 1fr 2fr 2fr 2fr;
   grid-column-gap: 1vmax;
   margin-left: -1vmax;
-  font-family: "Darker Grotesque", sans-serif;
+  font-family: "DarkerGrotesque";
   font-size: 1.5vmax;
 }
 
@@ -6790,7 +5557,7 @@ input[type="number"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Darker Grotesque", sans-serif;
+  font-family: "DarkerGrotesque";
   font-size: 1.5vmax !important;
   color: lime !important;
   border: 1px solid #ffffff6e;
@@ -6825,5 +5592,5 @@ input[type="number"] {
   margin: 0;
   text-shadow: 0 0 5px orange, 0 0 5px orange, 0 0 5px orange, 0 0 5px orange;
   font-size: 3vmax;
-  font-family: "Poller One", cursive;
+  font-family: "PollerOne";
 }

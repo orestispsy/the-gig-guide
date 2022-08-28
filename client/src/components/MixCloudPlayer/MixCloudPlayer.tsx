@@ -27,7 +27,6 @@ export const MixCloudPlayer: React.FC<Props> = ({
   nightFlightProg,
   setPlayerPosition,
 }) => {
-  
   return (
     <div
       className="mixCloudPlayerControls"
@@ -41,7 +40,7 @@ export const MixCloudPlayer: React.FC<Props> = ({
           <div
             id="broadLeft"
             onClick={(e) => {
-             moveBack(nightFlightProg,setNightFlightProg,radioBroadcasts)
+              moveBack(nightFlightProg, setNightFlightProg, radioBroadcasts);
             }}
           ></div>
           <div className="radioControls">prev</div>
@@ -50,7 +49,7 @@ export const MixCloudPlayer: React.FC<Props> = ({
           <div
             id="broadRight"
             onClick={(e) => {
-             moveForward(nightFlightProg, setNightFlightProg, radioBroadcasts);
+              moveForward(nightFlightProg, setNightFlightProg, radioBroadcasts);
             }}
           ></div>
 

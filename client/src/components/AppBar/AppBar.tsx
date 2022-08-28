@@ -7,6 +7,18 @@ import useSound from "use-sound";
 import hyperfx from "./../../../public/hyperfx.mp3";
 import privateMSGSfx from "./../../../public/privateMSG.mp3";
 
+import {
+  Container,
+  ProfileImage,
+  BarLeftSection,
+  ChatToggler,
+  Nickname,
+  WebLink,
+  Logo,
+  NavButton,
+  Arrow,
+} from "./AppBar.style";
+
 const {
   chatNewPostNotification,
   appNavigate,
@@ -182,12 +194,11 @@ export const AppBar: React.FC<Props> = ({
   );
 
   return (
-    <div className="appBar" id={(maps && "appBar") || ""}>
-      <div className="barLeftSection">
-        <img
+    <Container>
+      <BarLeftSection>
+        <ProfileImage
           title="Main Page"
           src={myChatImg || "../../avatar.png"}
-          className="barProfileImage"
           onClick={(e) => {
             mainPageNavigate(
               setAboutMode,
@@ -200,45 +211,38 @@ export const AppBar: React.FC<Props> = ({
               pathname
             );
           }}
-        ></img>
+        ></ProfileImage>
 
-        <div>
-          <div
-            title="Chat Room"
-            className="chatBar"
-            onTransitionEndCapture={() => {
-              setPrivateMsgNotification(false);
-            }}
-            id={
-              (privateMsgNotification && "privateChatBar") ||
-              (chatNotification && !chatMode && "chatBar") ||
-              ""
-            }
-            onClick={(e) => {
-              chatNavigate(
-                mapVisible,
-                setAboutMode,
-                setChatModeClosed,
-                chatModeClosed,
-                setPrivateMode,
-                animeMusic,
-                setAnimeMusic,
-                navigate,
-                pathname
-              );
-            }}
-          ></div>
-        </div>
+        <ChatToggler
+          private={privateMsgNotification}
+          chat={chatNotification}
+          chatMode={chatMode}
+          title="Chat Room"
+          onTransitionEndCapture={() => {
+            setPrivateMsgNotification(false);
+          }}
+          onClick={(e) => {
+            chatNavigate(
+              mapVisible,
+              setAboutMode,
+              setChatModeClosed,
+              chatModeClosed,
+              setPrivateMode,
+              animeMusic,
+              setAnimeMusic,
+              navigate,
+              pathname
+            );
+          }}
+        ></ChatToggler>
 
-        <div className="barProfile">{!maps && myNickname}</div>
-      </div>
+        <Nickname>{!maps && myNickname}</Nickname>
+      </BarLeftSection>
 
       {maps && (
-        <a target="_blank" href="https://www.1000mods.com">
-          <div className="logo2Back">
-            <div className="logo2"></div>
-          </div>
-        </a>
+        <WebLink target="_blank" href="https://www.1000mods.com">
+          <Logo />
+        </WebLink>
       )}
 
       {chatModeClosed &&
@@ -252,8 +256,7 @@ export const AppBar: React.FC<Props> = ({
           animeMode ||
           gigEntryMode ||
           timelineMode) && (
-          <div
-            className="navButton"
+          <NavButton
             onClick={(e) => {
               appNavigate(
                 setGigEntry,
@@ -286,10 +289,8 @@ export const AppBar: React.FC<Props> = ({
               );
             }}
           >
-            <div title="Back" className="arrowBack">
-              <div className="arrow"></div>
-            </div>
-          </div>
+            <Arrow />
+          </NavButton>
         )}
 
       {nightFlightProg && (
@@ -308,7 +309,7 @@ export const AppBar: React.FC<Props> = ({
           ) => setPlayerPosition(x, y, setTop, setLeft)}
         />
       )}
-    </div>
+    </Container>
   );
 };
 

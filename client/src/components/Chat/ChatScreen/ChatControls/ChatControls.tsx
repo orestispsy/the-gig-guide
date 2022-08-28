@@ -1,5 +1,6 @@
 import React from "react";
 
+import { Container, Arrows, Arrow, Next } from "./ChatControls.style";
 const {
   next20ChatMsgs,
   moveScrollbarToTop,
@@ -24,26 +25,25 @@ export const ChatControls: React.FC<Props> = ({
   userPrivate,
 }) => {
   return (
-    <div className="chatNextControls">
-      <div className="chatNextArrows">
-        <div
+    <Container>
+      <Arrows>
+        <Arrow
           title="Chat Top"
           className="up"
           onClick={() => moveScrollbarToTop(elemRef)}
         >
           ▲
-        </div>
-        <div
+        </Arrow>
+        <Arrow
           title="Chat Bottom"
-          className="down"
+          down={true}
           onClick={() => moveScrollbarToBottom(elemRef)}
         >
           ▼
-        </div>
-      </div>
-      <div
+        </Arrow>
+      </Arrows>
+      <Next
         title="Load More Chat Messages"
-        className="next"
         onClick={() => {
           !userPrivate
             ? next20ChatMsgs(elemRef, setPostScroll, chatMessages)
@@ -57,7 +57,7 @@ export const ChatControls: React.FC<Props> = ({
         }}
       >
         ⦿
-      </div>
-    </div>
+      </Next>
+    </Container>
   );
 };

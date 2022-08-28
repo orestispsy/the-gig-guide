@@ -1,6 +1,30 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, Fragment } from "react";
 
 import { ChatControls } from "../ChatScreen/ChatControls/ChatControls";
+
+import {
+  MainChatBack,
+  MainChat,
+  Container,
+} from "./../ChatScreen/ChatScreen.style";
+
+import {
+  Container as TypelineWrapper,
+  TypeLine,
+  SendMsg,
+} from "./../ChatScreen/ChatScreenBottom/ChatScreenBottom.style";
+import {
+  PostContainer,
+  Wrapper,
+  Message,
+  UserDetails,
+  Avatar,
+  Nickname,
+  Date,
+  Time,
+} from "./../ChatScreen/ChatMessages/ChatMessages.style";
+
+import { Title } from "./../ChatScreen/ChatScreen.style";
 
 const {
   getPrivateMessages,
@@ -97,14 +121,14 @@ export const PrivateMSGS: React.FC<Props> = ({
     }
   }, [firstMsg]);
 
-  const elem: any = document.querySelectorAll(".chatTypeLine");
+  const elem: any = document.querySelectorAll(".chatTypeline");
   var chatMSG = "";
   const chat = (e: any) => {
     chatMSG = e.target.value;
   };
 
   return (
-    <div className="chatContainer" id={(darkMode && "chatContainerDark") || ""}>
+    <Container dark={darkMode}>
       <ChatControls
         elemRef={elemRef}
         setPostScroll={(e: boolean) => setPostScroll(e)}
@@ -112,11 +136,10 @@ export const PrivateMSGS: React.FC<Props> = ({
         myUserId={myUserId}
         userPrivate={userPrivate}
       />
-      <h1 id="chatTitlePriv">Private Chat</h1>
-      <div className="chatScreenBack">
-        <div
-          className="chatScreen"
-          id={(darkMode && "chatScreenDark") || ""}
+      <Title private={true}>Private Chat</Title>
+      <MainChatBack>
+        <MainChat
+          dark={darkMode}
           ref={elemRef}
           onScrollCapture={() =>
             elemRef.current && setScrollTop(elemRef.current.scrollTop)
@@ -125,75 +148,63 @@ export const PrivateMSGS: React.FC<Props> = ({
           {messages &&
             messages.map((msg: any, index: number) => {
               return (
-                <div key={index}>
+                <Fragment key={index}>
                   {(msg.msg_receiver_id == userPrivate ||
                     msg.msg_sender_id == userPrivate) &&
                     (msg.msg_receiver_id == myUserId ||
                       msg.msg_sender_id == myUserId) && (
-                      <div className="chatPost">
-                        <div className="post">
-                          <div className="userChatDetails">
-                            <img
-                              className="postImg"
+                      <Wrapper>
+                        <PostContainer>
+                          <UserDetails>
+                            <Avatar
                               src={
                                 (msg.msg_sender_id == myUserId && myChatImg) ||
                                 (msg.msg_sender_id != myUserId && privatePic) ||
                                 "./../avatar.png"
                               }
-                            ></img>
-                            <div id="nickname">
+                            ></Avatar>
+                            <Nickname>
                               {(msg.msg_sender_id == myUserId && myNickname) ||
                                 privateNick}
-                            </div>
-                          </div>
-                          <div
+                            </Nickname>
+                          </UserDetails>
+                          <Message
                             className="finalMessage"
-                            id="finalMessage"
+                            private={true}
                             dangerouslySetInnerHTML={{
                               __html: msg.private_msg,
                             }}
-                          ></div>
+                          ></Message>
 
-                          <div
-                            className="date"
-                            id={
-                              (darkMode && "datePrivDark") ||
-                              (!darkMode && "date") ||
-                              ""
-                            }
-                          >
+                          <Date private={true} dark={darkMode}>
                             {handleTime(msg, true)}
-                          </div>
-                          <div className="time" id="time">
-                            {handleTime(msg)}
-                          </div>
-                        </div>
-                      </div>
+                          </Date>
+                          <Time private={true}>{handleTime(msg)}</Time>
+                        </PostContainer>
+                      </Wrapper>
                     )}
-                </div>
+                </Fragment>
               );
             })}
-        </div>
-        <div className="typeLine" id="typeline">
-          <textarea
+        </MainChat>
+        <TypelineWrapper private={true}>
+          <TypeLine
             rows={1}
-            className="chatTypeLine"
-            onKeyDown={(e) =>
+            onKeyDown={(e: any) =>
               keyCheck(e, myUserId, userPrivate, elem, myChatImg)
             }
-            onChange={(e) => {
+            onChange={(e: any) => {
               chat(e);
             }}
-          ></textarea>
-          <div
+          ></TypeLine>
+          <SendMsg
             title="Send Private Message"
-            className="sendChatMsg"
             onClick={(e) =>
               addPrivateMsg(chatMSG, myUserId, userPrivate, elem, myChatImg)
             }
-          ></div>
-        </div>
-      </div>
-    </div>
+          ></SendMsg>
+        </TypelineWrapper>
+      </MainChatBack>
+    </Container>
   );
 };

@@ -1,5 +1,18 @@
 import React from "react";
 
+import {
+  UserStatus,
+  PostContainer,
+  Wrapper,
+  Message,
+  UserDetails,
+  Avatar,
+  Nickname,
+  Delete,
+  Date,
+  Time,
+} from "./ChatMessages.style";
+
 interface Props {
   admin: boolean;
   superAdmin: boolean;
@@ -30,38 +43,34 @@ export const ChatMessages: React.FC<Props> = ({
           if (msg.chat_msg === "--##--left--##--") {
             {
               return (
-                <p className="userLeaves" key={msg.id}>
+                <UserStatus key={msg.id}>
                   {msg.nickname} has left the chat
-                </p>
+                </UserStatus>
               );
             }
           } else if (msg.chat_msg === "--##--entered--##--") {
             return (
-              <p className="userEnters" key={msg.id}>
+              <UserStatus left={true} key={msg.id}>
                 {msg.nickname} joined the chat !
-              </p>
+              </UserStatus>
             );
           } else if (msg.chat_msg === "--##--left-the-network--##--") {
             return (
-              <p className="userLeavesNetwork" key={msg.id}>
+              <UserStatus exit={true} key={msg.id}>
                 {msg.nickname} left The Network
-              </p>
+              </UserStatus>
             );
           } else {
             return (
-              <div className="chatPost" key={msg.id}>
-                <div className="post">
-                  <div className="userChatDetails">
-                    <img
-                      className="postImg"
-                      src={msg.chat_img || "./../avatar.png"}
-                    ></img>
-                    <h1>{msg.nickname}</h1>
-                  </div>
+              <Wrapper key={msg.id}>
+                <PostContainer>
+                  <UserDetails>
+                    <Avatar src={msg.chat_img || "./avatar.png"}></Avatar>
+                    <Nickname>{msg.nickname}</Nickname>
+                  </UserDetails>
                   {admin && !superAdmin && myUserId == msg.msg_sender_id && (
-                    <div
+                    <Delete
                       title="Delete"
-                      className="deleteChatMsg"
                       onClick={(e) =>
                         handleChatPostDelete(
                           msg.id,
@@ -70,12 +79,11 @@ export const ChatMessages: React.FC<Props> = ({
                           chatMessages
                         )
                       }
-                    ></div>
+                    ></Delete>
                   )}
                   {superAdmin && (
-                    <div
+                    <Delete
                       title="Delete"
-                      className="deleteChatMsg"
                       onClick={(e) =>
                         handleChatPostDelete(
                           msg.id,
@@ -84,24 +92,21 @@ export const ChatMessages: React.FC<Props> = ({
                           chatMessages
                         )
                       }
-                    ></div>
+                    ></Delete>
                   )}
-                  <div
-                    className="finalMessage"
+                  <Message
                     style={{
                       color: msg.chat_color || `yellow`,
                     }}
                     dangerouslySetInnerHTML={{
                       __html: msg.chat_msg,
                     }}
-                  ></div>
-                </div>
+                  ></Message>
+                </PostContainer>
 
-                <div className="date" id={(darkMode && "dateDark") || ""}>
-                  {handleTime(msg, true)}
-                </div>
-                <div className="time">{handleTime(msg)}</div>
-              </div>
+                <Date dark={darkMode}>{handleTime(msg, true)}</Date>
+                <Time>{handleTime(msg)}</Time>
+              </Wrapper>
             );
           }
         })}

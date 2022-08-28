@@ -1,5 +1,14 @@
 import React from "react";
 
+import {
+  Container,
+  TypeLine,
+  SendMsg,
+  ChatControls,
+  SoundConfig,
+  EmojisToggler,
+} from "./ChatScreenBottom.style";
+
 const {
   keyCheck,
   setChatMSGChange,
@@ -28,44 +37,35 @@ export const ChatScreenBottom: React.FC<Props> = ({
   let chatTypeLine: any = document.querySelectorAll(".chatTypeLine");
 
   return (
-    <div className="typeLine">
-      <textarea
+    <Container>
+      <TypeLine
         rows={1}
-        className="chatTypeLine"
         onKeyDown={(e) => keyCheck(e)}
         onChange={(e) => {
           setChatMSGChange(e, setChatMSG);
         }}
-      ></textarea>
-      <div
-        id={(darkMode && "sendChatMsgDark") || ""}
+      ></TypeLine>
+      <SendMsg
+        dark={darkMode}
         title="Send Message"
-        className="sendChatMsg"
         onClick={() => sendChatMSGButton(chatMSG, setChatMSG, chatTypeLine)}
-      ></div>
-      <div className="chatControls">
+      ></SendMsg>
+      <ChatControls>
         {!mute && (
-          <div
+          <SoundConfig
+            mute={true}
             title="Mute"
-            className="mute"
             onClick={() => {
               setMute(!mute);
             }}
-          ></div>
+          />
         )}
-        {mute && (
-          <div
-            title="Play"
-            className="play"
-            onClick={() => setMute(!mute)}
-          ></div>
-        )}
-      </div>
-      <div
-        title="Emojis!"
-        className="emojiBarToggler"
+        {mute && <SoundConfig title="Play" onClick={() => setMute(!mute)} />}
+      </ChatControls>
+      <EmojisToggler
+        title="Emoticons"
         onClick={(e) => setEmojiBar(!emojiBar)}
-      ></div>
-    </div>
+      ></EmojisToggler>
+    </Container>
   );
 };

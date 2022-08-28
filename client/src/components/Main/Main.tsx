@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import axios from "../../common/Axios/axios";
 
+import { ThemeToggler } from "./../Chat/Chat.style";
+
 interface Props {
   superAdmin: boolean;
   admin: boolean;
@@ -194,15 +196,13 @@ export const Main: React.FC<Props> = ({
               )}
             </div>
           </div>
-          <div
+          <ThemeToggler
+            dark={darkMode}
             title={(!darkMode && "Dark Mode") || "Light Mode"}
-            className={
-              (darkMode && "DarkMode") || (!darkMode && "lightMode") || ""
-            }
             onClick={() => {
               changePageMode();
             }}
-          ></div>
+          ></ThemeToggler>
 
           {superAdmin && (
             <Link to="/super-admin">

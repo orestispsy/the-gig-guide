@@ -85,7 +85,7 @@ export const UserList: React.FC<Props> = ({
         <div
           className="chatUserHeadline"
           style={{
-            fontFamily: (networkList && '"Black Ops One", cursive') || "",
+            fontFamily: (networkList && "BlackOpsOne") || "",
           }}
         >
           Network

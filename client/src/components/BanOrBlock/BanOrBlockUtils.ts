@@ -1,8 +1,4 @@
-
-module.exports.banCountDown = (
-  timerRef: any,
-  banTimer: number
-) => {
+module.exports.banCountDown = (timerRef: any, banTimer: number) => {
   if (timerRef.current) {
     let counter = banTimer;
 
