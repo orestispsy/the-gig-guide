@@ -1,6 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Fragment } from "react";
 
 const { deleteAboutComment } = require("./../AboutUtils");
+
+import {
+    Container,
+    BlogEntryContainer,
+    BlogEntry,
+    EntryCount,
+    Number,
+    UserDetails,
+    UserName,
+    UserLinks,
+    GoTo,
+    UserActions,
+    Text,
+    ReplyBox,
+    ReplyTitle,
+    Delete,
+    WriteReply,
+    ReplyUserActions,
+    DeleteEntry,
+    ReplyButtonBack,
+    ReplyButton,
+    ArrowUp,
+    ButtonText,
+    ReplyTextArea,
+    NewEntryToggler,
+} from "./CommentSection.style";
+
+
+import { Required, InputBack, Input, Controls } from "../AddComment/AddComment.style";
+
 
 interface Props {
   blogComments: any[] | undefined;
@@ -46,234 +76,295 @@ export const CommentSection: React.FC<Props> = ({
   useEffect(function () {}, []);
 
   return (
-    <>
-      <div className="saySomethingBack" id="saySomethingBack">
-        {blogComments &&
-          blogComments.map((blogEntry: any, index) => {
-            expBlogComments = blogComments.filter(
-              (comment: any) => comment.reply == 0
-            );
-            return (
-              <React.Fragment key={index}>
-                {blogEntry.reply == 0 && (
-                  <div className="blogEntryBack">
-                    <div className="blogEntry">
-                      <div className="blogMsgTitle">
-                        #
-                        {blogComments.map((com: any, index) => {
-                          if (blogEntry.id == com.id) {
-                            return (
-                              <span key={index}>
-                                {expBlogComments.findIndex(
-                                  (x: any) => x.id === blogEntry.id
-                                ) + 1}
-                              </span>
-                            );
-                          } else {
-                            return;
-                          }
-                        })}
-                      </div>
-                      <div className="blogName">
-                        <span>{blogEntry.name}</span>
+      <Fragment>
+          <Container>
+              {blogComments &&
+                  blogComments.map((blogEntry: any, index) => {
+                      expBlogComments = blogComments.filter(
+                          (comment: any) => comment.reply == 0
+                      );
+                      return (
+                          <Fragment key={index}>
+                              {blogEntry.reply == 0 && (
+                                  <BlogEntryContainer>
+                                      <BlogEntry>
+                                          <EntryCount>
+                                              #
+                                              {blogComments.map(
+                                                  (com: any, index) => {
+                                                      if (
+                                                          blogEntry.id == com.id
+                                                      ) {
+                                                          return (
+                                                              <Number
+                                                                  key={index}
+                                                              >
+                                                                  {expBlogComments.findIndex(
+                                                                      (
+                                                                          x: any
+                                                                      ) =>
+                                                                          x.id ===
+                                                                          blogEntry.id
+                                                                  ) + 1}
+                                                              </Number>
+                                                          );
+                                                      } else {
+                                                          return;
+                                                      }
+                                                  }
+                                              )}
+                                          </EntryCount>
+                                          <UserDetails>
+                                              <UserName>
+                                                  {blogEntry.name}
+                                              </UserName>
 
-                        {superAdmin && (
-                          <div className="blogUserExtLinks">
-                            <a
-                              className="blogEmail"
-                              href={`mailto:${blogEntry.email}`}
-                            >
-                              email
-                            </a>
-                            {blogEntry.website != "" && (
-                              <a
-                                className="blogWebsite"
-                                href={blogEntry.website}
-                                target={"_blank"}
-                              >
-                                website
-                              </a>
-                            )}
-                          </div>
-                        )}
-                      </div>
+                                              {superAdmin && (
+                                                  <UserLinks>
+                                                      <GoTo
+                                                          href={`mailto:${blogEntry.email}`}
+                                                      >
+                                                          email
+                                                      </GoTo>
+                                                      {blogEntry.website !=
+                                                          "" && (
+                                                          <GoTo
+                                                              href={
+                                                                  blogEntry.website
+                                                              }
+                                                              target={"_blank"}
+                                                          >
+                                                              website
+                                                          </GoTo>
+                                                      )}
+                                                  </UserLinks>
+                                              )}
+                                          </UserDetails>
 
-                      <div className="blogText">{blogEntry.comment}</div>
+                                          <Text>{blogEntry.comment}</Text>
 
-                      {blogComments &&
-                        blogComments.map((reply: any, index) => {
-                          return (
-                            <React.Fragment key={index}>
-                              {reply.reply == blogEntry.id && reply.reply > 0 && (
-                                <div className="blogEntryBack" id="reply">
-                                  <div className="replyName">
-                                    <div className="replyTitle">
-                                      <span>Reply:</span>
-                                      {superAdmin && (
-                                        <span
-                                          className="replyDelete"
-                                          onClick={(e) => {
-                                            setSelectedComment(reply.id);
-                                            deleteAboutComment(
-                                              reply.id,
-                                              setBlogComments
-                                            );
-                                          }}
-                                        >
-                                          DELETE
-                                        </span>
-                                      )}
-                                    </div>{" "}
-                                    <div className="replyNameBox">
-                                      <span>{reply.name}</span>
+                                          {blogComments &&
+                                              blogComments.map(
+                                                  (reply: any, index) => {
+                                                      return (
+                                                          <Fragment key={index}>
+                                                              {reply.reply ==
+                                                                  blogEntry.id &&
+                                                                  reply.reply >
+                                                                      0 && (
+                                                                      <UserActions>
+                                                                          <UserDetails
+                                                                              reply={
+                                                                                  true
+                                                                              }
+                                                                          >
+                                                                              <ReplyBox>
+                                                                                  <ReplyTitle>
+                                                                                      Reply:
+                                                                                  </ReplyTitle>
+                                                                                  {superAdmin && (
+                                                                                      <Delete
+                                                                                          onClick={(
+                                                                                              e
+                                                                                          ) => {
+                                                                                              setSelectedComment(
+                                                                                                  reply.id
+                                                                                              );
+                                                                                              deleteAboutComment(
+                                                                                                  reply.id,
+                                                                                                  setBlogComments
+                                                                                              );
+                                                                                          }}
+                                                                                      >
+                                                                                          DELETE
+                                                                                      </Delete>
+                                                                                  )}
+                                                                              </ReplyBox>
+                                                                              <BlogEntryContainer
+                                                                                  reply={
+                                                                                      true
+                                                                                  }
+                                                                              >
+                                                                                  <UserName>
+                                                                                      {
+                                                                                          reply.name
+                                                                                      }
+                                                                                  </UserName>
 
-                                      {superAdmin && (
-                                        <div className="blogUserExtLinks">
-                                          <a
-                                            className="blogEmail"
-                                            href={`mailto:${blogEntry.email}`}
-                                          >
-                                            email
-                                          </a>
-                                          {blogEntry.website != "" && (
-                                            <a
-                                              className="blogWebsite"
-                                              href={blogEntry.website}
-                                              target={"_blank"}
-                                            >
-                                              website
-                                            </a>
+                                                                                  {superAdmin && (
+                                                                                      <UserLinks>
+                                                                                          <GoTo
+                                                                                              href={`mailto:${blogEntry.email}`}
+                                                                                          >
+                                                                                              email
+                                                                                          </GoTo>
+                                                                                          {blogEntry.website !=
+                                                                                              "" && (
+                                                                                              <GoTo
+                                                                                                  className="blogWebsite"
+                                                                                                  href={
+                                                                                                      blogEntry.website
+                                                                                                  }
+                                                                                                  target={
+                                                                                                      "_blank"
+                                                                                                  }
+                                                                                              >
+                                                                                                  website
+                                                                                              </GoTo>
+                                                                                          )}
+                                                                                      </UserLinks>
+                                                                                  )}
+                                                                              </BlogEntryContainer>
+                                                                          </UserDetails>
+                                                                          <Text
+                                                                              reply={
+                                                                                  true
+                                                                              }
+                                                                          >
+                                                                              {
+                                                                                  reply.comment
+                                                                              }
+                                                                          </Text>
+                                                                      </UserActions>
+                                                                  )}
+                                                          </Fragment>
+                                                      );
+                                                  }
+                                              )}
+                                      </BlogEntry>
+                                      <WriteReply>
+                                          <ReplyUserActions>
+                                              {!reply && superAdmin && (
+                                                  <DeleteEntry
+                                                      onClick={(e) => {
+                                                          setSelectedComment(
+                                                              blogEntry.id
+                                                          );
+                                                          deleteAboutComment(
+                                                              blogEntry.id,
+                                                              setBlogComments
+                                                          );
+                                                      }}
+                                                  >
+                                                      DELETE
+                                                  </DeleteEntry>
+                                              )}
+
+                                              <ReplyButtonBack
+                                                  onClick={(e) => {
+                                                      setReply(!reply);
+                                                      setSelectedComment(
+                                                          blogEntry.id
+                                                      );
+                                                  }}
+                                              >
+                                                  {(!reply && (
+                                                      <ReplyButton>
+                                                          <ArrowUp />
+                                                          <ButtonText>
+                                                              REPLY
+                                                          </ButtonText>
+                                                      </ReplyButton>
+                                                  )) ||
+                                                      (reply &&
+                                                          selectedComment ==
+                                                              blogEntry.id &&
+                                                          "Close") ||
+                                                      "REPLY"}
+                                              </ReplyButtonBack>
+                                          </ReplyUserActions>
+                                          {reply &&
+                                              selectedComment ==
+                                                  blogEntry.id && (
+                                                  <ReplyTextArea
+                                                      placeholder="Write Something..."
+                                                      maxLength={1500}
+                                                      onChange={(e) => {
+                                                          setReplyText(
+                                                              e.target.value
+                                                          );
+                                                      }}
+                                                  ></ReplyTextArea>
+                                              )}
+                                      </WriteReply>
+                                      {reply &&
+                                          selectedComment == blogEntry.id && (
+                                              <Controls>
+                                                  <InputBack>
+                                                      <Input
+                                                          autoComplete="none"
+                                                          placeholder="Your Name"
+                                                          maxLength={20}
+                                                          onChange={(e) => {
+                                                              setUserName(
+                                                                  e.target.value
+                                                              );
+                                                          }}
+                                                      ></Input>
+                                                      <Required>
+                                                          *required
+                                                      </Required>
+                                                  </InputBack>
+                                                  <InputBack>
+                                                      <Input
+                                                          autoComplete="none"
+                                                          placeholder="Your Email"
+                                                          onChange={(e) => {
+                                                              setEmail(
+                                                                  e.target.value
+                                                              );
+                                                          }}
+                                                      ></Input>
+                                                      <Required>
+                                                          *required
+                                                      </Required>
+                                                  </InputBack>
+                                                  <Input
+                                                      autoComplete="none"
+                                                      placeholder="Website"
+                                                      onChange={(e) => {
+                                                          setWebsite(
+                                                              e.target.value
+                                                          );
+                                                      }}
+                                                  ></Input>
+                                              </Controls>
                                           )}
-                                        </div>
-                                      )}
-                                    </div>
-                                  </div>
-                                  <div className="blogText" id="replyBlogText">
-                                    {reply.comment}
-                                  </div>
-                                </div>
+                                      {reply &&
+                                          selectedComment == blogEntry.id && (
+                                              <ReplyButtonBack>
+                                                  <ReplyButton
+                                                      block={
+                                                          (!replyText ||
+                                                              !userName ||
+                                                              !email) &&
+                                                          true
+                                                      }
+                                                      onClick={(e) => {
+                                                          commentChecker();
+                                                      }}
+                                                  >
+                                                      Send Reply
+                                                  </ReplyButton>
+                                              </ReplyButtonBack>
+                                          )}
+                                  </BlogEntryContainer>
                               )}
-                            </React.Fragment>
-                          );
-                        })}
-                    </div>
-                    <div className="blogReplyBack">
-                      <div className="blogReplyOptions">
-                        {!reply && superAdmin && (
-                          <div
-                            className="blogDelete"
-                            onClick={(e) => {
-                              setSelectedComment(blogEntry.id);
-                              deleteAboutComment(blogEntry.id, setBlogComments);
-                            }}
-                          >
-                            DELETE
-                          </div>
-                        )}
-
-                        <div
-                          className="blogReply"
-                          onClick={(e) => {
-                            setReply(!reply);
-                            setSelectedComment(blogEntry.id);
-                          }}
-                        >
-                          {(!reply && (
-                            <div className="commentReplyOption">
-                              <div className="commentPointer"></div>
-                              <span>REPLY</span>
-                            </div>
-                          )) ||
-                            (reply &&
-                              selectedComment == blogEntry.id &&
-                              "Close") ||
-                            "REPLY"}
-                        </div>
-                      </div>
-                      {reply && selectedComment == blogEntry.id && (
-                        <textarea
-                          placeholder="Write Something..."
-                          className="replyArea"
-                          maxLength={1500}
-                          onChange={(e) => {
-                            setReplyText(e.target.value);
-                          }}
-                        ></textarea>
-                      )}
-                    </div>
-                    {reply && selectedComment == blogEntry.id && (
-                      <div
-                        className="aboutCommentControls"
-                        id="aboutReplyControls"
-                      >
-                        <div className="aboutInputBack">
-                          <input
-                            autoComplete="none"
-                            placeholder="Your Name"
-                            maxLength={20}
-                            className="aboutInput"
-                            onChange={(e) => {
-                              setUserName(e.target.value);
-                            }}
-                          ></input>
-                          <div>*required</div>
-                        </div>
-                        <div className="aboutInputBack">
-                          <input
-                            className="aboutInput"
-                            autoComplete="none"
-                            placeholder="Your Email"
-                            onChange={(e) => {
-                              setEmail(e.target.value);
-                            }}
-                          ></input>
-                          <div>*required</div>
-                        </div>
-                        <input
-                          className="aboutInput"
-                          autoComplete="none"
-                          placeholder="Website"
-                          onChange={(e) => {
-                            setWebsite(e.target.value);
-                          }}
-                        ></input>
-                      </div>
-                    )}
-                    {reply && selectedComment == blogEntry.id && (
-                      <div className="sendAboutCommentBack">
-                        <div
-                          className="sendAboutComment"
-                          id={
-                            ((!replyText || !userName || !email) &&
-                              "sendAboutComment") ||
-                            "sendReply"
-                          }
-                          onClick={(e) => {
-                            commentChecker();
-                          }}
-                        >
-                          Send Reply
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </React.Fragment>
-            );
-          })}
-      </div>
-      <div
-        className="sendAboutCommentToggler"
-        onClick={(e) => {
-          setCommentSection(!commentSection);
-          setReply(false);
-          setUserName(false);
-          setEmail(false);
-          setWebsite("");
-        }}
-      >
-        Leave A Message
-      </div>
-    </>
+                          </Fragment>
+                      );
+                  })}
+          </Container>
+          <NewEntryToggler
+              onClick={(e) => {
+                  setCommentSection(!commentSection);
+                  setReply(false);
+                  setUserName(false);
+                  setEmail(false);
+                  setWebsite("");
+              }}
+          >
+              Leave A Message
+          </NewEntryToggler>
+      </Fragment>
   );
 };

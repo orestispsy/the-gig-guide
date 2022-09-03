@@ -328,7 +328,7 @@ export const Chat: React.FC<Props> = ({
             setNightFlightProg(false);
           }
         }}
-      ></Jukebox>
+      />
 
       <TickerToggler
         onClick={(e) => {
@@ -343,7 +343,7 @@ export const Chat: React.FC<Props> = ({
         onClick={(e) => {
           changePageMode();
         }}
-      ></ThemeToggler>
+      />
     </Container>
   );
 };

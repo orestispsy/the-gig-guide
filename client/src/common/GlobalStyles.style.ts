@@ -2,41 +2,12 @@ import { createGlobalStyle } from "styled-components";
 
 import { GoogleMapStyles } from "./GoogleMaps.style";
 
-import DarkerGrotesque from "./../../public/fonts/DarkerGrotesque.ttf";
-import PollerOne from "./../../public/fonts/PollerOne.ttf";
-import PressStart2P from "./../../public/fonts/PressStart2P.ttf";
-import Ultra from "./../../public/fonts/Ultra.ttf";
-import Bangers from "./../../public/fonts/Bangers.ttf";
-import BlackOpsOne from "./../../public/fonts/BlackOpsOne.ttf";
+
 
 export const GlobalStyles = createGlobalStyle`
 ${GoogleMapStyles}
 
-   @font-face {
-    font-family: DarkerGrotesque;
-    src: url(${DarkerGrotesque});
-  }
-     @font-face {
-    font-family: PollerOne;
-     src: url(${PollerOne});
-  }
-     @font-face {
-    font-family: Bangers;
-     src: url(${Bangers});
-  }
-      @font-face {
-    font-family: Ultra;
-     src: url(${Ultra});
-  }
-     @font-face {
-    font-family: PressStart2P;
-     src: url(${PressStart2P});
-  }
-
-     @font-face {
-    font-family: BlackOpsOne;
-     src: url(${BlackOpsOne});  
-  }
+  
 
 @keyframes fadeAbout {
   0% {

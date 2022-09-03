@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { GlobalStyles } from "./../../common/GlobalStyles.style";
 import { BanOrBlock } from "./../BanOrBlock/BanOrBlock";
 

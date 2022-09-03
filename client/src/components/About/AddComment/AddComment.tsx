@@ -1,4 +1,14 @@
-import React from "react";
+import React, {Fragment} from "react";
+
+import {
+    TextArea,
+    Controls,
+    InputBack,
+    Input,
+    Required,
+    SendContainer,
+    SendButton,
+} from "./AddComment.style";
 
 interface Props {
   email: string | boolean;
@@ -24,64 +34,57 @@ export const AddComment: React.FC<Props> = ({
   setWebsite,
 }) => {
   return (
-    <>
-      <textarea
-        placeholder="Write Something..."
-        className="saySomethingBack"
-        maxLength={1500}
-        style={{
-          minHeight: (!commentSection && `40vh`) || "",
-        }}
-        onChange={(e) => {
-          setComment(e.target.value);
-        }}
-      ></textarea>
+      <Fragment>
+          <TextArea
+              placeholder="Write Something..."
+              className="saySomethingBack"
+              maxLength={1500}
+              onChange={(e) => {
+                  setComment(e.target.value);
+              }}
+          ></TextArea>
 
-      <div className="aboutCommentControls">
-        <div className="aboutInputBack">
-          <input
-            autoComplete="none"
-            placeholder="Your Name"
-            maxLength={20}
-            className="aboutInput"
-            onChange={(e) => {
-              setUserName(e.target.value);
-            }}
-          ></input>
-          <div>*required</div>
-        </div>
-        <div className="aboutInputBack">
-          <input
-            className="aboutInput"
-            autoComplete="none"
-            placeholder="Your Email"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          ></input>
-          <div>*required</div>
-        </div>
-        <input
-          className="aboutInput"
-          autoComplete="none"
-          placeholder="Website"
-          onChange={(e) => {
-            setWebsite(e.target.value);
-          }}
-        ></input>
-      </div>
+          <Controls>
+              <InputBack>
+                  <Input
+                      autoComplete="none"
+                      placeholder="Your Name"
+                      maxLength={20}
+                      onChange={(e) => {
+                          setUserName(e.target.value);
+                      }}
+                  ></Input>
+                  <Required>*required</Required>
+              </InputBack>
+              <InputBack>
+                  <Input
+                      autoComplete="none"
+                      placeholder="Your Email"
+                      onChange={(e) => {
+                          setEmail(e.target.value);
+                      }}
+                  ></Input>
+                  <Required>*required</Required>
+              </InputBack>
+              <Input
+                  autoComplete="none"
+                  placeholder="Website"
+                  onChange={(e) => {
+                      setWebsite(e.target.value);
+                  }}
+              ></Input>
+          </Controls>
 
-      <div className="sendAboutCommentBack">
-        <div
-          className="sendAboutComment"
-          id={((!comment || !userName || !email) && "sendAboutComment") || ""}
-          onClick={(e) => {
-            commentChecker();
-          }}
-        >
-          Send
-        </div>
-      </div>
-    </>
+          <SendContainer>
+              <SendButton
+                  block={(!comment || !userName || !email) && true}
+                  onClick={(e) => {
+                      commentChecker();
+                  }}
+              >
+                  Send
+              </SendButton>
+          </SendContainer>
+      </Fragment>
   );
 };
