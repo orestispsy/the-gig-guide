@@ -1,28 +1,28 @@
 @font-face {
-    font-family: DarkerGrotesque;
-    src: url("./fonts/DarkerGrotesque.ttf");
-  }
-     @font-face {
-    font-family: PollerOne;
-     src: url("./fonts/PollerOne.ttf");
-  }
-     @font-face {
-    font-family: Bangers;
-     src: url("./fonts/Bangers.ttf");
-  }
-      @font-face {
-    font-family: Ultra;
-     src: url("./fonts/Ultra.ttf");
-  }
-     @font-face {
-    font-family: PressStart2P;
-     src: url("./fonts/PressStart2P.ttf");
-  }
+  font-family: DarkerGrotesque;
+  src: url("./fonts/DarkerGrotesque.ttf");
+}
+@font-face {
+  font-family: PollerOne;
+  src: url("./fonts/PollerOne.ttf");
+}
+@font-face {
+  font-family: Bangers;
+  src: url("./fonts/Bangers.ttf");
+}
+@font-face {
+  font-family: Ultra;
+  src: url("./fonts/Ultra.ttf");
+}
+@font-face {
+  font-family: PressStart2P;
+  src: url("./fonts/PressStart2P.ttf");
+}
 
-     @font-face {
-    font-family: BlackOpsOne;
-     src: url("./fonts/BlackOpsOne.ttf");  
-  }
+@font-face {
+  font-family: BlackOpsOne;
+  src: url("./fonts/BlackOpsOne.ttf");
+}
 
 body {
   box-sizing: border-box;
@@ -1507,7 +1507,6 @@ form h1 {
     width: 60vw !important;
   }
 
-
   .gigEditorContainerInner form {
     width: 80vw !important;
   }
@@ -2249,8 +2248,6 @@ form h1 {
     margin-left: unset !important;
   }
 
-
-
   .aboutButton {
     height: 4vmax !important;
     width: 4vmax !important;
@@ -2419,11 +2416,11 @@ form h1 {
   box-shadow: -0 0 5px rgba(0, 0, 0, 0.032), 0 -0 5px rgba(0, 0, 0, 0.032),
     -0 -0 5px rgba(0, 0, 0, 0.032), -0 -0 5px rgba(0, 0, 0, 0.032);
   overflow-x: hidden;
-      padding: 0.8vmax;
-    grid-template-rows: 1fr 1.5fr 1fr;
-    justify-items: center;
-    display: grid;
-    align-items: center;
+  padding: 0.8vmax;
+  grid-template-rows: 1fr 1.5fr 1fr;
+  justify-items: center;
+  display: grid;
+  align-items: center;
 }
 
 .gigBox:hover {
@@ -2497,7 +2494,6 @@ select::-webkit-scrollbar-thumb {
 .superAdminContainerInner select::-webkit-scrollbar-track {
   background: black;
 }
-
 
 .retroList::-webkit-scrollbar-thumb,
 .usersBack::-webkit-scrollbar-thumb,
@@ -4590,7 +4586,6 @@ input[type="number"] {
 #broadClose:hover {
   color: rgb(255, 65, 65);
 }
-
 
 .logo2About {
   background-image: url("logo2.png");

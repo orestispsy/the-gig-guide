@@ -2,8 +2,6 @@ import { createGlobalStyle } from "styled-components";
 
 import { GoogleMapStyles } from "./GoogleMaps.style";
 
-
-
 export const GlobalStyles = createGlobalStyle`
 ${GoogleMapStyles}
 

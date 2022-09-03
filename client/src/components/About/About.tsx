@@ -4,12 +4,13 @@ import { AddComment } from "./AddComment/AddComment";
 import { AboutText } from "./AboutText/AboutText";
 
 import {
-    Container,
-    InnerContainer,
-    LogoBox,
-    GoToStart,
-    AboutBody,
-    Background, Cover
+  Container,
+  InnerContainer,
+  LogoBox,
+  GoToStart,
+  AboutBody,
+  Background,
+  Cover,
 } from "./About.style";
 
 const { sendComment, axiosGetAboutComments } = require("./AboutUtils");
@@ -103,80 +104,74 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
     }
   };
   return (
-      <Container
-          onClick={(e) => {
-              if (imgCount < 10) {
-                  setImgCount(imgCount + 1);
-              } else {
-                  setImgCount(2);
-              }
-              setIsLoaded(false);
-          }}
-      >
-          <InnerContainer>
-              <LogoBox>
-                  <GoToStart to="/">
-                      <div className="logo2About"></div>
-                  </GoToStart>
-                  <GoToStart to="/">
-                      <div className="logo2AboutDesc">The Gig Guide</div>
-                  </GoToStart>
-              </LogoBox>
-              <AboutBody>
-                  {commentSection && <AboutText />}
-                  {commentSection && (
-                      <CommentSection
-                          blogComments={blogComments}
-                          superAdmin={superAdmin}
-                          expBlogComments={expBlogComments}
-                          setSelectedComment={(e: any) => setSelectedComment(e)}
-                          reply={reply}
-                          setReply={(e: boolean) => setReply(e)}
-                          setBlogComments={(e: any[] | undefined) =>
-                              setBlogComments(e)
-                          }
-                          selectedComment={selectedComment}
-                          replyText={replyText}
-                          setReplyText={(e: string | boolean) =>
-                              setReplyText(e)
-                          }
-                          setWebsite={(e: string | boolean) => setWebsite(e)}
-                          setEmail={(e: string | boolean) => setEmail(e)}
-                          setUserName={(e: string | boolean) => setUserName(e)}
-                          userName={userName}
-                          email={email}
-                          commentSection={commentSection}
-                          setCommentSection={(e: boolean) =>
-                              setCommentSection(e)
-                          }
-                          commentChecker={() => commentChecker()}
-                      />
-                  )}
+    <Container
+      onClick={(e) => {
+        if (imgCount < 10) {
+          setImgCount(imgCount + 1);
+        } else {
+          setImgCount(2);
+        }
+        setIsLoaded(false);
+      }}
+    >
+      <InnerContainer>
+        <LogoBox>
+          <GoToStart to="/">
+            <div className="logo2About"></div>
+          </GoToStart>
+          <GoToStart to="/">
+            <div className="logo2AboutDesc">The Gig Guide</div>
+          </GoToStart>
+        </LogoBox>
+        <AboutBody>
+          {commentSection && <AboutText />}
+          {commentSection && (
+            <CommentSection
+              blogComments={blogComments}
+              superAdmin={superAdmin}
+              expBlogComments={expBlogComments}
+              setSelectedComment={(e: any) => setSelectedComment(e)}
+              reply={reply}
+              setReply={(e: boolean) => setReply(e)}
+              setBlogComments={(e: any[] | undefined) => setBlogComments(e)}
+              selectedComment={selectedComment}
+              replyText={replyText}
+              setReplyText={(e: string | boolean) => setReplyText(e)}
+              setWebsite={(e: string | boolean) => setWebsite(e)}
+              setEmail={(e: string | boolean) => setEmail(e)}
+              setUserName={(e: string | boolean) => setUserName(e)}
+              userName={userName}
+              email={email}
+              commentSection={commentSection}
+              setCommentSection={(e: boolean) => setCommentSection(e)}
+              commentChecker={() => commentChecker()}
+            />
+          )}
 
-                  {!commentSection && (
-                      <AddComment
-                          commentSection={commentSection}
-                          commentChecker={() => commentChecker()}
-                          setEmail={(e: string | boolean) => setEmail(e)}
-                          setUserName={(e: string | boolean) => setUserName(e)}
-                          userName={userName}
-                          email={email}
-                          setWebsite={(e: string | boolean) => setWebsite(e)}
-                          comment={comment}
-                          setComment={(e: string | boolean) => setComment(e)}
-                      />
-                  )}
-              </AboutBody>
-          </InnerContainer>
-          <Background isLoaded={isLoaded}>
-              <Cover
-                  isLoaded={isLoaded}
-                  src={`/about/about${imgCount}.jpg`}
-                  onLoad={() => {
-                      setIsLoaded(true);
-                  }}
-              />
-          </Background>
-      </Container>
+          {!commentSection && (
+            <AddComment
+              commentSection={commentSection}
+              commentChecker={() => commentChecker()}
+              setEmail={(e: string | boolean) => setEmail(e)}
+              setUserName={(e: string | boolean) => setUserName(e)}
+              userName={userName}
+              email={email}
+              setWebsite={(e: string | boolean) => setWebsite(e)}
+              comment={comment}
+              setComment={(e: string | boolean) => setComment(e)}
+            />
+          )}
+        </AboutBody>
+      </InnerContainer>
+      <Background isLoaded={isLoaded}>
+        <Cover
+          isLoaded={isLoaded}
+          src={`/about/about${imgCount}.jpg`}
+          onLoad={() => {
+            setIsLoaded(true);
+          }}
+        />
+      </Background>
+    </Container>
   );
 };

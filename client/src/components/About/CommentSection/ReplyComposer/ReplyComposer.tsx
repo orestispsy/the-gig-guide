@@ -1,49 +1,48 @@
-import React, { Fragment } from "react";
+import React from "react";
 
 import {
-  TextArea,
-  Controls,
+  Required,
   InputBack,
   Input,
-  Required,
-  SendContainer,
-  SendButton,
-} from "./AddComment.style";
+  Controls,
+} from "../../AddComment/AddComment.style";
+
+import { ReplyButtonBack, ReplyButton } from "../CommentSection.style";
+
+import { ReplyTextArea } from "./ReplyComposer.style";
 
 interface Props {
-  email: string | boolean;
-  setEmail: (e: string | boolean) => void;
+  reply: boolean;
+
   setUserName: (e: string | boolean) => void;
-  userName: string | boolean;
-  commentSection: boolean;
-  commentChecker: () => void;
-  setComment: (e: string | boolean) => void;
-  comment: string | boolean;
+  setEmail: (e: string | boolean) => void;
   setWebsite: (e: string | boolean) => void;
+  setReplyText: (e: string | boolean) => void;
+  commentChecker: () => void;
+  replyText: string | boolean;
+  userName: string | boolean;
+  email: string | boolean;
 }
 
-export const AddComment: React.FC<Props> = ({
-  commentSection,
-  commentChecker,
-  email,
+export const ReplyComposer: React.FC<Props> = ({
   setEmail,
   setUserName,
-  userName,
-  setComment,
-  comment,
   setWebsite,
+  commentChecker,
+  replyText,
+  setReplyText,
+  userName,
+  email,
 }) => {
   return (
-    <Fragment>
-      <TextArea
+    <>
+      <ReplyTextArea
         placeholder="Write Something..."
-        className="saySomethingBack"
         maxLength={1500}
         onChange={(e) => {
-          setComment(e.target.value);
+          setReplyText(e.target.value);
         }}
-      ></TextArea>
-
+      ></ReplyTextArea>
       <Controls>
         <InputBack>
           <Input
@@ -54,7 +53,7 @@ export const AddComment: React.FC<Props> = ({
               setUserName(e.target.value);
             }}
           ></Input>
-          <Required>*required</Required>
+          <Required>*requizzzred</Required>
         </InputBack>
         <InputBack>
           <Input
@@ -74,17 +73,16 @@ export const AddComment: React.FC<Props> = ({
           }}
         ></Input>
       </Controls>
-
-      <SendContainer>
-        <SendButton
-          block={(!comment || !userName || !email) && true}
+      <ReplyButtonBack>
+        <ReplyButton
+          block={(!replyText || !userName || !email) && true}
           onClick={(e) => {
             commentChecker();
           }}
         >
-          Send
-        </SendButton>
-      </SendContainer>
-    </Fragment>
+          Send Reply
+        </ReplyButton>
+      </ReplyButtonBack>
+    </>
   );
 };
