@@ -44,6 +44,20 @@ export const Message = styled.div<Types>`
     css`
       color: rgb(255, 255, 255);
     `}
+
+  img {
+    position: relative;
+    left: 40%;
+    max-height: 10vmax;
+    max-width: 8vmax;
+    margin: 1vmax;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  ${mediaQueries("100", "480", "portrait")`
+              max-height: 12vmax;
+    `}
 `;
 
 export const UserDetails = styled.div`
@@ -57,7 +71,7 @@ export const UserDetails = styled.div`
     `}
 
   ${mediaQueries("100", "480", "portrait")`
-    font-size: 3vmax;
+        font-size: 3vmax;
     `}
 `;
 
@@ -68,13 +82,13 @@ export const Avatar = styled.img`
   border-radius: 0.5vmax;
 
   ${mediaQueries("273", "1024", "landscape")`
-       width: 4vmax;
-    height: 4vmax;
+        width: 4vmax;
+        height: 4vmax;
     `}
 
   ${mediaQueries("100", "480", "portrait")`
-     width: 3vmax;
-    height: 3vmax;
+        width: 3vmax;
+        height: 3vmax;
     `}
 `;
 
@@ -100,17 +114,17 @@ export const Delete = styled.div`
   margin-left: -0.2vmax;
 
   ${mediaQueries("273", "1024", "landscape")`
-     margin-top: -2vmax;
-    width: 1.2vmax;
-    height: 1.2vmax;
-    padding: 0.1vmax;
+        margin-top: -2vmax;
+        width: 1.2vmax;
+        height: 1.2vmax;
+        padding: 0.1vmax;
     `}
 
   ${mediaQueries("100", "480", "portrait")`
-             margin-top: -3vmax;
-    width: 1.2vmax;
-    height: 1.2vmax;
-    padding: 0.1vmax;
+        margin-top: -3vmax;
+        width: 1.2vmax;
+        height: 1.2vmax;
+        padding: 0.1vmax;
     `}
 `;
 

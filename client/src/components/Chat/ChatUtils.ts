@@ -202,7 +202,7 @@ module.exports.moveScrollbarToBottom = (elemRef: any) => {
 
 module.exports.sendEmoji = (e: any) => {
   let helper = e.target.attributes[0].value;
-  let msg = `<img class="emojis" src=${helper}>`;
+  let msg = `<img src=${helper}>`;
   socket.emit("A CHAT MSG", msg);
 };
 

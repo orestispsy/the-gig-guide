@@ -1,6 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import axios from "../../../../common/Axios/axios";
 import { socket } from "../../../../common/Socket/socket";
+
+import {
+  Container,
+  UserImage,
+  Headline,
+  ImageUploader,
+  Option,
+  OptionsWrapper,
+  Rocket,
+  Error,
+} from "./UserPic.style";
 interface Props {
   setErrorMsg: (e: boolean) => void;
   setMyChatImg: (e: string) => void;
@@ -72,11 +83,11 @@ export const UserPic: React.FC<Props> = ({
   };
 
   return (
-    <div className="fileUploaderChat">
-      <img src={myChatImg || "./../avatar.png"} id="privateUserImage"></img>
-      <h1>Chat Image</h1>
+    <Container>
+      <UserImage src={myChatImg || "./../avatar.png"}></UserImage>
+      <Headline>Chat Image</Headline>
 
-      <input
+      <ImageUploader
         type="file"
         name="file"
         accept="image/*"
@@ -84,43 +95,36 @@ export const UserPic: React.FC<Props> = ({
         onClick={(e) => setErrorMsg(false)}
       />
 
-      {!uploading && (
-        <div className="uploadChat">
-          <h1
-            style={{
-              animation: file && `2s linear infinite blinkerAvatar`,
-            }}
-            onClick={() => {
-              handleUploaderClick();
-              setUploading(true);
-            }}
-          >
-            UPDATE
-          </h1>
-          {closeTag && (
-            <h1
-              className="toggleChatUploader"
+      <OptionsWrapper>
+        {!uploading && (
+          <Fragment>
+            <Option
+              animation={file && true}
               onClick={() => {
-                setErrorMsg(false);
-                toggleUploader();
-                setFile(null);
+                handleUploaderClick();
+                setUploading(true);
               }}
             >
-              CLOSE
-            </h1>
-          )}
-        </div>
-      )}
-      {uploading && (
-        <div className="uploadChat">
-          <div className="uploadSuccess"></div>
-        </div>
-      )}
-      {errorMsg && (
-        <p className="error" id="error">
-          Select an Image [Max Size: 10MB]
-        </p>
-      )}
-    </div>
+              UPDATE
+            </Option>
+            {closeTag && (
+              <Option
+                close={true}
+                onClick={() => {
+                  setErrorMsg(false);
+                  toggleUploader();
+                  setFile(null);
+                }}
+              >
+                CLOSE
+              </Option>
+            )}
+          </Fragment>
+        )}
+        {uploading && <Rocket></Rocket>}
+      </OptionsWrapper>
+
+      {errorMsg && <Error>Select an Image [Max Size: 10MB]</Error>}
+    </Container>
   );
 };

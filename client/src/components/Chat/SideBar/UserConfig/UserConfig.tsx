@@ -1,5 +1,16 @@
 import React, { useEffect } from "react";
 
+import {
+  Container,
+  Title,
+  SubTitle,
+  Input,
+  Error,
+  PasswordWrapper,
+  EyeIcon,
+  Confirm,
+} from "./UserConfig.style";
+
 interface Props {
   myUserId: number | undefined;
   onlineUsers: any;
@@ -44,10 +55,10 @@ export const UserConfig: React.FC<Props> = ({
   useEffect(function () {}, []);
 
   return (
-    <div className="changeNickBox">
-      <div className="changeNickInstructions">Edit Profile</div>
-      <div className="changeNickBoxThread">Nickname</div>
-      <input
+    <Container>
+      <Title>Edit Profile</Title>
+      <SubTitle>Nickname</SubTitle>
+      <Input
         type="text"
         placeholder="nickname"
         maxLength={20}
@@ -57,19 +68,18 @@ export const UserConfig: React.FC<Props> = ({
           setErrorMsgInfo(false);
           setErrorDuplicate(false);
         }}
-      ></input>
-      {errorDuplicate && (
-        <div className="errorNickname">This Nickname Exists Already !</div>
-      )}
-      {!errorDuplicate && <div className="changeNickBoxThread">Password</div>}
+      />
+      {errorDuplicate && <Error>This Nickname Exists Already !</Error>}
+      {!errorDuplicate && <SubTitle>Password</SubTitle>}
       {!errorDuplicate && (
-        <div className="userConfigPwdBack">
-          <input
+        <PasswordWrapper>
+          <Input
             type={(!pwdReveal && "password") || (pwdReveal && "text") || ""}
             placeholder="password"
             onChange={(e) => setNewPassword(e.target.value)}
-          ></input>
-          <div
+          ></Input>
+          <EyeIcon
+            reveal={pwdReveal}
             className={
               (pwdReveal && "pwdNOTvisible") ||
               (!pwdReveal && "pwdVisibility") ||
@@ -78,11 +88,10 @@ export const UserConfig: React.FC<Props> = ({
             onClick={(e) => {
               setPwdReveal(!pwdReveal);
             }}
-          ></div>
-        </div>
+          ></EyeIcon>
+        </PasswordWrapper>
       )}
-      <div
-        className="changeNickButton"
+      <Confirm
         onClick={(e) => {
           if (myNickname === newNickname && newPassword === "") {
             return;
@@ -145,12 +154,10 @@ export const UserConfig: React.FC<Props> = ({
         }}
       >
         Confirm
-      </div>
+      </Confirm>
       {errorMsgInfo && (
-        <p className="error" id="error">
-          Please Enter A Proper Nickname
-        </p>
+        <Error wide={true}>Please Enter A Proper Nickname</Error>
       )}
-    </div>
+    </Container>
   );
 };

@@ -98,7 +98,7 @@ export const Paragraph = styled.div<AboutTextTypes>`
 
 export const Author = styled.a`
   border-radius: 50%;
-  background-image: url("./about/auth.jpg");
+  background-image: url("/about/auth.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   margin-top: 2vmax;

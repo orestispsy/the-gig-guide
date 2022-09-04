@@ -2,6 +2,31 @@ import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { socket } from "../../../../common/Socket/socket";
 
+import {
+  Container,
+  Headline,
+  Counter,
+  UsersBox,
+  User,
+  UserDetails,
+  NetworkUser,
+  UserImage,
+  UserNickName,
+  Notification,
+  Crown,
+  UserStatus,
+  UserInner,
+  BanBoxWrapper,
+  BanBox,
+  BanTimeEditor,
+  BanBoxText,
+  BanTimeInput,
+  KickButton,
+  HornButton,
+  GoToSuperMode,
+  PrivateModeImage,
+} from "./UserList.style";
+
 interface Props {
   privateMode: boolean;
   darkMode: boolean;
@@ -76,48 +101,31 @@ export const UserList: React.FC<Props> = ({
   const { pathname } = location;
 
   return (
-    <div className="mobileOnlineUsers">
+    <Container>
       {!privateMode && !networkList && (
-        <div className="chatUserHeadline">{!networkList && "Online"}</div>
+        <Headline>{!networkList && "Online"}</Headline>
       )}
 
       {!privateMode && networkList && (
-        <div
-          className="chatUserHeadline"
-          style={{
-            fontFamily: (networkList && "BlackOpsOne") || "",
-          }}
-        >
-          Network
-        </div>
+        <Headline network={true}>Network</Headline>
       )}
       {!privateMode && (
-        <span className="onlineUserCounter">
+        <Counter>
           {!networkList && onlineUsers && onlineUsers.length}
           {networkList &&
             networkUsers.filter((user: any) => !user.nickname.includes("Guest"))
               .length}
-        </span>
+        </Counter>
       )}
-      <div
-        className="usersBack"
-        id={(darkMode && "usersBackDark") || ""}
-        style={{
-          marginTop: (privateMode && `-0.2vmax`) || "",
-          boxShadow: (privateMode && `none`) || "",
-          border: (privateMode && `none`) || "",
-          backgroundColor: (!privateMode && `rgba(255, 255, 255, 0.027)`) || "",
-        }}
-      >
+      <UsersBox dark={darkMode} private={privateMode}>
         {!privateMode &&
           networkList &&
           networkUsers &&
           networkUsers.map((user: any) => (
-            <div key={user.id}>
+            <User key={user.id}>
               {!user.nickname.includes("Guest") && (
-                <div>
-                  <div
-                    className="onlineList"
+                <UserInner>
+                  <UserDetails
                     onClick={(e) => {
                       if (user.id != myUserId) {
                         setEmojiBar(false);
@@ -128,68 +136,53 @@ export const UserList: React.FC<Props> = ({
                       }
                     }}
                   >
-                    <div id="networkUser">
-                      <img
-                        className="onlineListImg"
+                    <NetworkUser>
+                      <UserImage
                         alt={user.nickname}
                         src={
                           (myUserId == user.id && onlineUserPic) ||
                           (user.chat_img && user.chat_img) ||
                           "./../avatar.png"
                         }
-                      ></img>
-                    </div>
+                      ></UserImage>
+                    </NetworkUser>
 
-                    <span
+                    <UserNickName
+                      customColor={
+                        (myUserId == user.id && chatColor) ||
+                        (user.chat_color && user.chat_color)
+                      }
                       title={
                         (user.id != myUserId && "Send Private Message") || ""
                       }
-                      style={{
-                        color:
-                          (myUserId == user.id && chatColor) ||
-                          user.chat_color ||
-                          `yellow`,
-                      }}
                     >
                       {user.nickname}
-                    </span>
+                    </UserNickName>
                     {privateMessages &&
                       privateMessages.map((msg: any) => {
                         if (
                           !msg.receiver_seen &&
                           msg.msg_sender_id == user.id
                         ) {
-                          return (
-                            <div className="notification" key={msg.id}></div>
-                          );
+                          return <Notification key={msg.id}></Notification>;
                         } else {
                           return;
                         }
                       })}
-                  </div>
-                </div>
+                  </UserDetails>
+                </UserInner>
               )}
-            </div>
+            </User>
           ))}
 
         {onlineUsers &&
           !networkList &&
           !privateMode &&
           onlineUsers.map((user: any) => (
-            <div key={user.id}>
-              <div
-                style={{
-                  backgroundColor:
-                    horn && horn.admin_shaked == user.id && `#fbff0413`,
-                }}
-                className="onlineList"
-                id={
-                  (shakeUser && user.id == selectUserToKick && "hornShake") ||
-                  ""
-                }
-              >
-                <div
-                  className="onlineListDetails"
+            <User key={user.id}>
+              <UserInner horn={horn && horn.admin_shaked == user.id}>
+                <UserDetails
+                  shake={shakeUser && user.id == selectUserToKick}
                   onClick={(e) => {
                     if (user.id != myUserId) {
                       setEmojiBar(false);
@@ -200,54 +193,45 @@ export const UserList: React.FC<Props> = ({
                     }
                   }}
                 >
-                  <div
-                    id={
-                      (user.online && "online") || (!user.online && "offline")
-                    }
-                  >
-                    <img
-                      className="onlineListImg"
+                  <UserStatus online={user.online}>
+                    <UserImage
                       alt={user.nickname}
                       src={
                         (myUserId == user.id && onlineUserPic) ||
                         (user.chat_img && user.chat_img) ||
                         "./../avatar.png"
                       }
-                    ></img>
-                  </div>
-                  {user.super_admin && <div id="OnlineListImg"></div>}
+                    />
+                  </UserStatus>
+                  {user.super_admin && <Crown></Crown>}
 
-                  <span
+                  <UserNickName
                     title={
                       (user.id != myUserId && "Send Private Message") || ""
                     }
-                    style={{
-                      color:
-                        (myUserId == user.id && chatColor) ||
-                        user.chat_color ||
-                        `lime`,
-                    }}
+                    customColor={
+                      (myUserId == user.id && chatColor) ||
+                      (user.chat_color && user.chat_color)
+                    }
                   >
                     {(user.id == myUserId && myNickname) || user.nickname}
-                  </span>
+                  </UserNickName>
                   {privateMessages &&
                     privateMessages.map((msg: any) => {
                       if (!msg.receiver_seen && msg.msg_sender_id == user.id) {
-                        return (
-                          <div className="notification" key={msg.id}></div>
-                        );
+                        return <Notification key={msg.id}></Notification>;
                       } else {
                         return;
                       }
                     })}
-                </div>
+                </UserDetails>
 
                 {configTimer && selectUserToKick == user.id && (
-                  <div className="timerConfig">
-                    <div id="timerConfigBox">
-                      <div>BAN TIME</div>
-                      <div className="banInputBox">
-                        <input
+                  <BanBoxWrapper>
+                    <BanBox>
+                      <BanBoxText>BAN TIME</BanBoxText>
+                      <BanTimeEditor>
+                        <BanTimeInput
                           type="number"
                           onKeyDown={(e) =>
                             keyCheck(e, user.id, setConfigTimer)
@@ -259,39 +243,34 @@ export const UserList: React.FC<Props> = ({
                               nickname: user.nickname,
                             })
                           }
-                        ></input>
-                        <div>sec</div>
-                      </div>
-                    </div>
+                        ></BanTimeInput>
+                        <BanBoxText>sec</BanBoxText>
+                      </BanTimeEditor>
+                    </BanBox>
 
-                    <div
-                      className="kickOut"
+                    <KickButton
+                      active={true}
                       title={`Kick User ${user.nickname}`}
-                      style={{
-                        animation: `1.1s linear infinite blinker2`,
-                      }}
                       onClick={(e) => {
                         setConfigTimer(false);
                         if (user.id != myUserId) {
                           socket.emit("forceDisconnect", user.id);
                         }
                       }}
-                    ></div>
-                  </div>
+                    />
+                  </BanBoxWrapper>
                 )}
                 {user.id != myUserId && !configTimer && superAdmin && (
-                  <div
-                    className="kickOut"
+                  <KickButton
                     title={`Ban Settings`}
                     onClick={(e) => {
                       setConfigTimer(true);
                       setSelectUserToKick(user.id);
                     }}
-                  ></div>
+                  ></KickButton>
                 )}
                 {user.id != myUserId && !guest && (
-                  <div
-                    className="horn"
+                  <HornButton
                     title={`Hit a Horn to ${user.nickname}`}
                     onClick={(e) => {
                       setSelectUserToKick(user.id);
@@ -302,12 +281,11 @@ export const UserList: React.FC<Props> = ({
                         admin_shaked: myUserId,
                       });
                     }}
-                  ></div>
+                  ></HornButton>
                 )}
                 {user.id != myUserId && superAdmin && (
-                  <div
+                  <GoToSuperMode
                     title={`Edit User ${user.nickname}`}
-                    className="editSuperMode"
                     onClick={() => {
                       navigate("/super-admin", {
                         state: {
@@ -316,25 +294,22 @@ export const UserList: React.FC<Props> = ({
                         },
                       });
                     }}
-                  ></div>
+                  ></GoToSuperMode>
                 )}
-              </div>
-            </div>
+              </UserInner>
+            </User>
           ))}
 
         {privateMode && (
-          <div>
-            <img
-              onClick={(e) => {
-                setPrivateMode(false);
-              }}
-              src={(privatePic && privatePic) || "./../avatar.png"}
-              id="privateUserImage"
-            ></img>
-          </div>
+          <PrivateModeImage
+            onClick={(e) => {
+              setPrivateMode(false);
+            }}
+            src={(privatePic && privatePic) || "./../avatar.png"}
+          ></PrivateModeImage>
         )}
-      </div>
+      </UsersBox>
       {privateMode && <div id="privateMsgUserNick">{privateNick}</div>}
-    </div>
+    </Container>
   );
 };

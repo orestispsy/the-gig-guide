@@ -7,6 +7,8 @@ import {
   Container,
   InnerContainer,
   LogoBox,
+  Logo,
+  LogoText,
   GoToStart,
   AboutBody,
   Background,
@@ -117,10 +119,8 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
       <InnerContainer>
         <LogoBox>
           <GoToStart to="/">
-            <div className="logo2About"></div>
-          </GoToStart>
-          <GoToStart to="/">
-            <div className="logo2AboutDesc">The Gig Guide</div>
+            <Logo></Logo>
+            <LogoText>The Gig Guide</LogoText>
           </GoToStart>
         </LogoBox>
         <AboutBody>

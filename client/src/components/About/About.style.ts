@@ -48,8 +48,26 @@ export const LogoBox = styled.div`
   width: 85vw;
 `;
 
+export const Logo = styled.div`
+  background-image: url("/logo2.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 18vmax;
+  height: 5vmax;
+`;
+
+export const LogoText = styled.div`
+  margin: -1.3vmax 0 0 3.4vmax;
+  width: max-content;
+  color: white;
+  font-size: 2vmax;
+  font-family: "DarkerGrotesque";
+`;
+
 export const GoToStart = styled(Link)`
-  width: 5vmax;
+  display: flex;
+  flex-direction: column;
+  width: max-content;
 `;
 
 const scrollConfig = css`

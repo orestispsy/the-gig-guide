@@ -1,6 +1,15 @@
 import React, { useEffect } from "react";
 import axios from "../../../../common/Axios/axios";
 import { socket } from "../../../../common/Socket/socket";
+
+import {
+  Container,
+  ConfigButton,
+  NetworkButton,
+  ImageUploaderButton,
+  ColorSelector,
+} from "./SideBarBottom.style";
+
 interface Props {
   setErrorMsg: (e: boolean) => void;
   onlineUsers: any;
@@ -58,9 +67,8 @@ export const SideBarBottom: React.FC<Props> = ({
       });
   };
   return (
-    <div className="chatMenuOptions">
-      <div
-        className="chatMenuConfigButton"
+    <Container>
+      <ConfigButton
         title={(!userConfig && "Edit Account") || "Close"}
         onClick={(e) => {
           setUserConfig(!userConfig);
@@ -69,21 +77,19 @@ export const SideBarBottom: React.FC<Props> = ({
           setConfigTimer(false);
           setErrorDuplicate(false);
         }}
-      ></div>
+      ></ConfigButton>
       {!guest && !userConfig && (
-        <div
+        <NetworkButton
           title="User Network"
-          className="networkList"
           onClick={() => {
             setNetworkList(!networkList);
             setConfigTimer(false);
           }}
-        ></div>
+        ></NetworkButton>
       )}
 
       {userConfig && (
-        <div
-          className="uploaderTogglerImg"
+        <ImageUploaderButton
           title="Change Chat Image"
           onClick={() => {
             toggleUploader();
@@ -92,26 +98,19 @@ export const SideBarBottom: React.FC<Props> = ({
             setErrorDuplicate(false);
             setErrorMsg(false);
           }}
-        ></div>
+        ></ImageUploaderButton>
       )}
       {!userConfig && (
-        <input
-          className="colorSelector"
+        <ColorSelector
           title="Change Chat Color"
+          color={chatColor}
           type="color"
           defaultValue={chatColor || myChatColor || `#00f01c`}
-          style={{
-            boxShadow:
-              (chatColor &&
-                `-0 0 10px ${chatColor}, 0 -0 10px ${chatColor},
-        -0 -0 10px ${chatColor}, -0 -0 10px ${chatColor}`) ||
-              "",
-          }}
           onChange={(e) => {
             handleColorChange(e);
           }}
-        ></input>
+        />
       )}
-    </div>
+    </Container>
   );
 };

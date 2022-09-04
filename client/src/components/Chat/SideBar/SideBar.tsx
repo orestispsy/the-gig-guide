@@ -8,6 +8,8 @@ import { UserPic } from "./UserPic/UserPic";
 import { SideBarBottom } from "./SideBarBottom/SideBarBottom";
 import { Emojis } from "./Emojis/Emojis";
 
+import { Container, Wrapper } from "./SideBar.style";
+
 interface Props {
   myChatImg: string;
   myUserId: number | undefined;
@@ -197,24 +199,8 @@ export const SideBar: React.FC<Props> = ({
   };
 
   return (
-    <div
-      className="sideBarBack"
-      style={{
-        marginBottom: (emojiBar && `-3vmax`) || (privateMode && `-2vmax`) || "",
-        marginLeft: (privateMode && `1vmax`) || "",
-      }}
-    >
-      <div
-        className="sideBar"
-        id={(darkMode && "sideBarDark") || ""}
-        style={{
-          boxShadow:
-            (privateMode &&
-              `-0 0 10px rgba(0, 0, 0, 0.308), 0 -0 10px rgba(0, 0, 0, 0.308),
-        -0 -0 10px rgba(0, 0, 0, 0.308), -0 -0 10px rgba(0, 0, 0, 0.308)`) ||
-            "",
-        }}
-      >
+    <Wrapper emojiBar={emojiBar} private={privateMode}>
+      <Container dark={darkMode} private={privateMode}>
         {!userPicBar && !userConfig && (
           <UserList
             privateMode={privateMode}
@@ -257,7 +243,7 @@ export const SideBar: React.FC<Props> = ({
             setNewPassword={(e: any) => setNewPassword(e)}
             setErrorMsg={(e: boolean) => setErrorMsg(e)}
             setErrorMsgInfo={(e: boolean) => setErrorMsgInfo(e)}
-            setErrorDuplicate={(e: boolean) => setErrorDuplicate}
+            setErrorDuplicate={(e: boolean) => setErrorDuplicate(e)}
             errorDuplicate={errorDuplicate}
             pwdReveal={pwdReveal}
             setPwdReveal={(e: boolean) => setPwdReveal(e)}
@@ -306,8 +292,8 @@ export const SideBar: React.FC<Props> = ({
             setNetworkList={(e: boolean) => setNetworkList(e)}
           />
         )}
-      </div>
+      </Container>
       {emojiBar && <Emojis darkMode={darkMode} />}
-    </div>
+    </Wrapper>
   );
 };
