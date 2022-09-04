@@ -52,14 +52,18 @@ export const Container = styled.div`
     `}
 `;
 
-export const BlogEntryContainer = styled.div<Types>`
+export const BlogEntryContainer = styled.div`
   padding-top: 0.5vmax;
+  display: flex;
+    justify-content: center;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+`;
 
-  ${(props) =>
-    props.reply &&
-    css`
-      display: flex;
-    `}
+export const BlogReplyContainer = styled.div`
+    padding-top: 0.5vmax;
+    display: flex;
 `;
 
 export const UserDetails = styled.div<Types>`

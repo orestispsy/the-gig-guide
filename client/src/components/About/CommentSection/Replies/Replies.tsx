@@ -3,12 +3,12 @@ import React, { Fragment } from "react";
 import { UserActions, ReplyBox, Delete, ReplyTitle } from "./Replies.style";
 
 import {
-  UserDetails,
-  BlogEntryContainer,
-  UserName,
-  UserLinks,
-  GoTo,
-  Text,
+    UserDetails,
+    BlogReplyContainer,
+    UserName,
+    UserLinks,
+    GoTo,
+    Text,
 } from "../CommentSection.style";
 
 const { deleteAboutComment } = require("./../../AboutUtils");
@@ -50,7 +50,7 @@ export const Replies: React.FC<Props> = ({
                         </Delete>
                       )}
                     </ReplyBox>
-                    <BlogEntryContainer reply={true}>
+                    <BlogReplyContainer>
                       <UserName>{reply.name}</UserName>
 
                       {superAdmin && (
@@ -67,7 +67,7 @@ export const Replies: React.FC<Props> = ({
                           )}
                         </UserLinks>
                       )}
-                    </BlogEntryContainer>
+                    </BlogReplyContainer>
                   </UserDetails>
                   <Text reply={true}>{reply.comment}</Text>
                 </UserActions>

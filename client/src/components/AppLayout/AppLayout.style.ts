@@ -117,55 +117,59 @@ const AppContainer = css`
 `;
 
 export const GeneralAppContainer = styled.div<AppLayoutTypes>`
-  ${(props) =>
-    (props.aboutMode &&
-      css`
-        ${AppContainerAbout}
-      `) ||
-    (props.gigListOpen &&
-      css`
-        ${AppContainerDark}
-      `) ||
-    (props.adminControls &&
-      css`
-        ${AppContainerDark}
-      `) ||
-    (props.maps &&
-      css`
-        ${AppContainerMap}
-      `) ||
-    (props.darkMode &&
-      css`
-        ${AppContainerDark}
-      `) ||
-    (!props.darkMode &&
-      css`
-        ${AppContainer}
-      `)}
-
-  ${(props) =>
-    !props.loaded &&
-    css`
-      justify-content: center;
-      height: 0;
-      visibility: hidden;
-    `}
+    ${(props) =>
+        (props.timelineMode &&
+            css`
+                ${AppContainerDark}
+            `) ||
+        (props.aboutMode &&
+            css`
+                ${AppContainerAbout}
+            `) ||
+        (props.gigListOpen &&
+            css`
+                ${AppContainerDark}
+            `) ||
+        (props.adminControls &&
+            css`
+                ${AppContainerDark}
+            `) ||
+        (props.maps &&
+            css`
+                ${AppContainerMap}
+            `) ||
+        (props.darkMode &&
+            css`
+                ${AppContainerDark}
+            `) ||
+        (!props.darkMode &&
+            css`
+                ${AppContainer}
+            `)}
 
     ${(props) =>
-    props.loaded &&
-    css`
-      visibility: visible;
-      animation: fadeAbout 1s ease-in-out;
-    `}
+        !props.loaded &&
+        css`
+            justify-content: center;
+            height: 0;
+            visibility: hidden;
+        `}
 
     ${(props) =>
-    !props.aboutMode &&
-    !props.gigListOpen &&
-    !props.adminControls &&
-    !props.maps &&
-    !props.timelineMode &&
-    !props.darkMode &&
-    css`
-      background-image: url("/road.png");
-    `}
+        props.loaded &&
+        css`
+            visibility: visible;
+            animation: fadeAbout 1s ease-in-out;
+        `}
+
+    ${(props) =>
+        !props.aboutMode &&
+        !props.gigListOpen &&
+        !props.adminControls &&
+        !props.maps &&
+        !props.timelineMode &&
+        !props.darkMode &&
+        css`
+            background-image: url("/road.png");
+        `}
 `;

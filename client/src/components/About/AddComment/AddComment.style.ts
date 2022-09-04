@@ -93,3 +93,17 @@ export const SendButton = styled.div<Types>`
       }
     `}
 `;
+
+export const CommentToggler = styled.div`
+    width: 60vw;
+    margin: 2vh 0 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+`;
+
+export const Close = styled.div`
+  &:hover{
+    color:crimson;
+  }
+`;

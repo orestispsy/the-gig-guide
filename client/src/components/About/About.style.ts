@@ -150,3 +150,4 @@ export const Cover = styled.img<AboutTypes>`
           visibility: hidden;
         `}
 `;
+

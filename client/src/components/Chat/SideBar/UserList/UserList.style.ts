@@ -137,7 +137,7 @@ export const UsersBox = styled.div<Types>`
       margin-top: -2vmax;
       box-shadow: none;
       border: none;
-      background-color: rgba(255, 255, 255, 0.027);
+      background-color: none;
     `}
 `;
 
