@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import axios from "../../../../common/Axios/axios";
 import { socket } from "../../../../common/Socket/socket";
 
@@ -12,7 +13,6 @@ import {
 
 interface Props {
   setErrorMsg: (e: boolean) => void;
-  onlineUsers: any;
   toggleUploader: () => void;
   setUserConfig: (e: boolean) => void;
   userConfig: boolean;
@@ -33,7 +33,6 @@ export const SideBarBottom: React.FC<Props> = ({
   setErrorDuplicate,
   setErrorMsgInfo,
   setErrorMsg,
-  onlineUsers,
   toggleUploader,
   userConfig,
   setConfigTimer,
@@ -47,7 +46,9 @@ export const SideBarBottom: React.FC<Props> = ({
   networkList,
   setNetworkList,
 }) => {
-  useEffect(function () {}, []);
+     const onlineUsers = useSelector(
+         (state: any) => state && state.onlineUsers
+     );
 
   const handleColorChange = (e: any) => {
     setChatColor(e.target.value);

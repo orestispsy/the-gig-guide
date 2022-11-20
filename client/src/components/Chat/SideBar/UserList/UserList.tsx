@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 import { OnlineUser } from "./OnlineUser/OnlineUser";
 import { PrivateUser } from "./PrivateUser/PrivateUser";
@@ -49,7 +50,7 @@ export const UserList: React.FC<Props> = ({
   horn,
   shakeUser,
   myUserId,
-  onlineUsers,
+  // onlineUsers,
   networkUsers,
   networkList,
   selectUserToKick,
@@ -69,6 +70,8 @@ export const UserList: React.FC<Props> = ({
   onlineUserPic,
   guest,
 }) => {
+
+    const onlineUsers = useSelector((state: any) => state && state.onlineUsers);
   return (
     <Container>
       {!privateMode && !networkList && (

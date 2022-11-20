@@ -34,7 +34,7 @@ interface Props {
   privateMessages: any;
   configTimer: any;
   setConfigTimer: (e: any) => void;
-  onlineUsers: any;
+
   horn: any;
   playNotification: (e: boolean, playPrivateMsg: () => void) => void;
   playPrivateMsg: () => void;
@@ -55,7 +55,7 @@ export const SideBar: React.FC<Props> = ({
   setPrivatePic,
   privateNick,
   setPrivateNick,
-  onlineUsers,
+
   setEmojiBar,
   privateMode,
   setPrivateMode,
@@ -93,7 +93,11 @@ export const SideBar: React.FC<Props> = ({
     false
   );
 
+      const onlineUsers = useSelector(
+          (state: any) => state && state.onlineUsers
+      );
   const statePrivateMsgs = useSelector((state: any) => state && state.messages);
+
 
   useEffect(() => {
     axios
@@ -238,7 +242,6 @@ export const SideBar: React.FC<Props> = ({
           <UserConfig
             myUserId={myUserId}
             myNickname={myNickname}
-            onlineUsers={onlineUsers}
             setNewNickname={(e: any) => setNewNickname(e)}
             setNewPassword={(e: any) => setNewPassword(e)}
             setErrorMsg={(e: boolean) => setErrorMsg(e)}
@@ -266,7 +269,6 @@ export const SideBar: React.FC<Props> = ({
             userPicBar={userPicBar}
             closeTag={closeTag}
             myUserId={myUserId}
-            onlineUsers={onlineUsers}
             myChatImg={myChatImg}
             toggleUploader={() => toggleUploader()}
           />
@@ -283,7 +285,6 @@ export const SideBar: React.FC<Props> = ({
             setConfigTimer={(e: boolean) => setConfigTimer(e)}
             chatColor={chatColor}
             myChatColor={myChatColor}
-            onlineUsers={onlineUsers}
             myUserId={myUserId}
             setChatColor={(e: string) => setChatColor(e)}
             setErrorMsgInfo={(e: boolean) => setErrorMsgInfo(e)}

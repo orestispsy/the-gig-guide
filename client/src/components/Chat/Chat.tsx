@@ -69,7 +69,6 @@ interface Props {
   setTimelineMode: (e: boolean) => void;
   setTimelineScrollTop: (e: number) => void;
   setPrivateMsgNotification: (e: boolean) => void;
-  onlineUsers: any;
 }
 
 export const Chat: React.FC<Props> = ({
@@ -106,7 +105,7 @@ export const Chat: React.FC<Props> = ({
   setTimelineMode,
   setTimelineScrollTop,
   setPrivateMsgNotification,
-  onlineUsers,
+
 }) => {
   const [emojiBar, setEmojiBar] = useState<boolean>(false);
   const [tickerBar, setTickerBar] = useState<boolean>(false);
@@ -129,6 +128,7 @@ export const Chat: React.FC<Props> = ({
 
   const elemRef = useRef<HTMLDivElement>(null);
 
+    const onlineUsers = useSelector((state: any) => state && state.onlineUsers);
   const chatMessages = useSelector((state: any) => state && state.chatMessages);
   const browserCount = useSelector((state: any) => state && state.count);
   const horn = useSelector((state: any) => state && state.horn);
@@ -300,7 +300,6 @@ export const Chat: React.FC<Props> = ({
           myNickname={myNickname}
           setMyNickname={(e: string) => setMyNickname(e)}
           setAdmin={(e: boolean) => setAdmin(e)}
-          onlineUsers={onlineUsers}
           darkMode={darkMode}
           superAdmin={superAdmin}
           configTimer={configTimer}

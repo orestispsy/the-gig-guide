@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 
 import {
   Container,
@@ -13,7 +14,6 @@ import {
 
 interface Props {
   myUserId: number | undefined;
-  onlineUsers: any;
   myNickname: string;
   setNewNickname: (e: any) => void;
   setNewPassword: (e: any) => void;
@@ -35,7 +35,6 @@ const { changeInfo } = require("../SideBarUtils");
 
 export const UserConfig: React.FC<Props> = ({
   myUserId,
-  onlineUsers,
   myNickname,
   setErrorDuplicate,
   setErrorMsg,
@@ -52,7 +51,9 @@ export const UserConfig: React.FC<Props> = ({
   errorMsgInfo,
   setAdmin,
 }) => {
-  useEffect(function () {}, []);
+     const onlineUsers = useSelector(
+         (state: any) => state && state.onlineUsers
+     );
 
   return (
     <Container>

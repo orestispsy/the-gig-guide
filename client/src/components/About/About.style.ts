@@ -6,7 +6,7 @@ type AboutTypes = {
   isLoaded: boolean;
 };
 
-export const Container = styled.div`
+export const Container = styled.div<AboutTypes>`
   color: yellow;
   width: 90%;
   height: 92%;
@@ -15,6 +15,11 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   animation: fadeAbout 1s step-end;
+  visibility: hidden;
+
+  ${(props)=> props.isLoaded && css`
+    visibility: visible;
+    `}
 
   ${mediaQueries("273", "1024", "landscape")`
            height: 88%;
@@ -150,4 +155,3 @@ export const Cover = styled.img<AboutTypes>`
           visibility: hidden;
         `}
 `;
-

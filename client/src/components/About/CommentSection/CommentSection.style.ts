@@ -55,15 +55,15 @@ export const Container = styled.div`
 export const BlogEntryContainer = styled.div`
   padding-top: 0.5vmax;
   display: flex;
-    justify-content: center;
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const BlogReplyContainer = styled.div`
-    padding-top: 0.5vmax;
-    display: flex;
+  padding-top: 0.5vmax;
+  display: flex;
 `;
 
 export const UserDetails = styled.div<Types>`

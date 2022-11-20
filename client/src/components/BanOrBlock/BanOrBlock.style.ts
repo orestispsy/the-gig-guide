@@ -55,7 +55,7 @@ export const Timer = styled.div`
   color: cyan;
   font-size: 4vmax;
   animation: blinkerCountDown 1s infinite;
-  animation-delay: 0.5s;
+  animation-delay: 1s;
   width: 75%;
   height: 100px;
 `;

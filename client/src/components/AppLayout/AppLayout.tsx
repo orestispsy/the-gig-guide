@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { GlobalStyles } from "./../../common/GlobalStyles.style";
 import { BanOrBlock } from "./../BanOrBlock/BanOrBlock";
+import { Loading } from "./../Loading/Loading";
 
 import {
   LayoutContainer,
@@ -138,9 +139,9 @@ export const AppLayout: React.FC<Props> = ({
   }, [dotCounter]);
 
   return (
-    <LayoutContainer loaded={loaded}>
-      <GlobalStyles />
-      {!loaded && (
+      <LayoutContainer loaded={loaded}>
+          <GlobalStyles />
+          {/* {!loaded && (
         <LoadingIntro>
           <LoadingIntroText> Loading</LoadingIntroText>
           <LoadingIntroDots ref={elemRef}>
@@ -149,89 +150,92 @@ export const AppLayout: React.FC<Props> = ({
             <Dot>.</Dot>
           </LoadingIntroDots>
         </LoadingIntro>
-      )}
-      {aboutMode && (
-        <AboutBackground
-          onLoad={() => {
-            setAboutBackIsLoaded(true);
-          }}
-          src="/about/about1.jpg"
-        ></AboutBackground>
-      )}
+      )} */}
+          {!loaded && (
+              <Loading />
+          )}
+          {aboutMode && (
+              <AboutBackground
+                  onLoad={() => {
+                      setAboutBackIsLoaded(true);
+                  }}
+                  src="/about/about1.jpg"
+              ></AboutBackground>
+          )}
 
-      <GeneralAppContainer
-        loaded={loaded}
-        aboutMode={aboutMode}
-        gigListOpen={gigListOpen}
-        adminControls={adminControls}
-        maps={maps}
-        timelineMode={timelineMode}
-        darkMode={darkMode}
-        onLoad={() =>
-          setTimeout(() => {
-            setLoaded(true);
-          }, 2000)
-        }
-      >
-        <AppBar
-          myUserId={myUserId}
-          myChatImg={myChatImg}
-          myNickname={myNickname}
-          setNightFlightProg={(e: any) => setNightFlightProg(e)}
-          nightFlightProg={nightFlightProg}
-          maps={maps}
-          setGigEntry={(e: number | null) => setGigEntry(e)}
-          mapVisible={(e: boolean) => mapVisible(e)}
-          top={top}
-          left={left}
-          setTop={(e: number) => setTop(e)}
-          setLeft={(e: number) => setLeft(e)}
-          setPlayerPosition={(
-            x: number,
-            y: number,
-            setTop: (e1: number) => void,
-            setLeft: (e2: number) => void
-          ) => setPlayerPosition(x, y, setTop, setLeft)}
-          setChatNotification={(e: boolean) => setChatNotification(e)}
-          chatNotification={chatNotification}
-          chatMode={chatMode}
-          aboutMode={aboutMode}
-          setAboutMode={(e: boolean) => setAboutMode(e)}
-          adminControls={adminControls}
-          editMode={editMode}
-          addMode={addMode}
-          gigListOpen={gigListOpen}
-          animeMode={animeMode}
-          gigEntryMode={gigEntryMode}
-          mapMode={mapMode}
-          gigLocation={gigLocation}
-          animeMusic={animeMusic}
-          setAnimeMusic={(e: boolean) => setAnimeMusic(e)}
-          setChatMode={(e: boolean) => setAnimeMusic(e)}
-          setChatModeClosed={(e: boolean) => setChatModeClosed(e)}
-          chatModeClosed={chatModeClosed}
-          privateMode={privateMode}
-          setPrivateMode={(e: boolean) => setPrivateMode(e)}
-          timelineMode={timelineMode}
-          admin={admin}
-          superAdmin={superAdmin}
-          timelineCommentsMode={timelineCommentsMode}
-          timelineGigsMode={timelineGigsMode}
-          timelineGalleriesMode={timelineGalleriesMode}
-          privateMsgNotification={privateMsgNotification}
-          setPrivateMsgNotification={(e: boolean) =>
-            setPrivateMsgNotification(e)
-          }
-          mute={mute}
-        />
-        {(!profileBlocked && !profileBanned && <Outlet />) ||
-          ((profileBanned || profileBlocked) && (
-            <BanOrBlock
-              profileBanned={profileBanned}
-              profileBlocked={profileBlocked}
-            />
-          ))}
-      </GeneralAppContainer>
-    </LayoutContainer>
+          <GeneralAppContainer
+              loaded={loaded}
+              aboutMode={aboutMode}
+              gigListOpen={gigListOpen}
+              adminControls={adminControls}
+              maps={maps}
+              timelineMode={timelineMode}
+              darkMode={darkMode}
+              onLoad={() =>
+                  setTimeout(() => {
+                      setLoaded(true);
+                  }, 2000)
+              }
+          >
+              <AppBar
+                  myUserId={myUserId}
+                  myChatImg={myChatImg}
+                  myNickname={myNickname}
+                  setNightFlightProg={(e: any) => setNightFlightProg(e)}
+                  nightFlightProg={nightFlightProg}
+                  maps={maps}
+                  setGigEntry={(e: number | null) => setGigEntry(e)}
+                  mapVisible={(e: boolean) => mapVisible(e)}
+                  top={top}
+                  left={left}
+                  setTop={(e: number) => setTop(e)}
+                  setLeft={(e: number) => setLeft(e)}
+                  setPlayerPosition={(
+                      x: number,
+                      y: number,
+                      setTop: (e1: number) => void,
+                      setLeft: (e2: number) => void
+                  ) => setPlayerPosition(x, y, setTop, setLeft)}
+                  setChatNotification={(e: boolean) => setChatNotification(e)}
+                  chatNotification={chatNotification}
+                  chatMode={chatMode}
+                  aboutMode={aboutMode}
+                  setAboutMode={(e: boolean) => setAboutMode(e)}
+                  adminControls={adminControls}
+                  editMode={editMode}
+                  addMode={addMode}
+                  gigListOpen={gigListOpen}
+                  animeMode={animeMode}
+                  gigEntryMode={gigEntryMode}
+                  mapMode={mapMode}
+                  gigLocation={gigLocation}
+                  animeMusic={animeMusic}
+                  setAnimeMusic={(e: boolean) => setAnimeMusic(e)}
+                  setChatMode={(e: boolean) => setAnimeMusic(e)}
+                  setChatModeClosed={(e: boolean) => setChatModeClosed(e)}
+                  chatModeClosed={chatModeClosed}
+                  privateMode={privateMode}
+                  setPrivateMode={(e: boolean) => setPrivateMode(e)}
+                  timelineMode={timelineMode}
+                  admin={admin}
+                  superAdmin={superAdmin}
+                  timelineCommentsMode={timelineCommentsMode}
+                  timelineGigsMode={timelineGigsMode}
+                  timelineGalleriesMode={timelineGalleriesMode}
+                  privateMsgNotification={privateMsgNotification}
+                  setPrivateMsgNotification={(e: boolean) =>
+                      setPrivateMsgNotification(e)
+                  }
+                  mute={mute}
+              />
+              {(!profileBlocked && !profileBanned && <Outlet />) ||
+                  ((profileBanned || profileBlocked) && (
+                      <BanOrBlock
+                          profileBanned={profileBanned}
+                          profileBlocked={profileBlocked}
+                      />
+                  ))}
+          </GeneralAppContainer>
+      </LayoutContainer>
   );
 };

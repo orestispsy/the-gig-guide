@@ -3,12 +3,12 @@ import React, { Fragment } from "react";
 import { UserActions, ReplyBox, Delete, ReplyTitle } from "./Replies.style";
 
 import {
-    UserDetails,
-    BlogReplyContainer,
-    UserName,
-    UserLinks,
-    GoTo,
-    Text,
+  UserDetails,
+  BlogReplyContainer,
+  UserName,
+  UserLinks,
+  GoTo,
+  Text,
 } from "../CommentSection.style";
 
 const { deleteAboutComment } = require("./../../AboutUtils");

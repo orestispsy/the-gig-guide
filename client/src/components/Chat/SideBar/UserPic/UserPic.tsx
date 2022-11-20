@@ -1,4 +1,5 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useState, Fragment } from "react";
+import { useSelector } from "react-redux";
 import axios from "../../../../common/Axios/axios";
 import { socket } from "../../../../common/Socket/socket";
 
@@ -22,7 +23,6 @@ interface Props {
   userPicBar: boolean;
   closeTag: boolean;
   myUserId: number | undefined;
-  onlineUsers: any;
   myChatImg: string;
   toggleUploader: () => void;
 }
@@ -37,11 +37,13 @@ export const UserPic: React.FC<Props> = ({
   userPicBar,
   closeTag,
   myUserId,
-  onlineUsers,
+
   myChatImg,
   toggleUploader,
 }) => {
-  useEffect(function () {}, []);
+     const onlineUsers = useSelector(
+         (state: any) => state && state.onlineUsers
+     );
   const [file, setFile] = useState<any>(null);
   const [uploading, setUploading] = useState<boolean>(false);
   const handleUploaderChange = (e: any) => {
