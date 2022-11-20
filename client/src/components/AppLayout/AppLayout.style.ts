@@ -28,30 +28,6 @@ export const LayoutContainer = styled.div<AppLayoutTypes>`
     `}
 `;
 
-export const LoadingIntro = styled.div`
-  margin-top: 50vh;
-  display: flex;
-  font-size: 3vmax;
-  font-family: "BlackOpsOne";
-  color: rgb(220, 20, 60);
-  text-shadow: -1px 1px 0 yellow, 1px -1px 0 yellow, -1px -1px 0 yellow,
-    1px 1px 0 yellow;
-  animation: blinkerLoading 1s infinite ease-in-out;
-  letter-spacing: 4px;
-`;
-
-export const LoadingIntroText = styled.div``;
-
-export const LoadingIntroDots = styled.div`
-  display: flex;
-  align-items: flex-end;
-  white-space: nowrap;
-`;
-
-export const Dot = styled.div`
-  visibility: hidden;
-`;
-
 export const AboutBackground = styled.img`
   position: absolute;
   width: 100%;

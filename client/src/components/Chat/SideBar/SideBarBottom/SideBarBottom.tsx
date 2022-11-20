@@ -46,9 +46,7 @@ export const SideBarBottom: React.FC<Props> = ({
   networkList,
   setNetworkList,
 }) => {
-     const onlineUsers = useSelector(
-         (state: any) => state && state.onlineUsers
-     );
+  const onlineUsers = useSelector((state: any) => state && state.onlineUsers);
 
   const handleColorChange = (e: any) => {
     setChatColor(e.target.value);

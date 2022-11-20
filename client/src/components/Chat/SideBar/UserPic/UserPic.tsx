@@ -41,9 +41,7 @@ export const UserPic: React.FC<Props> = ({
   myChatImg,
   toggleUploader,
 }) => {
-     const onlineUsers = useSelector(
-         (state: any) => state && state.onlineUsers
-     );
+  const onlineUsers = useSelector((state: any) => state && state.onlineUsers);
   const [file, setFile] = useState<any>(null);
   const [uploading, setUploading] = useState<boolean>(false);
   const handleUploaderChange = (e: any) => {

@@ -93,11 +93,8 @@ export const SideBar: React.FC<Props> = ({
     false
   );
 
-      const onlineUsers = useSelector(
-          (state: any) => state && state.onlineUsers
-      );
+  const onlineUsers = useSelector((state: any) => state && state.onlineUsers);
   const statePrivateMsgs = useSelector((state: any) => state && state.messages);
-
 
   useEffect(() => {
     axios

@@ -2611,7 +2611,6 @@ font-family: 'Ultra', serif; */
 
 /* Ticker !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
-
 .gigListOptions {
   position: fixed;
   top: 0;
@@ -2708,7 +2707,7 @@ font-family: 'Ultra', serif; */
   cursor: zoom-out;
   box-shadow: -0 0 5px rgba(0, 0, 0, 0.281), 0 -0 5px rgba(0, 0, 0, 0.281),
     -0 -0 5px rgba(0, 0, 0, 0.281), -0 -0 5px rgba(0, 0, 0, 0.281);
-        border: 1px solid black;
+  border: 1px solid black;
   margin: 5vh;
 }
 
@@ -2717,7 +2716,7 @@ font-family: 'Ultra', serif; */
   height: 30vmax;
   box-shadow: -0 0 5px rgba(0, 0, 0, 0.281), 0 -0 5px rgba(0, 0, 0, 0.281),
     -0 -0 5px rgba(0, 0, 0, 0.281), -0 -0 5px rgba(0, 0, 0, 0.281);
-    border: 1px solid white;
+  border: 1px solid white;
   margin: 5vh;
   align-self: center;
   cursor: zoom-in;
@@ -2736,7 +2735,7 @@ font-family: 'Ultra', serif; */
   background-color: rgba(255, 255, 255, 0.164);
   border-radius: 1vh;
   border: 2px solid white;
-    box-shadow: -0 0 5px rgba(0, 0, 0, 0.281), 0 -0 5px rgba(0, 0, 0, 0.281),
+  box-shadow: -0 0 5px rgba(0, 0, 0, 0.281), 0 -0 5px rgba(0, 0, 0, 0.281),
     -0 -0 5px rgba(0, 0, 0, 0.281), -0 -0 5px rgba(0, 0, 0, 0.281);
 }
 .detailedEntry div:last-child {
@@ -2784,7 +2783,7 @@ font-family: 'Ultra', serif; */
   flex-direction: row;
   align-items: center;
   justify-content: center;
-    border: 1px solid black;
+  border: 1px solid black;
   border-radius: 1vh;
   background-color: rgba(0, 0, 0, 0.164);
   align-self: flex-start;
@@ -3112,7 +3111,6 @@ font-family: 'Ultra', serif; */
   border-radius: 0.5vh;
   border: 1px solid white;
 
-  
   padding: 1vmax;
   scrollbar-width: none;
   box-shadow: -0 0 5px rgba(0, 0, 0, 0.432), 0 -0 5px rgba(0, 0, 0, 0.432),

@@ -164,393 +164,317 @@ export const App: React.FC<Props> = ({}) => {
   );
 
   return (
-      <Router>
-          <Routes>
-              <Route
-                  element={
-                      <AppLayout
-                          darkMode={darkMode}
-                          aboutMode={aboutMode}
-                          myUserId={myUserId}
-                          myChatImg={myChatImg}
-                          myNickname={myNickname}
-                          setNightFlightProg={(e: any) => setNightFlightProg(e)}
-                          nightFlightProg={nightFlightProg}
-                          maps={maps}
-                          setGigEntry={(e: number | null) =>
-                              setSelectedGigEntry(e)
-                          }
-                          mapVisible={(e: boolean) => setMaps(e)}
-                          top={top}
-                          left={left}
-                          setTop={(e: number) => setTop(e)}
-                          setLeft={(e: number) => setLeft(e)}
-                          setPlayerPosition={(
-                              x: number,
-                              y: number,
-                              setTop: (e1: number) => void,
-                              setLeft: (e2: number) => void
-                          ) => setPlayerPosition(x, y, setTop, setLeft)}
-                          setChatNotification={(e: boolean) =>
-                              setChatNotification(e)
-                          }
-                          chatNotification={chatNotification}
-                          privateMsgNotification={privateMsgNotification}
-                          setPrivateMsgNotification={(e: boolean) =>
-                              setPrivateMsgNotification(e)
-                          }
-                          chatMode={chatMode}
-                          setAboutMode={(e: boolean) => setAboutMode(e)}
-                          adminControls={adminControls}
-                          gigListOpen={gigListOpen}
-                          loaded={loaded}
-                          setLoaded={(e) => {
-                              setLoaded(e);
-                          }}
-                          addMode={addMode}
-                          editMode={editMode}
-                          animeMode={animeMode}
-                          gigEntryMode={gigEntryMode}
-                          mapMode={mapMode}
-                          gigLocation={gigLocation}
-                          setAnimeMusic={(e: boolean) => setAnimeMusic(e)}
-                          animeMusic={animeMusic}
-                          setChatMode={(e: boolean) => setChatMode(e)}
-                          setChatModeClosed={(e: boolean) =>
-                              setChatModeClosed(e)
-                          }
-                          chatModeClosed={chatModeClosed}
-                          privateMode={privateMode}
-                          setPrivateMode={(e: boolean) => setPrivateMode(e)}
-                          timelineMode={timelineMode}
-                          admin={admin}
-                          superAdmin={superAdmin}
-                          timelineCommentsMode={timelineCommentsMode}
-                          setTimelineCommentsMode={(e: boolean) =>
-                              setTimelineCommentsMode(e)
-                          }
-                          timelineGigsMode={timelineGigsMode}
-                          setTimelineGigsMode={(e: boolean) =>
-                              setTimelineGigsMode(e)
-                          }
-                          timelineGalleriesMode={timelineGalleriesMode}
-                          setTimelineGalleriesMode={(e: boolean) =>
-                              setTimelineGalleriesMode(e)
-                          }
-                          profileBlocked={profileBlocked}
-                          profileBanned={profileBanned}
-                          mute={mute}
-                      />
-                  }
-              >
-                  <Route
-                      path="/"
-                      element={
-                          <Main
-                              superAdmin={superAdmin}
-                              admin={admin}
-                              visitors={visitors}
-                              darkMode={darkMode}
-                              setDarkMode={(e: boolean) => setDarkMode(e)}
-                              setChatNotification={(e: boolean) =>
-                                  setChatNotification(e)
-                              }
-                              setChatMode={(e: boolean) => setChatMode(e)}
-                              setAboutMode={(e: boolean) => setAboutMode(e)}
-                              setMaps={(e: boolean) => setMaps(e)}
-                              setAdminControls={(e: boolean) =>
-                                  setAdminControls(e)
-                              }
-                              setGigListOpen={(e: boolean) => setGigListOpen(e)}
-                              loaded={loaded}
-                              setLoadedMain={(e: boolean) => setLoadedMain(e)}
-                              loadedMain={loadedMain}
-                              setGigEntry={(e: number | null) =>
-                                  setSelectedGigEntry(e)
-                              }
-                              userSelectedMode={userSelectedMode}
-                              setUserSelectedMode={(e: boolean) =>
-                                  setUserSelectedMode(e)
-                              }
-                              setEditMode={(e: boolean) => setEditMode(e)}
-                              setAddMode={(e: boolean) => setAddMode(e)}
-                              setAnimeMode={(e: boolean) => setAnimeMode(e)}
-                              setGigEntryMode={(e: boolean) =>
-                                  setGigEntryMode(e)
-                              }
-                              setMapMode={(e: boolean) => setMapMode(e)}
-                              setChatModeClosed={(e: boolean) =>
-                                  setChatModeClosed(e)
-                              }
-                              currentVisitors={currentVisitors}
-                              setVisitors={(e: number | boolean) =>
-                                  setVisitors(e)
-                              }
-                              setTimelineMode={(e: boolean) =>
-                                  setTimelineMode(e)
-                              }
-                              setTimelineCommentsMode={(e: boolean) =>
-                                  setTimelineCommentsMode(e)
-                              }
-                              setTimelineGigsMode={(e: boolean) =>
-                                  setTimelineGigsMode(e)
-                              }
-                              setTimelineGalleriesMode={(e: boolean) =>
-                                  setTimelineGalleriesMode(e)
-                              }
-                              setTimelineScrollTop={(e: number) =>
-                                  setTimelineScrollTop(e)
-                              }
-                              guest={guest}
-                          />
-                      }
-                  ></Route>
+    <Router>
+      <Routes>
+        <Route
+          element={
+            <AppLayout
+              darkMode={darkMode}
+              aboutMode={aboutMode}
+              myUserId={myUserId}
+              myChatImg={myChatImg}
+              myNickname={myNickname}
+              setNightFlightProg={(e: any) => setNightFlightProg(e)}
+              nightFlightProg={nightFlightProg}
+              maps={maps}
+              setGigEntry={(e: number | null) => setSelectedGigEntry(e)}
+              mapVisible={(e: boolean) => setMaps(e)}
+              top={top}
+              left={left}
+              setTop={(e: number) => setTop(e)}
+              setLeft={(e: number) => setLeft(e)}
+              setPlayerPosition={(
+                x: number,
+                y: number,
+                setTop: (e1: number) => void,
+                setLeft: (e2: number) => void
+              ) => setPlayerPosition(x, y, setTop, setLeft)}
+              setChatNotification={(e: boolean) => setChatNotification(e)}
+              chatNotification={chatNotification}
+              privateMsgNotification={privateMsgNotification}
+              setPrivateMsgNotification={(e: boolean) =>
+                setPrivateMsgNotification(e)
+              }
+              chatMode={chatMode}
+              setAboutMode={(e: boolean) => setAboutMode(e)}
+              adminControls={adminControls}
+              gigListOpen={gigListOpen}
+              loaded={loaded}
+              setLoaded={(e) => {
+                setLoaded(e);
+              }}
+              addMode={addMode}
+              editMode={editMode}
+              animeMode={animeMode}
+              gigEntryMode={gigEntryMode}
+              mapMode={mapMode}
+              gigLocation={gigLocation}
+              setAnimeMusic={(e: boolean) => setAnimeMusic(e)}
+              animeMusic={animeMusic}
+              setChatMode={(e: boolean) => setChatMode(e)}
+              setChatModeClosed={(e: boolean) => setChatModeClosed(e)}
+              chatModeClosed={chatModeClosed}
+              privateMode={privateMode}
+              setPrivateMode={(e: boolean) => setPrivateMode(e)}
+              timelineMode={timelineMode}
+              admin={admin}
+              superAdmin={superAdmin}
+              timelineCommentsMode={timelineCommentsMode}
+              setTimelineCommentsMode={(e: boolean) =>
+                setTimelineCommentsMode(e)
+              }
+              timelineGigsMode={timelineGigsMode}
+              setTimelineGigsMode={(e: boolean) => setTimelineGigsMode(e)}
+              timelineGalleriesMode={timelineGalleriesMode}
+              setTimelineGalleriesMode={(e: boolean) =>
+                setTimelineGalleriesMode(e)
+              }
+              profileBlocked={profileBlocked}
+              profileBanned={profileBanned}
+              mute={mute}
+            />
+          }
+        >
+          <Route
+            path="/"
+            element={
+              <Main
+                superAdmin={superAdmin}
+                admin={admin}
+                visitors={visitors}
+                darkMode={darkMode}
+                setDarkMode={(e: boolean) => setDarkMode(e)}
+                setChatNotification={(e: boolean) => setChatNotification(e)}
+                setChatMode={(e: boolean) => setChatMode(e)}
+                setAboutMode={(e: boolean) => setAboutMode(e)}
+                setMaps={(e: boolean) => setMaps(e)}
+                setAdminControls={(e: boolean) => setAdminControls(e)}
+                setGigListOpen={(e: boolean) => setGigListOpen(e)}
+                loaded={loaded}
+                setLoadedMain={(e: boolean) => setLoadedMain(e)}
+                loadedMain={loadedMain}
+                setGigEntry={(e: number | null) => setSelectedGigEntry(e)}
+                userSelectedMode={userSelectedMode}
+                setUserSelectedMode={(e: boolean) => setUserSelectedMode(e)}
+                setEditMode={(e: boolean) => setEditMode(e)}
+                setAddMode={(e: boolean) => setAddMode(e)}
+                setAnimeMode={(e: boolean) => setAnimeMode(e)}
+                setGigEntryMode={(e: boolean) => setGigEntryMode(e)}
+                setMapMode={(e: boolean) => setMapMode(e)}
+                setChatModeClosed={(e: boolean) => setChatModeClosed(e)}
+                currentVisitors={currentVisitors}
+                setVisitors={(e: number | boolean) => setVisitors(e)}
+                setTimelineMode={(e: boolean) => setTimelineMode(e)}
+                setTimelineCommentsMode={(e: boolean) =>
+                  setTimelineCommentsMode(e)
+                }
+                setTimelineGigsMode={(e: boolean) => setTimelineGigsMode(e)}
+                setTimelineGalleriesMode={(e: boolean) =>
+                  setTimelineGalleriesMode(e)
+                }
+                setTimelineScrollTop={(e: number) => setTimelineScrollTop(e)}
+                guest={guest}
+              />
+            }
+          ></Route>
 
-                  <Route
-                      path="/gig-creator"
-                      element={
-                          <GigCreator
-                              admin={admin}
-                              darkMode={darkMode}
-                              setGigsList={(e: any) => setGigsList(e)}
-                              setAddMode={(e: boolean) => setAddMode(e)}
-                              setGigsListTimeline={(e: boolean) =>
-                                  setGigsListTimeline(e)
-                              }
-                          />
-                      }
-                  ></Route>
-                  <Route
-                      path="/gig-editor"
-                      element={
-                          <GigEditor
-                              gigsList={gigsList}
-                              admin={admin}
-                              darkMode={darkMode}
-                              setGigsList={(e: any) => setGigsList(e)}
-                              setEditMode={(e: boolean) => setEditMode(e)}
-                              setGigsListTimeline={(e: boolean) =>
-                                  setGigsListTimeline(e)
-                              }
-                          />
-                      }
-                  ></Route>
-                  <Route
-                      path="/map"
-                      element={
-                          <MyMap
-                              gigsList={gigsList}
-                              mapVisible={(e: boolean) => setMaps(e)}
-                              selectedGigEntry={selectedGigEntry}
-                              setGigEntry={(e: number | null) =>
-                                  setSelectedGigEntry(e)
-                              }
-                              setDarkMode={(e: boolean) => setDarkMode(e)}
-                              setMapMode={(e: boolean) => setMapMode(e)}
-                              setGigLocation={(e: string) => setGigLocation(e)}
-                          />
-                      }
-                  ></Route>
-                  <Route path="/loading" element={<Loading />}></Route>
-                  <Route
-                      path="/gig-list"
-                      element={
-                          <GigList
-                              gigsList={gigsList}
-                              setDarkMode={(e: boolean) => setDarkMode(e)}
-                              year={year}
-                              setYear={(
-                                  e:
-                                      | string
-                                      | number
-                                      | readonly string[]
-                                      | undefined
-                              ) => setYear(e)}
-                              setGigListOpen={(e: boolean) => setGigListOpen(e)}
-                              setAnimeMode={(e: boolean) => setAnimeMode(e)}
-                              mapVisible={(e: boolean) => setMaps(e)}
-                              setGigEntryMode={(e: boolean) =>
-                                  setGigEntryMode(e)
-                              }
-                              setMapMode={(e: boolean) => setMapMode(e)}
-                              retroList={retroList}
-                              setRetroList={(e: boolean) => setRetroList(e)}
-                          />
-                      }
-                  ></Route>
-                  <Route
-                      path="/gig-list-animation"
-                      element={
-                          <GigListAnimation
-                              gigsList={gigsList}
-                              setDarkMode={(e: boolean) => setDarkMode(e)}
-                              setAnimeMode={(e: boolean) => setAnimeMode(e)}
-                              setGigListOpen={(e: boolean) => setGigListOpen(e)}
-                              setAnimeMusic={(e: boolean) => setAnimeMusic(e)}
-                              animeMusic={animeMusic}
-                          />
-                      }
-                  ></Route>
+          <Route
+            path="/gig-creator"
+            element={
+              <GigCreator
+                admin={admin}
+                darkMode={darkMode}
+                setGigsList={(e: any) => setGigsList(e)}
+                setAddMode={(e: boolean) => setAddMode(e)}
+                setGigsListTimeline={(e: boolean) => setGigsListTimeline(e)}
+              />
+            }
+          ></Route>
+          <Route
+            path="/gig-editor"
+            element={
+              <GigEditor
+                gigsList={gigsList}
+                admin={admin}
+                darkMode={darkMode}
+                setGigsList={(e: any) => setGigsList(e)}
+                setEditMode={(e: boolean) => setEditMode(e)}
+                setGigsListTimeline={(e: boolean) => setGigsListTimeline(e)}
+              />
+            }
+          ></Route>
+          <Route
+            path="/map"
+            element={
+              <MyMap
+                gigsList={gigsList}
+                mapVisible={(e: boolean) => setMaps(e)}
+                selectedGigEntry={selectedGigEntry}
+                setGigEntry={(e: number | null) => setSelectedGigEntry(e)}
+                setDarkMode={(e: boolean) => setDarkMode(e)}
+                setMapMode={(e: boolean) => setMapMode(e)}
+                setGigLocation={(e: string) => setGigLocation(e)}
+              />
+            }
+          ></Route>
+          <Route path="/loading" element={<Loading />}></Route>
+          <Route
+            path="/gig-list"
+            element={
+              <GigList
+                gigsList={gigsList}
+                setDarkMode={(e: boolean) => setDarkMode(e)}
+                year={year}
+                setYear={(e: string | number | readonly string[] | undefined) =>
+                  setYear(e)
+                }
+                setGigListOpen={(e: boolean) => setGigListOpen(e)}
+                setAnimeMode={(e: boolean) => setAnimeMode(e)}
+                mapVisible={(e: boolean) => setMaps(e)}
+                setGigEntryMode={(e: boolean) => setGigEntryMode(e)}
+                setMapMode={(e: boolean) => setMapMode(e)}
+                retroList={retroList}
+                setRetroList={(e: boolean) => setRetroList(e)}
+              />
+            }
+          ></Route>
+          <Route
+            path="/gig-list-animation"
+            element={
+              <GigListAnimation
+                gigsList={gigsList}
+                setDarkMode={(e: boolean) => setDarkMode(e)}
+                setAnimeMode={(e: boolean) => setAnimeMode(e)}
+                setGigListOpen={(e: boolean) => setGigListOpen(e)}
+                setAnimeMusic={(e: boolean) => setAnimeMusic(e)}
+                animeMusic={animeMusic}
+              />
+            }
+          ></Route>
 
-                  <Route
-                      path="/api/gig/:id"
-                      element={
-                          <GigEntry
-                              darkMode={darkMode}
-                              gigsList={gigsList}
-                              myUserId={myUserId}
-                              superAdmin={superAdmin}
-                              myNickname={myNickname}
-                              setDarkMode={(e: boolean) => setDarkMode(e)}
-                              setGigEntry={(e: number | null) =>
-                                  setSelectedGigEntry(e)
-                              }
-                              selectedGigEntry={selectedGigEntry}
-                              guest={guest}
-                              setLoaded={(e: boolean) => setLoaded(e)}
-                              setGigEntryMode={(e: boolean) =>
-                                  setGigEntryMode(e)
-                              }
-                              setMapMode={(e: boolean) => setMapMode(e)}
-                              mapVisible={(e: boolean) => setMaps(e)}
-                              imagesTimeline={imagesTimeline}
-                              setImagesTimeline={(e: boolean) =>
-                                  setImagesTimeline(e)
-                              }
-                              commentsTimeline={commentsTimeline}
-                              setCommentsTimeline={(e: boolean) =>
-                                  setCommentsTimeline(e)
-                              }
-                          />
-                      }
-                  ></Route>
+          <Route
+            path="/api/gig/:id"
+            element={
+              <GigEntry
+                darkMode={darkMode}
+                gigsList={gigsList}
+                myUserId={myUserId}
+                superAdmin={superAdmin}
+                myNickname={myNickname}
+                setDarkMode={(e: boolean) => setDarkMode(e)}
+                setGigEntry={(e: number | null) => setSelectedGigEntry(e)}
+                selectedGigEntry={selectedGigEntry}
+                guest={guest}
+                setLoaded={(e: boolean) => setLoaded(e)}
+                setGigEntryMode={(e: boolean) => setGigEntryMode(e)}
+                setMapMode={(e: boolean) => setMapMode(e)}
+                mapVisible={(e: boolean) => setMaps(e)}
+                imagesTimeline={imagesTimeline}
+                setImagesTimeline={(e: boolean) => setImagesTimeline(e)}
+                commentsTimeline={commentsTimeline}
+                setCommentsTimeline={(e: boolean) => setCommentsTimeline(e)}
+              />
+            }
+          ></Route>
 
-                  <Route
-                      path="/chat"
-                      element={
-                          <Chat
-                              myChatImg={myChatImg}
-                              myUserId={myUserId}
-                              myChatColor={myChatColor}
-                              admin={admin}
-                              setAdmin={(e: boolean) => setAdmin(e)}
-                              superAdmin={superAdmin}
-                              setMyChatImg={(e: string) => setMyChatImg(e)}
-                              myNickname={myNickname}
-                              guest={guest}
-                              setMyNickname={(e: string) => setMyNickname(e)}
-                              darkMode={darkMode}
-                              setDarkMode={(e: boolean) => setDarkMode(e)}
-                              setNightFlightProg={(
-                                  e: boolean | any[] | string
-                              ) => setNightFlightProg(e)}
-                              radioBroadcasts={radioBroadcasts}
-                              nightFlightProg={nightFlightProg}
-                              setChatMode={(e: boolean) => setChatMode(e)}
-                              setMaps={(e: boolean) => setMaps(e)}
-                              setAdminControls={(e: boolean) =>
-                                  setAdminControls(e)
-                              }
-                              setGigListOpen={(e: boolean) => setGigListOpen(e)}
-                              userSelectedMode={userSelectedMode}
-                              setUserSelectedMode={(e: boolean) =>
-                                  setUserSelectedMode(e)
-                              }
-                              setMapMode={(e: boolean) => setMapMode(e)}
-                              setGigEntryMode={(e: boolean) =>
-                                  setGigEntryMode(e)
-                              }
-                              privateMode={privateMode}
-                              setPrivateMode={(e: boolean) => setPrivateMode(e)}
-                              chatMode={chatMode}
-                              setChatModeClosed={(e: boolean) =>
-                                  setChatModeClosed(e)
-                              }
-                              chatModeClosed={chatModeClosed}
-                              setMute={(e: boolean) => setMute(e)}
-                              mute={mute}
-                              setTimelineMode={(e: boolean) =>
-                                  setTimelineMode(e)
-                              }
-                              setTimelineScrollTop={(e: number) =>
-                                  setTimelineScrollTop(e)
-                              }
-                              setPrivateMsgNotification={(e: boolean) =>
-                                  setPrivateMsgNotification(e)
-                              }
-                          />
-                      }
-                  ></Route>
+          <Route
+            path="/chat"
+            element={
+              <Chat
+                myChatImg={myChatImg}
+                myUserId={myUserId}
+                myChatColor={myChatColor}
+                admin={admin}
+                setAdmin={(e: boolean) => setAdmin(e)}
+                superAdmin={superAdmin}
+                setMyChatImg={(e: string) => setMyChatImg(e)}
+                myNickname={myNickname}
+                guest={guest}
+                setMyNickname={(e: string) => setMyNickname(e)}
+                darkMode={darkMode}
+                setDarkMode={(e: boolean) => setDarkMode(e)}
+                setNightFlightProg={(e: boolean | any[] | string) =>
+                  setNightFlightProg(e)
+                }
+                radioBroadcasts={radioBroadcasts}
+                nightFlightProg={nightFlightProg}
+                setChatMode={(e: boolean) => setChatMode(e)}
+                setMaps={(e: boolean) => setMaps(e)}
+                setAdminControls={(e: boolean) => setAdminControls(e)}
+                setGigListOpen={(e: boolean) => setGigListOpen(e)}
+                userSelectedMode={userSelectedMode}
+                setUserSelectedMode={(e: boolean) => setUserSelectedMode(e)}
+                setMapMode={(e: boolean) => setMapMode(e)}
+                setGigEntryMode={(e: boolean) => setGigEntryMode(e)}
+                privateMode={privateMode}
+                setPrivateMode={(e: boolean) => setPrivateMode(e)}
+                chatMode={chatMode}
+                setChatModeClosed={(e: boolean) => setChatModeClosed(e)}
+                chatModeClosed={chatModeClosed}
+                setMute={(e: boolean) => setMute(e)}
+                mute={mute}
+                setTimelineMode={(e: boolean) => setTimelineMode(e)}
+                setTimelineScrollTop={(e: number) => setTimelineScrollTop(e)}
+                setPrivateMsgNotification={(e: boolean) =>
+                  setPrivateMsgNotification(e)
+                }
+              />
+            }
+          ></Route>
 
-                  <Route
-                      path="/super-admin"
-                      element={
-                          <SuperAdmin
-                              superAdmin={superAdmin}
-                              myUserId={myUserId}
-                              setAdminControls={(e: boolean) =>
-                                  setAdminControls(e)
-                              }
-                          />
-                      }
-                  ></Route>
+          <Route
+            path="/super-admin"
+            element={
+              <SuperAdmin
+                superAdmin={superAdmin}
+                myUserId={myUserId}
+                setAdminControls={(e: boolean) => setAdminControls(e)}
+              />
+            }
+          ></Route>
 
-                  <Route
-                      path="/about"
-                      element={
-                          <About
-                              setAboutMode={(e: boolean) => setAboutMode(e)}
-                              superAdmin={superAdmin}
-                          />
-                      }
-                  ></Route>
-                  <Route
-                      path="/timeline"
-                      element={
-                          <Timeline
-                              setTimelineMode={(e: boolean) =>
-                                  setTimelineMode(e)
-                              }
-                              setTimelineCommentsMode={(e: boolean) =>
-                                  setTimelineCommentsMode(e)
-                              }
-                              setTimelineGigsMode={(e: boolean) =>
-                                  setTimelineGigsMode(e)
-                              }
-                              setTimelineGalleriesMode={(e: boolean) =>
-                                  setTimelineGalleriesMode(e)
-                              }
-                              gigsListTimeline={gigsListTimeline}
-                              setGigsListTimeline={(e: boolean) =>
-                                  setGigsListTimeline(e)
-                              }
-                              gigsListUpdatedTimeline={gigsListUpdatedTimeline}
-                              setGigsListUpdatedTimeline={(e: boolean) =>
-                                  setGigsListUpdatedTimeline(e)
-                              }
-                              commentsTimeline={commentsTimeline}
-                              setCommentsTimeline={(e: boolean) =>
-                                  setCommentsTimeline(e)
-                              }
-                              imagesTimeline={imagesTimeline}
-                              setImagesTimeline={(e: boolean) =>
-                                  setImagesTimeline(e)
-                              }
-                              timelineScrollTop={timelineScrollTop}
-                              setTimelineScrollTop={(e: number) =>
-                                  setTimelineScrollTop(e)
-                              }
-                              latestUpdatesMode={latestUpdatesMode}
-                              setLatestUpdatesMode={(e: boolean) =>
-                                  setLatestUpdatesMode(e)
-                              }
-                              superAdmin={superAdmin}
-                              guest={guest}
-                          />
-                      }
-                  ></Route>
-              </Route>
-          </Routes>
-      </Router>
+          <Route
+            path="/about"
+            element={
+              <About
+                setAboutMode={(e: boolean) => setAboutMode(e)}
+                superAdmin={superAdmin}
+              />
+            }
+          ></Route>
+          <Route
+            path="/timeline"
+            element={
+              <Timeline
+                setTimelineMode={(e: boolean) => setTimelineMode(e)}
+                setTimelineCommentsMode={(e: boolean) =>
+                  setTimelineCommentsMode(e)
+                }
+                setTimelineGigsMode={(e: boolean) => setTimelineGigsMode(e)}
+                setTimelineGalleriesMode={(e: boolean) =>
+                  setTimelineGalleriesMode(e)
+                }
+                gigsListTimeline={gigsListTimeline}
+                setGigsListTimeline={(e: boolean) => setGigsListTimeline(e)}
+                gigsListUpdatedTimeline={gigsListUpdatedTimeline}
+                setGigsListUpdatedTimeline={(e: boolean) =>
+                  setGigsListUpdatedTimeline(e)
+                }
+                commentsTimeline={commentsTimeline}
+                setCommentsTimeline={(e: boolean) => setCommentsTimeline(e)}
+                imagesTimeline={imagesTimeline}
+                setImagesTimeline={(e: boolean) => setImagesTimeline(e)}
+                timelineScrollTop={timelineScrollTop}
+                setTimelineScrollTop={(e: number) => setTimelineScrollTop(e)}
+                latestUpdatesMode={latestUpdatesMode}
+                setLatestUpdatesMode={(e: boolean) => setLatestUpdatesMode(e)}
+                superAdmin={superAdmin}
+                guest={guest}
+              />
+            }
+          ></Route>
+        </Route>
+      </Routes>
+    </Router>
   );
 };

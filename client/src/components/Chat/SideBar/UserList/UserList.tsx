@@ -70,8 +70,7 @@ export const UserList: React.FC<Props> = ({
   onlineUserPic,
   guest,
 }) => {
-
-    const onlineUsers = useSelector((state: any) => state && state.onlineUsers);
+  const onlineUsers = useSelector((state: any) => state && state.onlineUsers);
   return (
     <Container>
       {!privateMode && !networkList && (

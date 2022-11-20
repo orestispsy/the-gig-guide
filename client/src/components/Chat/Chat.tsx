@@ -105,7 +105,6 @@ export const Chat: React.FC<Props> = ({
   setTimelineMode,
   setTimelineScrollTop,
   setPrivateMsgNotification,
-
 }) => {
   const [emojiBar, setEmojiBar] = useState<boolean>(false);
   const [tickerBar, setTickerBar] = useState<boolean>(false);
@@ -128,7 +127,7 @@ export const Chat: React.FC<Props> = ({
 
   const elemRef = useRef<HTMLDivElement>(null);
 
-    const onlineUsers = useSelector((state: any) => state && state.onlineUsers);
+  const onlineUsers = useSelector((state: any) => state && state.onlineUsers);
   const chatMessages = useSelector((state: any) => state && state.chatMessages);
   const browserCount = useSelector((state: any) => state && state.count);
   const horn = useSelector((state: any) => state && state.horn);

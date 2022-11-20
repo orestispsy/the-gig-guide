@@ -17,8 +17,10 @@ export const Container = styled.div<AboutTypes>`
   animation: fadeAbout 1s step-end;
   visibility: hidden;
 
-  ${(props)=> props.isLoaded && css`
-    visibility: visible;
+  ${(props) =>
+    props.isLoaded &&
+    css`
+      visibility: visible;
     `}
 
   ${mediaQueries("273", "1024", "landscape")`

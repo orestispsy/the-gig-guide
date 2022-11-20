@@ -51,9 +51,7 @@ export const UserConfig: React.FC<Props> = ({
   errorMsgInfo,
   setAdmin,
 }) => {
-     const onlineUsers = useSelector(
-         (state: any) => state && state.onlineUsers
-     );
+  const onlineUsers = useSelector((state: any) => state && state.onlineUsers);
 
   return (
     <Container>
