@@ -32,9 +32,6 @@ body {
   padding: 0 !important;
   background-color: black;
   font-family: "PollerOne";
-  background-image: url("sky-full.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
   overflow: hidden;
   animation: fadeAbout 1s ease-in-out;
   user-select: none;
@@ -101,10 +98,6 @@ a:hover {
   align-self: center;
   font-family: "BlackOpsOne";
   height: 80vh;
-}
-
-.logoBackLogIn {
-  align-items: center !important;
 }
 
 .logo2Login {
@@ -295,7 +288,6 @@ a:hover {
   background-color: white;
 }
 
-.mainContainer,
 .mapContainer,
 .gigEditorContainer,
 .gigCreatorContainer,
@@ -313,10 +305,6 @@ a:hover {
   width: 100%;
   height: 92%;
   animation: fadeAbout 0.5s ease-in-out;
-}
-
-#mainContainerIntro {
-  animation: fadeAbout 2s ease-in-out;
 }
 
 .mapContainer {
@@ -894,92 +882,12 @@ form h1 {
     -0 -0 15px rgb(0, 0, 0, 0.2), -0 -0 15px rgb(0, 0, 0, 0.2);
 }
 
-.easterEgg img {
-  width: 8vmax;
-  height: 8vmax;
-  border-radius: 50%;
-  margin: -3vmax 4vmax 3vmax 4vmax;
-  object-fit: cover;
-  box-shadow: -0 0 15px black, 0 -0 15px black, -0 -0 15px black,
-    -0 -0 15px black;
-  transition: 0.5s;
-}
-
-.easterEgg img:hover {
-  box-shadow: -0 0 25px black, 0 -0 25px black, -0 -0 25px black,
-    -0 -0 25px black;
-  transition: 0.5s;
-}
-
-.easterEgg img:active {
-  box-shadow: -0 0 15px black, 0 -0 15px black, -0 -0 15px black,
-    -0 -0 15px black;
-}
-
-#mainMenuDark {
-  background: radial-gradient(
-    closest-side,
-    rgba(59, 255, 255, 0.055),
-    rgba(59, 255, 255, 0.055),
-    rgba(59, 255, 255, 0.055),
-    transparent
-  );
-  margin: 0 0 -23vmax 0;
-  flex-direction: column-reverse;
-}
-
-#globeDark {
-  margin: 2vmax;
-}
-
-.mainMenu {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  align-self: center;
-  margin-top: 2vmax;
-
-  background: radial-gradient(
-    closest-side,
-    #d9ff2e00,
-    #ff585217,
-    #52fff627,
-    #b1151500
-  );
-}
-
 .mainMenuBottom {
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
 }
 
-.mainMenuLink {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: linear-gradient(
-    112.72013189013455deg,
-    rgba(240, 92, 7, 0.253) 4.927083333333334%,
-    rgba(30, 189, 176, 0.671) 97.84374999999999%
-  );
-  color: #e5ff00;
-  font-size: 2.3vmax;
-  height: 3vmax;
-  padding: 0.5vmax 1vmax;
-  border-radius: 10vh;
-  box-shadow: -0 0 10px rgba(0, 0, 0, 0.432), 0 -0 10px rgba(0, 0, 0, 0.432),
-    -0 -0 10px rgba(0, 0, 0, 0.432), -0 -0 10px rgba(0, 0, 0, 0.432);
-  border: 1px solid rgba(255, 230, 0, 0.37);
-  border-style: double;
-  transition: 1s;
-
-  text-shadow: -0 0 5px rgba(0, 0, 0, 0.7), 0 -0 5px rgba(0, 0, 0, 0.7),
-    -0 -0 5px rgba(0, 0, 0, 0.7), -0 -0 5px rgba(0, 0, 0, 0.7);
-}
-
-.mainMenuLink:hover,
 .buttonBack:hover {
   box-shadow: -0 0 10px rgba(255, 208, 0, 0.205),
     0 -0 10px rgba(255, 208, 0, 0.205), -0 -0 10px rgba(255, 208, 0, 0.212),
@@ -993,7 +901,6 @@ form h1 {
   transition: 1s;
 }
 
-.mainMenuLink:hover:active,
 .buttonBack:active {
   box-shadow: -0 0 15px rgba(255, 208, 0, 0.205),
     0 -0 15px rgba(255, 208, 0, 0.205), -0 -0 15px rgba(255, 208, 0, 0.205),
@@ -1002,39 +909,13 @@ form h1 {
   text-shadow: none;
 }
 
-.mainMenu a:nth-child(2) {
-  margin-top: -1vmax;
-}
-
-.mainMenuEditOptions {
-  display: flex;
-}
-
-.logoBack,
 .logoBackLogIn {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+
   align-self: center;
   font-family: "BlackOpsOne";
-}
-
-.logoBack p {
-  color: red;
-  font-size: 3.5vw;
-  letter-spacing: 5px;
-  align-self: center;
-  margin: -8vh 0 5vh 0;
-  animation: blinker 20s linear infinite;
-  text-shadow: -0 0 10px black, 0 -0 10px black, -0 -0 10px black,
-    -0 -0 10px black;
-  padding: 0 1vmax;
-  border-radius: 3vw;
-  z-index: 2;
-}
-
-#logoDarkP {
-  margin: -4vmax 0 5vmax 0;
+  align-items: center;
 }
 
 @media only screen and (min-device-width: 100px) and (max-device-width: 480px) and (orientation: portrait) {
@@ -1065,12 +946,6 @@ form h1 {
 
   .detailedTimelineEntry {
     width: unset !important;
-  }
-
-  .timeline img {
-    width: 5vmax !important;
-    height: 5vmax !important;
-    margin-top: 0 !important;
   }
 
   .gigListOptions {
@@ -1141,52 +1016,6 @@ form h1 {
   .regSpan {
     font-size: 3vmax !important;
     margin: 0 0 1vmax 0 !important;
-  }
-
-  .logo {
-    width: 75vmax !important;
-    height: 35vmax !important;
-  }
-
-  #logoDarkP {
-    margin: 0 !important;
-  }
-
-  #logoBoxDark {
-    border: none !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
-    margin-top: -6vmax !important;
-    height: 92vmax !important;
-    width: 88vw !important;
-    padding: 0 9vmax 0 9vmax !important;
-  }
-
-  #mainMenuDark {
-    margin: 5vmax 0 0vmax 0 !important;
-  }
-
-  .logoBack p {
-    font-size: 6vmax !important;
-    margin: -6vh 0 2vh 0 !important;
-  }
-  .mainMenu {
-    flex-direction: column !important;
-    justify-content: space-evenly !important;
-    height: 40vw !important;
-  }
-  .mainMenuLink {
-    font-size: 3.5vmax !important;
-    padding: 1.5vmax 1.5vmax 2vmax 1.5vmax !important;
-  }
-  .easterEgg img {
-    width: 14vmax !important;
-    height: 14vmax !important;
-    margin: -4vmax 4vmax 7vmax 4vmax !important;
-  }
-
-  .mainMenu a:nth-child(2) {
-    margin-top: -5vmax !important;
   }
 
   #privateMessageUserDetails {
@@ -1546,11 +1375,6 @@ form h1 {
     margin: -1vmax -1vmax -4vmax 0 !important;
   }
 
-  .aboutButton {
-    height: 4vmax !important;
-    width: 4vmax !important;
-  }
-
   #aboutReplyControls {
     flex-wrap: wrap !important;
   }
@@ -1564,19 +1388,9 @@ form h1 {
     width: 5vmax !important;
     height: 5vmax !important;
   }
-
-  .superAdminButton img {
-    width: 6.5vmax !important;
-    height: 5.5vmax !important;
-  }
 }
 
 @media only screen and (min-device-width: 273px) and (max-device-width: 1024px) and (orientation: landscape) {
-  .superAdminButton img {
-    width: 6.5vmax !important;
-    height: 5.5vmax !important;
-  }
-
   .lightMode,
   .darkMode {
     width: 5vmax !important;
@@ -1596,10 +1410,6 @@ form h1 {
   .communityPhotos img {
     width: 10vmax !important;
   }
-  .timeline img {
-    width: 5vmax !important;
-    height: 5vmax !important;
-  }
 
   .google-map {
     height: 88% !important;
@@ -1615,9 +1425,6 @@ form h1 {
     font-size: 2vmax !important;
     margin-top: 2vmax !important;
   }
-  .mainContainer {
-    margin-top: -3vmax;
-  }
 
   .gigCreatorContainer,
   .gigEditorContainer {
@@ -1632,45 +1439,6 @@ form h1 {
     border: 2px solid rgba(255, 255, 255, 0.178) !important;
   }
 
-  .logo {
-    width: 48vmax !important;
-    height: 22vmax !important;
-  }
-
-  #logoDarkP {
-    padding: 0 !important;
-    margin: 20vmax 0 0 0 !important;
-  }
-
-  #mainMenuDark {
-    margin: 2vmax 0 0 0 !important;
-  }
-
-  .logoBack {
-    align-items: center !important;
-  }
-
-  #globeDark {
-    margin-top: 2vmax !important;
-  }
-
-  #logoBoxDark {
-    border: none !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
-    background-size: contain !important;
-  }
-
-  .logoBack p {
-    font-size: 3.5vmax !important;
-    margin: -6vh 0 4vh 0 !important;
-  }
-  .mainMenuLink {
-    font-size: 2vmax !important;
-    padding: 1vmax 1.5vmax 0 1.5vmax !important;
-    justify-content: unset !important;
-  }
-
   .loginContainerBack {
     margin-top: 0 !important;
   }
@@ -1679,16 +1447,6 @@ form h1 {
   .registerContainer {
     margin-top: 0 !important;
     width: 70vw !important;
-  }
-
-  .mainMenu {
-    width: 60vw !important;
-  }
-
-  .easterEgg img {
-    width: 9vmax !important;
-    height: 9vmax !important;
-    margin: -3vmax 4vmax 3vmax 4vmax !important;
   }
 
   .buttonBack {
@@ -1912,11 +1670,6 @@ form h1 {
     height: 3vmax !important;
     width: 4vmax !important;
   }
-
-  .aboutButton {
-    height: 4vmax !important;
-    width: 4vmax !important;
-  }
 }
 
 #logoBoxDarkEdit {
@@ -1931,34 +1684,6 @@ form h1 {
   background-size: contain;
   border: 1px solid rgba(255, 255, 255, 0.11);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.616);
-}
-
-#logoBoxDark {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  background-position-x: 50%;
-  background-position-y: 25%;
-  background-image: url("stickyLogo.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 92%;
-  width: fit-content;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.11);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.616);
-  padding: 0vmax 5vmax 0 5vmax;
-  margin-top: -1vmax;
-}
-
-.logo {
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  height: 23vmax;
-  width: 45vmax;
 }
 
 .gigListMonths {
@@ -2230,21 +1955,6 @@ select::-webkit-scrollbar-thumb {
   text-shadow: none;
 }
 
-.logout {
-  border-radius: 1vh;
-  margin-top: 0.3vmax;
-  font-size: 1.1vmax;
-  color: rgb(0, 102, 255);
-  cursor: pointer;
-  font-family: "BlackOpsOne";
-  text-shadow: -0 0 5px black, 0 -0 5px black, -0 -0 5px black, -0 -0 5px black;
-  letter-spacing: 1px;
-}
-
-.logout:hover {
-  color: orangered;
-}
-
 /* #error {
   width: 20vmax;
   text-align: center;
@@ -2494,62 +2204,6 @@ font-family: 'Ultra', serif; */
 
 .userConfigPwdBack input {
   width: 75%;
-}
-
-.mainOptionsBox {
-  position: fixed;
-  right: 0.5vmax;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.visitors_lougout_box {
-  font-family: "BlackOpsOne";
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  color: rgba(255, 208, 0, 0.815);
-
-  text-shadow: -0 0 5px rgba(0, 0, 0, 0.308), 0 -0 5px rgba(0, 0, 0, 0.308),
-    -0 -0 5px rgba(0, 0, 0, 0.308), -0 -0 5px rgba(0, 0, 0, 0.308);
-
-  border-radius: 1vh;
-  padding: 0.5vmax;
-
-  text-align: center;
-  font-size: 1.5vmax;
-}
-
-.visitors {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-shadow: -0 0 5px rgba(0, 0, 0, 0.308), 0 -0 5px rgba(0, 0, 0, 0.308),
-    -0 -0 5px rgba(0, 0, 0, 0.308), -0 -0 5px rgba(0, 0, 0, 0.308);
-  background-color: rgba(0, 0, 0, 0.199);
-  padding: 0.5vmax 0.5vmax 0 0.5vmax;
-  border-radius: 1vh;
-}
-
-.visitors div:nth-child(2) {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: fit-content;
-  text-shadow: 0 0 5px rgba(19, 253, 50, 0.267),
-    0 -0 5px rgba(19, 253, 50, 0.267), -0 -0 5px rgba(19, 253, 50, 0.267),
-    -0 -0 5px rgba(19, 253, 50, 0.267);
-  color: rgba(255, 255, 255, 0.692);
-  margin: -0.5vmax 0;
-  height: 3vmax;
-  border-radius: 1vh;
 }
 
 /* Ticker !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
@@ -3065,25 +2719,6 @@ font-family: 'Ultra', serif; */
   font-weight: lighter;
 }
 
-.superAdminButton {
-  position: fixed;
-  right: 10vmax;
-  bottom: 1vmax;
-}
-
-.superAdminButton img {
-  width: 4.5vmax;
-  height: 3.5vmax;
-  background-size: cover;
-  transition: 0.5s;
-}
-
-.superAdminButton img:hover {
-  width: 5.5vmax;
-  height: 4.5vmax;
-  transition: 0.5s;
-}
-
 .communityContainer {
   display: flex;
   flex-direction: column;
@@ -3557,53 +3192,6 @@ font-family: 'Ultra', serif; */
   font-size: 1vmax;
 }
 
-.mainTopRightButtons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  right: 0;
-  margin: 0.5vmax 1vmax;
-  z-index: 3;
-}
-
-.aboutButton {
-  border-radius: 50%;
-
-  font-size: 1.5vmax;
-  color: white;
-  background-image: url("about.png");
-  width: 2.3vmax;
-  height: 2.3vmax;
-  background-size: cover;
-  filter: invert(100%);
-
-  box-shadow: -0 0 10px rgba(0, 0, 0, 0.2), 0 -0 10px rgba(0, 0, 0, 0.2),
-    -0 -0 10px rgba(0, 0, 0, 0.2), -0 -0 10px rgba(0, 0, 0, 0.2);
-
-  opacity: 80%;
-}
-
-.aboutButton:hover {
-  box-shadow: -0 0 7px rgba(128, 20, 20, 0.4), 0 -0 7px rgba(128, 20, 20, 0.4),
-    -0 -0 7px rgba(128, 20, 20, 0.4), -0 -0 7px rgba(128, 20, 20, 0.4);
-  background-color: rgba(128, 20, 20, 0.2);
-}
-
-.timeline:hover {
-  animation: 1s timeline ease-in-out;
-}
-
-.timeline img {
-  width: 2.5vmax;
-  height: 2.5vmax;
-  background-size: contain;
-  margin: 0.2vmax 1vmax 0 1vmax;
-  border-radius: 50%;
-  border: 1px solid #00ffaa0f;
-}
-
 .timelineContainer {
   justify-content: center;
   margin: auto 0;
@@ -4042,4 +3630,13 @@ font-family: 'Ultra', serif; */
   text-shadow: 0 0 5px orange, 0 0 5px orange, 0 0 5px orange, 0 0 5px orange;
   font-size: 3vmax;
   font-family: "PollerOne";
+}
+
+.communityRedDot {
+  width: 2vmax;
+  height: 2vmax;
+  background-image: url("redBall.gif");
+  background-size: cover;
+  margin: 1.2vmax 0 0 1vmax;
+  cursor: pointer;
 }

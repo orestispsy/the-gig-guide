@@ -45,7 +45,8 @@ export const Gig = styled.div<Types>`
 
     50% {
       opacity: 100%;
-      transform: scale(1.2) skew(-3deg);
+      transform: scale(1.2);
+      /* transform: scale(1.2) skew(-3deg); */
     }
 
     66% {
@@ -62,9 +63,9 @@ export const Gig = styled.div<Types>`
       z-index: 1;
     }
   }
-  animation: wars 9s ease-in-out;
+  animation: wars 7s ease-in-out;
   animation-delay: ${(props) => props.delayed && props.delayed * 0.001}s;
-  transition: 9s;
+  transition: 7s;
   /* 
     &:hover {
         animation-play-state: paused;
@@ -130,7 +131,7 @@ export const Poster = styled.div<Types>`
   background-size:cover;
   margin: 0 2vmax;
   ${mediaQueries("100", "480", "portrait")`
-           margin: 2vmax 0 !important;
+        margin: 2vmax 0 !important;
     `}
 `;
 

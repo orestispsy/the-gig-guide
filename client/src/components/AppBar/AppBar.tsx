@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
@@ -17,6 +17,7 @@ import {
   Logo,
   NavButton,
   Arrow,
+  NavButtonWrapper,
 } from "./AppBar.style";
 
 const {
@@ -193,6 +194,38 @@ export const AppBar: React.FC<Props> = ({
     [state]
   );
 
+  const onNavigateClick = useCallback(() => {
+    appNavigate(
+      setGigEntry,
+      mapVisible,
+      setAboutMode,
+      timelineGigsMode,
+      gigUpdatedMode,
+      setGigUpdatedMode,
+      timelineGalleriesMode,
+      timelineCommentsMode,
+      timelineCommentsMode,
+      maps,
+      adminControls,
+      editMode,
+      animeMode,
+      animeMusic,
+      setAnimeMusic,
+      gigEntryMode,
+      privateMode,
+      setPrivateMode,
+      chatMode,
+      setChatModeClosed,
+      chatModeClosed,
+      addMode,
+      gigListOpen,
+      gigLocation,
+      aboutMode,
+      navigate,
+      pathname
+    );
+  }, [appNavigate]);
+
   return (
     <Container>
       <BarLeftSection>
@@ -256,41 +289,15 @@ export const AppBar: React.FC<Props> = ({
           animeMode ||
           gigEntryMode ||
           timelineMode) && (
-          <NavButton
+          <NavButtonWrapper
             onClick={(e) => {
-              appNavigate(
-                setGigEntry,
-                mapVisible,
-                setAboutMode,
-                timelineGigsMode,
-                gigUpdatedMode,
-                setGigUpdatedMode,
-                timelineGalleriesMode,
-                timelineCommentsMode,
-                timelineCommentsMode,
-                maps,
-                adminControls,
-                editMode,
-                animeMode,
-                animeMusic,
-                setAnimeMusic,
-                gigEntryMode,
-                privateMode,
-                setPrivateMode,
-                chatMode,
-                setChatModeClosed,
-                chatModeClosed,
-                addMode,
-                gigListOpen,
-                gigLocation,
-                aboutMode,
-                navigate,
-                pathname
-              );
+              onNavigateClick();
             }}
           >
-            <Arrow />
-          </NavButton>
+            <NavButton>
+              <Arrow />
+            </NavButton>
+          </NavButtonWrapper>
         )}
 
       {nightFlightProg && (

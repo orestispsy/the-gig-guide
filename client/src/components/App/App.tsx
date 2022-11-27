@@ -15,7 +15,6 @@ import { GigEntry } from "../GigEntry/GigEntry";
 import { SuperAdmin } from "../SuperAdmin/SuperAdmin";
 import { About } from "../About/About";
 import { Timeline } from "../Timeline/Timeline";
-import { Loading } from "../Loading/Loading";
 
 import "./../../../public/style.css";
 
@@ -61,8 +60,9 @@ export const App: React.FC<Props> = ({}) => {
   const [addMode, setAddMode] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<boolean>(false);
   const [gigsList, setGigsList] = useState<any>();
-  const [loaded, setLoaded] = useState<boolean>(false);
+  const [roadLoaded, setRoadLoaded] = useState<boolean>(false);
   const [loadedMain, setLoadedMain] = useState<boolean>(false);
+  const [loadedMainDark, setLoadedMainDark] = useState<boolean>(false);
   const [profileBanned, setProfileBanned] = useState<boolean>(false);
   const [profileBlocked, setProfileBlocked] = useState<boolean>(false);
   const [animeMode, setAnimeMode] = useState<boolean>(false);
@@ -90,6 +90,8 @@ export const App: React.FC<Props> = ({}) => {
   const [timelineScrollTop, setTimelineScrollTop] = useState<number>(0);
   const [latestUpdatesMode, setLatestUpdatesMode] = useState<boolean>(false);
   const [retroList, setRetroList] = useState<boolean>(false);
+  const [skyIsLoaded, setSkyIsLoaded] = useState<boolean>(false);
+  const [finalLoadingCheck, setFinalLoadingCheck] = useState<boolean>(false);
 
   useEffect(function () {
     setMaps(false);
@@ -163,12 +165,34 @@ export const App: React.FC<Props> = ({}) => {
     [chatBan]
   );
 
+  const checkOnLoad = () => {
+    if (location.pathname && location.pathname === "/") {
+      let logoLoader;
+      logoLoader = darkMode ? loadedMainDark : loadedMain;
+      if (roadLoaded && logoLoader && skyIsLoaded) {
+        setFinalLoadingCheck(true);
+      }
+    } else {
+      setTimeout(() => {
+        setFinalLoadingCheck(true);
+      }, 2000);
+    }
+  };
+
+  useEffect(
+    function () {
+      checkOnLoad();
+    },
+    [roadLoaded, loadedMain, loadedMainDark, skyIsLoaded]
+  );
+
   return (
     <Router>
       <Routes>
         <Route
           element={
             <AppLayout
+              finalLoadingCheck={finalLoadingCheck}
               darkMode={darkMode}
               aboutMode={aboutMode}
               myUserId={myUserId}
@@ -199,9 +223,9 @@ export const App: React.FC<Props> = ({}) => {
               setAboutMode={(e: boolean) => setAboutMode(e)}
               adminControls={adminControls}
               gigListOpen={gigListOpen}
-              loaded={loaded}
-              setLoaded={(e) => {
-                setLoaded(e);
+              roadLoaded={roadLoaded}
+              setRoadLoaded={(e) => {
+                setRoadLoaded(e);
               }}
               addMode={addMode}
               editMode={editMode}
@@ -232,6 +256,8 @@ export const App: React.FC<Props> = ({}) => {
               profileBlocked={profileBlocked}
               profileBanned={profileBanned}
               mute={mute}
+              setSkyIsLoaded={(e: boolean) => setSkyIsLoaded(e)}
+              skyIsLoaded={skyIsLoaded}
             />
           }
         >
@@ -250,9 +276,8 @@ export const App: React.FC<Props> = ({}) => {
                 setMaps={(e: boolean) => setMaps(e)}
                 setAdminControls={(e: boolean) => setAdminControls(e)}
                 setGigListOpen={(e: boolean) => setGigListOpen(e)}
-                loaded={loaded}
                 setLoadedMain={(e: boolean) => setLoadedMain(e)}
-                loadedMain={loadedMain}
+                setLoadedMainDark={(e: boolean) => setLoadedMainDark(e)}
                 setGigEntry={(e: number | null) => setSelectedGigEntry(e)}
                 userSelectedMode={userSelectedMode}
                 setUserSelectedMode={(e: boolean) => setUserSelectedMode(e)}
@@ -274,6 +299,7 @@ export const App: React.FC<Props> = ({}) => {
                 }
                 setTimelineScrollTop={(e: number) => setTimelineScrollTop(e)}
                 guest={guest}
+                finalLoadingCheck={finalLoadingCheck}
               />
             }
           ></Route>
@@ -317,7 +343,6 @@ export const App: React.FC<Props> = ({}) => {
               />
             }
           ></Route>
-          <Route path="/loading" element={<Loading />}></Route>
           <Route
             path="/gig-list"
             element={
@@ -365,7 +390,6 @@ export const App: React.FC<Props> = ({}) => {
                 setGigEntry={(e: number | null) => setSelectedGigEntry(e)}
                 selectedGigEntry={selectedGigEntry}
                 guest={guest}
-                setLoaded={(e: boolean) => setLoaded(e)}
                 setGigEntryMode={(e: boolean) => setGigEntryMode(e)}
                 setMapMode={(e: boolean) => setMapMode(e)}
                 mapVisible={(e: boolean) => setMaps(e)}

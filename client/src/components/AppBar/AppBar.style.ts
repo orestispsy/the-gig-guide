@@ -134,6 +134,9 @@ export const Logo = styled.div`
     `}
 `;
 
+export const NavButtonWrapper = styled.div`
+  cursor: pointer;
+`;
 export const NavButton = styled.div`
   display: flex;
   flex-direction: column;
@@ -142,7 +145,6 @@ export const NavButton = styled.div`
   border-radius: 50%;
   border: 3px solid white;
   padding: 0.3vmax;
-  cursor: pointer;
   width: 2vmax;
   height: 2vmax;
   margin: 0 1vmax;

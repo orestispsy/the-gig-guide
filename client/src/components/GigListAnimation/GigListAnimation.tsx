@@ -170,7 +170,7 @@ const useCreateGigs = (
           delayed={index}
           onAnimationEnd={(e) => onTransitionEnd(e)}
         >
-          {val.poster && <Poster poster={val.poster} />}
+          {/* {val.poster && <Poster poster={val.poster} />} */}
           <Details>
             <Section>{val.date && changeDate(val.date)}</Section>
             <Section>{val.venue}</Section>

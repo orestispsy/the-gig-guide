@@ -160,8 +160,7 @@ export const Community: React.FC<Props> = ({
           {contribute && (
             <div className="communityConfig">
               <div
-                className="onlineUsersRedDot"
-                id="commentsBack"
+                className="communityRedDot"
                 title="Close File Uploader"
                 onClick={() => {
                   setContribute(false);

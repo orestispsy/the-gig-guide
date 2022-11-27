@@ -12,7 +12,6 @@ interface Props {
   superAdmin: boolean;
   myNickname: string;
   setDarkMode: (e: boolean) => void;
-  setLoaded: (e: boolean) => void;
   setGigEntry: (e: number | null) => void;
   selectedGigEntry: number | null;
   guest: boolean;
@@ -41,7 +40,6 @@ export const GigEntry: React.FC<Props> = ({
   superAdmin,
   myNickname,
   setDarkMode,
-  setLoaded,
   setGigEntry,
   setGigEntryMode,
   selectedGigEntry,

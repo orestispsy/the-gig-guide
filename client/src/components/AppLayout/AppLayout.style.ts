@@ -77,9 +77,6 @@ const AppContainer = css`
   flex-direction: column;
   align-items: center;
   align-self: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position-x: center;
   height: 100%;
   width: 100%;
 
@@ -126,8 +123,6 @@ export const GeneralAppContainer = styled.div<AppLayoutTypes>`
   ${(props) =>
     !props.loaded &&
     css`
-      justify-content: center;
-      height: 0;
       visibility: hidden;
     `}
 
@@ -137,15 +132,59 @@ export const GeneralAppContainer = styled.div<AppLayoutTypes>`
       visibility: visible;
       animation: fadeAbout 1s ease-in-out;
     `}
+`;
 
-    ${(props) =>
-    !props.aboutMode &&
-    !props.gigListOpen &&
-    !props.adminControls &&
-    !props.maps &&
-    !props.timelineMode &&
-    !props.darkMode &&
+export const Road = styled.img<AppLayoutTypes>`
+  z-index: -1;
+  position: absolute;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  width: 100%;
+
+  ${(props) =>
+    !props.loaded &&
     css`
-      background-image: url("/road.png");
+      visibility: hidden;
+    `}
+
+  ${(props) =>
+    props.loaded &&
+    css`
+      visibility: visible;
+      animation: fadeAbout 1s ease-in-out;
+    `}
+
+          ${mediaQueries("100", "850", "portrait")`
+               object-fit: cover;
+               height: 100%;
+    `}
+`;
+
+export const Sky = styled.img<AppLayoutTypes>`
+  z-index: -2;
+  position: absolute;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  visibility: hidden;
+  height: 100%;
+  width: 100%;
+  animation: fadeAbout 0.5s ease-in-out;
+
+  ${(props) =>
+    props.loaded &&
+    css`
+      visibility: visible;
     `}
 `;

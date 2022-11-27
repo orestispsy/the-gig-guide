@@ -4,6 +4,26 @@ import axios from "../../common/Axios/axios";
 
 import { ThemeToggler } from "./../Chat/Chat.style";
 
+import { MainMenu } from "./MainMenu/MainMenu";
+
+import {
+  MainContainer,
+  Logo,
+  LogoWrapper,
+  LogoText,
+  SuperAdminButton,
+  SuperAdminButtonImage,
+  TimeLineButton,
+  AboutButton,
+  TopRightButtons,
+  BottomRightMenu,
+  BottomRightMenuWrapper,
+  VisitorsBox,
+  VisitorsCount,
+  VisitorsTitle,
+  LogOut,
+} from "./Main.style";
+
 interface Props {
   superAdmin: boolean;
   admin: boolean;
@@ -17,9 +37,8 @@ interface Props {
   setMaps: (e: boolean) => void;
   setAdminControls: (e: boolean) => void;
   setGigListOpen: (e: boolean) => void;
-  loaded: boolean;
   setLoadedMain: (e: boolean) => void;
-  loadedMain: boolean;
+  setLoadedMainDark: (e: boolean) => void;
   setGigEntry: (e: number | null) => void;
   setUserSelectedMode: (e: boolean) => void;
   userSelectedMode: boolean;
@@ -33,11 +52,10 @@ interface Props {
   setVisitors: (e: number | boolean) => void;
   setTimelineMode: (e: boolean) => void;
   setTimelineCommentsMode: (e: boolean) => void;
-
   setTimelineGigsMode: (e: boolean) => void;
-
   setTimelineGalleriesMode: (e: boolean) => void;
   setTimelineScrollTop: (e: number) => void;
+  finalLoadingCheck: boolean;
 }
 
 export const Main: React.FC<Props> = ({
@@ -52,9 +70,8 @@ export const Main: React.FC<Props> = ({
   setMaps,
   setAdminControls,
   setGigListOpen,
-  loaded,
   setLoadedMain,
-  loadedMain,
+  setLoadedMainDark,
   setGigEntry,
   setUserSelectedMode,
   userSelectedMode,
@@ -72,6 +89,7 @@ export const Main: React.FC<Props> = ({
   setTimelineGigsMode,
   setTimelineScrollTop,
   guest,
+  finalLoadingCheck,
 }) => {
   const [firstView, setFirstView] = useState<boolean>(true);
   useEffect(function () {
@@ -123,134 +141,80 @@ export const Main: React.FC<Props> = ({
   return (
     <>
       {" "}
-      {loaded && (
-        <div
-          className="mainContainer"
-          id={(firstView && `mainContainerIntro`) || ``}
-          style={{
-            visibility: (loaded && `visible`) || `hidden`,
-            justifyContent: (!darkMode && "flex-start") || "center",
-          }}
-        >
-          <div id={(darkMode && "logoBoxDark") || ""}>
-            <div className="logoBack">
-              {!darkMode && (
-                <img
-                  src={"logo.png"}
-                  className="logo"
-                  id={(darkMode && "logoDark") || ""}
-                  onLoad={(e) => setLoadedMain(true)}
-                ></img>
-              )}
-              <p id={(darkMode && "logoDarkP") || ""}>GIG GUIDE</p>
-            </div>
-
-            <div className="mainMenu" id={(darkMode && "mainMenuDark") || ""}>
-              {superAdmin && (
-                <div className="mainMenuEditOptions">
-                  <Link to="/gig-creator" className="mainMenuLink">
-                    {" "}
-                    Add
-                  </Link>
-                  <div className="easterEgg" title="Map">
-                    <Link to="/map">
-                      <img
-                        id={(darkMode && "globeDark") || ""}
-                        src="globe.gif"
-                      ></img>
-                    </Link>
-                  </div>
-                  <Link to="/gig-editor" className="mainMenuLink">
-                    {" "}
-                    Edit
-                  </Link>
-                </div>
-              )}
-              {!superAdmin && (
-                <div className="mainMenuEditOptions">
-                  <Link to="/gig-list" className="mainMenuLink">
-                    Gigs
-                  </Link>
-                  <div className="easterEgg" title="Map">
-                    <Link to="/map">
-                      <img
-                        id={(darkMode && "globeDark") || ""}
-                        src="globe.gif"
-                      ></img>
-                    </Link>
-                  </div>
-                  <Link to="/chat" className="mainMenuLink">
-                    Chat
-                  </Link>
-                </div>
-              )}
-              {!superAdmin && (
-                <Link to="/about" className="mainMenuLink">
-                  About
-                </Link>
-              )}
-              {superAdmin && (
-                <Link to="/gig-list" className="mainMenuLink">
-                  Entries
-                </Link>
-              )}
-            </div>
-          </div>
-          <ThemeToggler
-            dark={darkMode}
-            title={(!darkMode && "Dark Mode") || "Light Mode"}
-            onClick={() => {
-              changePageMode();
+      <MainContainer
+        finalLoadingCheck={finalLoadingCheck}
+        darkMode={darkMode}
+        firstView={firstView}
+      >
+        {darkMode && (
+          <Logo
+            darkMode={darkMode}
+            src={`stickyLogo.png?random=${Math.random()}`}
+            onLoad={(e) => {
+              setLoadedMainDark(true);
             }}
-          ></ThemeToggler>
+          ></Logo>
+        )}
 
-          {superAdmin && (
-            <Link to="/super-admin">
-              <div className="superAdminButton" title="Admin Controls">
-                <img src="superAdmin.png"></img>
-              </div>
+        <LogoWrapper>
+          {!darkMode && (
+            <Logo
+              src={`logo.png?random=${Math.random()}`}
+              onLoad={(e) => {
+                setLoadedMain(true);
+              }}
+            ></Logo>
+          )}
+          <LogoText darkMode={darkMode}>GIG GUIDE</LogoText>
+        </LogoWrapper>
+
+        <MainMenu darkMode={darkMode} superAdmin={superAdmin} />
+
+        <ThemeToggler
+          dark={darkMode}
+          title={(!darkMode && "Dark Mode") || "Light Mode"}
+          onClick={() => {
+            changePageMode();
+          }}
+        ></ThemeToggler>
+
+        {superAdmin && (
+          <SuperAdminButton to="/super-admin" title="Admin Controls">
+            <SuperAdminButtonImage src="superAdmin.png" />
+          </SuperAdminButton>
+        )}
+        {currentVisitors && (
+          <BottomRightMenuWrapper>
+            <BottomRightMenu>
+              <VisitorsBox>
+                <VisitorsTitle>Visitors</VisitorsTitle>
+                <VisitorsCount
+                  visitors={visitors}
+                  onAnimationEndCapture={(e) => {
+                    setVisitors(false);
+                  }}
+                >
+                  {currentVisitors}
+                </VisitorsCount>
+              </VisitorsBox>
+
+              <LogOut onClick={() => logOut()}>LogOut</LogOut>
+            </BottomRightMenu>
+          </BottomRightMenuWrapper>
+        )}
+        <TopRightButtons>
+          {!guest && (
+            <Link to="/timeline" title="Timeline">
+              <TimeLineButton src="timeline.png" />
             </Link>
           )}
-          {currentVisitors && (
-            <div className="mainOptionsBox">
-              <div className="visitors_lougout_box">
-                <div className="visitors">
-                  <div className="visitorsTitle">Visitors</div>{" "}
-                  <div
-                    onAnimationEndCapture={(e) => {
-                      setVisitors(false);
-                    }}
-                    style={{
-                      animation:
-                        (visitors && "blinkerTextCyan 3s ease-in-out") || "",
-                    }}
-                  >
-                    {currentVisitors}
-                  </div>
-                </div>
-
-                <div className="logout" onClick={() => logOut()}>
-                  LogOut
-                </div>
-              </div>
-            </div>
+          {superAdmin && (
+            <Link to="/about">
+              <AboutButton title="About"></AboutButton>
+            </Link>
           )}
-          <div className="mainTopRightButtons">
-            {!guest && (
-              <Link to="/timeline" className="timeline" title="Timeline">
-                <div>
-                  <img src="timeline.png"></img>
-                </div>
-              </Link>
-            )}
-            {superAdmin && (
-              <Link to="/about">
-                <div className="aboutButton" title="About"></div>
-              </Link>
-            )}
-          </div>
-        </div>
-      )}
+        </TopRightButtons>
+      </MainContainer>
     </>
   );
 };
