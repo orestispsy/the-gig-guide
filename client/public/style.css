@@ -912,7 +912,6 @@ form h1 {
 .logoBackLogIn {
   display: flex;
   flex-direction: column;
-
   align-self: center;
   font-family: "BlackOpsOne";
   align-items: center;

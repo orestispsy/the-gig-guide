@@ -53,7 +53,7 @@ export const LogoWrapper = styled.div<Types>`
   font-family: "BlackOpsOne";
 
   ${mediaQueries("100", "480", "portrait")`
-        align-items: center !important;
+        align-items: center;
     `}
 `;
 
@@ -65,13 +65,13 @@ export const Logo = styled.img<Types>`
   width: 45vmax;
 
   ${mediaQueries("100", "480", "portrait")`
-        width: 75vmax !important;
-        height: 35vmax !important;
+        width: 75vmax;
+        height: 35vmax;
     `}
 
   ${mediaQueries("273", "1024", "landscape")`
-        width: 48vmax !important;
-        height: 22vmax !important;
+        width: 48vmax;
+        height: 22vmax;
     `}
 
     ${(props) =>
@@ -93,21 +93,21 @@ export const Logo = styled.img<Types>`
       margin-top: -1vmax;
 
       ${mediaQueries("100", "480", "portrait")`
-        border: none !important;
-        box-shadow: none !important;
-        border-radius: 0 !important;
-        margin-top: -6vmax !important;
-        height: 92vmax !important;
-        width: 120vw !important;
-        padding: 0 9vmax 0 9vmax !important;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+        margin-top: -6vmax;
+        height: 92vmax;
+        width: 120vw;
+        padding: 0 9vmax 0 9vmax;
     `}
 
       ${mediaQueries("273", "1024", "landscape")`
-        border: none !important;
-        box-shadow: none !important;
-        border-radius: 0 !important;
-        background-size: contain !important;
-        height: 100% !important;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+        background-size: contain;
+        height: 100%;
     `}
     `}
 `;
@@ -126,13 +126,13 @@ export const LogoText = styled.p<Types>`
   z-index: 2;
 
   ${mediaQueries("100", "480", "portrait")`
-        font-size: 6vmax !important;
-        margin: -6vh 0 6vh 0 !important;
+        font-size: 6vmax;
+        margin: -6vh 0 6vh 0;
     `}
 
   ${mediaQueries("273", "1024", "landscape")`
-        font-size: 3.5vmax !important;
-        margin: -6vh 0 6vh 0 !important;
+        font-size: 3.5vmax;
+        margin: -6vh 0 6vh 0;
     `}
 
     ${(props) =>
@@ -141,8 +141,8 @@ export const LogoText = styled.p<Types>`
       margin: -4vmax 0 5vmax 0;
 
       ${mediaQueries("273", "1024", "landscape")`
-        padding: 0 !important;
-        margin: 20vmax 0 0 0 !important;
+        padding: 0;
+        margin: 20vmax 0 0 0;
     `}
     `}
 `;
@@ -166,13 +166,13 @@ export const SuperAdminButtonImage = styled.img`
   }
 
   ${mediaQueries("100", "480", "portrait")`
-        width: 6.5vmax !important;
-        height: 5.5vmax !important;
+        width: 6.5vmax;
+        height: 5.5vmax;
     `}
 
   ${mediaQueries("273", "1024", "landscape")`
-        width: 6.5vmax !important;
-        height: 5.5vmax !important;
+        width: 6.5vmax;
+        height: 5.5vmax;
     `}
 `;
 
@@ -199,14 +199,14 @@ export const TimeLineButton = styled.img`
   }
 
   ${mediaQueries("100", "480", "portrait")`
-        width: 5vmax !important;
-        height: 5vmax !important;
-        margin-top: 0 !important;
+        width: 5vmax;
+        height: 5vmax;
+        margin-top: 0;
     `}
 
   ${mediaQueries("273", "1024", "landscape")`
-        width: 5vmax !important;
-        height: 5vmax !important;
+        width: 5vmax;
+        height: 5vmax;
     `}
 `;
 
@@ -233,13 +233,13 @@ export const AboutButton = styled.div`
   }
 
   ${mediaQueries("100", "480", "portrait")`
-        height: 4vmax !important;
-        width: 4vmax !important;
+        height: 4vmax;
+        width: 4vmax;
     `}
 
   ${mediaQueries("273", "1024", "landscape")`
-        height: 4vmax !important;
-        width: 4vmax !important;
+        height: 4vmax;
+        width: 4vmax;
     `}
 `;
 

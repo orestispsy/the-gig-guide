@@ -32,30 +32,30 @@ export const MenuWrapper = styled.div<Types>`
     `}
 
   ${mediaQueries("100", "480", "portrait")`
-        flex-direction: column !important;
-        justify-content: space-evenly !important;
-        height: 40vw !important;
+        flex-direction: column;
+        justify-content: space-evenly;
+        height: 40vw;
 
         a:nth-child(2) {
-            margin-top: -5vmax !important;
+            margin-top: -5vmax;
         }
     `}
 
     ${mediaQueries("273", "1024", "landscape")`
-        width: 60vw !important;
+        width: 60vw;
     `}
 
     ${(props) =>
     props.darkMode &&
     css`
       flex-direction: column-reverse;
-      margin: 0 0 -15vmax 0 !important;
+      margin: 0 0 -15vmax 0;
       ${mediaQueries("100", "480", "portrait")`
-          margin: 5vmax 0 0vmax 0 !important;
+          margin: 5vmax 0 0vmax 0;
     `}
 
       ${mediaQueries("273", "1024", "landscape")`
-          margin: 2vmax 0 0 0 !important;
+          margin: 2vmax 0 0 0;
     `}
     `}
 `;
@@ -109,14 +109,14 @@ export const SectionButton = styled(Link)<Types>`
   }
 
   ${mediaQueries("100", "480", "portrait")`
-        font-size: 3.5vmax !important;
-        padding: 1.5vmax 1.5vmax 2vmax 1.5vmax !important;
+        font-size: 3.5vmax;
+        padding: 1.5vmax 1.5vmax 2vmax 1.5vmax;
     `}
 
   ${mediaQueries("273", "1024", "landscape")`
-        font-size: 2vmax !important;
-        padding: 1vmax 1.5vmax 0 1.5vmax !important;
-        justify-content: unset !important;
+        font-size: 2vmax;
+        padding: 1vmax 1.5vmax 0 1.5vmax;
+        justify-content: unset;
     `}
 `;
 
@@ -142,15 +142,15 @@ export const Globe = styled.img<Types>`
   }
 
   ${mediaQueries("100", "480", "portrait")`
-        width: 14vmax !important;
-        height: 14vmax !important;
-        margin: -4vmax 4vmax 7vmax 4vmax !important;
+        width: 14vmax;
+        height: 14vmax;
+        margin: -4vmax 4vmax 7vmax 4vmax;
     `}
 
   ${mediaQueries("273", "1024", "landscape")`
-        width: 9vmax !important;
-        height: 9vmax !important;
-        margin: -3vmax 4vmax 3vmax 4vmax !important;
+        width: 9vmax;
+        height: 9vmax;
+        margin: -3vmax 4vmax 3vmax 4vmax;
     `}
 
     ${(props) =>
@@ -158,7 +158,7 @@ export const Globe = styled.img<Types>`
     css`
       margin: 2vmax;
       ${mediaQueries("273", "1024", "landscape")`
-        margin-top: 2vmax !important;
+        margin-top: 2vmax;
     `}
     `}
 `;
