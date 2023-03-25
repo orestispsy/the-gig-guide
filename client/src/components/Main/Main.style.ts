@@ -10,39 +10,40 @@ type Types = {
 };
 
 export const MainContainer = styled.div<Types>`
-  color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  align-self: center;
-  margin-bottom: auto;
-  width: 100%;
-  height: 92%;
-  animation: fadeAbout 0.5s ease-in-out;
-  visibility: hidden;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    align-self: center;
+    margin-bottom: auto;
+    width: 100%;
+    height: 92%;
+    animation: fadeAbout 0.5s ease-in-out;
+    visibility: hidden;
 
-  ${mediaQueries("273", "1024", "landscape")`
+    ${mediaQueries("273", "1024", "landscape")`
         margin-top: -3vmax;
     `}
 
-  ${(props) =>
-    props.darkMode &&
-    css`
-      justify-content: center;
-    `}
+    ${(props) =>
+        props.darkMode &&
+        css`
+            justify-content: center;
+            animation: fadeAbout 0.5s ease-in-out;
+        `}
         
     ${(props) =>
-    props.finalLoadingCheck &&
-    css`
-      visibility: visible;
-    `}
+        props.finalLoadingCheck &&
+        css`
+            visibility: visible;
+        `}
 
             ${(props) =>
-    props.firstView &&
-    css`
-      animation: fadeAbout 2s ease-in-out;
-    `}
+        props.firstView &&
+        css`
+            animation: fadeAbout 2s ease-in-out;
+        `}
 `;
 
 export const LogoWrapper = styled.div<Types>`
@@ -138,7 +139,7 @@ export const LogoText = styled.p<Types>`
     ${(props) =>
     props.darkMode &&
     css`
-      margin: -4vmax 0 5vmax 0;
+      margin: -3vmax 0 2vmax 0;
 
       ${mediaQueries("273", "1024", "landscape")`
         padding: 0;

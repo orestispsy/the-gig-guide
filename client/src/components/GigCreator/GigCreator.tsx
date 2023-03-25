@@ -2,6 +2,30 @@ import React, { useEffect, useState } from "react";
 
 import EditMap from "../EditMap/EditMap";
 
+import {
+    Container,
+    Content,
+    CloseButtonWrapper,
+    CloseButton,
+    Form,
+    Title,
+    FormContent,
+    InputWrapper,
+    InputLabel,
+    Input,
+    CoordinatesSection,
+    FlipperWrapper,
+    CoordinatesRightContent,
+    CoordinatesButtonLabel,
+    CoordinatesButton,
+    SubmitButtonWrapper,
+    SubmitButton,
+    Required,
+    DoneButton,
+    SubmitSuccess,
+    Error,
+} from "./GigCreator.style";
+
 const { createGigEntry } = require("./GigCreatorUtils");
 
 interface Props {
@@ -43,184 +67,179 @@ export const GigCreator: React.FC<Props> = ({
   };
 
   return (
-    <div className="gigCreatorContainer">
-      <div
-        className="gigCreatorContainerInner"
-        id={(darkMode && "logoBoxDarkEdit") || ""}
-      >
-        {mapView && (
-          <div
-            title="Back"
-            id="editorCloseTab"
-            onClick={(e) => {
-              setMapView(!mapView);
-            }}
+      <Container>
+          <Content
+          dark={darkMode}
           >
-            <div className="buttonBack">X</div>
-          </div>
-        )}
-        <form>
-          <h1>Add Gig</h1>
-          {!mapView && (
-            <div className="gigMainDetails">
-              <div className="inputBack">
-                <span>Date*</span>
-                <input
-                  value={date || ""}
-                  autoComplete="none"
-                  name="date"
-                  placeholder="date"
-                  type="date"
-                  onChange={(e) => setDate(e.target.value)}
-                  onClick={() => setError(false)}
-                />
-              </div>
+              {mapView && (
+                  <CloseButtonWrapper
+                      title="Back"
+                      onClick={(e:any) => {
+                          setMapView(!mapView);
+                      }}
+                  >
+                      <CloseButton>X</CloseButton>
+                  </CloseButtonWrapper>
+              )}
+              <Form>
+                  <Title>Add Gig</Title>
+                  {!mapView && (
+                      <FormContent>
+                          <InputWrapper>
+                              <InputLabel>Date*</InputLabel>
+                              <Input
+                                  value={date || ""}
+                                  autoComplete="none"
+                                  name="date"
+                                  placeholder="date"
+                                  type="date"
+                                  onChange={(e) => setDate(e.target.value)}
+                                  onClick={() => setError(false)}
+                              />
+                          </InputWrapper>
 
-              <div className="inputBack">
-                <span>City</span>
-                <input
-                  value={city || ""}
-                  autoComplete="none"
-                  name="city"
-                  placeholder="City"
-                  onChange={(e) => setCity(e.target.value)}
-                  onClick={() => setError(false)}
-                />
-              </div>
+                          <InputWrapper>
+                              <InputLabel>City</InputLabel>
+                              <Input
+                                  value={city || ""}
+                                  autoComplete="none"
+                                  name="city"
+                                  placeholder="City"
+                                  onChange={(e) => setCity(e.target.value)}
+                                  onClick={() => setError(false)}
+                              />
+                          </InputWrapper>
 
-              <div className="inputBack">
-                <span>Tour</span>
-                <input
-                  value={tourName || ""}
-                  autoComplete="none"
-                  name="tourName"
-                  placeholder="Tour Name"
-                  onChange={(e) => setTourName(e.target.value)}
-                  onClick={() => setError(false)}
-                />
-              </div>
+                          <InputWrapper>
+                              <InputLabel>Tour</InputLabel>
+                              <Input
+                                  value={tourName || ""}
+                                  autoComplete="none"
+                                  name="tourName"
+                                  placeholder="Tour Name"
+                                  onChange={(e) => setTourName(e.target.value)}
+                                  onClick={() => setError(false)}
+                              />
+                          </InputWrapper>
 
-              <div className="inputBack">
-                <span>Venue</span>
-                <input
-                  value={venue || ""}
-                  autoComplete="none"
-                  name="venue"
-                  placeholder="Venue"
-                  onChange={(e) => setVenue(e.target.value)}
-                  onClick={() => setError(false)}
-                />
-              </div>
-            </div>
-          )}
-          <div className="coordinatesEditorBox">
-            <div className="inputBack">
-              <span>Latitude*</span>
-              <input
-                value={lat || ""}
-                autoComplete="none"
-                name="lat"
-                placeholder="Latitude"
-                onChange={(e) => setLat(e.target.value)}
-                onClick={() => setError(false)}
-              />
-            </div>
-            <div className="coordinatesMenuFlipper">
-              <div
-                className="coordinatesMenu"
-                onClick={() => setMapView(!mapView)}
-              >
-                <div
-                  className="lngLtdMenu"
-                  style={{
-                    animation:
-                      (lat &&
-                        lng &&
-                        mapView &&
-                        "blinkerBan 3s infinite ease-in-out ") ||
-                      "",
-                  }}
-                >
-                  {!mapView && "Select On Map"} {mapView && "Close Map"}
-                </div>
+                          <InputWrapper>
+                              <InputLabel>Venue</InputLabel>
+                              <Input
+                                  value={venue || ""}
+                                  autoComplete="none"
+                                  name="venue"
+                                  placeholder="Venue"
+                                  onChange={(e) => setVenue(e.target.value)}
+                                  onClick={() => setError(false)}
+                              />
+                          </InputWrapper>
+                      </FormContent>
+                  )}
+                  <CoordinatesSection>
+                      <InputWrapper>
+                          <InputLabel>Latitude*</InputLabel>
+                          <Input
+                              value={lat || ""}
+                              autoComplete="none"
+                              name="lat"
+                              placeholder="Latitude"
+                              onChange={(e) => setLat(e.target.value)}
+                              onClick={() => setError(false)}
+                          />
+                      </InputWrapper>
+                      <FlipperWrapper>
+                          <CoordinatesRightContent
+                              onClick={() => setMapView(!mapView)}
+                          >
+                              <CoordinatesButtonLabel
+                                  style={{
+                                      animation:
+                                          (lat &&
+                                              lng &&
+                                              mapView &&
+                                              "blinkerBan 3s infinite ease-in-out ") ||
+                                          "",
+                                  }}
+                              >
+                                  {!mapView && "Select On Map"}{" "}
+                                  {mapView && "Close Map"}
+                              </CoordinatesButtonLabel>
 
-                <div title="Open Map" className="editMapTogglerGlobe"></div>
-              </div>
+                              <CoordinatesButton title="Open Map"></CoordinatesButton>
+                          </CoordinatesRightContent>
 
-              <div className="inputBack">
-                <span>Longitude*</span>
-                <input
-                  value={lng || ""}
-                  autoComplete="none"
-                  name="lng"
-                  placeholder="Longitude"
-                  onChange={(e) => setLng(e.target.value)}
-                  onClick={() => setError(false)}
-                />
-              </div>
-            </div>
-          </div>
+                          <InputWrapper>
+                              <InputLabel>Longitude*</InputLabel>
+                              <Input
+                                  value={lng || ""}
+                                  autoComplete="none"
+                                  name="lng"
+                                  placeholder="Longitude"
+                                  onChange={(e) => setLng(e.target.value)}
+                                  onClick={() => setError(false)}
+                              />
+                          </InputWrapper>
+                      </FlipperWrapper>
+                  </CoordinatesSection>
 
-          <div className="formOptions">
-            {!success && !mapView && !taskDone && (
-              <div
-                className="button"
-                onClick={() => {
-                  createGigEntry(
-                    date,
-                    venue,
-                    lat,
-                    lng,
-                    tourName,
-                    city,
-                    setGigsListTimeline,
-                    setGigsList,
-                    setSuccess,
-                    setTaskDone,
-                    setError
-                  );
-                }}
-              >
-                Submit
-              </div>
-            )}
-          </div>
-          {!success && !error && !mapView && (
-            <p className="required">*required</p>
-          )}
-          {error && (
-            <p className="error">
-              {"Date, Latitude & Longitude Fields Are Required"}
-            </p>
-          )}
-        </form>
-        {mapView && <EditMap coordinator={(e) => coordinator(e)} />}
-        {success && !taskDone && (
-          <div
-            className="uploadSuccess"
-            style={{
-              marginBottom: `1vmax`,
-            }}
-          ></div>
-        )}
-        {taskDone && (
-          <div
-            className="doneUpdate"
-            onClick={(e) => {
-              setTaskDone(false);
-              setSuccess(false);
-              setDate("");
-              setCity("");
-              setVenue("");
-              setTourName("");
-              setLng("");
-              setLat("");
-            }}
-          >
-            Done
-          </div>
-        )}
-      </div>
-    </div>
+                  <SubmitButtonWrapper>
+                      {!success && !mapView && !taskDone && (
+                          <SubmitButton
+                              className="button"
+                              onClick={() => {
+                                  createGigEntry(
+                                      date,
+                                      venue,
+                                      lat,
+                                      lng,
+                                      tourName,
+                                      city,
+                                      setGigsListTimeline,
+                                      setGigsList,
+                                      setSuccess,
+                                      setTaskDone,
+                                      setError
+                                  );
+                              }}
+                          >
+                              Submit
+                          </SubmitButton>
+                      )}
+                  </SubmitButtonWrapper>
+                  {!success && !error && !mapView && (
+                      <Required>*required</Required>
+                  )}
+                  {error && (
+                      <Error>
+                          {"Date, Latitude & Longitude Fields Are Required"}
+                      </Error>
+                  )}
+              </Form>
+              {mapView && <EditMap coordinator={(e) => coordinator(e)} />}
+              {success && !taskDone && (
+                  <SubmitSuccess
+                      style={{
+                          marginBottom: `1vmax`,
+                      }}
+                  ></SubmitSuccess>
+              )}
+              {taskDone && (
+                  <DoneButton
+                      onClick={(e) => {
+                          setTaskDone(false);
+                          setSuccess(false);
+                          setDate("");
+                          setCity("");
+                          setVenue("");
+                          setTourName("");
+                          setLng("");
+                          setLat("");
+                      }}
+                  >
+                      Done
+                  </DoneButton>
+              )}
+          </Content>
+      </Container>
   );
 };

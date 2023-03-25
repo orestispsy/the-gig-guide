@@ -194,7 +194,7 @@ export const AppBar: React.FC<Props> = ({
     [state]
   );
 
-  const onNavigateClick = useCallback(() => {
+  const onNavigateClick = () => {
     appNavigate(
       setGigEntry,
       mapVisible,
@@ -224,7 +224,7 @@ export const AppBar: React.FC<Props> = ({
       navigate,
       pathname
     );
-  }, [appNavigate]);
+  };
 
   return (
     <Container>

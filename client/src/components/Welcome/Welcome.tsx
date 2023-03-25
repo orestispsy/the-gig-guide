@@ -1,5 +1,7 @@
 import { HashRouter, Route, Routes } from "react-router-dom";
 
+import { WelcomeContainer, Content, ContentWrapper } from "./Welcome.style";
+
 import React from "react";
 
 import { GlobalStyles } from "../../common/GlobalStyles.style";
@@ -12,16 +14,18 @@ interface Props {}
 
 export const Welcome: React.FC<Props> = ({}) => {
   return (
-    <div className="welcomeContainerBack">
-      <GlobalStyles />
-      <div className="welcomeContainer">
-        <HashRouter>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/register" element={<Registration />} />
-          </Routes>
-        </HashRouter>
-      </div>
-    </div>
+      <WelcomeContainer>
+          <GlobalStyles />
+          <ContentWrapper>
+              <Content>
+                  <HashRouter>
+                      <Routes>
+                          <Route path="/" element={<Login />} />
+                          <Route path="/register" element={<Registration />} />
+                      </Routes>
+                  </HashRouter>
+              </Content>
+          </ContentWrapper>
+      </WelcomeContainer>
   );
 };

@@ -1,5 +1,12 @@
 import React from "react";
 
+import {
+    FormContent,
+    InputWrapper,
+    InputLabel,
+    Input,
+} from "./../../GigCreator/GigCreator.style";
+
 interface Props {
   date: any;
   venue: any;
@@ -32,75 +39,75 @@ export const MainEditInputs: React.FC<Props> = ({
   setVenue,
 }) => {
   return (
-    <div className="gigMainDetails">
-      <div className="inputBack">
-        <span>Date</span>
-        <input
-          value={date || selectedGig.date || ""}
-          autoComplete="none"
-          name="date"
-          placeholder="Date"
-          type="date"
-          onChange={(e) => setDate(e.target.value)}
-          onClick={(e) => {
-            setError(false);
-            setError2(false);
-            setDeleteFile(false);
-            setDoneUpdate(false);
-          }}
-        />
-      </div>
+      <FormContent>
+          <InputWrapper>
+              <InputLabel>Date</InputLabel>
+              <Input
+                  value={date || selectedGig.date || ""}
+                  autoComplete="none"
+                  name="date"
+                  placeholder="Date"
+                  type="date"
+                  onChange={(e) => setDate(e.target.value)}
+                  onClick={(e) => {
+                      setError(false);
+                      setError2(false);
+                      setDeleteFile(false);
+                      setDoneUpdate(false);
+                  }}
+              />
+          </InputWrapper>
 
-      <div className="inputBack">
-        <span>City</span>
-        <input
-          value={city || selectedGig.city || ""}
-          autoComplete="none"
-          name="city"
-          placeholder="City"
-          onChange={(e) => setCity(e.target.value)}
-          onClick={(e) => {
-            setError(false);
-            setError2(false);
-            setDeleteFile(false);
-            setDoneUpdate(false);
-          }}
-        />
-      </div>
+          <InputWrapper>
+              <InputLabel>City</InputLabel>
+              <Input
+                  value={city || selectedGig.city || ""}
+                  autoComplete="none"
+                  name="city"
+                  placeholder="City"
+                  onChange={(e) => setCity(e.target.value)}
+                  onClick={(e) => {
+                      setError(false);
+                      setError2(false);
+                      setDeleteFile(false);
+                      setDoneUpdate(false);
+                  }}
+              />
+          </InputWrapper>
 
-      <div className="inputBack">
-        <span>Tour</span>
-        <input
-          value={tourName || selectedGig.tour_name || ""}
-          autoComplete="none"
-          name="tour_name"
-          placeholder="Tour Name"
-          onChange={(e) => setTourName(e.target.value)}
-          onClick={(e) => {
-            setError(false);
-            setError2(false);
-            setDeleteFile(false);
-            setDoneUpdate(false);
-          }}
-        />
-      </div>
+          <InputWrapper>
+              <InputLabel>Tour</InputLabel>
+              <Input
+                  value={tourName || selectedGig.tour_name || ""}
+                  autoComplete="none"
+                  name="tour_name"
+                  placeholder="Tour Name"
+                  onChange={(e) => setTourName(e.target.value)}
+                  onClick={(e) => {
+                      setError(false);
+                      setError2(false);
+                      setDeleteFile(false);
+                      setDoneUpdate(false);
+                  }}
+              />
+          </InputWrapper>
 
-      <div className="inputBack">
-        <span>Venue</span>
-        <input
-          value={venue || selectedGig.venue || ""}
-          autoComplete="none"
-          name="venue"
-          placeholder="Venue"
-          onChange={(e) => setVenue(e.target.value)}
-          onClick={(e) => {
-            setError(false);
-            setError2(false);
-            setDeleteFile(false);
-            setDoneUpdate(false);
-          }}
-        />
-      </div>
-    </div>
+          <InputWrapper>
+              <InputLabel>Venue</InputLabel>
+              <Input
+                  value={venue || selectedGig.venue || ""}
+                  autoComplete="none"
+                  name="venue"
+                  placeholder="Venue"
+                  onChange={(e) => setVenue(e.target.value)}
+                  onClick={(e) => {
+                      setError(false);
+                      setError2(false);
+                      setDeleteFile(false);
+                      setDoneUpdate(false);
+                  }}
+              />
+          </InputWrapper>
+      </FormContent>
   );
 };

@@ -1,5 +1,26 @@
 import React from "react";
 
+
+import {
+    Container,
+    TogglerWrapper,
+    TogglerLabel,
+    Toggler,
+    FileUploaderContainer,
+    FileUploaderContent,
+    FileUploaderLabel,
+    UploadButton,
+    InputPoster,
+    InputWrapper,
+} from "./PosterInputs.style";
+
+import {
+
+    InputLabel,
+    Input,
+    SubmitSuccess,
+} from "./../../GigCreator/GigCreator.style";
+
 const { handleUploaderClick } = require("./../GigEditorUtils");
 
 interface Props {
@@ -49,100 +70,107 @@ export const PosterInputs: React.FC<Props> = ({
   setSelectedPoster,
   setSelectedGig,
 }) => {
-  return (
-    <div className="posterEditBox">
-      <div className="inputBack">
-        <span>Poster</span>
-        <input
-          value={selectedPoster || poster || selectedGig.poster || ""}
-          autoComplete="none"
-          name="poster"
-          placeholder="Poster"
-          onChange={(e) => setPoster(e.target.value)}
-          onClick={(e) => {
-            setError(false);
-            setError2(false);
-            setDeleteFile(false);
-            setDoneUpdate(false);
-          }}
-        />
-      </div>
-      {selectedGig.id && (
-        <div
-          className="editorGallery"
-          onClick={(e) => {
-            setPosterSection(!posterSection);
-            setError(false);
-            setError2(false);
-            setDeleteFile(false);
-            setDoneUpdate(false);
-          }}
-        >
-          <img
-            title={
-              (!posterSection && "Poster Gallery") ||
-              (posterSection && "Close Gallery") ||
-              ""
-            }
-            className="imgPreview"
-            src={selectedPoster || poster || selectedGig.poster || "na.jpg"}
-          ></img>
-          {!posterSection && <div>Poster Gallery</div>}
-        </div>
-      )}
-      {selectedGig.id && !deleteSuccess && !posterSection && (
-        <div className="fileUploader" id="fileUploaderEdit">
-          {!success && !doneUpdate && (
-            <div className="uploadPosterProps">
-              <div className="uploadHead">
-                {(!file && " Upload Poster From File:") || "Finish Upload: "}
-              </div>
-              {file && (
-                <div
-                  title="Upload Poster"
-                  id="upload"
-                  onClick={() =>
-                    handleUploaderClick(
-                      elemRef,
-                      setSuccess,
-                      file,
-                      selectedGig,
-                      setSelectedPoster,
-                      setGigsListTimeline,
-                      setSelectedGig,
-                      setGigsList,
-                      setDoneUpdate,
-                      setFile,
-                      setError2
-                    )
-                  }
-                >
-                  Confirm
-                </div>
-              )}
-            </div>
-          )}
-          <input
-            ref={elemRef}
-            type="file"
-            name="file"
-            accept="image/*"
-            onChange={(e) => {
-              if (e.target.files) {
-                setFile(e.target.files[0]);
-              }
-            }}
-            onClick={(e) => {
-              setError(false);
-              setError2(false);
-              setDeleteFile(false);
-              setDoneUpdate(false);
-            }}
-          />
 
-          {success && <div className="uploadSuccess"></div>}
-        </div>
-      )}
-    </div>
+  return (
+      <Container empty={!!selectedGig.id}>
+          <InputWrapper>
+              <InputLabel>Poster</InputLabel>
+              <Input
+                  value={selectedPoster || poster || selectedGig.poster || ""}
+                  autoComplete="none"
+                  name="poster"
+                  placeholder="Poster"
+                  onChange={(e) => setPoster(e.target.value)}
+                  onClick={(e) => {
+                      setError(false);
+                      setError2(false);
+                      setDeleteFile(false);
+                      setDoneUpdate(false);
+                  }}
+              />
+          </InputWrapper>
+          {selectedGig.id && (
+              <TogglerWrapper
+                  onClick={(e) => {
+                      setPosterSection(!posterSection);
+                      setError(false);
+                      setError2(false);
+                      setDeleteFile(false);
+                      setDoneUpdate(false);
+                  }}
+              >
+                  <Toggler
+                      title={
+                          (!posterSection && "Poster Gallery") ||
+                          (posterSection && "Close Gallery") ||
+                          ""
+                      }
+                      src={
+                          selectedPoster ||
+                          poster ||
+                          selectedGig.poster ||
+                          "na.jpg"
+                      }
+                  ></Toggler>
+                  {!posterSection && (
+                      <TogglerLabel>Poster Gallery</TogglerLabel>
+                  )}
+              </TogglerWrapper>
+          )}
+          {selectedGig.id && !deleteSuccess && !posterSection && (
+              <FileUploaderContainer>
+                  {!success && !doneUpdate && (
+                      <FileUploaderContent>
+                          <FileUploaderLabel>
+                              {(!file && " Upload Poster From File:") ||
+                                  "Finish Upload: "}
+                          </FileUploaderLabel>
+                          {file && (
+                              <UploadButton
+                                  title="Upload Poster"
+                                  id="upload"
+                                  onClick={() =>
+                                      handleUploaderClick(
+                                          elemRef,
+                                          setSuccess,
+                                          file,
+                                          selectedGig,
+                                          setSelectedPoster,
+                                          setGigsListTimeline,
+                                          setSelectedGig,
+                                          setGigsList,
+                                          setDoneUpdate,
+                                          setFile,
+                                          setError2
+                                      )
+                                  }
+                              >
+                                  Confirm
+                              </UploadButton>
+                          )}
+                      </FileUploaderContent>
+                  )}
+                  <InputPoster
+                      ref={elemRef}
+                      type="file"
+                      name="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                          if (e.target.files) {
+                              setFile(e.target.files[0]);
+                          }
+                      }}
+                      onClick={(e) => {
+                          setError(false);
+                          setError2(false);
+                          setDeleteFile(false);
+                          setDoneUpdate(false);
+                      }}
+                  />
+
+                  {success && <SubmitSuccess />}
+              </FileUploaderContainer>
+          )}
+      </Container>
   );
 };

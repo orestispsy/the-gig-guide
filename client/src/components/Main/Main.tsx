@@ -149,7 +149,7 @@ export const Main: React.FC<Props> = ({
         {darkMode && (
           <Logo
             darkMode={darkMode}
-            src={`stickyLogo.png?random=${Math.random()}`}
+            src={`stickyLogo.png`}
             onLoad={(e) => {
               setLoadedMainDark(true);
             }}
@@ -159,7 +159,7 @@ export const Main: React.FC<Props> = ({
         <LogoWrapper>
           {!darkMode && (
             <Logo
-              src={`logo.png?random=${Math.random()}`}
+              src={`logo.png`}
               onLoad={(e) => {
                 setLoadedMain(true);
               }}

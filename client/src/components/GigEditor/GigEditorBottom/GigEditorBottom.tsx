@@ -1,5 +1,16 @@
 import React from "react";
 
+
+import {
+    Delete, DeleteWarn, DeleteSuccess,BottomWrapper
+} from "./GigEditorBottom.style";
+
+import {
+    SubmitButtonWrapper,
+    SubmitButton,
+    DoneButton,
+} from "./../../GigCreator/GigCreator.style";
+
 const { handleClick, gigDelete } = require("./../GigEditorUtils");
 
 interface Props {
@@ -56,78 +67,78 @@ export const GigEditorBottom: React.FC<Props> = ({
   setSelectedPoster,
 }) => {
   return (
-    <>
-      {!deleteSuccess && !mapView && selectedGig && (
-        <div className="formOptions">
-          {!doneUpdate && (
-            <div
-              className="button"
-              onClick={() => {
-                if (!doneUpdate) {
-                  handleClick(
-                    date,
-                    venue,
-                    lat,
-                    lng,
-                    tourName,
-                    city,
-                    poster,
-                    selectedGig,
-                    selectedPoster,
-                    setGigsListTimeline,
-                    setError,
-                    setDoneUpdate,
-                    setFile,
-                    setGigsList
-                  );
-                } else {
-                  setSuccess(false);
-                  setDoneUpdate(false);
-                }
-              }}
-            >
-              {!doneUpdate && "Update"}
-              {doneUpdate && "Done"}
-            </div>
-          )}
+      <BottomWrapper>
+          {!deleteSuccess && !mapView && selectedGig && (
+              <SubmitButtonWrapper doneUpdate={doneUpdate}>
+                  {!doneUpdate && (
+                      <SubmitButton
+                          onClick={() => {
+                              if (!doneUpdate) {
+                                  handleClick(
+                                      date,
+                                      venue,
+                                      lat,
+                                      lng,
+                                      tourName,
+                                      city,
+                                      poster,
+                                      selectedGig,
+                                      selectedPoster,
+                                      setGigsListTimeline,
+                                      setError,
+                                      setDoneUpdate,
+                                      setFile,
+                                      setGigsList
+                                  );
+                              } else {
+                                  setSuccess(false);
+                                  setDoneUpdate(false);
+                              }
+                          }}
+                      >
+                          {!doneUpdate && "Update"}
+                          {doneUpdate && "Done"}
+                      </SubmitButton>
+                  )}
 
-          {selectedGig.date && !doneUpdate && !mapView && !posterSection && (
-            <div className="delete" onClick={(e) => setDeleteFile(true)}>
-              Delete
-            </div>
-          )}
+                  {selectedGig.date &&
+                      !doneUpdate &&
+                      !mapView &&
+                      !posterSection && (
+                          <Delete onClick={(e) => setDeleteFile(true)}>
+                              Delete
+                          </Delete>
+                      )}
 
-          {deleteFile && selectedGig.date && !deleteSuccess && (
-            <div
-              className="deleteWarn"
-              onClick={() =>
-                gigDelete(
-                  setDeleteSuccess,
-                  setDeleteFile,
-                  selectedGig,
-                  setGigsListTimeline,
-                  setGigsList,
-                  setSelectedGig,
-                  setSelectedPoster
-                )
-              }
-            >
-              Confirm
-            </div>
+                  {deleteFile && selectedGig.date && !deleteSuccess && (
+                      <DeleteWarn
+                          onClick={() =>
+                              gigDelete(
+                                  setDeleteSuccess,
+                                  setDeleteFile,
+                                  selectedGig,
+                                  setGigsListTimeline,
+                                  setGigsList,
+                                  setSelectedGig,
+                                  setSelectedPoster
+                              )
+                          }
+                      >
+                          Confirm
+                      </DeleteWarn>
+                  )}
+              </SubmitButtonWrapper>
           )}
-        </div>
-      )}
-      {deleteSuccess && <div className="deleteSuccess"></div>}
-      {doneUpdate && (
-        <div
-          className={doneUpdate && "doneUpdate"}
-          onClick={() => {
-            setDoneUpdate(false);
-          }}
-        >
-          Done
-        </div>
-      )}
-    </>
+          {deleteSuccess && <DeleteSuccess />}
+          {doneUpdate && (
+              <DoneButton
+                  onClick={() => {
+                      setDoneUpdate(false);
+                  }}
+              >
+                  Done
+              </DoneButton>
+          )}
+      </BottomWrapper>
   );
 };

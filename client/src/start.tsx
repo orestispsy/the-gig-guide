@@ -31,3 +31,7 @@ if (location.pathname === "/welcome") {
 }
 
 ReactDOM.render(elem, document.querySelector("main"));
+
+const moduleConfig: any = module;
+
+moduleConfig.hot.accept();

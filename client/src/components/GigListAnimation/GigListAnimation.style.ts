@@ -130,8 +130,9 @@ export const Poster = styled.div<Types>`
     `}
   background-size:cover;
   margin: 0 2vmax;
+  
   ${mediaQueries("100", "480", "portrait")`
-        margin: 2vmax 0 !important;
+      margin: 2vmax 0 !important;
     `}
 `;
 

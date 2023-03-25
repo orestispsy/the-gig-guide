@@ -28,24 +28,28 @@ export const LoadingContainer = styled.div`
 `;
 
 export const Box = styled.div`
-  position: absolute;
-  border-radius: 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 500px;
-  height: 500px;
-  z-index: 666;
+    position: absolute;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    height: 500px;
+    z-index: 666;
 
-  @keyframes rotate {
-    100% {
-      transform: rotate(360deg);
+    @keyframes rotate {
+        100% {
+            transform: rotate(360deg);
+        }
     }
-  }
 
-  animation: rotate 15s linear;
-  animation-iteration-count: infinite;
+    animation: rotate 15s linear;
+    animation-iteration-count: infinite;
+
+    ${mediaQueries("100", "480", "portrait")`
+       zoom: 1.5;
+    `}
 `;
 
 export const Dot = styled.div<Types>`
@@ -125,11 +129,14 @@ export const LoadingIntro = styled.div`
 `;
 
 export const LoadingIntroText = styled.div`
-  font-size: 25px;
-  font-family: "DarkerGrotesque";
-  color: white;
-  animation: blinkerLoading 1s infinite ease-in-out;
-  letter-spacing: 4px;
+    font-size: 25px;
+    font-family: "DarkerGrotesque";
+    color: white;
+    animation: blinkerLoading 1s infinite ease-in-out;
+    letter-spacing: 4px;
+    ${mediaQueries("100", "480", "portrait")`
+       zoom: 1.5;
+    `}
 `;
 
 export const LogoBox = styled.div`
@@ -140,19 +147,25 @@ export const LogoBox = styled.div`
 `;
 
 export const Logo = styled.div`
-  background-image: url("/logo2.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  width: 250px;
-  height: 80px;
+    background-image: url("/logo2.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 250px;
+    height: 80px;
+    ${mediaQueries("100", "480", "portrait")`
+       zoom: 1.5;
+    `}
 `;
 
 export const LogoText = styled.div`
-  margin: -30px 0 0 0;
-  width: max-content;
-  color: white;
-  font-size: 30px;
-  font-family: "DarkerGrotesque";
+    margin: -30px 0 0 0;
+    width: max-content;
+    color: white;
+    font-size: 30px;
+    font-family: "DarkerGrotesque";
+    ${mediaQueries("100", "480", "portrait")`
+       zoom: 1.5;
+    `}
 `;
 
 export const LogoWrapper = styled.div`

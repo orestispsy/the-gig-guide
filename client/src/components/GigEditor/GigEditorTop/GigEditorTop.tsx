@@ -1,5 +1,12 @@
 import React from "react";
 
+import {
+    Select,
+    Option,
+    CloseButton,
+    CloseButtonWrapper,
+} from "./GigEditorTop.style";
+
 const { gigSelector } = require("./../GigEditorUtils");
 
 interface Props {
@@ -41,67 +48,69 @@ export const GigEditorTop: React.FC<Props> = ({
   inputsReset,
 }) => {
   return (
-    <>
-      {posterSection && (
-        <div
-          title="Back"
-          id="editorCloseTab"
-          onClick={(e) => {
-            setPosterSection(false);
-          }}
-        >
-          <div className="buttonBack">X</div>
-        </div>
-      )}
-      {!posterSection && mapView && (
-        <div
-          title="Back"
-          id="editorCloseTab"
-          onClick={(e) => {
-            setMapView(!mapView);
-          }}
-        >
-          <div className="buttonBack">X</div>
-        </div>
-      )}
-      <select
-        size={1}
-        name="selectedGig"
-        className="selectGig"
-        onChange={(e) => {
-          setGigToView(e.target.value);
-          gigSelector(gigToView, setSelectedGig);
-          setFile(null);
-          if (elemRef.current) {
-            elemRef.current.value = "";
-          }
-        }}
-        onClick={(e) => {
-          inputsReset();
-          setError(false);
-          setError2(false);
-          setDeleteFile(false);
-          setDoneUpdate(false);
-        }}
-      >
-        <option className="chooseGig" value="" onClick={() => inputsReset()}>
-          Select Gig
-        </option>
-        {gigsList &&
-          gigsList
-            .map((gig: any) => (
-              <option
-                value={gig.date}
-                key={gig.id}
-                style={{
-                  color: (selectedGig.id == gig.id && `black`) || ``,
-                }}
+      <>
+          {posterSection && (
+              <CloseButtonWrapper
+                  title="Back"
+                  onClick={(e:any) => {
+                      setPosterSection(false);
+                  }}
               >
-                {gig.date} {gig.venue}
-              </option>
-            ))
-            .reverse()}
-      </select>
-    </>
+                  <CloseButton>X</CloseButton>
+              </CloseButtonWrapper>
+          )}
+          {!posterSection && mapView && (
+              <CloseButtonWrapper
+                  title="Back"
+                  onClick={(e:any) => {
+                      setMapView(!mapView);
+                  }}
+              >
+                  <CloseButton>X</CloseButton>
+              </CloseButtonWrapper>
+          )}
+          <Select
+              size={1}
+              name="selectedGig"
+              onChange={(e) => {
+                  setGigToView(e.target.value);
+                  gigSelector(gigToView, setSelectedGig);
+                  setFile(null);
+                  if (elemRef.current) {
+                      elemRef.current.value = "";
+                  }
+              }}
+              onClick={(e) => {
+                  inputsReset();
+                  setError(false);
+                  setError2(false);
+                  setDeleteFile(false);
+                  setDoneUpdate(false);
+              }}
+          >
+              <Option
+                  value=""
+                  onClick={() => inputsReset()}
+              >
+                  Select Gig
+              </Option>
+              {gigsList &&
+                  gigsList
+                      .map((gig: any) => (
+                          <Option
+                              value={gig.date}
+                              key={gig.id}
+                              style={{
+                                  color:
+                                      (selectedGig.id == gig.id && `black`) ||
+                                      ``,
+                              }}
+                          >
+                              {gig.date} {gig.venue}
+                          </Option>
+                      ))
+                      .reverse()}
+          </Select>
+      </>
   );
 };

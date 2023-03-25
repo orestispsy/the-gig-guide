@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 
+import {SectionButton} from "./../Community/Community.style"
+
 const {
   axiosAddComment,
   dateTimeHandler,
@@ -51,76 +53,77 @@ export const Comments: React.FC<Props> = ({
   };
 
   return (
-    <div className="commentsContainer">
-      <div
-        className="buttonBack"
-        title="Close Comments"
-        id="buttonBack"
-        style={{
-          marginBottom: `-2vmax`,
-        }}
-        onClick={(e) => setOpenComments(!openComments)}
-      >
-        X
-      </div>
-      <div className="commentHead">Comments</div>
+      <div className="commentsContainer">
+          <div
+              className="buttonBack"
+              title="Close Comments"
+              id="buttonBack"
+              style={{
+                  marginBottom: `-2vmax`,
+              }}
+              onClick={(e) => setOpenComments(!openComments)}
+          >
+              X
+          </div>
+          <div className="commentHead">Comments</div>
 
-      <div className="commentBox" ref={elemRef}>
-        {comments && comments.length == 0 && <h1>Nothing here yet .</h1>}
-        {comments &&
-          comments.map((comment: any) => {
-            return (
-              <div key={comment.id}>
-                {comment.gig_id == selectedGigId && (
-                  <div>
-                    <div className="comment" id={comment.id}>
-                      {comment.comment}
-                      <div>
-                        {comment.nickname} -{" "}
-                        {dateTimeHandler(comment.created_at)}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+          <div className="commentBox" ref={elemRef}>
+              {comments && comments.length == 0 && <h1>Nothing here yet .</h1>}
+              {comments &&
+                  comments.map((comment: any) => {
+                      return (
+                          <div key={comment.id}>
+                              {comment.gig_id == selectedGigId && (
+                                  <div>
+                                      <div className="comment" id={comment.id}>
+                                          {comment.comment}
+                                          <div>
+                                              {comment.nickname} -{" "}
+                                              {dateTimeHandler(
+                                                  comment.created_at
+                                              )}
+                                          </div>
+                                      </div>
+                                  </div>
+                              )}
+                          </div>
+                      );
+                  })}
+          </div>
+          <textarea
+              rows={1}
+              className="chatTypeLine"
+              id="commentsTypeLine"
+              onChange={(e) => {
+                  getPost(e);
+              }}
+              onKeyDown={(e) =>
+                  keyCheck(
+                      e,
+                      selectedGigId,
+                      post,
+                      myNickname,
+                      myUserId,
+                      setPost,
+                      setCommentsTimeline
+                  )
+              }
+          ></textarea>
+          <SectionButton
+          sendCommentButton
+              onClick={() =>
+                  axiosAddComment(
+                      selectedGigId,
+                      post,
+                      myNickname,
+                      myUserId,
+                      setPost,
+                      setCommentsTimeline
+                  )
+              }
+          >
+              Send
+          </SectionButton>
       </div>
-      <textarea
-        rows={1}
-        className="chatTypeLine"
-        id="commentsTypeLine"
-        onChange={(e) => {
-          getPost(e);
-        }}
-        onKeyDown={(e) =>
-          keyCheck(
-            e,
-            selectedGigId,
-            post,
-            myNickname,
-            myUserId,
-            setPost,
-            setCommentsTimeline
-          )
-        }
-      ></textarea>
-      <div
-        className="mainMenuLink"
-        id="commentButton"
-        onClick={() =>
-          axiosAddComment(
-            selectedGigId,
-            post,
-            myNickname,
-            myUserId,
-            setPost,
-            setCommentsTimeline
-          )
-        }
-      >
-        Send
-      </div>
-    </div>
   );
 };

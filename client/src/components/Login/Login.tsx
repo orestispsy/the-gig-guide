@@ -1,6 +1,28 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "../../common/Axios/axios";
-import { Link } from "react-router-dom";
+
+import {
+    LoginContainer,
+    LogoWrapper,
+    Logo,
+    LogoText,
+    Content,
+    ContentTop,
+    ContentBottom,
+    ContentTitle,
+    InputHeader,
+    Input,
+    ConfirmButton,
+    Error,
+    ErrorContent,
+    ErrorContentText,
+    ErrorBan,
+    ContentBottomQuestion,
+    ContentBottomBox,
+    SectionSwitch,
+    GuestButton,
+} from "./Login.style";
+
 
 const { banCountDown } = require("./LoginUtils");
 
@@ -45,7 +67,6 @@ export const Login: React.FC<Props> = ({}) => {
             setBlockError(true);
           } else if (data.errorBan) {
             setSecondsLeft(Math.round(-Number(data.secondsLeft)));
-
             setBanError(true);
             setPassword("");
             setNickname("");
@@ -69,90 +90,91 @@ export const Login: React.FC<Props> = ({}) => {
   };
 
   return (
-    <div className="loginContainerBack">
-      <div className="logoBackLogin">
-        <div className="logo2Login"></div>
+      <LoginContainer>
+          <LogoWrapper>
+              <Logo />
+              <LogoText> The Gig Guide </LogoText>
+          </LogoWrapper>
 
-        <div className="logo2LoginDesc"> The Gig Guide</div>
-      </div>
+          <Content onKeyDown={(e) => submitEnter(e)}>
+              <ContentTop>
+                  <ContentTitle>Login</ContentTitle>
+                  {secondsLeft === 0 && (
+                      <React.Fragment>
+                          <InputHeader>Nickname</InputHeader>
+                          <Input
+                              autoComplete="none"
+                              name="nickname"
+                              maxLength={20}
+                              placeholder="Nickname"
+                              onChange={(e: any) => {
+                                  setNickname(e.target.value);
+                                  setError(false);
+                              }}
+                              onClick={() => {
+                                  setError(false);
+                                  setBanError(false);
+                                  setBlockError(false);
+                              }}
+                          />
+                          <InputHeader>Password</InputHeader>
+                          <Input
+                              name="password"
+                              placeholder="Password"
+                              type="password"
+                              onChange={(e: any) => {
+                                  setPassword(e.target.value);
+                                  setError(false);
+                              }}
+                              onClick={() => {
+                                  setError(false);
+                                  setBanError(false);
+                                  setBlockError(false);
+                              }}
+                          />
 
-      <div className="loginContainer" onKeyDown={(e) => submitEnter(e)}>
-        <div className="loginContainerLeft">
-          <h1>Login</h1>
-          {secondsLeft === 0 && (
-            <React.Fragment>
-              <span>Nickname</span>
-              <input
-                autoComplete="none"
-                name="nickname"
-                maxLength={20}
-                placeholder="Nickname"
-                onChange={(e: any) => {
-                  setNickname(e.target.value);
-                  setError(false);
-                }}
-                onClick={() => {
-                  setError(false);
-                  setBanError(false);
-                  setBlockError(false);
-                }}
-              />
-              <span>Password</span>
-              <input
-                name="password"
-                placeholder="Password"
-                type="password"
-                onChange={(e: any) => {
-                  setPassword(e.target.value);
-                  setError(false);
-                }}
-                onClick={() => {
-                  setError(false);
-                  setBanError(false);
-                  setBlockError(false);
-                }}
-              />
-
-              <div
-                id="button"
-                className="mainMenuLink"
-                onClick={() => handleClick()}
-              >
-                Submit
-              </div>
-            </React.Fragment>
-          )}
-          {banError && (
-            <p className="errorBan">
-              {(secondsLeft !== 0 && `This Account is Temporarily Banned`) ||
-                ""}
-              <div ref={timerRef}>
-                {secondsLeft !== 0 && `Seconds Left:`}
-                {(secondsLeft !== 0 && <span>{secondsLeft}</span>) ||
-                  (secondsLeft === 0 && (
-                    <span>Check Again Your Account !</span>
-                  ))}
-              </div>
-            </p>
-          )}
-          {blockError && <p className="errorBan">THIS ACCOUNT IS BLOCKED</p>}
-        </div>
-        <div className="loginContainerRight">
-          <span className="regSpan">Not a Member?</span>
-          <div className="mainMenuBottom">
-            <Link to="/register" className="links">
-              Register
-            </Link>
-
-            <div onClick={(e) => handleClick(true)} className="guest">
-              Join as Guest
-            </div>
-          </div>
-        </div>
-        {error && (
-          <p className="error">{"Oups ! Your Nickname or Password is Wrong"}</p>
-        )}
-      </div>
-    </div>
+                          <ConfirmButton onClick={() => handleClick()}>
+                              Submit
+                          </ConfirmButton>
+                      </React.Fragment>
+                  )}
+                  {banError && (
+                      <ErrorBan>
+                          {(secondsLeft !== 0 &&
+                              `This Account is Temporarily Banned`) ||
+                              ""}
+                          <ErrorContent ref={timerRef}>
+                              {secondsLeft !== 0 && `Seconds Left:`}
+                              {(secondsLeft !== 0 && (
+                                  <ErrorContentText>
+                                      {secondsLeft}
+                                  </ErrorContentText>
+                              )) ||
+                                  (secondsLeft === 0 && (
+                                      <ErrorContentText>
+                                          Check Again Your Account !
+                                      </ErrorContentText>
+                                  ))}
+                          </ErrorContent>
+                      </ErrorBan>
+                  )}
+                  {blockError && <ErrorBan>THIS ACCOUNT IS BLOCKED</ErrorBan>}
+              </ContentTop>
+              <ContentBottom>
+                  <ContentBottomQuestion>Not a Member?</ContentBottomQuestion>
+                  <ContentBottomBox>
+                     <GuestButton
+                          onClick={(e) => handleClick(true)}
+                      >
+                          Join as Guest
+                      </GuestButton>
+                      <SectionSwitch to="/register">Register</SectionSwitch>
+                  </ContentBottomBox>
+              </ContentBottom>
+              {error && (
+                  <Error>{"Oups ! Your Nickname or Password is Wrong"}</Error>
+              )}
+          </Content>
+      </LoginContainer>
   );
 };

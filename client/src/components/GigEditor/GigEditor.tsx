@@ -2,6 +2,9 @@ import { useLocation } from "react-router-dom";
 
 import React, { useState, useEffect, useRef } from "react";
 
+import {Container, Content, Error} from "./GigEditor.style"
+import { Form } from "../GigCreator/GigCreator.style";
+
 const {
   posterSelector,
   gigSelector,
@@ -114,148 +117,145 @@ export const GigEditor: React.FC<Props> = ({
   };
 
   return (
-    <div className="gigEditorContainer">
-      <div
-        className="gigEditorContainerInner"
-        id={(darkMode && "logoBoxDarkEdit") || ""}
-      >
-        <form>
-          <GigEditorTop
-            setDoneUpdate={(e: boolean) => setDoneUpdate(e)}
-            doneUpdate={doneUpdate}
-            setError={(e: boolean) => setError(e)}
-            setError2={(e: boolean) => setError2(e)}
-            selectedGig={selectedGig}
-            setDeleteFile={(e: any) => setDeleteFile(e)}
-            posterSection={posterSection}
-            setPosterSection={(e: boolean) => setPosterSection(e)}
-            elemRef={elemRef}
-            setSelectedGig={(e: any) => setSelectedGig(e)}
-            setFile={(e: any) => setFile(e)}
-            mapView={mapView}
-            setMapView={(e: boolean) => setMapView(e)}
-            gigToView={gigToView}
-            setGigToView={(e: string | number) => setGigToView(e)}
-            gigsList={gigsList}
-            inputsReset={() => inputsReset()}
-          />
-          {posterSection && (
-            <Posters setSelectedPoster={(e: any) => setSelectedPoster(e)} />
-          )}
-          {!mapView && !posterSection && (
-            <MainEditInputs
-              date={date}
-              venue={venue}
-              tourName={tourName}
-              city={city}
-              selectedGig={selectedGig}
-              setCity={(e: any) => setCity(e)}
-              setDate={(e: any) => setDate(e)}
-              setVenue={(e: any) => setVenue(e)}
-              setTourName={(e: any) => setTourName(e)}
-              setDeleteFile={(e: any) => setDeleteFile(e)}
-              setDoneUpdate={(e: boolean) => setDoneUpdate(e)}
-              setError={(e: boolean) => setError(e)}
-              setError2={(e: boolean) => setError2(e)}
-            />
-          )}
-          {!posterSection && (
-            <CoordinatesInputs
-              lat={lat}
-              newLat={newLat}
-              lng={lng}
-              newLng={newLng}
-              selectedGig={selectedGig}
-              setLat={(e: string | number) => setLat(e)}
-              setLng={(e: string | number) => setLng(e)}
-              setDeleteFile={(e: any) => setDeleteFile(e)}
-              setDoneUpdate={(e: boolean) => setDoneUpdate(e)}
-              setError={(e: boolean) => setError(e)}
-              setError2={(e: boolean) => setError2(e)}
-              mapView={mapView}
-              setMapView={(e: boolean) => setMapView(e)}
-              deleteSuccess={deleteSuccess}
-            />
-          )}
-          {!mapView && !deleteSuccess && (
-            <PosterInputs
-              poster={poster}
-              selectedPoster={selectedPoster}
-              setPoster={(e: string) => setPoster(e)}
-              posterSection={posterSection}
-              setPosterSection={(e: boolean) => setPosterSection(e)}
-              doneUpdate={doneUpdate}
-              selectedGig={selectedGig}
-              deleteSuccess={deleteSuccess}
-              setDoneUpdate={(e: boolean) => setDoneUpdate(e)}
-              setError={(e: boolean) => setError(e)}
-              setError2={(e: boolean) => setError2(e)}
-              setSelectedPoster={(e: any) => setSelectedPoster(e)}
-              file={file}
-              setFile={(e: any) => setFile(e)}
-              elemRef={elemRef}
-              success={success}
-              setSuccess={(e: boolean) => setSuccess(e)}
-              setGigsListTimeline={(e: any) => setGigsListTimeline(e)}
-              setGigsList={(e: any) => setGigsList(e)}
-              setDeleteFile={(e: any) => setDeleteFile(e)}
-              setSelectedGig={(e: any) => setSelectedGig(e)}
-            />
-          )}
-          {mapView && selectedGig.date && !deleteSuccess && (
-            <EditMap
-              coordinator={(e) =>
-                coordinator(
-                  e,
-                  selectedGig,
-                  setSelectedGig,
-                  setNewLng,
-                  setNewLat
-                )
-              }
-              selectedGig={selectedGig}
-            />
-          )}
-          {error && (
-            <p className="error" id="errorEdit">
-              {!selectedGig && "Select A Gig From The List"}{" "}
-              {selectedGig &&
-                "Be Sure That Date, Longitude & Latitude are Filled."}
-            </p>
-          )}
-          {error2 && (
-            <p className="error" id="errorEdit">
-              Select an Image [Max Size: 5MB]
-            </p>
-          )}
-        </form>
-        <GigEditorBottom
-          setDoneUpdate={(e: boolean) => setDoneUpdate(e)}
-          setSelectedPoster={(e: any) => setSelectedPoster(e)}
-          posterSection={posterSection}
-          doneUpdate={doneUpdate}
-          selectedGig={selectedGig}
-          deleteSuccess={deleteSuccess}
-          setDeleteSuccess={(e: boolean) => setDeleteSuccess(e)}
-          setSuccess={(e: boolean) => setSuccess(e)}
-          deleteFile={deleteFile}
-          setDeleteFile={(e: any) => setDeleteFile(e)}
-          selectedPoster={selectedPoster}
-          setError={(e: boolean) => setError(e)}
-          setFile={(e: any) => setFile(e)}
-          setSelectedGig={(e: any) => setSelectedGig(e)}
-          mapView={mapView}
-          date={date}
-          venue={venue}
-          tourName={tourName}
-          city={city}
-          lat={lat}
-          lng={lng}
-          poster={poster}
-          setGigsList={(e: any) => setGigsList(e)}
-          setGigsListTimeline={(e: any) => setGigsListTimeline(e)}
-        />
-      </div>
-    </div>
+      <Container>
+          <Content dark={darkMode}>
+              <Form>
+                  <GigEditorTop
+                      setDoneUpdate={(e: boolean) => setDoneUpdate(e)}
+                      doneUpdate={doneUpdate}
+                      setError={(e: boolean) => setError(e)}
+                      setError2={(e: boolean) => setError2(e)}
+                      selectedGig={selectedGig}
+                      setDeleteFile={(e: any) => setDeleteFile(e)}
+                      posterSection={posterSection}
+                      setPosterSection={(e: boolean) => setPosterSection(e)}
+                      elemRef={elemRef}
+                      setSelectedGig={(e: any) => setSelectedGig(e)}
+                      setFile={(e: any) => setFile(e)}
+                      mapView={mapView}
+                      setMapView={(e: boolean) => setMapView(e)}
+                      gigToView={gigToView}
+                      setGigToView={(e: string | number) => setGigToView(e)}
+                      gigsList={gigsList}
+                      inputsReset={() => inputsReset()}
+                  />
+                  {posterSection && (
+                      <Posters
+                          setSelectedPoster={(e: any) => setSelectedPoster(e)}
+                      />
+                  )}
+                  {!mapView && !posterSection && (
+                      <MainEditInputs
+                          date={date}
+                          venue={venue}
+                          tourName={tourName}
+                          city={city}
+                          selectedGig={selectedGig}
+                          setCity={(e: any) => setCity(e)}
+                          setDate={(e: any) => setDate(e)}
+                          setVenue={(e: any) => setVenue(e)}
+                          setTourName={(e: any) => setTourName(e)}
+                          setDeleteFile={(e: any) => setDeleteFile(e)}
+                          setDoneUpdate={(e: boolean) => setDoneUpdate(e)}
+                          setError={(e: boolean) => setError(e)}
+                          setError2={(e: boolean) => setError2(e)}
+                      />
+                  )}
+                  {!posterSection && (
+                      <CoordinatesInputs
+                          lat={lat}
+                          newLat={newLat}
+                          lng={lng}
+                          newLng={newLng}
+                          selectedGig={selectedGig}
+                          setLat={(e: string | number) => setLat(e)}
+                          setLng={(e: string | number) => setLng(e)}
+                          setDeleteFile={(e: any) => setDeleteFile(e)}
+                          setDoneUpdate={(e: boolean) => setDoneUpdate(e)}
+                          setError={(e: boolean) => setError(e)}
+                          setError2={(e: boolean) => setError2(e)}
+                          mapView={mapView}
+                          setMapView={(e: boolean) => setMapView(e)}
+                          deleteSuccess={deleteSuccess}
+                      />
+                  )}
+                  {!mapView && !deleteSuccess && (
+                      <PosterInputs
+                          poster={poster}
+                          selectedPoster={selectedPoster}
+                          setPoster={(e: string) => setPoster(e)}
+                          posterSection={posterSection}
+                          setPosterSection={(e: boolean) => setPosterSection(e)}
+                          doneUpdate={doneUpdate}
+                          selectedGig={selectedGig}
+                          deleteSuccess={deleteSuccess}
+                          setDoneUpdate={(e: boolean) => setDoneUpdate(e)}
+                          setError={(e: boolean) => setError(e)}
+                          setError2={(e: boolean) => setError2(e)}
+                          setSelectedPoster={(e: any) => setSelectedPoster(e)}
+                          file={file}
+                          setFile={(e: any) => setFile(e)}
+                          elemRef={elemRef}
+                          success={success}
+                          setSuccess={(e: boolean) => setSuccess(e)}
+                          setGigsListTimeline={(e: any) =>
+                              setGigsListTimeline(e)
+                          }
+                          setGigsList={(e: any) => setGigsList(e)}
+                          setDeleteFile={(e: any) => setDeleteFile(e)}
+                          setSelectedGig={(e: any) => setSelectedGig(e)}
+                      />
+                  )}
+                  {mapView && selectedGig.date && !deleteSuccess && (
+                      <EditMap
+                          coordinator={(e) =>
+                              coordinator(
+                                  e,
+                                  selectedGig,
+                                  setSelectedGig,
+                                  setNewLng,
+                                  setNewLat
+                              )
+                          }
+                          selectedGig={selectedGig}
+                      />
+                  )}
+                  {error && (
+                      <Error>
+                          {!selectedGig && "Select A Gig From The List"}{" "}
+                          {selectedGig &&
+                              "Be Sure That Date, Longitude & Latitude are Filled."}
+                      </Error>
+                  )}
+                  {error2 && <Error>Select an Image [Max Size: 5MB]</Error>}
+                  <GigEditorBottom
+                      setDoneUpdate={(e: boolean) => setDoneUpdate(e)}
+                      setSelectedPoster={(e: any) => setSelectedPoster(e)}
+                      posterSection={posterSection}
+                      doneUpdate={doneUpdate}
+                      selectedGig={selectedGig}
+                      deleteSuccess={deleteSuccess}
+                      setDeleteSuccess={(e: boolean) => setDeleteSuccess(e)}
+                      setSuccess={(e: boolean) => setSuccess(e)}
+                      deleteFile={deleteFile}
+                      setDeleteFile={(e: any) => setDeleteFile(e)}
+                      selectedPoster={selectedPoster}
+                      setError={(e: boolean) => setError(e)}
+                      setFile={(e: any) => setFile(e)}
+                      setSelectedGig={(e: any) => setSelectedGig(e)}
+                      mapView={mapView}
+                      date={date}
+                      venue={venue}
+                      tourName={tourName}
+                      city={city}
+                      lat={lat}
+                      lng={lng}
+                      poster={poster}
+                      setGigsList={(e: any) => setGigsList(e)}
+                      setGigsListTimeline={(e: any) => setGigsListTimeline(e)}
+                  />
+              </Form>
+          </Content>
+      </Container>
   );
 };

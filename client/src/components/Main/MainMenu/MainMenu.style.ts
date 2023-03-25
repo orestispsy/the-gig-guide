@@ -65,55 +65,58 @@ export const Options = styled.div<Types>`
 `;
 
 export const SectionButton = styled(Link)<Types>`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: linear-gradient(
-    112.72013189013455deg,
-    rgba(240, 92, 7, 0.253) 4.927083333333334%,
-    rgba(30, 189, 176, 0.671) 97.84374999999999%
-  );
-  color: #e5ff00;
-  font-size: 2.3vmax;
-  height: 3vmax;
-  padding: 0.5vmax 1vmax;
-  border-radius: 10vh;
-  box-shadow: -0 0 10px rgba(0, 0, 0, 0.432), 0 -0 10px rgba(0, 0, 0, 0.432),
-    -0 -0 10px rgba(0, 0, 0, 0.432), -0 -0 10px rgba(0, 0, 0, 0.432);
-  border: 1px solid rgba(255, 230, 0, 0.37);
-  border-style: double;
-  transition: 1s;
-
-  text-shadow: -0 0 5px rgba(0, 0, 0, 0.7), 0 -0 5px rgba(0, 0, 0, 0.7),
-    -0 -0 5px rgba(0, 0, 0, 0.7), -0 -0 5px rgba(0, 0, 0, 0.7);
-
-  &:hover {
-    box-shadow: -0 0 10px rgba(255, 208, 0, 0.205),
-      0 -0 10px rgba(255, 208, 0, 0.205), -0 -0 10px rgba(255, 208, 0, 0.212),
-      -0 -0 10px rgba(255, 208, 0, 0.178);
+    animation: fadeAbout 1s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     background: linear-gradient(
-      112.72013189013455deg,
-      rgba(224, 247, 135, 1) 4.927083333333334%,
-      rgba(78, 227, 250, 1) 97.84374999999999%
+        112.72013189013455deg,
+        rgba(240, 92, 7, 0.253) 4.927083333333334%,
+        rgba(30, 189, 176, 0.671) 97.84374999999999%
     );
-
+    color: #e5ff00;
+    font-size: 2.3vmax;
+    height: 3vmax;
+    padding: 0.5vmax 1vmax;
+    border-radius: 10vh;
+    box-shadow: -0 0 10px rgba(0, 0, 0, 0.432), 0 -0 10px rgba(0, 0, 0, 0.432),
+        -0 -0 10px rgba(0, 0, 0, 0.432), -0 -0 10px rgba(0, 0, 0, 0.432);
+    border: 1px solid rgba(255, 230, 0, 0.37);
+    border-style: double;
     transition: 1s;
-  }
 
-  &:hover:active {
-    box-shadow: -0 0 15px rgba(255, 208, 0, 0.205),
-      0 -0 15px rgba(255, 208, 0, 0.205), -0 -0 15px rgba(255, 208, 0, 0.205),
-      -0 -0 15px rgba(255, 208, 0, 0.205);
-    color: rgba(255, 208, 0, 0.541);
-    text-shadow: none;
-  }
+    text-shadow: -0 0 5px rgba(0, 0, 0, 0.7), 0 -0 5px rgba(0, 0, 0, 0.7),
+        -0 -0 5px rgba(0, 0, 0, 0.7), -0 -0 5px rgba(0, 0, 0, 0.7);
 
-  ${mediaQueries("100", "480", "portrait")`
+    &:hover {
+        box-shadow: -0 0 10px rgba(255, 208, 0, 0.205),
+            0 -0 10px rgba(255, 208, 0, 0.205),
+            -0 -0 10px rgba(255, 208, 0, 0.212),
+            -0 -0 10px rgba(255, 208, 0, 0.178);
+        background: linear-gradient(
+            112.72013189013455deg,
+            rgba(224, 247, 135, 1) 4.927083333333334%,
+            rgba(78, 227, 250, 1) 97.84374999999999%
+        );
+
+        transition: 1s;
+    }
+
+    &:hover:active {
+        box-shadow: -0 0 15px rgba(255, 208, 0, 0.205),
+            0 -0 15px rgba(255, 208, 0, 0.205),
+            -0 -0 15px rgba(255, 208, 0, 0.205),
+            -0 -0 15px rgba(255, 208, 0, 0.205);
+        color: rgba(255, 208, 0, 0.541);
+        text-shadow: none;
+    }
+
+    ${mediaQueries("100", "480", "portrait")`
         font-size: 3.5vmax;
         padding: 1.5vmax 1.5vmax 2vmax 1.5vmax;
     `}
 
-  ${mediaQueries("273", "1024", "landscape")`
+    ${mediaQueries("273", "1024", "landscape")`
         font-size: 2vmax;
         padding: 1vmax 1.5vmax 0 1.5vmax;
         justify-content: unset;
@@ -121,44 +124,45 @@ export const SectionButton = styled(Link)<Types>`
 `;
 
 export const Globe = styled.img<Types>`
-  width: 8vmax;
-  height: 8vmax;
-  border-radius: 50%;
-  margin: -3vmax 4vmax 3vmax 4vmax;
-  object-fit: cover;
-  box-shadow: -0 0 15px black, 0 -0 15px black, -0 -0 15px black,
-    -0 -0 15px black;
-  transition: 0.5s;
-
-  &:hover {
-    box-shadow: -0 0 25px black, 0 -0 25px black, -0 -0 25px black,
-      -0 -0 25px black;
-    transition: 0.5s;
-  }
-
-  &:active {
+    animation: fadeAbout 1s ease-in-out;
+    width: 8vmax;
+    height: 8vmax;
+    border-radius: 50%;
+    margin: -3vmax 4vmax 3vmax 4vmax;
+    object-fit: cover;
     box-shadow: -0 0 15px black, 0 -0 15px black, -0 -0 15px black,
-      -0 -0 15px black;
-  }
+        -0 -0 15px black;
+    transition: 0.5s;
 
-  ${mediaQueries("100", "480", "portrait")`
+    &:hover {
+        box-shadow: -0 0 25px black, 0 -0 25px black, -0 -0 25px black,
+            -0 -0 25px black;
+        transition: 0.5s;
+    }
+
+    &:active {
+        box-shadow: -0 0 15px black, 0 -0 15px black, -0 -0 15px black,
+            -0 -0 15px black;
+    }
+
+    ${mediaQueries("100", "480", "portrait")`
         width: 14vmax;
         height: 14vmax;
         margin: -4vmax 4vmax 7vmax 4vmax;
     `}
 
-  ${mediaQueries("273", "1024", "landscape")`
+    ${mediaQueries("273", "1024", "landscape")`
         width: 9vmax;
         height: 9vmax;
         margin: -3vmax 4vmax 3vmax 4vmax;
     `}
 
     ${(props) =>
-    props.darkMode &&
-    css`
-      margin: 2vmax;
-      ${mediaQueries("273", "1024", "landscape")`
+        props.darkMode &&
+        css`
+            margin: 2vmax;
+            ${mediaQueries("273", "1024", "landscape")`
         margin-top: 2vmax;
     `}
-    `}
+        `}
 `;

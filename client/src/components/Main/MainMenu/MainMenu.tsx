@@ -20,7 +20,7 @@ export const MainMenu: React.FC<Props> = ({ darkMode, superAdmin }) => {
             <Globe
               title="Map"
               darkMode={darkMode}
-              src={`globe.gif?random=${Math.random()}`}
+              src={`globe.gif`}
             />
           </Link>
           <SectionButton to="/gig-editor">Edit</SectionButton>
@@ -34,7 +34,7 @@ export const MainMenu: React.FC<Props> = ({ darkMode, superAdmin }) => {
             <Globe
               title="Map"
               darkMode={darkMode}
-              src={`globe.gif?random=${Math.random()}`}
+              src={`globe.gif`}
             />
           </Link>
           <SectionButton to="/chat">Chat</SectionButton>

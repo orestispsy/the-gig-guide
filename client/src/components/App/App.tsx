@@ -34,35 +34,53 @@ export const App: React.FC<Props> = ({}) => {
   const [myNickname, setMyNickname] = useState<string>("");
   const [myChatImg, setMyChatImg] = useState<string>("");
   const [myChatColor, setMyChatColor] = useState<string>("");
+
   const [guest, setGuest] = useState<boolean>(false);
   const [admin, setAdmin] = useState<boolean>(false);
   const [superAdmin, setSuperAdmin] = useState<boolean>(false);
+
   const [maps, setMaps] = useState<boolean>(false);
+
   const [adminControls, setAdminControls] = useState<boolean>(false);
+
   const [gigListOpen, setGigListOpen] = useState<boolean>(false);
+
   const [visitors, setVisitors] = useState<number | boolean>(false);
+
   const [top, setTop] = useState<number | string>("1%");
   const [left, setLeft] = useState<number | string>("35%");
+
   const [selectedGigEntry, setSelectedGigEntry] = useState<number | null>(0);
+
   const [darkMode, setDarkMode] = useState<boolean>(false);
+
   const [userSelectedMode, setUserSelectedMode] = useState<boolean>(false);
+
   const [year, setYear] = useState<
     string | number | readonly string[] | undefined
   >("");
+
   const [nightFlightProg, setNightFlightProg] = useState<
     boolean | any[] | string
   >(false);
+  
   const [chatNotification, setChatNotification] = useState<boolean>(false);
   const [privateMsgNotification, setPrivateMsgNotification] =
     useState<boolean>(false);
+
   const [chatMode, setChatMode] = useState<boolean>(false);
   const [aboutMode, setAboutMode] = useState<boolean>(false);
   const [addMode, setAddMode] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<boolean>(false);
+
   const [gigsList, setGigsList] = useState<any>();
+
   const [roadLoaded, setRoadLoaded] = useState<boolean>(false);
   const [loadedMain, setLoadedMain] = useState<boolean>(false);
   const [loadedMainDark, setLoadedMainDark] = useState<boolean>(false);
+  const [skyIsLoaded, setSkyIsLoaded] = useState<boolean>(false);
+  const [finalLoadingCheck, setFinalLoadingCheck] = useState<boolean>(false);
+
   const [profileBanned, setProfileBanned] = useState<boolean>(false);
   const [profileBlocked, setProfileBlocked] = useState<boolean>(false);
   const [animeMode, setAnimeMode] = useState<boolean>(false);
@@ -73,6 +91,7 @@ export const App: React.FC<Props> = ({}) => {
   const [animeMusic, setAnimeMusic] = useState<boolean>(true);
   const [chatModeClosed, setChatModeClosed] = useState<boolean>(true);
   const [mute, setMute] = useState<boolean>(false);
+
   const [timelineMode, setTimelineMode] = useState<boolean>(false);
   const [timelineCommentsMode, setTimelineCommentsMode] =
     useState<boolean>(false);
@@ -83,15 +102,17 @@ export const App: React.FC<Props> = ({}) => {
   const [gigsListUpdatedTimeline, setGigsListUpdatedTimeline] = useState<any>();
   const [imagesTimeline, setImagesTimeline] = useState<any>();
   const [commentsTimeline, setCommentsTimeline] = useState<any>();
+  const [latestUpdatesMode, setLatestUpdatesMode] = useState<boolean>(false);
+
   const currentVisitors = useSelector((state: any) => state && state.visitors);
   const onlineUsers = useSelector((state: any) => state && state.onlineUsers);
+
   const chatBan = useSelector((state: any) => state && state.chat_ban);
   const blocked = useSelector((state: any) => state && state.block);
+
   const [timelineScrollTop, setTimelineScrollTop] = useState<number>(0);
-  const [latestUpdatesMode, setLatestUpdatesMode] = useState<boolean>(false);
+
   const [retroList, setRetroList] = useState<boolean>(false);
-  const [skyIsLoaded, setSkyIsLoaded] = useState<boolean>(false);
-  const [finalLoadingCheck, setFinalLoadingCheck] = useState<boolean>(false);
 
   useEffect(function () {
     setMaps(false);
@@ -172,10 +193,8 @@ export const App: React.FC<Props> = ({}) => {
       if (roadLoaded && logoLoader && skyIsLoaded) {
         setFinalLoadingCheck(true);
       }
-    } else {
-      setTimeout(() => {
-        setFinalLoadingCheck(true);
-      }, 2000);
+    } else if (roadLoaded && skyIsLoaded) {
+            setFinalLoadingCheck(true);
     }
   };
 

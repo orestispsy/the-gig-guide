@@ -2,6 +2,23 @@ import React, { useEffect, useState } from "react";
 import axios from "../../common/Axios/axios";
 import { Link } from "react-router-dom";
 
+import {
+    LoginContainer,
+    LogoWrapper,
+    Logo,
+    LogoText,
+    ContentBottom,
+    ContentTitle,
+    InputHeader,
+    Input,
+    ConfirmButton,
+    Error,
+    ErrorContent,
+    ErrorRegister,
+    ContentBottomQuestion,
+    SectionSwitch,
+} from "./../Login/Login.style";
+
 interface Props {}
 
 export const Registration: React.FC<Props> = ({}) => {
@@ -52,60 +69,58 @@ export const Registration: React.FC<Props> = ({}) => {
   };
 
   return (
-    <div className="registerContainer" onKeyDown={(e) => submitEnter(e)}>
-      <div className="logoBackLogin">
-        <div className="logo2Login"></div>
-
-        <div className="logo2LoginDesc"> The Gig Guide</div>
-      </div>
-      <h1>Register</h1>
-      <span>Nickname</span>
-      <input
-        autoComplete="none"
-        name="nickname"
-        maxLength={20}
-        placeholder="Nickname"
-        onChange={(e) => {
-          setNickname(e.target.value);
-          nickNameChecker(e.target.value);
-        }}
-        onClick={() => {
-          setError(false);
-          setErrorDuplicate(false);
-        }}
-      />
-      {errorDuplicate && (
-        <div className="errorNickRegister">
-          This Nickname Exists Already<div>Try Another One</div>
-        </div>
-      )}
-      {!errorDuplicate && <span>Password</span>}
-      {!errorDuplicate && (
-        <input
-          name="password"
-          placeholder="Password"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-          onClick={() => setError(false)}
-        />
-      )}
-      <div id="button" className="mainMenuLink" onClick={() => registerUser()}>
-        Submit
-      </div>
-      <div className="loginContainerRight">
-        <span className="regSpan">Joined Already?</span>
-        <Link to="/" className="links">
-          Login
-        </Link>
-      </div>
-      {errorNickname && (
-        <p className="error">
-          {"Your Nickname must have a - min 3 | max 20 - length of characters"}
-        </p>
-      )}
-      {error && !errorNickname && (
-        <p className="error">{"Insert A Nickname And A Password to Proceed"}</p>
-      )}
-    </div>
+      <LoginContainer onKeyDown={(e) => submitEnter(e)}>
+          <LogoWrapper>
+              <Logo />
+              <LogoText> The Gig Guide </LogoText>
+          </LogoWrapper>
+          <ContentTitle>Register</ContentTitle>
+          <InputHeader>Nickname</InputHeader>
+          <Input
+              autoComplete="none"
+              name="nickname"
+              maxLength={20}
+              placeholder="Nickname"
+              onChange={(e) => {
+                  setNickname(e.target.value);
+                  nickNameChecker(e.target.value);
+              }}
+              onClick={() => {
+                  setError(false);
+                  setErrorDuplicate(false);
+              }}
+          />
+          {errorDuplicate && (
+              <ErrorRegister>
+                  This Nickname Exists Already
+                  <ErrorContent>Try Another One</ErrorContent>
+              </ErrorRegister>
+          )}
+          {!errorDuplicate && <InputHeader>Password</InputHeader>}
+          {!errorDuplicate && (
+              <Input
+                  name="password"
+                  placeholder="Password"
+                  type="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  onClick={() => setError(false)}
+              />
+          )}
+          <ConfirmButton onClick={() => registerUser()}>Submit</ConfirmButton>
+          <ContentBottom>
+              <ContentBottomQuestion>Joined Already?</ContentBottomQuestion>
+              <SectionSwitch to="/">Login</SectionSwitch>
+          </ContentBottom>
+          {errorNickname && (
+              <Error>
+                  {
+                      "Your Nickname must have a - min 3 | max 20 - length of characters"
+                  }
+              </Error>
+          )}
+          {error && !errorNickname && (
+              <Error>{"Insert A Nickname And A Password to Proceed"}</Error>
+          )}
+      </LoginContainer>
   );
 };
