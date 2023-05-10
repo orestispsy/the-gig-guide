@@ -85,7 +85,7 @@ export const UserPic: React.FC<Props> = ({
   return (
     <Container>
       <UserImage src={myChatImg || "./../avatar.png"}></UserImage>
-      <Headline>Chat Image</Headline>
+      <Headline>Profile Image</Headline>
 
       <ImageUploader
         type="file"

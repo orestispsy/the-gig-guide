@@ -4,31 +4,67 @@ import { mediaQueries } from "../../common/mediaQueries";
 type Types = {
   dark?: boolean;
   private?: boolean;
+  mobileConfigOpen?: boolean;
+  isMobileToggler?: boolean;
 };
 
-export const Container = styled.div`
+export const Container = styled.div<Types>`
   display: flex;
   flex-direction: row;
   align-self: center;
   margin-bottom: auto;
 
-  ${mediaQueries("273", "1024", "landscape")`
+  ${mediaQueries(
+    "landscape",
+    css`
       height: 88%;
-    `}
+    `
+  )}
 
-  ${mediaQueries("100", "480", "portrait")`
-    flex-direction: column;
+  ${mediaQueries(
+    "portrait",
+    css`
+      flex-direction: column;
+      width: 100%;
+      height: 92%;
+    `
+  )}
+
+          ${(props) =>
+    props.mobileConfigOpen &&
+    css`
+      ${mediaQueries(
+        "portrait",
+        css`
+          height: 90%;
+        `
+      )}
     `}
 `;
 
-export const MobileChat = styled.div`
+export const MobileChat = styled.div<Types>`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 
-  ${mediaQueries("100", "480", "portrait")`
-    flex-direction: column;
+  ${mediaQueries(
+    "portrait",
+    css`
+      flex-direction: column;
+    `
+  )}
+
+  ${(props) =>
+    props.private &&
+    css`
+      ${mediaQueries(
+        "portrait",
+        css`
+          flex-direction: column-reverse;
+          height: unset;
+        `
+      )}
     `}
 `;
 
@@ -46,11 +82,14 @@ export const Jukebox = styled.div`
     animation: shake 0.2s;
   }
 
-  ${mediaQueries("100", "480", "portrait")`
-     height: 4vmax;
-    width: 5vmax;
-    bottom: 3.5vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      height: 4vmax;
+      width: 5vmax;
+      bottom: 3.5vmax;
+    `
+  )}
 `;
 
 export const TickerToggler = styled.div`
@@ -69,10 +108,13 @@ export const TickerToggler = styled.div`
       -0 -0 10px rgba(255, 0, 0, 0.37);
   }
 
-  ${mediaQueries("100", "480", "portrait")`
-        font-size: 1vmax;
-    right: 4vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      font-size: 1vmax;
+      right: 4vmax;
+    `
+  )}
 `;
 
 export const ThemeToggler = styled.div<Types>`
@@ -107,14 +149,65 @@ export const ThemeToggler = styled.div<Types>`
       }
     `}
 
-  ${mediaQueries("100", "480", "portrait")`
-        width: 5vmax;
-    height: 5vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 5vmax;
+      height: 5vmax;
+    `
+  )}
 
     
-    ${mediaQueries("273", "1024", "landscape")`
-          width: 5vmax;
-    height: 5vmax;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      width: 5vmax;
+      height: 5vmax;
+    `
+  )}
+`;
+
+export const MobileToggler = styled.div<Types>`
+    display: none;
+    margin-top: 2vmax;
+    padding: 1vmax 4vmax;
+    background: #00000026;
+    border-radius: 3vh;
+
+    &:after {
+        content: "Panel";
+        font-size: 3vmax;
+        color: #ffffffcc;
+        letter-spacing: 2px;
+    }
+
+    ${(props) =>
+        props.mobileConfigOpen &&
+        css`
+            &:after {
+                content: "Close";
+            }
+        `}
+    ${(props) =>
+        props.private &&
+        css`
+            display: none !important;
+        `}
+    ${(props) =>
+        props.dark &&
+        css`
+            &:after {
+                color: rgba(255, 255, 255, 0.418);
+            }
+        `}
+
+        
+  ${mediaQueries(
+        "portrait",
+        css`
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        `
+    )};
 `;

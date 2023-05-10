@@ -6,7 +6,7 @@ type AboutTypes = {
   isLoaded: boolean;
 };
 
-export const Container = styled.div<AboutTypes>`
+export const Container = styled.div`
   color: yellow;
   width: 90%;
   height: 92%;
@@ -15,17 +15,36 @@ export const Container = styled.div<AboutTypes>`
   align-items: center;
   justify-content: center;
   animation: fadeAbout 1s step-end;
-  visibility: hidden;
+  position: relative;
 
-  ${(props) =>
-    props.isLoaded &&
+  ${mediaQueries(
+    "landscape",
     css`
-      visibility: visible;
-    `}
+      height: 88%;
+    `
+  )}
+`;
 
-  ${mediaQueries("273", "1024", "landscape")`
-           height: 88%;
-    `}
+export const BackSwitcher = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  text-shadow: none;
+  font-size: 25px;
+  font-family: "Bangers";
+  letter-spacing: 2px;
+  color: rgb(220, 20, 60);
+  text-shadow: -1px 1px 0 yellow, 1px -1px 0 yellow, -1px -1px 0 yellow,
+    1px 1px 0 yellow;
+  animation: blinkerLoading 0.5s infinite ease-in-out;
+  letter-spacing: 4px;
+  
+  ${mediaQueries(
+    "portrait",
+    css`
+      zoom: 1.5;
+    `
+  )}
 `;
 
 export const InnerContainer = styled.div`
@@ -42,9 +61,12 @@ export const InnerContainer = styled.div`
   font-family: "DarkerGrotesque";
   cursor: pointer;
 
-  ${mediaQueries("100", "480", "portrait")`
-           width: unset 
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: unset;
+    `
+  )}
 `;
 
 export const LogoBox = styled.div`
@@ -53,6 +75,7 @@ export const LogoBox = styled.div`
   justify-content: center;
   align-self: center;
   width: 85vw;
+  position: relative;
 `;
 
 export const Logo = styled.div`
@@ -106,15 +129,21 @@ export const AboutBody = styled.div`
 
   ${scrollConfig}
 
-  ${mediaQueries("273", "1024", "landscape")`
-           height: 88%;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      height: 88%;
+    `
+  )}
 
-    ${mediaQueries("100", "480", "portrait")`
+  ${mediaQueries(
+    "portrait",
+    css`
       height: 100%;
-           width: 90vw;
-             align-items: unset;
-    `}
+      width: 90vw;
+      align-items: unset;
+    `
+  )}
 `;
 
 export const Background = styled.div<AboutTypes>`
@@ -133,9 +162,12 @@ export const Background = styled.div<AboutTypes>`
       background-color: rgba(255, 255, 255, 0.05);
     `}
 
-  ${mediaQueries("100", "480", "portrait")`
-          height: 100%;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      height: 100%;
+    `
+  )}
 `;
 
 export const Cover = styled.img<AboutTypes>`
@@ -147,13 +179,12 @@ export const Cover = styled.img<AboutTypes>`
   object-fit: cover;
   background-repeat: no-repeat;
   display: flex;
+  visibility: hidden;
 
   ${(props) =>
-    props.isLoaded
-      ? css`
-          animation: fadeCover 1s ease-in-out;
-        `
-      : css`
-          visibility: hidden;
-        `}
+    props.isLoaded &&
+    css`
+      visibility: visible;
+      animation: fadeCover 1s ease-in-out;
+    `}
 `;

@@ -33,9 +33,12 @@ export const Gig = styled.div<Types>`
   margin: 1vmax;
   z-index: 2;
 
-  ${mediaQueries("100", "480", "portrait")`
-       flex-direction: column-reverse !important;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      flex-direction: column-reverse !important;
+    `
+  )}
 
   @keyframes wars {
     0% {
@@ -130,10 +133,13 @@ export const Poster = styled.div<Types>`
     `}
   background-size:cover;
   margin: 0 2vmax;
-  
-  ${mediaQueries("100", "480", "portrait")`
+
+  ${mediaQueries(
+    "portrait",
+    css`
       margin: 2vmax 0 !important;
-    `}
+    `
+  )}
 `;
 
 export const Start = styled.div`

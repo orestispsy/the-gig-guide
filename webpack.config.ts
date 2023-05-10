@@ -6,94 +6,94 @@ const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 import HtmlWebPackPlugin from "html-webpack-plugin";
 
 module.exports = () => ({
-    resolve: {
-        extensions: [".js", ".jsx", ".ts", ".tsx", ".css"],
-    },
-    entry: ["./client/src/start.tsx"],
-    output: {
-        path: path.resolve(__dirname, "client", "build"),
-        filename: "bundle.js",
-        publicPath: "/",
-    },
+  resolve: {
+    extensions: [".js", ".jsx", ".ts", ".tsx", ".css"],
+  },
+  entry: ["./client/src/start.tsx"],
+  output: {
+    path: path.resolve(__dirname, "client", "build"),
+    filename: "bundle.js",
+    publicPath: "/",
+  },
 
-    performance: {
-        hints: false,
+  performance: {
+    hints: false,
+  },
+  devServer: {
+    // liveReload: false,
+    hot: true,
+    static: {
+      directory: path.join(__dirname, "client", "public"),
     },
-    devServer: {
-        // liveReload: false,
-        hot: true,
-        static: {
-            directory: path.join(__dirname, "client", "public"),
-        },
-        compress: true,
-        proxy: {
-            "/": {
-                target: "http://localhost:3001",
-            },
+    compress: true,
+    proxy: {
+      "/": {
+        target: "http://localhost:3001",
+      },
 
-            "/socket.io": {
-                target: "http://localhost:3001",
-                ws: true,
-            },
-        },
-        port: "3000",
+      "/socket.io": {
+        target: "http://localhost:3001",
+        ws: true,
+      },
     },
-    module: {
-        rules: [
-            {
-                test: /\.(woff2|woff|eot|ttf|otf)$/,
-                use: ["file-loader"],
+    port: "3000",
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(woff2|woff|eot|ttf|otf)$/,
+        use: ["file-loader"],
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|mp3)$/i,
+        type: "asset/resource",
+      },
+      {
+        test: [/\.jsx?$/, /\.tsx?$/],
+        use: [
+          {
+            loader: "ts-loader",
+            options: {
+              transpileOnly: true,
             },
-            {
-                test: /\.(png|jpg|jpeg|gif|mp3)$/i,
-                type: "asset/resource",
-            },
-            {
-                test: [/\.jsx?$/, /\.tsx?$/],
-                use: [
-                    {
-                        loader: "ts-loader",
-                        options: {
-                            transpileOnly: true,
-                        },
-                    },
-                ],
-                exclude: /node_modules/,
-            },
-            {
-                test: /\.css$/i,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    {
-                        loader: "css-loader",
-                        options: {
-                            url: false,
-                        },
-                    },
-                ],
-            },
-            {
-                test: /\.html$/,
-                use: [
-                    {
-                        loader: "html-loader",
-                    },
-                ],
-            },
+          },
         ],
-    },
-    plugins: [
-        new MiniCssExtractPlugin({
-            filename: "bundle.css",
-        }),
-        new webpack.DefinePlugin({
-            "process.env": JSON.stringify(process.env),
-            "process.env.production": JSON.stringify(process.env.production),
-        }),
-        new ForkTsCheckerWebpackPlugin(),
-        // new HtmlWebPackPlugin({
-        //   template: "./client/index.html",
-        //   filename: "./index.html",
-        // }),
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.css$/i,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              url: false,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: "html-loader",
+          },
+        ],
+      },
     ],
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "bundle.css",
+    }),
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify(process.env),
+      "process.env.production": JSON.stringify(process.env.production),
+    }),
+    new ForkTsCheckerWebpackPlugin(),
+    // new HtmlWebPackPlugin({
+    //   template: "./client/index.html",
+    //   filename: "./index.html",
+    // }),
+  ],
 });

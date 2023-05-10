@@ -1,10 +1,11 @@
 import styled, { css } from "styled-components";
-import { mediaQueries } from "../../../common/mediaQueries";
+import { mediaQueries } from "../../.../../../common/mediaQueries";
 
 type Types = {
   dark?: boolean;
   emojiBar?: boolean;
   private?: boolean;
+  mobileConfigOpen?: boolean;
 };
 
 export const Wrapper = styled.div<Types>`
@@ -14,27 +15,50 @@ export const Wrapper = styled.div<Types>`
   align-items: center;
   align-self: stretch;
 
-  ${mediaQueries("273", "1024", "landscape")`
-            align-self: center;
-            padding-top: 2vmax;
-            margin-bottom: 0;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      align-self: center;
+      padding-top: 2vmax;
+      margin-bottom: 0;
+    `
+  )}
 
-  ${mediaQueries("100", "480", "portrait")`
-            flex-direction: row;
-    `}
-
-    ${(props) =>
+  ${(props) =>
     props.emojiBar &&
     css`
       margin-bottom: -3vmax;
+      ${mediaQueries(
+        "portrait",
+        css`
+          margin-bottom: 0;
+        `
+      )}
     `}
 
-            ${(props) =>
+         ${(props) =>
+    props.mobileConfigOpen &&
+    css`
+      ${mediaQueries(
+        "portrait",
+        css`
+          height: 100%;
+        `
+      )}
+    `}
+
+                    ${(props) =>
     props.private &&
     css`
       margin-bottom: -2vmax;
       margin-left: 1vmax;
+      ${mediaQueries(
+        "portrait",
+        css`
+          height: unset;
+          margin-left: 0;
+        `
+      )}
     `}
 `;
 
@@ -54,22 +78,28 @@ export const Container = styled.div<Types>`
 
   min-height: fit-content;
 
-  ${mediaQueries("273", "1024", "landscape")`
-            align-self: center;
-            padding-top: 2vmax;
-            margin-bottom: 0;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      align-self: center;
+      padding-top: 2vmax;
+      margin-bottom: 0;
+    `
+  )}
 
-  ${mediaQueries("100", "480", "portrait")`
-            margin-top: 2vmax;
-            margin-right: 0.5vmax;
-            justify-content: center;
-            border-radius: 2vh;
-            min-width: 27vmax;
-            min-height: 25vmax;
-            padding: 0vmax;
-            background-color: rgba(116, 7, 7, 0.158);
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      margin-top: 3vmax;
+      margin-left: 0;
+      justify-content: center;
+      border-radius: 2vh;
+      width: 95%;
+      height: 70vh;
+      padding: 0vmax;
+      background-color: rgba(116, 7, 7, 0.158);
+    `
+  )}
 
     ${(props) =>
     props.dark &&
@@ -77,16 +107,36 @@ export const Container = styled.div<Types>`
       background-color: rgba(113, 255, 212, 0.021);
       border: 1px solid rgba(255, 255, 255, 0.13);
 
-      ${mediaQueries("100", "480", "portrait")`
-                  border: 1px solid rgba(255, 255, 255, 0.281);
-                  background-color: rgba(113, 255, 212, 0.021);
-    `}
+      ${mediaQueries(
+        "portrait",
+        css`
+          border: 1px solid rgba(255, 255, 255, 0.281);
+          background-color: rgba(113, 255, 212, 0.021);
+        `
+      )}
     `}
 
           ${(props) =>
     props.private &&
     css`
-      box-shadow: -0 0 10px rgba(0, 0, 0, 0.308), 0 -0 10px rgba(0, 0, 0, 0.308),
-        -0 -0 10px rgba(0, 0, 0, 0.308), -0 -0 10px rgba(0, 0, 0, 0.308);
+      ${mediaQueries(
+        "portrait",
+        css`
+          height: unset;
+        `
+      )}
+      box-shadow: -0 0 10px rgba(0, 0, 0, 0.308),
+                0 -0 10px rgba(0, 0, 0, 0.308), -0 -0 10px rgba(0, 0, 0, 0.308),
+                -0 -0 10px rgba(0, 0, 0, 0.308);
+    `}
+                ${(props) =>
+    !props.mobileConfigOpen &&
+    css`
+      ${mediaQueries(
+        "portrait",
+        css`
+          display: none;
+        `
+      )}
     `}
 `;

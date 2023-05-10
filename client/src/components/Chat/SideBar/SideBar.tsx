@@ -41,6 +41,7 @@ interface Props {
   shakeUser: boolean;
   setShakeUser: (e: boolean) => void;
   mute: boolean;
+  mobileConfigOpen: boolean;
 }
 
 export const SideBar: React.FC<Props> = ({
@@ -74,6 +75,7 @@ export const SideBar: React.FC<Props> = ({
   darkMode,
   mute,
   setUserPrivate,
+  mobileConfigOpen,
 }) => {
   const [userPicBar, setUserPicBar] = useState<boolean>(false);
   const [onlineUserPic, setOnlineUserPic] = useState<string>("");
@@ -200,8 +202,16 @@ export const SideBar: React.FC<Props> = ({
   };
 
   return (
-    <Wrapper emojiBar={emojiBar} private={privateMode}>
-      <Container dark={darkMode} private={privateMode}>
+    <Wrapper
+      emojiBar={emojiBar}
+      private={privateMode}
+      mobileConfigOpen={mobileConfigOpen}
+    >
+      <Container
+        dark={darkMode}
+        private={privateMode}
+        mobileConfigOpen={mobileConfigOpen}
+      >
         {!userPicBar && !userConfig && (
           <UserList
             privateMode={privateMode}
@@ -291,7 +301,7 @@ export const SideBar: React.FC<Props> = ({
           />
         )}
       </Container>
-      {emojiBar && <Emojis darkMode={darkMode} />}
+      {emojiBar && !mobileConfigOpen && <Emojis darkMode={darkMode} />}
     </Wrapper>
   );
 };

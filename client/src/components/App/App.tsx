@@ -63,7 +63,7 @@ export const App: React.FC<Props> = ({}) => {
   const [nightFlightProg, setNightFlightProg] = useState<
     boolean | any[] | string
   >(false);
-  
+
   const [chatNotification, setChatNotification] = useState<boolean>(false);
   const [privateMsgNotification, setPrivateMsgNotification] =
     useState<boolean>(false);
@@ -79,7 +79,9 @@ export const App: React.FC<Props> = ({}) => {
   const [loadedMain, setLoadedMain] = useState<boolean>(false);
   const [loadedMainDark, setLoadedMainDark] = useState<boolean>(false);
   const [skyIsLoaded, setSkyIsLoaded] = useState<boolean>(false);
+  const [aboutBackIsLoaded, setAboutBackIsLoaded] = useState(false);
   const [finalLoadingCheck, setFinalLoadingCheck] = useState<boolean>(false);
+  const [loadPercentage, setLoadPercentage] = useState<number>(0);
 
   const [profileBanned, setProfileBanned] = useState<boolean>(false);
   const [profileBlocked, setProfileBlocked] = useState<boolean>(false);
@@ -187,14 +189,32 @@ export const App: React.FC<Props> = ({}) => {
   );
 
   const checkOnLoad = () => {
+    let logoLoader;
+    logoLoader = darkMode ? loadedMainDark : loadedMain;
+
+    if (!roadLoaded || !logoLoader || !skyIsLoaded) {
+      let loadingItems: number = 3;
+      let amount: number = 0;
+      if (!roadLoaded) {
+        amount++;
+      }
+      if (!logoLoader) {
+        amount++;
+      }
+      if (!skyIsLoaded) {
+        amount++;
+      }
+      let result: number = 100 - (amount / loadingItems) * 100;
+      setLoadPercentage(result);
+    }
     if (location.pathname && location.pathname === "/") {
-      let logoLoader;
-      logoLoader = darkMode ? loadedMainDark : loadedMain;
       if (roadLoaded && logoLoader && skyIsLoaded) {
-        setFinalLoadingCheck(true);
+        setLoadPercentage(100);
+        setTimeout(() => setFinalLoadingCheck(true), 1000);
       }
     } else if (roadLoaded && skyIsLoaded) {
-            setFinalLoadingCheck(true);
+      setLoadPercentage(100);
+      setTimeout(() => setFinalLoadingCheck(true), 1000);
     }
   };
 
@@ -277,6 +297,9 @@ export const App: React.FC<Props> = ({}) => {
               mute={mute}
               setSkyIsLoaded={(e: boolean) => setSkyIsLoaded(e)}
               skyIsLoaded={skyIsLoaded}
+              loadPercentage={loadPercentage}
+              aboutBackIsLoaded={aboutBackIsLoaded}
+              setAboutBackIsLoaded={(e: boolean) => setAboutBackIsLoaded(e)}
             />
           }
         >

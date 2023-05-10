@@ -6,6 +6,8 @@ type Types = {
   horn?: boolean;
   shake?: boolean;
   private?: boolean;
+  mobileConfigOpen?: boolean;
+  emojiBar?: boolean;
 };
 
 export const Container = styled.div<Types>`
@@ -28,19 +30,24 @@ export const Container = styled.div<Types>`
     #b1151542
   );
 
-  ${mediaQueries("273", "1024", "landscape")`
-    align-content: center;
-    min-height: fit-content;
-    height: fit-content;
-    margin-top: 0;
-    width: 65vw;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      align-content: center;
+      min-height: fit-content;
+      height: fit-content;
+      margin-top: 0;
+      width: 65vw;
+    `
+  )}
 
-  ${mediaQueries("100", "480", "portrait")`
-    height: fit-content;
-    width: fit-content;
-    padding: 0 1vmax 1vmax 1vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: fit-content;
+      padding: 0 1vmax 1vmax 1vmax;
+    `
+  )}
 
      ${(props) =>
     props.dark &&
@@ -48,13 +55,30 @@ export const Container = styled.div<Types>`
       background: none;
       border: 1px solid rgba(255, 255, 255, 0.171);
 
-      ${mediaQueries("273", "1024", "landscape")`
-    border: 2px solid rgba(255, 255, 255, 0.178);
+      ${mediaQueries(
+        "landscape",
+        css`
+          border: 2px solid rgba(255, 255, 255, 0.178);
+        `
+      )}
+
+      ${mediaQueries(
+        "portrait",
+        css`
+          border: 1px solid rgba(255, 255, 255, 0.479);
+        `
+      )}
     `}
 
-      ${mediaQueries("100", "480", "portrait")`
-      border: 1px solid rgba(255, 255, 255, 0.479);
-    `}
+      ${(props) =>
+    props.mobileConfigOpen &&
+    css`
+      ${mediaQueries(
+        "portrait",
+        css`
+          display: none;
+        `
+      )}
     `}
 `;
 
@@ -66,13 +90,19 @@ export const Headline = styled.div<Types>`
   width: 60vw;
   height: 6vmax;
 
-  ${mediaQueries("273", "1024", "landscape")`
-     width: 64vw;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      width: 64vw;
+    `
+  )}
 
-  ${mediaQueries("100", "480", "portrait")`
-     width: 88vw;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 88vw;
+    `
+  )}
 
      ${(props) =>
     props.dark &&
@@ -97,6 +127,13 @@ export const Title = styled.div<Types>`
     props.dark &&
     css`
       color: rgb(0, 0, 0);
+      ${mediaQueries(
+        "portrait",
+        css`
+          color: white;
+          text-shadow: none;
+        `
+      )}
     `}
 
   ${(props) =>
@@ -106,6 +143,13 @@ export const Title = styled.div<Types>`
       margin: 0;
       text-shadow: none;
     `}
+
+  ${mediaQueries(
+    "portrait",
+    css`
+      font-size: 5vmax;
+    `
+  )}
 `;
 
 export const MainChatBack = styled.div<Types>`
@@ -117,6 +161,13 @@ export const MainChatBack = styled.div<Types>`
     css`
       animation: shake 1s;
     `}
+
+  ${mediaQueries(
+    "portrait",
+    css`
+      height: 100%;
+    `
+  )}
 `;
 
 const scrollConfig = css`
@@ -156,17 +207,34 @@ export const MainChat = styled.div<Types>`
   border-radius: 1vh;
   margin: 0 2vmax 0 2vmax;
 
-  ${mediaQueries("273", "1024", "landscape")`
-          min-height: 0vmax !important;
-          height: 40vh !important;
-          width: 60vw !important;
-          border-radius: 3vh !important;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      min-height: 0vmax;
+      height: 40vh;
+      width: 58vw;
+      border-radius: 3vh;
+    `
+  )}
 
-  ${mediaQueries("100", "480", "portrait")`
-          height: 27vh !important;
-          width: 80vw !important;
-          margin-bottom: 0.5vmax !important;
+  ${mediaQueries(
+    "portrait",
+    css`
+      height: 50vh;
+      width: 78vw;
+      margin-bottom: 0.5vmax;
+    `
+  )}
+
+     ${(props) =>
+    props.private &&
+    css`
+      ${mediaQueries(
+        "portrait",
+        css`
+          height: 42vh !important;
+        `
+      )}
     `}
 
          ${(props) =>
@@ -181,11 +249,28 @@ export const MainChat = styled.div<Types>`
       );
       box-shadow: none;
       border: 1px solid rgba(255, 255, 255, 0.171);
-      ${mediaQueries("100", "480", "portrait")`
-           border: 1px solid rgba(255, 255, 255, 0.479);
+      ${mediaQueries(
+        "portrait",
+        css`
+          border: 1px solid rgba(255, 255, 255, 0.479);
+        `
+      )}
+      ${mediaQueries(
+        "landscape",
+        css`
+          border: 2px solid rgba(255, 255, 255, 0.178);
+        `
+      )}
     `}
-      ${mediaQueries("273", "1024", "landscape")`
-             border: 2px solid rgba(255, 255, 255, 0.178);
-    `}
+
+             ${(props) =>
+    props.emojiBar &&
+    css`
+      ${mediaQueries(
+        "portrait",
+        css`
+          height: 33vh;
+        `
+      )}
     `}
 `;

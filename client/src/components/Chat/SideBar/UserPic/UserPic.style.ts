@@ -15,10 +15,14 @@ export const Container = styled.div`
   border-radius: 1vh;
   padding: 1vmax 2vmax 0 2vmax;
 
-  ${mediaQueries("100", "480", "portrait")`
-            margin-bottom: 1vmax;
-            font-size: 5vw;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      margin-bottom: 1vmax;
+      font-size: 5vw;
+      width: 100%;
+    `
+  )}
 `;
 
 export const UserImage = styled.img`
@@ -28,24 +32,33 @@ export const UserImage = styled.img`
   padding: 1vmax;
   margin-top: -1vmax;
 
-  ${mediaQueries("100", "480", "portrait")`
-            width: 16vmax;
-            height: 16vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 30vmax;
+      height: 30vmax;
+    `
+  )}
 `;
 
 export const Headline = styled.h1`
   font-size: 2vmax;
   margin: 0;
 
-  ${mediaQueries("100", "480", "portrait")`
-            margin-top: 1vmax;
-    font-size: 5vw;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      margin-top: 1vmax;
+      font-size: 5vmax;
+    `
+  )}
 
-  ${mediaQueries("273", "1024", "landscape")`
-              font-size: 2vmax;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      font-size: 2vmax;
+    `
+  )}
 `;
 
 export const ImageUploader = styled.input`
@@ -61,21 +74,27 @@ export const ImageUploader = styled.input`
   border-radius: 1px;
   box-shadow: none;
   font-size: 0.7vmax;
-  width: 12vmax;
-  height: 1.1vmax;
+  height: 2vmax;
   margin-top: 1vmax;
   margin-bottom: 12px;
 
-  ${mediaQueries("100", "480", "portrait")`
-              font-size: 2.5vw;
-    height: 3vh;
-    min-width: 25vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      font-size: 1.5vmax;
+      height: 5vmax;
+      width: 75%;
+      margin: 2vmax 0;
+    `
+  )}
 
-  ${mediaQueries("273", "1024", "landscape")`
-                  width: 15vmax;
-    height: 2vmax;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      width: 15vmax;
+      height: 2vmax;
+    `
+  )}
 `;
 
 export const OptionsWrapper = styled.div`
@@ -85,6 +104,14 @@ export const OptionsWrapper = styled.div`
   cursor: pointer;
   text-shadow: -1px 1px 0 black, 1px -1px 0 black, -1px -1px 0 black,
     -1px -1px 0 black;
+
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 75%;
+      justify-content: space-between;
+    `
+  )}
 `;
 
 export const Option = styled.h1<Types>`
@@ -99,9 +126,12 @@ export const Option = styled.h1<Types>`
       -0 -0 4px #fff70094;
   }
 
-  ${mediaQueries("100", "480", "portrait")`
-              font-size: 4vw;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      font-size: 3vmax;
+    `
+  )}
 
   ${(props) =>
     props.animation &&
@@ -138,4 +168,13 @@ export const Error = styled.p`
   margin: 1vmax 0 0 0;
   animation: fadeAbout 1.5s ease-in-out;
   width: 20vmax;
+
+  ${mediaQueries(
+    "portrait",
+    css`
+      font-size: 2vmax;
+      width: 100%;
+      margin-top: 2vmax;
+    `
+  )}
 `;

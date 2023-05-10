@@ -14,18 +14,18 @@ interface Props {}
 
 export const Welcome: React.FC<Props> = ({}) => {
   return (
-      <WelcomeContainer>
-          <GlobalStyles />
-          <ContentWrapper>
-              <Content>
-                  <HashRouter>
-                      <Routes>
-                          <Route path="/" element={<Login />} />
-                          <Route path="/register" element={<Registration />} />
-                      </Routes>
-                  </HashRouter>
-              </Content>
-          </ContentWrapper>
-      </WelcomeContainer>
+    <WelcomeContainer>
+      <GlobalStyles />
+      <ContentWrapper>
+        <Content>
+          <HashRouter>
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="/register" element={<Registration />} />
+            </Routes>
+          </HashRouter>
+        </Content>
+      </ContentWrapper>
+    </WelcomeContainer>
   );
 };

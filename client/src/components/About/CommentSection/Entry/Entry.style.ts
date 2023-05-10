@@ -16,9 +16,12 @@ export const BlogEntry = styled.div`
   padding: 0.5vmax;
   border-radius: 1vh;
 
-  ${mediaQueries("100", "480", "portrait")`
-         width: 70vw;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 70vw;
+    `
+  )}
 `;
 
 export const EntryCount = styled.div`

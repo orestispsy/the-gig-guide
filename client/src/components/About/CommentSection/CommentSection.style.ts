@@ -45,11 +45,14 @@ export const Container = styled.div`
 
   ${scrollConfig}
 
-  ${mediaQueries("100", "480", "portrait")`
-        margin: 0;
-        align-self: center;
-        width: 82vw;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      margin: 0;
+      align-self: center;
+      width: 82vw;
+    `
+  )}
 `;
 
 export const BlogEntryContainer = styled.div`
@@ -155,7 +158,10 @@ export const NewEntryToggler = styled.div`
     color: #ffd900a1;
   }
 
-  ${mediaQueries("100", "480", "portrait")`
-            margin: 0;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      margin: 0;
+    `
+  )}
 `;

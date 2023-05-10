@@ -64,7 +64,7 @@ export const Entry: React.FC<Props> = ({
       <Text>{blogEntry.comment}</Text>
 
       <Replies
-        blogComments={blogComments}
+        blogComments={blogComments.reverse()}
         blogEntry={blogEntry}
         superAdmin={superAdmin}
         setSelectedComment={(e: any) => setSelectedComment(e)}

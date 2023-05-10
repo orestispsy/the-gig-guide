@@ -11,11 +11,16 @@ import {
   Logo,
   LogoText,
   LogoWrapper,
+  LoadingBarWrapper,
+  LoadingBar,
 } from "./Loading.style";
 
-interface Props {}
+interface Props {
+  loadPercentage?: number;
+  noDots?: boolean;
+}
 
-export const Loading: React.FC<Props> = ({}) => {
+export const Loading: React.FC<Props> = ({ loadPercentage, noDots }) => {
   const [dotMap, setDotMap] = useState<any>([]);
   const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
 
@@ -56,6 +61,8 @@ export const Loading: React.FC<Props> = ({}) => {
 
   const dots = useCreateDots(dotMap, setIsTransitioning, isTransitioning);
 
+  const shouldLoad = loadPercentage && loadPercentage > 0;
+
   useEffect(function () {
     updateDotRefs();
     createDotMap();
@@ -64,7 +71,7 @@ export const Loading: React.FC<Props> = ({}) => {
   return (
     <LoadingContainer>
       <LoadingIntro>
-        <Box ref={boxRef}>
+        <Box ref={boxRef} noDots={noDots}>
           <DotWrapper transition={isTransitioning}>{dots}</DotWrapper>
         </Box>
         <LogoBox>
@@ -73,7 +80,10 @@ export const Loading: React.FC<Props> = ({}) => {
             <LogoText>The Gig Guide</LogoText>
           </LogoWrapper>
         </LogoBox>
-        <LoadingIntroText> Loading</LoadingIntroText>
+        <LoadingIntroText> LOADING </LoadingIntroText>
+        <LoadingBarWrapper shouldLoad={shouldLoad}>
+          <LoadingBar percentage={loadPercentage} />
+        </LoadingBarWrapper>
       </LoadingIntro>
     </LoadingContainer>
   );

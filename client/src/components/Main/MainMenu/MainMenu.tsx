@@ -17,11 +17,7 @@ export const MainMenu: React.FC<Props> = ({ darkMode, superAdmin }) => {
         <Options>
           <SectionButton to="/gig-creator">Add</SectionButton>
           <Link to="/map">
-            <Globe
-              title="Map"
-              darkMode={darkMode}
-              src={`globe.gif`}
-            />
+            <Globe title="Map" darkMode={darkMode} src={`globe.gif`} />
           </Link>
           <SectionButton to="/gig-editor">Edit</SectionButton>
         </Options>
@@ -31,11 +27,7 @@ export const MainMenu: React.FC<Props> = ({ darkMode, superAdmin }) => {
           <SectionButton to="/gig-list">Gigs</SectionButton>
 
           <Link to="/map">
-            <Globe
-              title="Map"
-              darkMode={darkMode}
-              src={`globe.gif`}
-            />
+            <Globe title="Map" darkMode={darkMode} src={`globe.gif`} />
           </Link>
           <SectionButton to="/chat">Chat</SectionButton>
         </Options>

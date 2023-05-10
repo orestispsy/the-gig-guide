@@ -1,9 +1,12 @@
 import styled, { css } from "styled-components";
-import { mediaQueries } from "../../common/mediaQueries";
+import { mediaQueries } from "../.../../../common/mediaQueries";
 
 type Types = {
   delayed?: number;
   transition?: boolean;
+  percentage?: number;
+  shouldLoad?: boolean | 0 | undefined;
+  noDots?: boolean;
 };
 
 export const LoadingContainer = styled.div`
@@ -27,28 +30,37 @@ export const LoadingContainer = styled.div`
   z-index: 666;
 `;
 
-export const Box = styled.div`
-    position: absolute;
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 500px;
-    height: 500px;
-    z-index: 666;
+export const Box = styled.div<Types>`
+  position: absolute;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  height: 500px;
+  z-index: 666;
 
-    @keyframes rotate {
-        100% {
-            transform: rotate(360deg);
-        }
+  @keyframes rotate {
+    100% {
+      transform: rotate(360deg);
     }
+  }
 
-    animation: rotate 15s linear;
-    animation-iteration-count: infinite;
+  animation: rotate 15s linear;
+  animation-iteration-count: infinite;
 
-    ${mediaQueries("100", "480", "portrait")`
-       zoom: 1.5;
+  ${mediaQueries(
+    "portrait",
+    css`
+      zoom: 1.5;
+    `
+  )}
+
+  ${(props) =>
+    props.noDots &&
+    css`
+      display: none;
     `}
 `;
 
@@ -129,14 +141,17 @@ export const LoadingIntro = styled.div`
 `;
 
 export const LoadingIntroText = styled.div`
-    font-size: 25px;
-    font-family: "DarkerGrotesque";
-    color: white;
-    animation: blinkerLoading 1s infinite ease-in-out;
-    letter-spacing: 4px;
-    ${mediaQueries("100", "480", "portrait")`
-       zoom: 1.5;
-    `}
+  font-size: 25px;
+  font-family: "DarkerGrotesque";
+  color: white;
+  animation: blinkerLoading 1s infinite ease-in-out;
+  letter-spacing: 4px;
+  ${mediaQueries(
+    "portrait",
+    css`
+      zoom: 1.5;
+    `
+  )}
 `;
 
 export const LogoBox = styled.div`
@@ -147,25 +162,31 @@ export const LogoBox = styled.div`
 `;
 
 export const Logo = styled.div`
-    background-image: url("/logo2.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 250px;
-    height: 80px;
-    ${mediaQueries("100", "480", "portrait")`
-       zoom: 1.5;
-    `}
+  background-image: url("/logo2.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 250px;
+  height: 80px;
+  ${mediaQueries(
+    "portrait",
+    css`
+      zoom: 1.5;
+    `
+  )}
 `;
 
 export const LogoText = styled.div`
-    margin: -30px 0 0 0;
-    width: max-content;
-    color: white;
-    font-size: 30px;
-    font-family: "DarkerGrotesque";
-    ${mediaQueries("100", "480", "portrait")`
-       zoom: 1.5;
-    `}
+  margin: -30px 0 0 0;
+  width: max-content;
+  color: white;
+  font-size: 30px;
+  font-family: "DarkerGrotesque";
+  ${mediaQueries(
+    "portrait",
+    css`
+      zoom: 1.5;
+    `
+  )}
 `;
 
 export const LogoWrapper = styled.div`
@@ -174,4 +195,27 @@ export const LogoWrapper = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 666;
+`;
+
+export const LoadingBarWrapper = styled.div<Types>`
+  visibility: ${(props) => (props.shouldLoad && `visible`) || `hidden`};
+  width: 150px;
+  height: 2px;
+  background-color: white;
+  position: relative;
+  margin: 10px 0 -10px 0;
+`;
+
+export const LoadingBar = styled.div<Types>`
+  height: 2px;
+  background-color: white;
+  position: absolute;
+  width: ${(props) => props.percentage && `${props.percentage}%`};
+  transition: 1s;
+  background-color: #06bedbed;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgb(1 255 161), 0 0 10px rgb(0 255 189),
+    0 0 10px rgb(9 255 203 / 43%), 0 0 10px rgb(2 255 166 / 43%);
+  left: 0;
+  top: 0;
 `;

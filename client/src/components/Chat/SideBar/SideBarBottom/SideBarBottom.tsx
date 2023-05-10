@@ -68,6 +68,7 @@ export const SideBarBottom: React.FC<Props> = ({
   return (
     <Container>
       <ConfigButton
+        userConfig={userConfig}
         title={(!userConfig && "Edit Account") || "Close"}
         onClick={(e) => {
           setUserConfig(!userConfig);

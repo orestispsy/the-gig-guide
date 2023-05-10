@@ -7,7 +7,7 @@ import {
   useGoogleMap,
 } from "@react-google-maps/api";
 
-import { SectionButton } from "./Maps.style"
+import { SectionButton } from "./Maps.style";
 
 import mapStyles from "../../common/mapStyles";
 
@@ -63,163 +63,141 @@ export const GoogleMaps: React.FC<Props> = ({
   }
 
   return (
-      <GoogleMap
-          mapContainerStyle={containerStyle}
-          zoom={3}
-          center={
-              (selectedGigEntry && {
-                  lat: parseFloat(selectedGigEntry.lat),
-                  lng: parseFloat(selectedGigEntry.lng),
-              }) ||
-              center
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      zoom={3}
+      center={
+        (selectedGigEntry && {
+          lat: parseFloat(selectedGigEntry.lat),
+          lng: parseFloat(selectedGigEntry.lng),
+        }) ||
+        center
+      }
+      options={{
+        styles: style,
+        disableDefaultUI: true,
+        zoomControl: true,
+        restriction: {
+          strictBounds: true,
+          latLngBounds: {
+            north: 85,
+            south: -80,
+            west: -179,
+            east: 185,
+          },
+        },
+      }}
+    >
+      {gigsList &&
+        gigsList.map((gig) => {
+          var dot = "greendot.gif";
+          let dateNow = new Date();
+          let dateGig = new Date(gig.date);
+
+          if (dateGig > dateNow) {
+            dot = "yellowdot.gif";
+            scaleParam = 15;
           }
-          options={{
-              styles: style,
-              disableDefaultUI: true,
-              zoomControl: true,
-              restriction: {
-                  strictBounds: true,
-                  latLngBounds: {
-                      north: 85,
-                      south: -80,
-                      west: -179,
-                      east: 185,
-                  },
-              },
+
+          if (gig.tour_name === "Life Tour") {
+            dot = "redBall.gif";
+            scaleParam = 15;
+          }
+          return (
+            <Marker
+              key={gig.id}
+              position={{
+                lat: parseFloat(gig.lat),
+                lng: parseFloat(gig.lng),
+              }}
+              icon={{
+                url:
+                  (selectedGigEntry &&
+                    selectedGigEntry.id == gig.id &&
+                    "pin.png") ||
+                  dot,
+                scaledSize: new window.google.maps.Size(
+                  (selectedGigEntry && selectedGigEntry.id == gig.id && 50) ||
+                    scaleParam ||
+                    30,
+                  (selectedGigEntry && selectedGigEntry.id == gig.id && 50) ||
+                    15
+                ),
+              }}
+              onClick={() => {
+                setSelectedGig(null);
+                setSelectedGig(gig);
+                setGigEntry(gig);
+                setCenter({
+                  lat: parseFloat(gig.lat),
+                  lng: parseFloat(gig.lng),
+                });
+              }}
+            />
+          );
+        })}
+      {selectedGig && (
+        <InfoWindow
+          position={{
+            lat: parseFloat(selectedGig.lat),
+            lng: parseFloat(selectedGig.lng),
           }}
-      >
-          {gigsList &&
-              gigsList.map((gig) => {
-                  var dot = "greendot.gif";
-                  let dateNow = new Date();
-                  let dateGig = new Date(gig.date);
+          onCloseClick={() => {
+            setGigEntry(null);
+          }}
+        >
+          <div className="mapInfoCard">
+            {selectedGig.poster && (
+              <div className="mapInfoCardLeft">
+                <a href={selectedGig.poster} target="_blank">
+                  <img className="infoPoster" src={selectedGig.poster}></img>
+                </a>
+              </div>
+            )}
+            <div className="mapInfoCardRight">
+              <div className="infoCardDate">{fixedDate}</div>
 
-                  if (dateGig > dateNow) {
-                      dot = "yellowdot.gif";
-                      scaleParam = 15;
-                  }
-
-                  if (gig.tour_name === "Life Tour") {
-                      dot = "redBall.gif";
-                      scaleParam = 15;
-                  }
-                  return (
-                      <Marker
-                          key={gig.id}
-                          position={{
-                              lat: parseFloat(gig.lat),
-                              lng: parseFloat(gig.lng),
-                          }}
-                          icon={{
-                              url:
-                                  (selectedGigEntry &&
-                                      selectedGigEntry.id == gig.id &&
-                                      "pin.png") ||
-                                  dot,
-                              scaledSize: new window.google.maps.Size(
-                                  (selectedGigEntry &&
-                                      selectedGigEntry.id == gig.id &&
-                                      50) ||
-                                      scaleParam ||
-                                      30,
-                                  (selectedGigEntry &&
-                                      selectedGigEntry.id == gig.id &&
-                                      50) ||
-                                      15
-                              ),
-                          }}
-                          onClick={() => {
-                              setSelectedGig(null);
-                              setSelectedGig(gig);
-                              setGigEntry(gig);
-                              setCenter({
-                                  lat: parseFloat(gig.lat),
-                                  lng: parseFloat(gig.lng),
-                              });
-                          }}
-                      />
-                  );
-              })}
-          {selectedGig && (
-              <InfoWindow
-                  position={{
-                      lat: parseFloat(selectedGig.lat),
-                      lng: parseFloat(selectedGig.lng),
+              {selectedGig.venue && (
+                <div className="infoCardCategory">
+                  <div className="infoCardDetailTitle">Venue</div>{" "}
+                  <span>➤</span>
+                  <div className="infoCardDetail"> {selectedGig.venue}</div>
+                </div>
+              )}
+              {selectedGig.city && (
+                <div className="infoCardCategory">
+                  <div className="infoCardDetailTitle"> Location </div>{" "}
+                  <span>➤</span>
+                  <div className="infoCardDetail">{selectedGig.city}</div>
+                </div>
+              )}
+              {selectedGig.tour_name && (
+                <div className="infoCardCategory">
+                  <div className="infoCardDetailTitle"> Tour </div>{" "}
+                  <span>➤</span>
+                  <div className="infoCardDetail">{selectedGig.tour_name}</div>
+                </div>
+              )}
+              {selectedGig.id && (
+                <SectionButton
+                  onClick={(e) => {
+                    historyCheck(selectedGig.id);
+                    mapVisible(false);
                   }}
-                  onCloseClick={() => {
-                      setGigEntry(null);
-                  }}
-              >
-                  <div className="mapInfoCard">
-                      {selectedGig.poster && (
-                          <div className="mapInfoCardLeft">
-                              <a href={selectedGig.poster} target="_blank">
-                                  <img
-                                      className="infoPoster"
-                                      src={selectedGig.poster}
-                                  ></img>
-                              </a>
-                          </div>
-                      )}
-                      <div className="mapInfoCardRight">
-                          <div className="infoCardDate">{fixedDate}</div>
-
-                          {selectedGig.venue && (
-                              <div className="infoCardCategory">
-                                  <div className="infoCardDetailTitle">
-                                      Venue
-                                  </div>{" "}
-                                  <span>➤</span>
-                                  <div className="infoCardDetail">
-                                      {" "}
-                                      {selectedGig.venue}
-                                  </div>
-                              </div>
-                          )}
-                          {selectedGig.city && (
-                              <div className="infoCardCategory">
-                                  <div className="infoCardDetailTitle">
-                                      {" "}
-                                      Location{" "}
-                                  </div>{" "}
-                                  <span>➤</span>
-                                  <div className="infoCardDetail">
-                                      {selectedGig.city}
-                                  </div>
-                              </div>
-                          )}
-                          {selectedGig.tour_name && (
-                              <div className="infoCardCategory">
-                                  <div className="infoCardDetailTitle">
-                                      {" "}
-                                      Tour{" "}
-                                  </div>{" "}
-                                  <span>➤</span>
-                                  <div className="infoCardDetail">
-                                      {selectedGig.tour_name}
-                                  </div>
-                              </div>
-                          )}
-                          {selectedGig.id && (
-                              <SectionButton
-                                  onClick={(e) => {
-                                      historyCheck(selectedGig.id);
-                                      mapVisible(false);
-                                  }}
-                              >
-                                  Community
-                              </SectionButton>
-                          )}
-                      </div>
-                  </div>
-              </InfoWindow>
-          )}
-          <div
-              title="Change Map Color"
-              className="switch"
-              onClick={(e) => switcherHelper(switcher + 1)}
-          ></div>
-      </GoogleMap>
+                >
+                  Community
+                </SectionButton>
+              )}
+            </div>
+          </div>
+        </InfoWindow>
+      )}
+      <div
+        title="Change Map Color"
+        className="switch"
+        onClick={(e) => switcherHelper(switcher + 1)}
+      ></div>
+    </GoogleMap>
   );
 };
 

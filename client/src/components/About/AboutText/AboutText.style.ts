@@ -25,9 +25,12 @@ export const TextWrapper = styled.div`
   justify-content: center;
   align-items: center;
 
-  ${mediaQueries("100", "480", "portrait")`
-             margin: 0;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      margin: 0;
+    `
+  )}
 `;
 
 export const Text = styled.div<AboutTextTypes>`
@@ -44,17 +47,23 @@ export const Text = styled.div<AboutTextTypes>`
   flex-direction: column;
   align-items: center;
 
-  ${mediaQueries("100", "480", "portrait")`
-          text-indent: 1vmax;
-          width: unset;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      text-indent: 1vmax;
+      width: unset;
+    `
+  )}
 
   ${(props) =>
     props.author &&
     css`
-      ${mediaQueries("273", "1024", "landscape")`
-              font-size: 2vmax !important;
-    `}
+      ${mediaQueries(
+        "landscape",
+        css`
+          font-size: 2vmax !important;
+        `
+      )}
     `}
 `;
 
@@ -84,9 +93,12 @@ export const Paragraph = styled.div<AboutTextTypes>`
       text-indent: none;
       text-align: center;
       width: 20vw;
-      ${mediaQueries("100", "480", "portrait")`
-            width: 60vw;
-    `}
+      ${mediaQueries(
+        "portrait",
+        css`
+          width: 60vw;
+        `
+      )}
     `}
 
   ${(props) =>
@@ -108,8 +120,11 @@ export const Author = styled.a`
   opacity: 40%;
   background-position-y: 50%;
 
-  ${mediaQueries("100", "480", "portrait")`
-          margin-left: 0;
-          align-self: center;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      margin-left: 0;
+      align-self: center;
+    `
+  )}
 `;

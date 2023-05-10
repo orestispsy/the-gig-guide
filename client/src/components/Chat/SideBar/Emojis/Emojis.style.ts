@@ -53,21 +53,27 @@ export const Container = styled.div<Types>`
       scrollbar-color: rgba(255, 255, 0, 0.39) rgba(172, 255, 104, 0.075);
     `}
 
-    ${mediaQueries("273", "1024", "landscape")`
-            width: 22vmax;
-            height: 7vmax;
-            overflow-x: scroll;
-            overflow-y: unset;
-            justify-content: unset;
-            align-items: unset;
-            flex-wrap: unset;
-    `}
+   ${mediaQueries(
+    "landscape",
+    css`
+      width: 22vmax;
+      height: 7vmax;
+      overflow-x: scroll;
+      overflow-y: unset;
+      justify-content: unset;
+      align-items: unset;
+      flex-wrap: unset;
+    `
+  )}
 
-      ${mediaQueries("100", "480", "portrait")`
-            width: 15vmax;
-            margin-top: -2vmax;
-            margin-right: 1vh;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 90%;
+      max-height: 21vh;
+      margin-left: 0;
+    `
+  )}
 `;
 
 export const Wrapper = styled.div`
@@ -85,13 +91,20 @@ export const Emoticon = styled.img`
   margin: 0.5vmax;
   cursor: grab;
 
-  ${mediaQueries("273", "1024", "landscape")`
-             width: 4vmax !important;
-    height: 4vmax !important;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      width: 4vmax !important;
+      height: 4vmax !important;
+    `
+  )}
 
-  ${mediaQueries("100", "480", "portrait")`
-            width: 5vmax !important;
-    height: 5vmax !important;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 8vmax !important;
+      height: 8vmax !important;
+      margin: 1vmax;
+    `
+  )}
 `;

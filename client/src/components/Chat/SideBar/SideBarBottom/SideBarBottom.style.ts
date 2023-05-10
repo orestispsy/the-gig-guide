@@ -2,7 +2,11 @@ import styled, { css } from "styled-components";
 import { mediaQueries } from "../../../../common/mediaQueries";
 
 type Types = {
-  color: string;
+  color?: string;
+  isMobileToggler?: boolean;
+  mobileConfigOpen?: boolean;
+  private?: boolean;
+  userConfig?: boolean;
 };
 
 export const Container = styled.div`
@@ -13,18 +17,24 @@ export const Container = styled.div`
   width: 15vw;
   margin-bottom: 0.5vmax;
 
-  ${mediaQueries("273", "1024", "landscape")`
-          width: 22vmax;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      width: 22vmax;
+    `
+  )}
 
-  ${mediaQueries("100", "480", "portrait")`
-          flex-direction: row;
-          margin-top: 1vmax;
-          width: 26vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      flex-direction: row;
+      margin-top: 1vmax;
+      width: 26vmax;
+    `
+  )}
 `;
 
-export const ConfigButton = styled.div`
+export const ConfigButton = styled.div<Types>`
   background-image: url("/superAdmin.png");
   background-size: contain;
   background-repeat: no-repeat;
@@ -35,23 +45,32 @@ export const ConfigButton = styled.div`
   transform: rotate(0.15turn);
   transition: 1s;
 
-  &:hover {
-    transform: rotate(0.1turn);
-    transition: 1s;
-  }
+  ${mediaQueries(
+    "landscape",
+    css`
+      width: 6.5vmax;
+      height: 6.5vmax;
+    `
+  )}
 
-  ${mediaQueries("273", "1024", "landscape")`
-            width: 6.5vmax;
-            height: 6.5vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 9vmax;
+      height: 9vmax;
+    `
+  )}
 
-  ${mediaQueries("100", "480", "portrait")`
-            width: 7vmax;
-            height: 7vmax;
+    ${(props) =>
+    props.userConfig &&
+    css`
+      transform: rotate(-0.1turn);
+      &:hover {
+      }
     `}
 `;
 
-export const NetworkButton = styled.div`
+export const NetworkButton = styled.div<Types>`
   background-image: url("/network.png");
   background-size: contain;
   background-repeat: no-repeat;
@@ -64,31 +83,37 @@ export const NetworkButton = styled.div`
     -0 -0 10px rgba(255, 255, 255, 0.25);
   cursor: pointer;
   margin: 0 1vmax;
-  transition: 0.5s;
+  transition: box-shadow 0.5s;
 
   &:hover {
     box-shadow: -0 0 10px rgba(0, 0, 0, 0.432), 0 -0 10px rgba(0, 0, 0, 0.432),
       -0 -0 10px rgba(0, 0, 0, 0.432), -0 -0 10px rgba(0, 0, 0, 0.432);
-    transition: 0.5s;
+    transition: box-shadow 0.5s;
   }
 
-  ${mediaQueries("273", "1024", "landscape")`
-            width: 5vmax !important;
-            height: 5vmax !important;
-            box-shadow: -0 0 10px rgba(255, 255, 255, 0.432),
-                0 -0 10px rgba(255, 255, 255, 0.432),
-                -0 -0 10px rgba(255, 255, 255, 0.432),
-                -0 -0 10px rgba(255, 255, 255, 0.432);
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      width: 5vmax;
+      height: 5vmax;
+      box-shadow: -0 0 10px rgba(255, 255, 255, 0.432),
+        0 -0 10px rgba(255, 255, 255, 0.432),
+        -0 -0 10px rgba(255, 255, 255, 0.432),
+        -0 -0 10px rgba(255, 255, 255, 0.432);
+    `
+  )}
 
-  ${mediaQueries("100", "480", "portrait")`
-            width: 6vmax !important;
-            height: 6vmax !important;
-            box-shadow: -0 0 10px rgba(255, 255, 255, 0.432),
-              0 -0 10px rgba(255, 255, 255, 0.432),
-              -0 -0 10px rgba(255, 255, 255, 0.432),
-              -0 -0 10px rgba(255, 255, 255, 0.432);
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 7vmax;
+      height: 7vmax;
+      box-shadow: -0 0 10px rgba(255, 255, 255, 0.432),
+        0 -0 10px rgba(255, 255, 255, 0.432),
+        -0 -0 10px rgba(255, 255, 255, 0.432),
+        -0 -0 10px rgba(255, 255, 255, 0.432);
+    `
+  )}
 `;
 
 export const ImageUploaderButton = styled.div`
@@ -110,15 +135,21 @@ export const ImageUploaderButton = styled.div`
     transform: scaleX(-1);
   }
 
-  ${mediaQueries("273", "1024", "landscape")`
-              width: 5vmax !important;
-    height: 5vmax !important;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      width: 5vmax !important;
+      height: 5vmax !important;
+    `
+  )}
 
-  ${mediaQueries("100", "480", "portrait")`
-              width: 6vmax !important;
-    height: 6vmax !important;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 8vmax !important;
+      height: 8vmax !important;
+    `
+  )}
 `;
 
 export const ColorSelector = styled.input<Types>`
@@ -155,11 +186,18 @@ export const ColorSelector = styled.input<Types>`
     filter: hue-rotate(-380deg);
   }
 
-  ${mediaQueries("273", "1024", "landscape")`
-             padding: 2vmax;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      padding: 2vmax;
+    `
+  )}
 
-  ${mediaQueries("100", "480", "portrait")`
-              padding: 2vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      padding: 3.3vmax;
+      margin-left: 1vmax;
+    `
+  )}
 `;

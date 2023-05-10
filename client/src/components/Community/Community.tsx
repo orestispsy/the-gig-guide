@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { socket } from "../../common/Socket/socket";
 import { useSelector } from "react-redux";
 
-import { SectionButton} from "./Community.style"
+import { SectionButton } from "./Community.style";
 import { SectionSwitch } from "../Login/Login.style";
 
 const {
@@ -70,108 +70,108 @@ export const Community: React.FC<Props> = ({
   };
 
   return (
-      <div className="communityContainer">
-          <div className="gallery">Gallery</div>
-          <div className="communityPhotos" ref={elemRef}>
-              {images && images.length == 0 && <h1>Nothing here yet .</h1>}
+    <div className="communityContainer">
+      <div className="gallery">Gallery</div>
+      <div className="communityPhotos" ref={elemRef}>
+        {images && images.length == 0 && <h1>Nothing here yet .</h1>}
 
-              {images &&
-                  images.map((img: any) => (
-                      <div key={img.id}>
-                          {superAdmin ||
-                              (myUserId == img.img_sender_id && (
-                                  <div
-                                      className="deletecommunityPhoto"
-                                      title="Delete"
-                                      id={img.id}
-                                      onClick={(e) => axiosDeleteImage(e)}
-                                  ></div>
-                              ))}
-                          {img.gig_id == selectedGigId && superAdmin && (
-                              <div
-                                  className="deletecommunityPhoto"
-                                  title="Delete"
-                                  id={img.id}
-                                  onClick={(e) => axiosDeleteImage(e)}
-                              ></div>
-                          )}
-                          {img.gig_id == selectedGigId && (
-                              <div className="communityPhotosDetails">
-                                  <a href={img.img_url} target="_blank">
-                                      <img src={img.img_url}></img>
-                                  </a>
-                                  Uploaded by: <div>{img.nickname}</div>
-                              </div>
-                          )}
-                      </div>
-                  ))}
-          </div>
-          {!contribute && (
-              <div className="galleryControls">
-                  <SectionButton onClick={() => setContribute(true)}>
-                      Contribute
-                  </SectionButton>
-                  {!guest && (
-                      <SectionButton
-                          commentsMainButton
-                          onClick={() => setOpenComments(!openComments)}
-                      >
-                          Comments
-                      </SectionButton>
-                  )}
-              </div>
-          )}
-
-          {contribute && (
-              <div className="fileUploaderBack">
-                  <div className="addPhoto"> Add Image</div>
-                  <div className="fileUploader" id="fileUploader">
-                      <input
-                          type="file"
-                          name="file"
-                          accept="image/*"
-                          onChange={(e) => updateFile(e)}
-                          onClick={() => setError(false)}
-                      />
-
-                      {!upload && file && (
-                          <div
-                              title="Upload Image"
-                              className="upload"
-                              onClick={() =>
-                                  handleUploaderClick(
-                                      setUpload,
-                                      file,
-                                      setFile,
-                                      selectedGigId,
-                                      myUserId,
-                                      myNickname,
-                                      setImagesTimeline,
-                                      setContribute,
-                                      setError
-                                  )
-                              }
-                          ></div>
-                      )}
-                      {upload && <div className="uploading"></div>}
-                  </div>
-                  {contribute && (
-                      <div className="communityConfig">
-                          <div
-                              className="communityRedDot"
-                              title="Close File Uploader"
-                              onClick={() => {
-                                  setContribute(false);
-                                  setError(false);
-                                  setFile(null);
-                              }}
-                          ></div>
-                      </div>
-                  )}
-              </div>
-          )}
-
-          {error && <p className="error">Select an Image [Max Size: 5MB]</p>}
+        {images &&
+          images.map((img: any) => (
+            <div key={img.id}>
+              {superAdmin ||
+                (myUserId == img.img_sender_id && (
+                  <div
+                    className="deletecommunityPhoto"
+                    title="Delete"
+                    id={img.id}
+                    onClick={(e) => axiosDeleteImage(e)}
+                  ></div>
+                ))}
+              {img.gig_id == selectedGigId && superAdmin && (
+                <div
+                  className="deletecommunityPhoto"
+                  title="Delete"
+                  id={img.id}
+                  onClick={(e) => axiosDeleteImage(e)}
+                ></div>
+              )}
+              {img.gig_id == selectedGigId && (
+                <div className="communityPhotosDetails">
+                  <a href={img.img_url} target="_blank">
+                    <img src={img.img_url}></img>
+                  </a>
+                  Uploaded by: <div>{img.nickname}</div>
+                </div>
+              )}
+            </div>
+          ))}
       </div>
+      {!contribute && (
+        <div className="galleryControls">
+          <SectionButton onClick={() => setContribute(true)}>
+            Contribute
+          </SectionButton>
+          {!guest && (
+            <SectionButton
+              commentsMainButton
+              onClick={() => setOpenComments(!openComments)}
+            >
+              Comments
+            </SectionButton>
+          )}
+        </div>
+      )}
+
+      {contribute && (
+        <div className="fileUploaderBack">
+          <div className="addPhoto"> Add Image</div>
+          <div className="fileUploader" id="fileUploader">
+            <input
+              type="file"
+              name="file"
+              accept="image/*"
+              onChange={(e) => updateFile(e)}
+              onClick={() => setError(false)}
+            />
+
+            {!upload && file && (
+              <div
+                title="Upload Image"
+                className="upload"
+                onClick={() =>
+                  handleUploaderClick(
+                    setUpload,
+                    file,
+                    setFile,
+                    selectedGigId,
+                    myUserId,
+                    myNickname,
+                    setImagesTimeline,
+                    setContribute,
+                    setError
+                  )
+                }
+              ></div>
+            )}
+            {upload && <div className="uploading"></div>}
+          </div>
+          {contribute && (
+            <div className="communityConfig">
+              <div
+                className="communityRedDot"
+                title="Close File Uploader"
+                onClick={() => {
+                  setContribute(false);
+                  setError(false);
+                  setFile(null);
+                }}
+              ></div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {error && <p className="error">Select an Image [Max Size: 5MB]</p>}
+    </div>
   );
 };

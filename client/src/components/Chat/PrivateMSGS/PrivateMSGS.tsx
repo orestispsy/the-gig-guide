@@ -51,6 +51,7 @@ interface Props {
   playPrivateMsg: () => void;
   mute: boolean;
   setPrivateMode: (e: boolean) => void;
+  privateMode: boolean;
 }
 
 export const PrivateMSGS: React.FC<Props> = ({
@@ -66,6 +67,7 @@ export const PrivateMSGS: React.FC<Props> = ({
   playPrivateMsg,
   mute,
   setPrivateMode,
+  privateMode,
 }) => {
   const [scrollTop, setScrollTop] = useState<number>(2);
   const [postScroll, setPostScroll] = useState<boolean>(false);
@@ -139,6 +141,7 @@ export const PrivateMSGS: React.FC<Props> = ({
       <Title private={true}>Private Chat</Title>
       <MainChatBack>
         <MainChat
+          private={privateMode}
           dark={darkMode}
           ref={elemRef}
           onScrollCapture={() =>
@@ -198,6 +201,7 @@ export const PrivateMSGS: React.FC<Props> = ({
             }}
           ></TypeLine>
           <SendMsg
+            dark={darkMode}
             title="Send Private Message"
             onClick={(e) =>
               addPrivateMsg(chatMSG, myUserId, userPrivate, elem, myChatImg)

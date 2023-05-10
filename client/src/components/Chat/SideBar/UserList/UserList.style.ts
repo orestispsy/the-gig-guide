@@ -11,14 +11,31 @@ type Types = {
   online?: boolean;
 };
 
-export const Container = styled.div`
+export const Container = styled.div<Types>`
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: hidden;
 
-  ${mediaQueries("100", "480", "portrait")`
-          height: 25vmax;
+  ${mediaQueries(
+    "portrait",
+    css`
+      height: 100%;
+      width: 95%;
+    `
+  )}
+
+  ${(props) =>
+    props.private &&
+    css`
+      ${mediaQueries(
+        "portrait",
+        css`
+          height: unset;
+          width: unset;
+          flex-direction: row;
+        `
+      )}
     `}
 `;
 
@@ -35,14 +52,20 @@ export const Headline = styled.div<Types>`
       font-family: BlackOpsOne;
     `}
 
-  ${mediaQueries("100", "480", "portrait")`
-            font-size: 4vmax;
-    margin: 2vmax 0 2vmax 0;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      font-size: 4vmax;
+      margin: 2vmax 0 2vmax 0;
+    `
+  )}
 
-    ${mediaQueries("273", "1024", "landscape")`
-            margin: 0 0 1vmax 0;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      margin: 0 0 1vmax 0;
+    `
+  )}
 `;
 
 export const Counter = styled.span`
@@ -64,11 +87,17 @@ export const Counter = styled.span`
   justify-content: center;
   align-items: center;
 
-  ${mediaQueries("100", "480", "portrait")`
-            font-size: 2vmax;
-    align-self: center;
-    padding: 1vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      min-width: 2.5vmax;
+      min-height: 2.5vmax;
+      font-size: 2vmax;
+      align-self: center;
+      padding: 1vmax;
+      margin-bottom: -3vmax;
+    `
+  )}
 `;
 
 const scrollConfig = css`
@@ -108,11 +137,17 @@ export const UsersBox = styled.div<Types>`
 
   ${scrollConfig}
 
-  ${mediaQueries("100", "480", "portrait")`
-           min-height: 14vmax;
-    min-width: 23vmax;
-    padding: 0vmax 1vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      height: 100%;
+      height: 50vh;
+      width: 90%;
+      padding: 0vmax 1vmax;
+      display: grid;
+      grid-auto-rows: max-content;
+    `
+  )}
 
     &:nth-child(1) {
     margin-top: 2vmax !important;
@@ -123,12 +158,18 @@ export const UsersBox = styled.div<Types>`
     css`
       border-color: rgba(255, 255, 255, 0.13);
 
-      ${mediaQueries("100", "480", "portrait")`
-               border: 1px solid rgba(255, 255, 255, 0.281);
-    `}
-      ${mediaQueries("273", "1024", "landscape")`
-             border: 2px solid rgba(255, 255, 255, 0.178);
-    `}
+      ${mediaQueries(
+        "portrait",
+        css`
+          border: 1px solid rgba(255, 255, 255, 0.281);
+        `
+      )}
+      ${mediaQueries(
+        "landscape",
+        css`
+          border: 2px solid rgba(255, 255, 255, 0.178);
+        `
+      )}
     `}
 
   ${(props) =>
@@ -136,8 +177,16 @@ export const UsersBox = styled.div<Types>`
     css`
       margin-top: -2vmax;
       box-shadow: none;
-      border: none;
+      border: none !important;
       background-color: none;
+
+      ${mediaQueries(
+        "portrait",
+        css`
+          width: unset;
+          height: unset;
+        `
+      )}
     `}
 `;
 
@@ -167,9 +216,15 @@ export const UserInner = styled.div<Types>`
       background-color: #fbff0413;
     `}
 
-  ${mediaQueries("100", "480", "portrait")`
-                margin-bottom: 1vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      margin: 0.5vmax 0.3vmax;
+      border-bottom: 1px solid white;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    `
+  )}
 `;
 
 export const Crown = styled.div`
@@ -181,16 +236,22 @@ export const Crown = styled.div`
   margin-left: -2.4vmax;
   margin-top: -3vmax;
 
-  ${mediaQueries("100", "480", "portrait")`
-       width: 3vmax;
-    height: 3vmax;
-    margin: -5vmax 0.5vmax 0 -3vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 3vmax;
+      height: 3vmax;
+      margin: -5vmax 0.5vmax 0 -3vmax;
+    `
+  )}
 
-  ${mediaQueries("273", "1024", "landscape")`
-               margin-top: -3vmax;
-    margin: -3vmax 0 0 -2vmax;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      margin-top: -3vmax;
+      margin: -3vmax 0 0 -2vmax;
+    `
+  )}
 `;
 
 export const UserStatus = styled.div<Types>`
@@ -223,13 +284,19 @@ export const UserDetails = styled.div<Types>`
   justify-content: flex-start;
   margin-left: 0.5vmax;
 
-  ${mediaQueries("100", "480", "portrait")`
-             margin-left: unset;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      margin: 1vmax auto 1vmax 0;
+    `
+  )}
 
-  ${mediaQueries("273", "1024", "landscape")`
-               margin-left: unset;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      margin-left: unset;
+    `
+  )}
     ${(props) =>
     props.shake &&
     css`
@@ -251,10 +318,13 @@ export const UserImage = styled.img`
   box-shadow: -0 0 5px rgba(0, 0, 0, 0.308), 0 -0 5px rgba(0, 0, 0, 0.308),
     -0 -0 5px rgba(0, 0, 0, 0.308), -0 -0 5px rgba(0, 0, 0, 0.308);
 
-  ${mediaQueries("100", "480", "portrait")`
-        width: 5vmax;
-    height: 5vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 5vmax;
+      height: 5vmax;
+    `
+  )}
 `;
 
 export const UserNickName = styled.span<Types>`
@@ -270,13 +340,19 @@ export const UserNickName = styled.span<Types>`
       color: ${props.customColor};
     `}
 
-  ${mediaQueries("100", "480", "portrait")`
-          font-size: 3vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      font-size: 3vmax;
+    `
+  )}
 
-      ${mediaQueries("273", "1024", "landscape")`
-               font-size: 2vmax;
-    `}
+   ${mediaQueries(
+    "landscape",
+    css`
+      font-size: 2vmax;
+    `
+  )}
 `;
 
 export const Notification = styled.div`
@@ -290,15 +366,21 @@ export const Notification = styled.div`
     blinkerBoxYellow 3s ease-in-out, shake 0.5s;
   border-radius: 50%;
 
-  ${mediaQueries("100", "480", "portrait")`
-       width: 4vmax;
-    height: 4vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 4vmax;
+      height: 4vmax;
+    `
+  )}
 
-  ${mediaQueries("273", "1024", "landscape")`
-            width: 2.5vmax;
-    height: 2.5vmax;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      width: 2.5vmax;
+      height: 2.5vmax;
+    `
+  )}
 `;
 
 export const PrivateModeImage = styled.img`
@@ -308,13 +390,19 @@ export const PrivateModeImage = styled.img`
   padding: 1vmax;
   margin-top: -1vmax;
 
-  ${mediaQueries("100", "480", "portrait")`
-            width: 15vmax;
-    height: 15vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 10vmax;
+      height: 10vmax;
+    `
+  )}
 
-  ${mediaQueries("273", "1024", "landscape")`
-               width: 16vmax;
-    height: 16vmax;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      width: 16vmax;
+      height: 16vmax;
+    `
+  )}
 `;

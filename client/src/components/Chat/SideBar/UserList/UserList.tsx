@@ -72,7 +72,7 @@ export const UserList: React.FC<Props> = ({
 }) => {
   const onlineUsers = useSelector((state: any) => state && state.onlineUsers);
   return (
-    <Container>
+    <Container private={privateMode}>
       {!privateMode && !networkList && (
         <Headline>{!networkList && "Online"}</Headline>
       )}

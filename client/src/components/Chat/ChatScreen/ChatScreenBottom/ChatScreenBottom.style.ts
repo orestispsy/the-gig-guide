@@ -8,25 +8,41 @@ type Types = {
 };
 
 export const Container = styled.div<Types>`
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   align-self: center;
 
-  ${mediaQueries("273", "1024", "landscape")`
-       width: 60vw;
-    justify-content: space-evenly;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      width: 60vw;
+      justify-content: space-evenly;
+    `
+  )}
 
-  ${mediaQueries("100", "480", "portrait")`
-       width: 80vw;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 80vw;
+      flex-wrap: wrap;
+      margin-top: 1.5vmax;
+    `
+  )}
 
      ${(props) =>
     props.private &&
     css`
       margin: 1vmax 0;
+
+      ${mediaQueries(
+        "portrait",
+        css`
+          width: unset;
+        `
+      )}
     `}
 `;
 
@@ -56,22 +72,28 @@ export const TypeLine = styled.textarea.attrs({ className: "chatTypeLine" })`
       -0 -0 2px rgba(255, 255, 255, 0.308);
   }
 
-  ${mediaQueries("273", "1024", "landscape")`
-       min-height: 3vmax;
-    font-size: 2vmax;
-    padding-left: 1.3vmax;
-    width: 40vmax;
-    margin-right: 0.5vmax;
-    border-radius: 3vh;
-  }
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      min-height: 3vmax;
+      font-size: 2vmax;
+      padding-left: 1.3vmax;
+      width: 40vmax;
+      margin-right: 0.5vmax;
+      border-radius: 3vh;
+    `
+  )}
 
-  ${mediaQueries("100", "480", "portrait")`
-    padding-left: 1.7vmax;
-    height: 3vmax;
-    font-size: 2vmax;
-    min-width: 40vw;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      padding-left: 1.7vmax;
+      height: 3vmax;
+      font-size: 2vmax;
+      width: unset;
+      min-width: 70%;
+    `
+  )}
 `;
 
 export const SendMsg = styled.div<Types>`
@@ -91,19 +113,25 @@ export const SendMsg = styled.div<Types>`
     filter: invert(100%);
   }
 
-  ${mediaQueries("273", "1024", "landscape")`
-       width: 2vmax;
-    height: 2vmax;
-    padding-right: 1vmax;
-    padding-left: 1vmax;
-  }
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      width: 2vmax;
+      height: 2vmax;
+      padding-right: 1vmax;
+      padding-left: 1vmax;
+      margin-left: 1vmax;
+    `
+  )}
 
-  ${mediaQueries("100", "480", "portrait")`
-     min-width: 3.5vmax;
-    min-height: 2.2vmax;
-    margin-left: 1vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      min-width: 4.3vmax;
+      min-height: 2.5vmax;
+      margin-left: 1vmax;
+    `
+  )}
 
          ${(props) =>
     props.dark &&
@@ -130,6 +158,16 @@ export const ChatControls = styled.div`
       -0 0 5px rgba(209, 255, 4, 0.308), 0 -0 5px rgba(0, 0, 0, 0.308),
       -0 -0 5px rgba(0, 0, 0, 0.308), -0 -0 5px rgba(0, 0, 0, 0.308);
   }
+
+  ${mediaQueries(
+    "portrait",
+    css`
+      margin: 0 1vmax 0 1vmax;
+      position: absolute;
+      left: 0;
+      transform: translateX(-100%);
+    `
+  )}
 `;
 
 export const SoundConfig = styled.div<Types>`
@@ -146,16 +184,21 @@ export const SoundConfig = styled.div<Types>`
       background-image: url("/play.png");
     `}
 
-  ${mediaQueries("273", "1024", "landscape")`
-    width: 3vmax;
-    height: 3vmax;
-  }
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      width: 3vmax;
+      height: 3vmax;
+    `
+  )}
 
-    ${mediaQueries("100", "480", "portrait")`
-     width: 4vmax;
-    height: 4vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 2.5vmax;
+      height: 2.5vmax;
+    `
+  )}
 `;
 
 export const EmojisToggler = styled.div`
@@ -172,16 +215,28 @@ export const EmojisToggler = styled.div`
     animation: shake 1s;
   }
 
-  ${mediaQueries("273", "1024", "landscape")`
-        width: 5vmax;
-    height: 5vmax;
-    margin-left: 1vmax;
-  }
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      width: 5vmax;
+      height: 5vmax;
+      margin-left: 1vmax;
+    `
+  )}
 
-  ${mediaQueries("100", "480", "portrait")`
-     min-width: 5vmax;
-    min-height: 5vmax;
-    margin-left: 1vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 3.5vmax;
+      height: 3.5vmax;
+      margin: 0 1vmax 0 1vmax;
+      position: absolute;
+      right: 0;
+      transform: translateX(100%);
+
+      &:hover {
+        animation: unset;
+      }
+    `
+  )}
 `;

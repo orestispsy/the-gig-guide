@@ -20,20 +20,26 @@ export const TextArea = styled.textarea`
   letter-spacing: 2px;
   font-size: 1vmax;
 
-  ${mediaQueries("100", "480", "portrait")`
-        margin: 0;
-        align-self: center;
-        width: 82vw;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      margin: 0;
+      align-self: center;
+      width: 82vw;
+    `
+  )}
 `;
 
 export const Controls = styled.div`
   display: flex;
   justify-content: space-evenly;
 
-  ${mediaQueries("100", "480", "portrait")`
-           margin-top: 1vmax !important;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      margin-top: 1vmax !important;
+    `
+  )}
 `;
 
 export const InputBack = styled.div`

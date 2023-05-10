@@ -28,6 +28,8 @@ interface Props {
   emojiBar: boolean;
   myUserId: number | undefined;
   setScrollTop: (e: number) => void;
+  mobileConfigOpen: boolean;
+  privateMode: boolean;
 }
 
 const {} = require("../ChatUtils");
@@ -49,22 +51,32 @@ export const ChatScreen: React.FC<Props> = ({
   setScrollTop,
   emojiBar,
   myUserId,
+  mobileConfigOpen,
+  privateMode,
 }) => {
-  useEffect(function () {}, []);
+  useEffect(
+    function () {
+      console.log(privateMode);
+    },
+    [privateMode]
+  );
 
   return (
-    <Container dark={darkMode}>
+    <Container dark={darkMode} mobileConfigOpen={mobileConfigOpen}>
       <ChatControls
         elemRef={elemRef}
         setPostScroll={(e: boolean) => setPostScroll(e)}
         chatMessages={chatMessages}
       />
       <Headline dark={darkMode}>
-        <Title dark={darkMode}>Chat Room</Title>
+        <Title private={privateMode} dark={darkMode}>
+          Chat Room
+        </Title>
       </Headline>
 
       <MainChatBack shake={shakeUser} horn={horn}>
         <MainChat
+          emojiBar={emojiBar}
           dark={darkMode}
           ref={elemRef}
           onScrollCapture={() =>

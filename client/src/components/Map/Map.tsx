@@ -56,7 +56,6 @@ const MyMap: React.FC<Props> = ({
 
   useEffect(function () {
     setTimeout(() => {
-      mapVisible(true);
       setDarkMode(true);
       setMapMode(true);
       if (selectedGig) {
@@ -64,6 +63,15 @@ const MyMap: React.FC<Props> = ({
       }
     }, 250);
   }, []);
+
+  useEffect(
+    function () {
+      if (isLoaded) {
+        mapVisible(true);
+      }
+    },
+    [isLoaded]
+  );
 
   const historyCheck = (e: string) => {
     navigate(`/api/gig/${e}`);

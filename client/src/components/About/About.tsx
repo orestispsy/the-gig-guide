@@ -14,6 +14,7 @@ import {
   AboutBody,
   Background,
   Cover,
+  BackSwitcher,
 } from "./About.style";
 
 const { sendComment, axiosGetAboutComments } = require("./AboutUtils");
@@ -37,7 +38,6 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
   const [reply, setReply] = useState<boolean>(false);
   const [selectedComment, setSelectedComment] = useState<any>(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [firstClick, setFirstClick] = useState(false);
 
   let expBlogComments: any;
 
@@ -110,9 +110,7 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
   return (
     <>
       <Container
-        isLoaded={isLoaded}
         onClick={(e) => {
-          setFirstClick(true);
           if (imgCount < 10) {
             setImgCount(imgCount + 1);
           } else {
@@ -127,6 +125,7 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
               <Logo></Logo>
               <LogoText>The Gig Guide</LogoText>
             </GoToStart>
+            {!isLoaded && <BackSwitcher>LOADING</BackSwitcher>}
           </LogoBox>
           <AboutBody>
             {commentSection && <AboutText />}
@@ -179,7 +178,6 @@ export const About: React.FC<Props> = ({ setAboutMode, superAdmin }) => {
           />
         </Background>
       </Container>
-      {!isLoaded && !firstClick && <Loading />}
     </>
   );
 };

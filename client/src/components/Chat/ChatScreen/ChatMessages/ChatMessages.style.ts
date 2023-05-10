@@ -53,11 +53,23 @@ export const Message = styled.div<Types>`
     margin: 1vmax;
     margin-left: auto;
     margin-right: auto;
+
+    ${mediaQueries(
+      "portrait",
+      css`
+        max-height: 14vmax;
+        max-width: 10vmax;
+        left: 37%;
+      `
+    )}
   }
 
-  ${mediaQueries("100", "480", "portrait")`
-              max-height: 12vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      font-size: 1.5vmax;
+    `
+  )}
 `;
 
 export const UserDetails = styled.div`
@@ -66,13 +78,19 @@ export const UserDetails = styled.div`
   justify-content: flex-start;
   align-self: flex-start;
 
-  ${mediaQueries("273", "1024", "landscape")`
-       font-size: 2vmax;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      font-size: 2vmax;
+    `
+  )}
 
-  ${mediaQueries("100", "480", "portrait")`
-        font-size: 3vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      font-size: 3vmax;
+    `
+  )}
 `;
 
 export const Avatar = styled.img`
@@ -81,15 +99,21 @@ export const Avatar = styled.img`
   height: 2.2vmax;
   border-radius: 0.5vmax;
 
-  ${mediaQueries("273", "1024", "landscape")`
-        width: 4vmax;
-        height: 4vmax;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      width: 4vmax;
+      height: 4vmax;
+    `
+  )}
 
-  ${mediaQueries("100", "480", "portrait")`
-        width: 3vmax;
-        height: 3vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 5vmax;
+      height: 5vmax;
+    `
+  )}
 `;
 
 export const Nickname = styled.h1`
@@ -100,6 +124,13 @@ export const Nickname = styled.h1`
   font-size: 2vmax;
   text-shadow: -1px 1px 0 black, 1px -1px 0 black, -1px -1px 0 black,
     -1px -1px 0 black;
+
+  ${mediaQueries(
+    "portrait",
+    css`
+      font-size: 3.5vmax;
+    `
+  )}
 `;
 
 export const Delete = styled.div`
@@ -113,19 +144,29 @@ export const Delete = styled.div`
   cursor: pointer;
   margin-left: -0.2vmax;
 
-  ${mediaQueries("273", "1024", "landscape")`
-        margin-top: -2vmax;
-        width: 1.2vmax;
-        height: 1.2vmax;
-        padding: 0.1vmax;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      margin-top: -2vmax;
+      width: 1.2vmax;
+      height: 1.2vmax;
+      padding: 0.1vmax;
+    `
+  )}
 
-  ${mediaQueries("100", "480", "portrait")`
-        margin-top: -3vmax;
-        width: 1.2vmax;
-        height: 1.2vmax;
-        padding: 0.1vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      margin-top: -3vmax;
+      width: 1.2vmax;
+      height: 1.2vmax;
+      padding: 0.1vmax;
+    `
+  )}
+
+    &:hover {
+    transform: scale(1.2);
+  }
 `;
 
 export const Date = styled.div<Types>`
@@ -148,6 +189,13 @@ export const Date = styled.div<Types>`
       color: rgba(255, 255, 0, 0.692);
       text-shadow: none;
     `}
+
+  ${mediaQueries(
+    "portrait",
+    css`
+      font-size: 0.6vmax;
+    `
+  )}
 `;
 
 export const Time = styled.div<Types>`
@@ -160,6 +208,13 @@ export const Time = styled.div<Types>`
     css`
       text-shadow: none;
     `}
+
+  ${mediaQueries(
+    "portrait",
+    css`
+      font-size: 0.9vmax;
+    `
+  )}
 `;
 
 export const UserStatus = styled.div<Types>`

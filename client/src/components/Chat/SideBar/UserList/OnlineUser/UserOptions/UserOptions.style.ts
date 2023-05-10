@@ -20,7 +20,7 @@ export const BanBox = styled.div`
   margin: 0 0.5vmax;
   font-family: "BlackOpsOne" !important;
   color: rgb(252, 88, 88);
-  font-size: 1vmax !important;
+  font-size: 2vmax !important;
 `;
 
 export const BanBoxText = styled.div``;
@@ -37,6 +37,7 @@ export const BanTimeInput = styled.input`
   outline: transparent;
   border-radius: 100px;
   height: 1.7vmax;
+  font-size: 1.5vmax;
   background-color: #ffe60049;
   border: none;
   width: 3vmax;
@@ -50,6 +51,14 @@ export const BanTimeInput = styled.input`
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }
+
+  ${mediaQueries(
+    "portrait",
+    css`
+      height: 3vmax;
+      width: 6vmax;
+    `
+  )}
 `;
 
 export const KickButton = styled.div<Types>`
@@ -66,11 +75,14 @@ export const KickButton = styled.div<Types>`
     transform: rotate(0turn);
   }
 
-  ${mediaQueries("100", "480", "portrait")`
-          width: 3vmax;
-          height: 3vmax;
-          margin: 0 1vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 4vmax;
+      height: 4vmax;
+      margin: 0 1vmax;
+    `
+  )}
 
   ${(props) =>
     props.active &&
@@ -91,17 +103,23 @@ export const HornButton = styled.div`
     animation: 1.1s linear infinite blinker2;
   }
 
-  ${mediaQueries("100", "480", "portrait")`
-            width: 3vmax
-    height: 3vmax
-    margin: 0 1vmax
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 4vmax;
+      height: 4vmax;
+      margin: 0 1vmax;
+    `
+  )}
 
-  ${mediaQueries("273", "1024", "landscape")`
-               width: 2vmax
-    height: 2vmax
-    margin: 0 1vmax
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      width: 2vmax;
+      height: 2vmax;
+      margin: 0 1vmax;
+    `
+  )}
 `;
 
 export const GoToSuperMode = styled.div`
@@ -120,14 +138,20 @@ export const GoToSuperMode = styled.div`
     transition: 1s;
   }
 
-  ${mediaQueries("100", "480", "portrait")`
-              width: 3vmax;
-    height: 3vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 4vmax;
+      height: 4vmax;
+    `
+  )}
 
-  ${mediaQueries("273", "1024", "landscape")`
-               width: 2vmax;
-    height: 2vmax;
-    margin-left: 0;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      width: 2vmax;
+      height: 2vmax;
+      margin-left: 0;
+    `
+  )}
 `;

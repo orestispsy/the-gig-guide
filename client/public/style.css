@@ -66,8 +66,6 @@ a:hover {
   cursor: pointer;
 }
 
-
-
 .appContainerList {
   display: flex;
   flex-direction: column;
@@ -133,7 +131,6 @@ a:hover {
 .mapContainer {
   justify-content: flex-start;
 }
-
 
 .editGigButton {
   font-family: "DarkerGrotesque";
@@ -389,7 +386,6 @@ input[type="range"]:focus::-ms-fill-upper {
   color: crimson;
 }
 
-
 form option {
   font-size: 1vmax;
   color: orangered;
@@ -413,7 +409,6 @@ form option {
 .editMapToggler:hover {
   color: white;
 }
-
 
 .formOptions {
   width: 40vw;
@@ -444,7 +439,6 @@ form h1 {
   color: orangered;
   box-shadow: -0 0 4px black, 0 -0 4px black, -0 -0 4px black, -0 -0 4px black;
 } */
-
 
 .upload {
   cursor: pointer;
@@ -517,7 +511,6 @@ form h1 {
     height: 4vmax !important;
   }
 
-
   #privateMessageUserDetails {
     width: 10vmax;
     height: 4vmax;
@@ -578,7 +571,6 @@ form h1 {
   .superListItemBack {
     flex-direction: column;
   }
-
 
   .gigEntryDetails {
     margin-bottom: 1vmax;
@@ -658,12 +650,9 @@ form h1 {
     width: 80vw !important;
   }
 
-
   .gigEditorContainerInner form {
     width: 80vw !important;
   }
-
-
 
   .gigCreatorContainerInner form {
     width: 80vw !important;
@@ -775,7 +764,6 @@ form h1 {
     width: 60vw !important;
   }
 
-
   #aboutClose {
     margin: -1vmax -1vmax -4vmax 0 !important;
   }
@@ -792,6 +780,10 @@ form h1 {
   .darkMode {
     width: 5vmax !important;
     height: 5vmax !important;
+  }
+
+  #privateMsgUserNick {
+    font-size: 3.5vmax !important;
   }
 }
 
@@ -895,7 +887,6 @@ form h1 {
     font-size: 3vmax !important;
   }
 
-
   #fileUploader input {
     width: 18vmax !important;
   }
@@ -969,7 +960,6 @@ form h1 {
     width: 4vmax !important;
   }
 }
-
 
 .gigListMonths {
   display: flex;
@@ -1198,7 +1188,6 @@ select::-webkit-scrollbar-thumb {
   background: #d9ff0185;
 }
 
-
 .selectGigEntry {
   background-color: yellow;
   border-radius: 100px;
@@ -1233,7 +1222,6 @@ select::-webkit-scrollbar-thumb {
   width: 20vmax;
   text-align: center;
 } */
-
 
 /* .error {
   font-family: "BlackOpsOne";
@@ -1331,7 +1319,6 @@ div:focus {
   justify-content: center;
   align-items: center;
 }
-
 
 #fileUploaderEdit input {
   border-color: transparent;
@@ -1563,6 +1550,7 @@ font-family: 'Ultra', serif; */
   align-items: center;
   justify-content: center;
   width: max-content !important;
+  margin-bottom: 1vmax !important;
 }
 
 .gigEntryContainer form select {
@@ -1680,7 +1668,6 @@ font-family: 'Ultra', serif; */
   scrollbar-color: rgba(255, 255, 0, 0.39) rgba(172, 255, 104, 0.075);
   margin-bottom: 1vmax;
 }
-
 
 .posterEditBox {
   display: flex;
@@ -1981,6 +1968,7 @@ font-family: 'Ultra', serif; */
 
 .communityPhotos img {
   width: 12vmax;
+  max-height: 15vmax;
 
   border-radius: 1vh;
   margin: 0.5vmax;
@@ -1989,7 +1977,6 @@ font-family: 'Ultra', serif; */
 .galleryControls {
   display: flex;
 }
-
 
 #fileUploader {
   margin-top: 1vmax !important;
@@ -2011,6 +1998,10 @@ font-family: 'Ultra', serif; */
   background-size: cover;
   mix-blend-mode: hard-light;
   margin: 0 0 -2.5vmax 1vmax;
+}
+
+.deletecommunityPhoto:hover {
+  transform: scale(1.2);
 }
 
 .commentsContainer {
@@ -2117,7 +2108,6 @@ font-family: 'Ultra', serif; */
   justify-content: flex-end;
   width: 55vw;
 }
-
 
 #gigListCloseTab {
   display: flex;

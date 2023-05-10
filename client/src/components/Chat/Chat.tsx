@@ -8,6 +8,7 @@ import { SideBar } from "./SideBar/SideBar";
 import { ChatScreen } from "./ChatScreen/ChatScreen";
 import { Ticker } from "../Ticker/Ticker";
 import { PrivateMSGS } from "./PrivateMSGS/PrivateMSGS";
+import { Loading } from "../Loading/Loading";
 
 import {
   Container,
@@ -15,6 +16,7 @@ import {
   Jukebox,
   TickerToggler,
   ThemeToggler,
+  MobileToggler,
 } from "./Chat.style";
 
 import useSound from "use-sound";
@@ -106,7 +108,10 @@ export const Chat: React.FC<Props> = ({
   setTimelineScrollTop,
   setPrivateMsgNotification,
 }) => {
+  const [mobileConfigOpen, setMobileConfigOpen] = useState<boolean>(false);
   const [emojiBar, setEmojiBar] = useState<boolean>(false);
+
+  const [chatMessages, setChatMessages] = useState<any>(false);
   const [tickerBar, setTickerBar] = useState<boolean>(false);
 
   const [postScroll, setPostScroll] = useState<boolean>(false);
@@ -128,7 +133,9 @@ export const Chat: React.FC<Props> = ({
   const elemRef = useRef<HTMLDivElement>(null);
 
   const onlineUsers = useSelector((state: any) => state && state.onlineUsers);
-  const chatMessages = useSelector((state: any) => state && state.chatMessages);
+  const chatMessagesApi = useSelector(
+    (state: any) => state && state.chatMessages
+  );
   const browserCount = useSelector((state: any) => state && state.count);
   const horn = useSelector((state: any) => state && state.horn);
 
@@ -147,8 +154,14 @@ export const Chat: React.FC<Props> = ({
     setTimelineMode(false);
     setTimelineScrollTop(0);
     setPrivateMsgNotification(false);
+    setChatMessages(chatMessagesApi);
   }, []);
 
+  useEffect(() => {
+    if (chatMessagesApi) {
+      setChatMessages(chatMessagesApi);
+    }
+  }, [chatMessagesApi]);
   useEffect(() => {
     if (myUserId) {
       setTimeout(() => {
@@ -231,13 +244,13 @@ export const Chat: React.FC<Props> = ({
   };
 
   if (!chatMessages) {
-    return <div className="loading"></div>;
+    return <Loading noDots />;
   }
 
   return (
-    <Container>
+    <Container mobileConfigOpen={mobileConfigOpen}>
       {tickerBar && <Ticker tickerBar={tickerBar} darkMode={darkMode} />}
-      <MobileChat>
+      <MobileChat private={privateMode}>
         {privateMode && (
           <PrivateMSGS
             myUserId={myUserId}
@@ -256,6 +269,7 @@ export const Chat: React.FC<Props> = ({
             }
             mute={mute}
             setPrivateMode={(e: boolean) => setPrivateMode(e)}
+            privateMode={privateMode}
           />
         )}
 
@@ -277,6 +291,8 @@ export const Chat: React.FC<Props> = ({
             emojiBar={emojiBar}
             myUserId={myUserId}
             setScrollTop={(e: number) => setScrollTop(e)}
+            mobileConfigOpen={mobileConfigOpen}
+            privateMode={privateMode}
           />
         )}
         <SideBar
@@ -311,7 +327,15 @@ export const Chat: React.FC<Props> = ({
           shakeUser={shakeUser}
           setShakeUser={(e: boolean) => setShakeUser(e)}
           mute={mute}
+          mobileConfigOpen={mobileConfigOpen}
         />
+        <MobileToggler
+          dark={darkMode}
+          mobileConfigOpen={mobileConfigOpen}
+          isMobileToggler
+          private={privateMode}
+          onClick={() => setMobileConfigOpen(!mobileConfigOpen)}
+        ></MobileToggler>
       </MobileChat>
 
       <Jukebox

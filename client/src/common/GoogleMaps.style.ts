@@ -91,26 +91,31 @@ export const GoogleMapStyles = css`
     color: white !important;
   }
 
-  ${mediaQueries("273", "1024", "landscape")`
-     
-        .gm-style .gm-style-iw-c,
-        .gm-style .gm-style-iw-t::after {
-            margin-left: 8vmax !important;
-            }
+  ${mediaQueries(
+    "landscape",
+    css`
+      .gm-style .gm-style-iw-c,
+      .gm-style .gm-style-iw-t::after {
+        margin-left: 8vmax !important;
+      }
 
-        .gm-style .gm-style-iw-c,
-        .gm-style .gm-style-iw-t::after {
-            top: -30px !important;
-            }
-        .gm-style-iw-d {
-            max-height: fit-content !important;
-        }
-    `}
+      .gm-style .gm-style-iw-c,
+      .gm-style .gm-style-iw-t::after {
+        top: -30px !important;
+      }
+      .gm-style-iw-d {
+        max-height: fit-content !important;
+      }
+    `
+  )}
 
-  ${mediaQueries("100", "480", "portrait")`
-        .gm-style .gm-style-iw-c,
-        .gm-style .gm-style-iw-t::after {
-            margin-left: 4.5vmax !important;
-        }
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      .gm-style .gm-style-iw-c,
+      .gm-style .gm-style-iw-t::after {
+        margin-left: 4.5vmax !important;
+      }
+    `
+  )}
 `;

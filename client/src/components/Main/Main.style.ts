@@ -10,40 +10,43 @@ type Types = {
 };
 
 export const MainContainer = styled.div<Types>`
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    align-self: center;
-    margin-bottom: auto;
-    width: 100%;
-    height: 92%;
-    animation: fadeAbout 0.5s ease-in-out;
-    visibility: hidden;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  align-self: center;
+  margin-bottom: auto;
+  width: 100%;
+  height: 92%;
+  animation: fadeAbout 0.5s ease-in-out;
+  visibility: hidden;
 
-    ${mediaQueries("273", "1024", "landscape")`
-        margin-top: -3vmax;
+  ${mediaQueries(
+    "landscape",
+    css`
+      margin-top: -3vmax;
+    `
+  )}
+
+  ${(props) =>
+    props.darkMode &&
+    css`
+      justify-content: center;
+      animation: fadeAbout 0.5s ease-in-out;
     `}
-
-    ${(props) =>
-        props.darkMode &&
-        css`
-            justify-content: center;
-            animation: fadeAbout 0.5s ease-in-out;
-        `}
         
     ${(props) =>
-        props.finalLoadingCheck &&
-        css`
-            visibility: visible;
-        `}
+    props.finalLoadingCheck &&
+    css`
+      visibility: visible;
+    `}
 
             ${(props) =>
-        props.firstView &&
-        css`
-            animation: fadeAbout 2s ease-in-out;
-        `}
+    props.firstView &&
+    css`
+      animation: fadeAbout 2s ease-in-out;
+    `}
 `;
 
 export const LogoWrapper = styled.div<Types>`
@@ -53,9 +56,12 @@ export const LogoWrapper = styled.div<Types>`
   align-self: center;
   font-family: "BlackOpsOne";
 
-  ${mediaQueries("100", "480", "portrait")`
-        align-items: center;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      align-items: center;
+    `
+  )}
 `;
 
 export const Logo = styled.img<Types>`
@@ -65,15 +71,21 @@ export const Logo = styled.img<Types>`
   height: 23vmax;
   width: 45vmax;
 
-  ${mediaQueries("100", "480", "portrait")`
-        width: 75vmax;
-        height: 35vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 75vmax;
+      height: 35vmax;
+    `
+  )}
 
-  ${mediaQueries("273", "1024", "landscape")`
-        width: 48vmax;
-        height: 22vmax;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      width: 48vmax;
+      height: 22vmax;
+    `
+  )}
 
     ${(props) =>
     props.darkMode &&
@@ -93,23 +105,29 @@ export const Logo = styled.img<Types>`
       padding: 0vmax 5vmax 0 5vmax;
       margin-top: -1vmax;
 
-      ${mediaQueries("100", "480", "portrait")`
-        border: none;
-        box-shadow: none;
-        border-radius: 0;
-        margin-top: -6vmax;
-        height: 92vmax;
-        width: 120vw;
-        padding: 0 9vmax 0 9vmax;
-    `}
+      ${mediaQueries(
+        "portrait",
+        css`
+          border: none;
+          box-shadow: none;
+          border-radius: 0;
+          margin-top: -6vmax;
+          height: 92vmax;
+          width: 120vw;
+          padding: 0 9vmax 0 9vmax;
+        `
+      )}
 
-      ${mediaQueries("273", "1024", "landscape")`
-        border: none;
-        box-shadow: none;
-        border-radius: 0;
-        background-size: contain;
-        height: 100%;
-    `}
+      ${mediaQueries(
+        "landscape",
+        css`
+          border: none;
+          box-shadow: none;
+          border-radius: 0;
+          background-size: contain;
+          height: 100%;
+        `
+      )}
     `}
 `;
 
@@ -126,25 +144,34 @@ export const LogoText = styled.p<Types>`
   border-radius: 3vw;
   z-index: 2;
 
-  ${mediaQueries("100", "480", "portrait")`
-        font-size: 6vmax;
-        margin: -6vh 0 6vh 0;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      font-size: 6vmax;
+      margin: -6vh 0 6vh 0;
+    `
+  )}
 
-  ${mediaQueries("273", "1024", "landscape")`
-        font-size: 3.5vmax;
-        margin: -6vh 0 6vh 0;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      font-size: 3.5vmax;
+      margin: -6vh 0 6vh 0;
+    `
+  )}
 
     ${(props) =>
     props.darkMode &&
     css`
       margin: -3vmax 0 2vmax 0;
 
-      ${mediaQueries("273", "1024", "landscape")`
-        padding: 0;
-        margin: 20vmax 0 0 0;
-    `}
+      ${mediaQueries(
+        "landscape",
+        css`
+          padding: 0;
+          margin: 20vmax 0 0 0;
+        `
+      )}
     `}
 `;
 
@@ -166,15 +193,21 @@ export const SuperAdminButtonImage = styled.img`
     transition: 0.5s;
   }
 
-  ${mediaQueries("100", "480", "portrait")`
-        width: 6.5vmax;
-        height: 5.5vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 6.5vmax;
+      height: 5.5vmax;
+    `
+  )}
 
-  ${mediaQueries("273", "1024", "landscape")`
-        width: 6.5vmax;
-        height: 5.5vmax;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      width: 6.5vmax;
+      height: 5.5vmax;
+    `
+  )}
 `;
 
 export const TopRightButtons = styled.div`
@@ -199,16 +232,22 @@ export const TimeLineButton = styled.img`
     animation: 1s timeline ease-in-out;
   }
 
-  ${mediaQueries("100", "480", "portrait")`
-        width: 5vmax;
-        height: 5vmax;
-        margin-top: 0;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      width: 5vmax;
+      height: 5vmax;
+      margin-top: 0;
+    `
+  )}
 
-  ${mediaQueries("273", "1024", "landscape")`
-        width: 5vmax;
-        height: 5vmax;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      width: 5vmax;
+      height: 5vmax;
+    `
+  )}
 `;
 
 export const AboutButton = styled.div`
@@ -233,15 +272,21 @@ export const AboutButton = styled.div`
     background-color: rgba(128, 20, 20, 0.2);
   }
 
-  ${mediaQueries("100", "480", "portrait")`
-        height: 4vmax;
-        width: 4vmax;
-    `}
+  ${mediaQueries(
+    "portrait",
+    css`
+      height: 4vmax;
+      width: 4vmax;
+    `
+  )}
 
-  ${mediaQueries("273", "1024", "landscape")`
-        height: 4vmax;
-        width: 4vmax;
-    `}
+  ${mediaQueries(
+    "landscape",
+    css`
+      height: 4vmax;
+      width: 4vmax;
+    `
+  )}
 `;
 
 export const BottomRightMenuWrapper = styled.div`
