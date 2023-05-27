@@ -11,6 +11,7 @@ import { GigEditor } from "../GigEditor/GigEditor";
 import { GigList } from "../GigList/GigList";
 import { Chat } from "../Chat/Chat";
 import { GigListAnimation } from "../GigListAnimation/GigListAnimation";
+import GigMapAnimation from "../GigMapAnimation/GigMapAnimation";
 import { GigEntry } from "../GigEntry/GigEntry";
 import { SuperAdmin } from "../SuperAdmin/SuperAdmin";
 import { About } from "../About/About";
@@ -405,12 +406,15 @@ export const App: React.FC<Props> = ({}) => {
               />
             }
           ></Route>
+
           <Route
             path="/gig-list-animation"
             element={
-              <GigListAnimation
+              <GigMapAnimation
                 gigsList={gigsList}
+                mapVisible={(e: boolean) => setMaps(e)}
                 setDarkMode={(e: boolean) => setDarkMode(e)}
+                setMapMode={(e: boolean) => setMapMode(e)}
                 setAnimeMode={(e: boolean) => setAnimeMode(e)}
                 setGigListOpen={(e: boolean) => setGigListOpen(e)}
                 setAnimeMusic={(e: boolean) => setAnimeMusic(e)}
@@ -418,6 +422,21 @@ export const App: React.FC<Props> = ({}) => {
               />
             }
           ></Route>
+          {/* <Route
+                        path="/gig-list-animation"
+                        element={
+                            <GigListAnimation
+                                gigsList={gigsList}
+                                setDarkMode={(e: boolean) => setDarkMode(e)}
+                                setAnimeMode={(e: boolean) => setAnimeMode(e)}
+                                setGigListOpen={(e: boolean) =>
+                                    setGigListOpen(e)
+                                }
+                                setAnimeMusic={(e: boolean) => setAnimeMusic(e)}
+                                animeMusic={animeMusic}
+                            />
+                        }
+                    ></Route> */}
 
           <Route
             path="/api/gig/:id"

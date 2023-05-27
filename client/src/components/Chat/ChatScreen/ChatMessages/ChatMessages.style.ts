@@ -124,11 +124,16 @@ export const Nickname = styled.h1`
   font-size: 2vmax;
   text-shadow: -1px 1px 0 black, 1px -1px 0 black, -1px -1px 0 black,
     -1px -1px 0 black;
+  overflow: hidden;
 
   ${mediaQueries(
     "portrait",
     css`
       font-size: 3.5vmax;
+
+      &:hover {
+        word-break: break-all;
+      }
     `
   )}
 `;
@@ -174,6 +179,7 @@ export const Date = styled.div<Types>`
   letter-spacing: 1px;
   text-align: right;
   font-size: 0.5vmax;
+  text-shadow: none;
 
   ${(props) =>
     props.dark &&
@@ -187,7 +193,6 @@ export const Date = styled.div<Types>`
     props.dark &&
     css`
       color: rgba(255, 255, 0, 0.692);
-      text-shadow: none;
     `}
 
   ${mediaQueries(

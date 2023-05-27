@@ -86,7 +86,14 @@ module.exports.appNavigate = (
   } else if (timelineMode) {
     navigate("/");
   } else if (maps) {
-    navigate(-1);
+    if (animeMode && animeMusic) {
+      setAnimeMusic(false);
+      setTimeout(() => {
+        navigate("/gig-list");
+      }, 300);
+    } else {
+      navigate(-1);
+    }
   } else if (adminControls) {
     navigate(-1);
   } else if (editMode) {

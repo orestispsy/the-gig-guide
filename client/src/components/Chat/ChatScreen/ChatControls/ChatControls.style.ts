@@ -6,6 +6,9 @@ type Types = {
 };
 
 export const Container = styled.div`
+  position: absolute;
+  right: 0;
+  top: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -26,9 +29,9 @@ export const Container = styled.div`
     "portrait",
     css`
       align-items: flex-end;
+      justify-content: center;
       flex-direction: column-reverse;
       width: 87vw;
-      margin: 1vmax -2vmax -12vmax 0vmax;
     `
   )}
 `;
@@ -42,6 +45,7 @@ export const Arrows = styled.div`
     "portrait",
     css`
       flex-direction: column;
+      margin-top: 30px;
     `
   )}
 `;
@@ -64,7 +68,7 @@ export const Arrow = styled.div<Types>`
   ${mediaQueries(
     "portrait",
     css`
-      font-size: 3.5vmax;
+      font-size: 3vmax;
       margin: 0;
     `
   )}
@@ -107,15 +111,15 @@ export const Next = styled.div`
   ${mediaQueries(
     "portrait",
     css`
-      font-size: 3.5vmax;
-      margin: 0 0.1vmax 0 0 !important;
+      font-size: 4vmax;
+      margin: 0;
     `
   )}
 
   ${mediaQueries(
     "landscape",
     css`
-      font-size: 3vmax;
+      font-size: 3.5vmax;
     `
   )}
 `;

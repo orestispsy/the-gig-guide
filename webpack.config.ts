@@ -2,7 +2,7 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const webpack = require("webpack");
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+
 import HtmlWebPackPlugin from "html-webpack-plugin";
 
 module.exports = () => ({
@@ -90,7 +90,6 @@ module.exports = () => ({
       "process.env": JSON.stringify(process.env),
       "process.env.production": JSON.stringify(process.env.production),
     }),
-    new ForkTsCheckerWebpackPlugin(),
     // new HtmlWebPackPlugin({
     //   template: "./client/index.html",
     //   filename: "./index.html",

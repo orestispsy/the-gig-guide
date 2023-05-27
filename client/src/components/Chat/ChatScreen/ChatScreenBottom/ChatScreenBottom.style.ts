@@ -57,7 +57,7 @@ export const TypeLine = styled.textarea.attrs({ className: "chatTypeLine" })`
   border-radius: 10vh;
   padding-left: 0.5vmax;
   padding-top: 0.2vmax;
-  background-color: rgba(255, 255, 255, 0.058);
+  background-color: rgba(255, 255, 255, 0.108) !important;
   color: white;
   font-weight: bold;
   letter-spacing: 1px;
@@ -66,7 +66,7 @@ export const TypeLine = styled.textarea.attrs({ className: "chatTypeLine" })`
   &:focus {
     transition: 1s;
     border-color: transparent;
-    background-color: rgba(255, 255, 255, 0.108) !important;
+    background-color: rgba(255, 255, 255, 0.208) !important;
     box-shadow: -0 0 2px rgba(255, 255, 255, 0.308),
       0 -0 2px rgba(255, 255, 255, 0.308), -0 -0 2px rgba(255, 255, 255, 0.308),
       -0 -0 2px rgba(255, 255, 255, 0.308);

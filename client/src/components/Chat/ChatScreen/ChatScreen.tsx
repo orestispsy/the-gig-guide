@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { ChatScreenBottom } from "./ChatScreenBottom/ChatScreenBottom";
 import { ChatControls } from "./ChatControls/ChatControls";
 import { ChatMessages } from "./ChatMessages/ChatMessages";
@@ -32,8 +32,6 @@ interface Props {
   privateMode: boolean;
 }
 
-const {} = require("../ChatUtils");
-
 export const ChatScreen: React.FC<Props> = ({
   darkMode,
   superAdmin,
@@ -54,13 +52,6 @@ export const ChatScreen: React.FC<Props> = ({
   mobileConfigOpen,
   privateMode,
 }) => {
-  useEffect(
-    function () {
-      console.log(privateMode);
-    },
-    [privateMode]
-  );
-
   return (
     <Container dark={darkMode} mobileConfigOpen={mobileConfigOpen}>
       <ChatControls

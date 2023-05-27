@@ -9,7 +9,7 @@
     "start": "node server/server.js",
     "build": "webpack --mode production",
     "dev:client": "webpack serve --mode development",
-    "dev:server": "nodemon --watch server --ignore server/uploads server/server.js",
+    "dev:server": "nodemon --watch server --ignore server/uploads",
     "prettier-format": "prettier --write **/*.{ts,js,tsx,jsx,css,html,json} "
   },
   "engines": {

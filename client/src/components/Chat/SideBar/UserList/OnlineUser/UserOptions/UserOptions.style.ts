@@ -20,14 +20,21 @@ export const BanBox = styled.div`
   margin: 0 0.5vmax;
   font-family: "BlackOpsOne" !important;
   color: rgb(252, 88, 88);
-  font-size: 2vmax !important;
+  font-size: 1vmax !important;
+
+  ${mediaQueries(
+    "portrait",
+    css`
+      font-size: 2vmax !important;
+    `
+  )}
 `;
 
 export const BanBoxText = styled.div``;
 
 export const BanTimeEditor = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
   color: #76b3aa6e !important;
 `;

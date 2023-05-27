@@ -9,6 +9,7 @@ type Types = {
   poster?: any;
   tour_name?: any;
   venue?: any;
+  started?: boolean;
 };
 
 export const Container = styled.div`
@@ -32,6 +33,9 @@ export const Gig = styled.div<Types>`
   align-items: center;
   bottom: -100%;
   margin: 1vmax;
+
+  padding: 1vmax 2vmax;
+  border-radius: 1vh;
   z-index: 2;
 
   ${mediaQueries(
@@ -43,33 +47,61 @@ export const Gig = styled.div<Types>`
 
   @keyframes wars {
     0% {
-      bottom: -100%;
-      transform: scale(3) skew(0);
+      bottom: 30%;
+      transform: scale(1.1);
+      opacity: 0%;
+      transform: scale(-1);
     }
 
-    50% {
+    20% {
+      opacity: 0%;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    35% {
+      bottom: 30%;
       opacity: 100%;
-      transform: scale(1.2);
+      transform: scale(1.1);
       /* transform: scale(1.2) skew(-3deg); */
+      background: #00000054;
+      box-shadow: -0 0 50px rgba(0, 0, 0, 0.15), 0 -0 50px rgba(0, 0, 0, 0.15),
+        -0 -0 50px rgba(0, 0, 0, 0.15), -0 -0 50px rgba(0, 0, 0, 0.15);
+    }
+    65% {
+      bottom: 30%;
+      opacity: 100%;
+      transform: scale(1.1);
+      /* transform: scale(1.2) skew(-3deg); */
+      background: #00000054;
+      box-shadow: -0 0 50px rgba(0, 0, 0, 0.15), 0 -0 50px rgba(0, 0, 0, 0.15),
+        -0 -0 50px rgba(0, 0, 0, 0.15), -0 -0 50px rgba(0, 0, 0, 0.15);
     }
 
-    66% {
-      opacity: 80%;
-    }
     80% {
+      opacity: 80%;
+      bottom: 25%;
+      box-shadow: none;
+      background: transparent;
+    }
+    85% {
       opacity: 0%;
     }
 
     100% {
-      bottom: 100%;
+      bottom: 58%;
       opacity: 0%;
       transform: scale(-1) skew(0deg);
       z-index: 1;
     }
   }
-  animation: wars 7s ease-in-out;
-  transition: 7s;
-  /* 
+
+  ${(props) =>
+    props.started &&
+    css`
+      animation: wars 7s ease-in-out;
+      transition: 7s;
+    `}/* 
     &:hover {
         animation-play-state: paused;
     } */

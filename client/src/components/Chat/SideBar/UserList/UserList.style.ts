@@ -192,6 +192,17 @@ export const UsersBox = styled.div<Types>`
 
 export const User = styled.div`
   cursor: pointer;
+
+  ${mediaQueries(
+    "portrait",
+    css`
+      margin: 0.5vmax 0.3vmax;
+
+      border-bottom: 3px solid white;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    `
+  )}
 `;
 
 export const UserInner = styled.div<Types>`
@@ -205,6 +216,7 @@ export const UserInner = styled.div<Types>`
   border-radius: 2vh;
   min-width: max-content;
   padding: 0.5vmax 0.5vmax 0.5vmax 0.2vmax;
+  box-sizing: border-box;
 
   &:hover {
     background-color: #00ffbf13;
@@ -215,16 +227,6 @@ export const UserInner = styled.div<Types>`
     css`
       background-color: #fbff0413;
     `}
-
-  ${mediaQueries(
-    "portrait",
-    css`
-      margin: 0.5vmax 0.3vmax;
-      border-bottom: 1px solid white;
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-    `
-  )}
 `;
 
 export const Crown = styled.div`

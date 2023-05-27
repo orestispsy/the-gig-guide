@@ -162,6 +162,9 @@ export const Road = styled.img<AppLayoutTypes>`
   background-repeat: no-repeat;
   background-position-x: center;
   width: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
 
   ${(props) =>
     props.loaded &&
@@ -169,15 +172,7 @@ export const Road = styled.img<AppLayoutTypes>`
       animation: fadeAbout 1s ease-in-out;
     `}
 
-  ${mediaQueries(
-    "portrait",
-    css`
-      object-fit: cover;
-      height: 100%;
-    `
-  )}
-
-         ${(props) =>
+  ${(props) =>
     props.skyIsLoaded &&
     !props.aboutMode &&
     !props.gigListOpen &&

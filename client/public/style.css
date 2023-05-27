@@ -88,11 +88,28 @@ a:hover {
   bottom: 0.5vmax;
   z-index: 1;
   cursor: pointer;
+  transition: 1s;
+  animation: rotate 2s linear infinite;
+  animation-play-state: paused;
+}
+
+@keyframes colorSwitcher {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .switch:hover {
+  animation-play-state: running;
+}
+
+.switch:active {
   right: 18px;
-  bottom: 1.5vmax;
+  bottom: 1vmax;
 }
 
 .barMainLink {

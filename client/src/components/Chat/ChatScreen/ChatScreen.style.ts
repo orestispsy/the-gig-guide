@@ -11,6 +11,7 @@ type Types = {
 };
 
 export const Container = styled.div<Types>`
+  position: relative;
   animation: fadeAbout 0.5s ease-in-out;
   width: 60vw;
   display: flex;
@@ -45,7 +46,7 @@ export const Container = styled.div<Types>`
     "portrait",
     css`
       width: fit-content;
-      padding: 0 1vmax 1vmax 1vmax;
+      padding: 2vmax;
     `
   )}
 

@@ -48,11 +48,6 @@ export const AboutText: React.FC<Props> = ({}) => {
       <TextWrapper>
         <Author />
         <Text author={true}>
-          <Paragraph author={true}>
-            Full-Stack Web Developer, Electronic Engineer, Musician, Web-Radio
-            Broadcaster, Story Teller from Outer Space.
-          </Paragraph>
-
           <Paragraph author={true} wider={true}>
             Can be found hitch-hiking the Super Van when on tour, letting the
             dates decide for the day back home...

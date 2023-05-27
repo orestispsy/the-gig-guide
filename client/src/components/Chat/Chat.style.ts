@@ -168,46 +168,48 @@ export const ThemeToggler = styled.div<Types>`
 `;
 
 export const MobileToggler = styled.div<Types>`
-    display: none;
-    margin-top: 2vmax;
-    padding: 1vmax 4vmax;
-    background: #00000026;
-    border-radius: 3vh;
+  display: none;
+  margin-top: 2vmax;
+  padding: 1vmax 4vmax;
+  background: #00000026;
+  border-radius: 3vh;
 
-    &:after {
-        content: "Panel";
-        font-size: 3vmax;
-        color: #ffffffcc;
-        letter-spacing: 2px;
-    }
+  &:after {
+    content: "Panel";
+    font-size: 3vmax;
+    color: #ffffffcc;
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black;
+  }
 
+  ${(props) =>
+    props.mobileConfigOpen &&
+    css`
+      &:after {
+        content: "Close";
+      }
+    `}
+  ${(props) =>
+    props.private &&
+    css`
+      display: none !important;
+    `}
     ${(props) =>
-        props.mobileConfigOpen &&
-        css`
-            &:after {
-                content: "Close";
-            }
-        `}
-    ${(props) =>
-        props.private &&
-        css`
-            display: none !important;
-        `}
-    ${(props) =>
-        props.dark &&
-        css`
-            &:after {
-                color: rgba(255, 255, 255, 0.418);
-            }
-        `}
+    props.dark &&
+    css`
+      &:after {
+        text-shadow: none;
+        color: rgba(255, 255, 255, 0.418);
+      }
+    `}
 
         
   ${mediaQueries(
-        "portrait",
-        css`
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        `
-    )};
+    "portrait",
+    css`
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    `
+  )};
 `;

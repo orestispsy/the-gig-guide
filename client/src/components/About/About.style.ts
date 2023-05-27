@@ -38,7 +38,7 @@ export const BackSwitcher = styled.div`
     1px 1px 0 yellow;
   animation: blinkerLoading 0.5s infinite ease-in-out;
   letter-spacing: 4px;
-  
+
   ${mediaQueries(
     "portrait",
     css`

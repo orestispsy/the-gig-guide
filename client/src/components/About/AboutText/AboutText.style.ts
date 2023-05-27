@@ -51,7 +51,8 @@ export const Text = styled.div<AboutTextTypes>`
     "portrait",
     css`
       text-indent: 1vmax;
-      width: unset;
+      width: 90%;
+      font-size: 2.5vmax;
     `
   )}
 
