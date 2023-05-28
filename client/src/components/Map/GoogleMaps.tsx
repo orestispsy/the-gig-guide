@@ -4,7 +4,6 @@ import {
   GoogleMap,
   Marker,
   InfoWindow,
-  useGoogleMap,
 } from "@react-google-maps/api";
 
 import { SectionButton } from "./Maps.style";
@@ -18,7 +17,6 @@ const containerStyle = {
 };
 
 interface Props {
-  gigsList: any[] | undefined;
   selectedGig: any;
   center: any;
   setSelectedGig: (e: any) => void;
@@ -31,9 +29,9 @@ interface Props {
   historyCheck: (e: any) => void;
   mapVisible: (e: any) => void;
   setCenter: (e: any) => void;
+  shownGigMarkers: any;
 }
 export const GoogleMaps: React.FC<Props> = ({
-  gigsList,
   selectedGig,
   center,
   setSelectedGig,
@@ -46,6 +44,7 @@ export const GoogleMaps: React.FC<Props> = ({
   historyCheck,
   mapVisible,
   setCenter,
+  shownGigMarkers,
 }) => {
   let fixedDate;
   var scaleParam: any;
@@ -64,6 +63,7 @@ export const GoogleMaps: React.FC<Props> = ({
 
   return (
     <GoogleMap
+      id={"googleMap"}
       mapContainerStyle={containerStyle}
       zoom={3}
       center={
@@ -88,9 +88,9 @@ export const GoogleMaps: React.FC<Props> = ({
         },
       }}
     >
-      {gigsList &&
-        gigsList.map((gig) => {
-          var dot = "greendot.gif";
+      {shownGigMarkers &&
+        shownGigMarkers.map((gig: any) => {
+          var dot = "greenDot.png";
           let dateNow = new Date();
           let dateGig = new Date(gig.date);
 
@@ -105,6 +105,7 @@ export const GoogleMaps: React.FC<Props> = ({
           }
           return (
             <Marker
+              animation={window.google.maps.Animation.DROP}
               key={gig.id}
               position={{
                 lat: parseFloat(gig.lat),
@@ -192,11 +193,11 @@ export const GoogleMaps: React.FC<Props> = ({
           </div>
         </InfoWindow>
       )}
-      <div
+      <span
         title="Change Map Color"
         className="switch"
         onClick={(e) => switcherHelper(switcher + 1)}
-      ></div>
+      ></span>
     </GoogleMap>
   );
 };

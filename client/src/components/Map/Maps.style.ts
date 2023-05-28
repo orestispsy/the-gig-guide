@@ -80,3 +80,22 @@ export const SectionButton = styled.div`
     `
   )}
 `;
+
+export const GigCounterBox = styled.div`
+        display: flex;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        font-size: 1.5vmax;
+        z-index: 666;
+        color: white;
+        text-align: right;
+        font-family: "DarkerGrotesque";
+        margin: 0 20px;
+        text-shadow: -0 0 5px black, 0 -0 5px black, -0 -0 5px black,
+            -0 -0 5px black;
+`;
+
+export const GigCounter = styled.span`
+        min-width: 2.5vmax;
+`;

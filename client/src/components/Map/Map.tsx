@@ -7,6 +7,7 @@ import { Loading } from "./../Loading/Loading";
 import GoogleMapComponent from "./GoogleMaps";
 
 import mapStyles from "../../common/mapStyles";
+import { GigListTopBar } from "../GigList/GigListTopBar/GigListTopBar";
 
 let secrets: any = require("../../../../secrets.json");
 
@@ -29,6 +30,7 @@ const MyMap: React.FC<Props> = ({
   setMapMode,
   setGigLocation,
 }) => {
+  const [shownGigMarkers, setShownGigMarkers] = useState<any>([]);
   const [selectedGig, setSelectedGig] = useState<any>(null);
   const [style, setStyle] = useState(mapStyles.styles[0]);
   const [switcher, setSwitcher] = useState(0);
@@ -44,6 +46,19 @@ const MyMap: React.FC<Props> = ({
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  let markerCountHelper: any = [];
+  let markerItemCounter: number = 0;
+  const runAnimation = () => {
+    if (gigsList && markerItemCounter < gigsList.length) {
+      markerCountHelper = markerCountHelper.concat(gigsList[markerItemCounter]);
+      setShownGigMarkers(markerCountHelper);
+      setTimeout(() => {
+        markerItemCounter++;
+        runAnimation();
+      }, 0);
+    }
+  };
 
   useEffect(
     function () {
@@ -68,6 +83,7 @@ const MyMap: React.FC<Props> = ({
     function () {
       if (isLoaded) {
         mapVisible(true);
+        runAnimation();
       }
     },
     [isLoaded]
@@ -79,8 +95,10 @@ const MyMap: React.FC<Props> = ({
 
   return isLoaded ? (
     <div className="google-map">
+      <div className="google-map-count">
+        Total Count: <span>{shownGigMarkers.length}</span>
+      </div>
       <GoogleMapComponent
-        gigsList={gigsList}
         selectedGig={selectedGig}
         center={center}
         setSelectedGig={setSelectedGig}
@@ -93,6 +111,7 @@ const MyMap: React.FC<Props> = ({
         historyCheck={(e: string) => historyCheck(e)}
         mapVisible={(e: boolean) => mapVisible(e)}
         setCenter={(e: any) => setCenter(e)}
+        shownGigMarkers={shownGigMarkers}
       />
     </div>
   ) : (

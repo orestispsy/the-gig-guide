@@ -5,8 +5,6 @@ import { GoogleMapStyles } from "./GoogleMaps.style";
 export const GlobalStyles = createGlobalStyle`
 ${GoogleMapStyles}
 
-  
-
 @keyframes fadeAbout {
   0% {
     opacity: 0%;

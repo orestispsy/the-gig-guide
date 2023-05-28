@@ -1,10 +1,5 @@
-import styled, { css } from "styled-components";
-import { mediaQueries } from "../../common/mediaQueries";
+import styled from "styled-components";
 
 type Types = {};
 
-export const InfoBox = styled.div`
-  .gm-style .gm-style-iw-c {
-    display: none !important;
-  }
-`;
+export const InfoBox = styled.div``;

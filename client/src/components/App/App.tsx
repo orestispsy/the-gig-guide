@@ -10,12 +10,14 @@ import { GigCreator } from "../GigCreator/GigCreator";
 import { GigEditor } from "../GigEditor/GigEditor";
 import { GigList } from "../GigList/GigList";
 import { Chat } from "../Chat/Chat";
-import { GigListAnimation } from "../GigListAnimation/GigListAnimation";
+// import { GigListAnimation } from "../GigListAnimation/GigListAnimation"; // old list animation
 import GigMapAnimation from "../GigMapAnimation/GigMapAnimation";
 import { GigEntry } from "../GigEntry/GigEntry";
 import { SuperAdmin } from "../SuperAdmin/SuperAdmin";
 import { About } from "../About/About";
 import { Timeline } from "../Timeline/Timeline";
+
+import { NoMapInteractionStyles } from "../../common/NoMapInteractionStyles";
 
 import "./../../../public/style.css";
 
@@ -410,16 +412,19 @@ export const App: React.FC<Props> = ({}) => {
           <Route
             path="/gig-list-animation"
             element={
-              <GigMapAnimation
-                gigsList={gigsList}
-                mapVisible={(e: boolean) => setMaps(e)}
-                setDarkMode={(e: boolean) => setDarkMode(e)}
-                setMapMode={(e: boolean) => setMapMode(e)}
-                setAnimeMode={(e: boolean) => setAnimeMode(e)}
-                setGigListOpen={(e: boolean) => setGigListOpen(e)}
-                setAnimeMusic={(e: boolean) => setAnimeMusic(e)}
-                animeMusic={animeMusic}
-              />
+              <>
+                <NoMapInteractionStyles />
+                <GigMapAnimation
+                  gigsList={gigsList}
+                  mapVisible={(e: boolean) => setMaps(e)}
+                  setDarkMode={(e: boolean) => setDarkMode(e)}
+                  setMapMode={(e: boolean) => setMapMode(e)}
+                  setAnimeMode={(e: boolean) => setAnimeMode(e)}
+                  setGigListOpen={(e: boolean) => setGigListOpen(e)}
+                  setAnimeMusic={(e: boolean) => setAnimeMusic(e)}
+                  animeMusic={animeMusic}
+                />
+              </>
             }
           ></Route>
           {/* <Route

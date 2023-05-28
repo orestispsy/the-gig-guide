@@ -91,6 +91,7 @@ a:hover {
   transition: 1s;
   animation: rotate 2s linear infinite;
   animation-play-state: paused;
+  background-color: transparent !important;
 }
 
 @keyframes colorSwitcher {
@@ -1224,6 +1225,7 @@ select::-webkit-scrollbar-thumb {
 }
 
 .google-map {
+  position: relative;
   min-height: 92%;
   height: 92%;
   width: 100%;

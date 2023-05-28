@@ -2,6 +2,10 @@ import styled, { css } from "styled-components";
 import { mediaQueries } from "../common/mediaQueries";
 
 export const GoogleMapStyles = css`
+  div#googleMap > :is(pre, div) {
+    background-color: black !important;
+  }
+
   .gm-style div {
     -webkit-transform: scale(1.008);
     transform: scale(1.008);

@@ -1,13 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 
-import "./map-styles.css";
-
-import {
-  GoogleMap,
-  Marker,
-  InfoWindow,
-  useGoogleMap,
-} from "@react-google-maps/api";
+import { GoogleMap, Marker, InfoWindow } from "@react-google-maps/api";
 
 import mapStyles from "../../common/mapStyles";
 
@@ -41,7 +34,8 @@ export const GoogleMaps: React.FC<Props> = ({
   setSwitcher,
   setCenter,
 }) => {
-  const [zoom, setZoom] = useState<number>(3);
+  const [zoom, setZoom] = useState<number>(6);
+  const [visitedGigs, setVisitedGigs] = useState<any>([]);
   let fixedDate;
   if (selectedMapGig) {
     let propsDate = selectedMapGig.date.split("-");
@@ -56,28 +50,40 @@ export const GoogleMaps: React.FC<Props> = ({
     setStyle(mapStyles.styles[e]);
   }
 
+  let visitedGigsHelper: any = [];
   let animationItemCounter: number = 0;
   const runAnimation = () => {
     if (gigsList && animationItemCounter < gigsList.length) {
+      visitedGigsHelper = visitedGigsHelper.concat(
+        gigsList[animationItemCounter]
+      );
+      setVisitedGigs(visitedGigsHelper);
+
       setSelectedMapGig(gigsList[animationItemCounter]);
-      setCenter({
-        lat: parseFloat(gigsList[animationItemCounter].lat),
-        lng: parseFloat(gigsList[animationItemCounter].lng),
-      });
+      setTimeout(() => {
+        setZoom(6);
+      }, 500);
+      setTimeout(() => {
+        setCenter({
+          lat: parseFloat(gigsList[animationItemCounter].lat),
+          lng: parseFloat(gigsList[animationItemCounter].lng),
+        });
+        setZoom(9);
+      }, 5000);
+      setTimeout(() => {
+        animationItemCounter++;
+        runAnimation();
+      }, 7500);
     }
-    setTimeout(() => {
-      animationItemCounter++;
-      runAnimation();
-    }, 7500);
   };
 
   useEffect(() => {
     runAnimation();
-    setZoom(10);
   }, []);
 
   return (
     <GoogleMap
+      id={"googleMap"}
       mapContainerStyle={containerStyle}
       zoom={zoom}
       center={center}
@@ -96,22 +102,30 @@ export const GoogleMaps: React.FC<Props> = ({
         },
       }}
     >
-      {gigsList &&
-        gigsList.map((gig) => {
+      {visitedGigs[0] &&
+        visitedGigs.map((gig: any) => {
           return (
             <Fragment key={gig.id}>
-              {selectedMapGig && selectedMapGig.id == gig.id && (
-                <Marker
-                  position={{
-                    lat: parseFloat(gig.lat),
-                    lng: parseFloat(gig.lng),
-                  }}
-                  icon={{
-                    url: "pin.png",
-                    scaledSize: new window.google.maps.Size(100, 100),
-                  }}
-                />
-              )}
+              <Marker
+                animation={window.google.maps.Animation.DROP}
+                visible
+                zIndex={666}
+                position={{
+                  lat: parseFloat(gig.lat),
+                  lng: parseFloat(gig.lng),
+                }}
+                icon={{
+                  url:
+                    (selectedMapGig &&
+                      selectedMapGig.id == gig.id &&
+                      "pin.png") ||
+                    "greendot.gif",
+                  scaledSize: new window.google.maps.Size(
+                    (selectedMapGig.id == gig.id && 100) || 15,
+                    (selectedMapGig.id == gig.id && 100) || 7.5
+                  ),
+                }}
+              />
             </Fragment>
           );
         })}
@@ -125,11 +139,11 @@ export const GoogleMaps: React.FC<Props> = ({
           <InfoBox />
         </InfoWindow>
       )}
-      <div
+      <span
         title="Change Map Color"
         className="switch"
         onClick={(e) => switcherHelper(switcher + 1)}
-      ></div>
+      ></span>
     </GoogleMap>
   );
 };

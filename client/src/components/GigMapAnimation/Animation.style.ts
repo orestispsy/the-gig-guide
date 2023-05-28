@@ -48,18 +48,17 @@ export const Gig = styled.div<Types>`
   @keyframes wars {
     0% {
       bottom: 30%;
-      transform: scale(1.1);
       opacity: 0%;
       transform: scale(-1);
     }
 
-    20% {
+    10% {
       opacity: 0%;
       background: transparent;
       box-shadow: none;
     }
 
-    35% {
+    25% {
       bottom: 30%;
       opacity: 100%;
       transform: scale(1.1);

@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useJsApiLoader } from "@react-google-maps/api";
 import { Loading } from "../Loading/Loading";
@@ -38,8 +37,8 @@ const GigMapAnimation: React.FC<Props> = ({
   const [style, setStyle] = useState(mapStyles.styles[2]);
   const [switcher, setSwitcher] = useState(0);
   const [center, setCenter] = useState({
-    lat: 35.08702515417141,
-    lng: -40.71445657001389,
+    lat: (gigsList && parseFloat(gigsList[0].lat)) || 35.08702515417141,
+    lng: (gigsList && parseFloat(gigsList[0].lng)) || -40.71445657001389,
   });
 
   const { isLoaded } = useJsApiLoader({
