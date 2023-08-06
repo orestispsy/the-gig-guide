@@ -68,71 +68,68 @@ export const MapGigShorting: React.FC<Props> = ({
   };
 
   return (
-    <>
-      {isShortingBoxOpen && (
-        <GigCounterBox>
-          Total Count:{" "}
-          <GigCounter
-            onClick={() => {
-              if (!gigsCounting) {
-                setGigsCounting(true);
-                setShownGigMarkers([]);
-
-                markerCountHelper = [];
-                markerItemCounter = 0;
-                runAnimation(gigsList);
-              }
-            }}
-          >
-            {shownGigMarkers.length}
-          </GigCounter>
-        </GigCounterBox>
-      )}
-
-      <GigSortingBox isTriggered={isShortingBoxOpen}>
-        {gigsCounting && (
-          <LoadingDotAnimation>
-            Counting Gigs In <span>{year}</span>
-          </LoadingDotAnimation>
-        )}
-        {(!isShortingBoxOpen && (
-          <YearInputTrigger
-            title="Options"
-            onClick={(e) => setIsShortingBoxOpen(true)}
-          ></YearInputTrigger>
-        )) || (
-          <BoxContent>
-            <Year>{(year === "" && "Year") || year}</Year>
-            <YearInput
-              gigsCounting={gigsCounting}
-              value={(year && year) || ""}
-              title="Set Year"
-              type="range"
-              min="2006"
-              max="2022"
-              onChange={(e) => {
-                onYearInputChange(e);
-              }}
-            ></YearInput>
-            {isShortingBoxOpen && year === "" && (
-              <CloseBox
-                title="Close"
-                onClick={() => setIsShortingBoxOpen(false)}
-              ></CloseBox>
-            )}
-            {year !== "" && (
-              <Reset
-                title="Reset"
-                gigsCounting={gigsCounting}
-                onClick={() => !gigsCounting && setYear("")}
+      <>
+          {isShortingBoxOpen && (
+              <GigCounterBox
+                  onClick={(e) => {
+                    e.preventDefault()
+                      if (!gigsCounting) {
+                          setGigsCounting(true);
+                          setShownGigMarkers([]);
+                          markerCountHelper = [];
+                          markerItemCounter = 0;
+                          runAnimation(shownGigMarkers);
+                      }
+                  }}
               >
-                Reset
-              </Reset>
-            )}
-          </BoxContent>
-        )}
-      </GigSortingBox>
-    </>
+                  Total Count: <GigCounter>{shownGigMarkers.length}</GigCounter>
+              </GigCounterBox>
+          )}
+
+          <GigSortingBox isTriggered={isShortingBoxOpen}>
+              {gigsCounting && (
+                  <LoadingDotAnimation>
+                      Counting Gigs In <span>{year}</span>
+                  </LoadingDotAnimation>
+              )}
+              {(!isShortingBoxOpen && (
+                  <YearInputTrigger
+                      title="Options"
+                      onClick={(e) => setIsShortingBoxOpen(true)}
+                  ></YearInputTrigger>
+              )) || (
+                  <BoxContent>
+                      <Year>{(year === "" && "Year") || year}</Year>
+                      <YearInput
+                          gigsCounting={gigsCounting}
+                          value={(year && year) || ""}
+                          title="Set Year"
+                          type="range"
+                          min="2006"
+                          max="2022"
+                          onChange={(e) => {
+                              onYearInputChange(e);
+                          }}
+                      ></YearInput>
+                      {isShortingBoxOpen && year === "" && (
+                          <CloseBox
+                              title="Close"
+                              onClick={() => setIsShortingBoxOpen(false)}
+                          ></CloseBox>
+                      )}
+                      {year !== "" && (
+                          <Reset
+                              title="Reset"
+                              gigsCounting={gigsCounting}
+                              onClick={() => !gigsCounting && setYear("")}
+                          >
+                              Reset
+                          </Reset>
+                      )}
+                  </BoxContent>
+              )}
+          </GigSortingBox>
+      </>
   );
 };
 
