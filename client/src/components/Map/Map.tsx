@@ -30,6 +30,8 @@ const MyMap: React.FC<Props> = ({
   setMapMode,
   setGigLocation,
 }) => {
+  const [isShortingBoxOpen, setIsShortingBoxOpen] = useState<boolean>(false);
+  const [gigsCounting, setGigsCounting] = useState<boolean>(false);
   const [shownGigMarkers, setShownGigMarkers] = useState<any>([]);
   const [selectedGig, setSelectedGig] = useState<any>(null);
   const [style, setStyle] = useState(mapStyles.styles[0]);
@@ -46,19 +48,6 @@ const MyMap: React.FC<Props> = ({
 
   const navigate = useNavigate();
   const location = useLocation();
-
-  let markerCountHelper: any = [];
-  let markerItemCounter: number = 0;
-  const runAnimation = () => {
-    if (gigsList && markerItemCounter < gigsList.length) {
-      markerCountHelper = markerCountHelper.concat(gigsList[markerItemCounter]);
-      setShownGigMarkers(markerCountHelper);
-      setTimeout(() => {
-        markerItemCounter++;
-        runAnimation();
-      }, 0);
-    }
-  };
 
   useEffect(
     function () {
@@ -81,9 +70,17 @@ const MyMap: React.FC<Props> = ({
 
   useEffect(
     function () {
+      if (gigsList) {
+        setShownGigMarkers(gigsList);
+      }
+    },
+    [gigsList]
+  );
+
+  useEffect(
+    function () {
       if (isLoaded) {
         mapVisible(true);
-        runAnimation();
       }
     },
     [isLoaded]
@@ -95,9 +92,6 @@ const MyMap: React.FC<Props> = ({
 
   return isLoaded ? (
     <div className="google-map">
-      <div className="google-map-count">
-        Total Count: <span>{shownGigMarkers.length}</span>
-      </div>
       <GoogleMapComponent
         selectedGig={selectedGig}
         center={center}
@@ -112,6 +106,12 @@ const MyMap: React.FC<Props> = ({
         mapVisible={(e: boolean) => mapVisible(e)}
         setCenter={(e: any) => setCenter(e)}
         shownGigMarkers={shownGigMarkers}
+        gigsCounting={gigsCounting}
+        gigsList={gigsList}
+        setShownGigMarkers={(e: any) => setShownGigMarkers(e)}
+        setGigsCounting={(e: boolean) => setGigsCounting(e)}
+        isShortingBoxOpen={isShortingBoxOpen}
+        setIsShortingBoxOpen={(e: boolean) => setIsShortingBoxOpen(e)}
       />
     </div>
   ) : (

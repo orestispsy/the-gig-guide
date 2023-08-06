@@ -155,6 +155,7 @@ export const ImageUploaderButton = styled.div`
 export const ColorSelector = styled.input<Types>`
   outline: transparent;
   border-radius: 50%;
+  border: none;
   display: flex;
   flex-direction: column;
   justify-content: center;

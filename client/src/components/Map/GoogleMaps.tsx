@@ -1,10 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-import {
-  GoogleMap,
-  Marker,
-  InfoWindow,
-} from "@react-google-maps/api";
+import { GoogleMap, Marker, InfoWindow } from "@react-google-maps/api";
+
+import MapGigShorting from "./MapGigShorting/MapGigShorting";
 
 import { SectionButton } from "./Maps.style";
 
@@ -30,6 +28,12 @@ interface Props {
   mapVisible: (e: any) => void;
   setCenter: (e: any) => void;
   shownGigMarkers: any;
+  gigsCounting: boolean;
+  gigsList: any[] | undefined;
+  setShownGigMarkers: (e: any) => void;
+  setGigsCounting: (e: boolean) => void;
+  setIsShortingBoxOpen: (e: boolean) => void;
+  isShortingBoxOpen: boolean;
 }
 export const GoogleMaps: React.FC<Props> = ({
   selectedGig,
@@ -45,7 +49,18 @@ export const GoogleMaps: React.FC<Props> = ({
   mapVisible,
   setCenter,
   shownGigMarkers,
+  gigsList,
+  setShownGigMarkers,
+  setGigsCounting,
+  gigsCounting,
+  setIsShortingBoxOpen,
+  isShortingBoxOpen,
 }) => {
+  const [year, setYear] = useState<
+    string | number | readonly string[] | undefined
+  >("");
+  const [sortedGigs, setSortedGigs] = useState<any>();
+
   let fixedDate;
   var scaleParam: any;
   if (selectedGig) {
@@ -60,6 +75,31 @@ export const GoogleMaps: React.FC<Props> = ({
     setSwitcher(e);
     setStyle(mapStyles.styles[e]);
   }
+
+  useEffect(
+    function () {
+      if (shownGigMarkers && year && year !== "") {
+        setSortedGigs(
+          shownGigMarkers.filter((marker: any) => marker.date.includes(year))
+        );
+      }
+
+      if (year === "") {
+        setSortedGigs(gigsList);
+        setShownGigMarkers(gigsList);
+      }
+    },
+    [year]
+  );
+
+  useEffect(
+    function () {
+      if (gigsCounting) {
+        setSortedGigs(shownGigMarkers);
+      }
+    },
+    [shownGigMarkers]
+  );
 
   return (
     <GoogleMap
@@ -88,8 +128,8 @@ export const GoogleMaps: React.FC<Props> = ({
         },
       }}
     >
-      {shownGigMarkers &&
-        shownGigMarkers.map((gig: any) => {
+      {sortedGigs &&
+        sortedGigs.map((gig: any) => {
           var dot = "greenDot.png";
           let dateNow = new Date();
           let dateGig = new Date(gig.date);
@@ -105,7 +145,9 @@ export const GoogleMaps: React.FC<Props> = ({
           }
           return (
             <Marker
-              animation={window.google.maps.Animation.DROP}
+              animation={
+                (gigsCounting && window.google.maps.Animation.DROP) || undefined
+              }
               key={gig.id}
               position={{
                 lat: parseFloat(gig.lat),
@@ -198,6 +240,19 @@ export const GoogleMaps: React.FC<Props> = ({
         className="switch"
         onClick={(e) => switcherHelper(switcher + 1)}
       ></span>
+      <MapGigShorting
+        gigsList={gigsList}
+        gigsCounting={gigsCounting}
+        isShortingBoxOpen={isShortingBoxOpen}
+        year={year}
+        setYear={(e: string | number | readonly string[] | undefined) =>
+          setYear(e)
+        }
+        setIsShortingBoxOpen={(e: boolean) => setIsShortingBoxOpen(e)}
+        setShownGigMarkers={(e: any) => setShownGigMarkers(e)}
+        setGigsCounting={(e: boolean) => setGigsCounting(e)}
+        shownGigMarkers={shownGigMarkers}
+      />
     </GoogleMap>
   );
 };

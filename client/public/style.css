@@ -231,6 +231,7 @@ a:hover {
   width: 18vmax !important;
   background-color: transparent;
   box-shadow: none;
+  border: none;
 }
 
 .gigListSearch {
@@ -337,6 +338,7 @@ input[type="range"]::-moz-range-track {
   border-radius: 14px;
   border: 0px solid #000000;
 }
+
 input[type="range"]::-moz-range-thumb {
   box-shadow: 0px 0px 0px #000000;
   border: 0px solid #000000;
@@ -360,6 +362,7 @@ input[type="range"]::-ms-fill-lower {
   border-radius: 28px;
   box-shadow: 1px 1px 1px #50555c;
 }
+
 input[type="range"]::-ms-fill-upper {
   background: #50555c;
   border: 0px solid #000000;

@@ -192,34 +192,44 @@ export const App: React.FC<Props> = ({}) => {
   );
 
   const checkOnLoad = () => {
-    let logoLoader;
-    logoLoader = darkMode ? loadedMainDark : loadedMain;
-
-    if (!roadLoaded || !logoLoader || !skyIsLoaded) {
-      let loadingItems: number = 3;
-      let amount: number = 0;
-      if (!roadLoaded) {
-        amount++;
-      }
-      if (!logoLoader) {
-        amount++;
-      }
-      if (!skyIsLoaded) {
-        amount++;
-      }
-      let result: number = 100 - (amount / loadingItems) * 100;
-      setLoadPercentage(result);
-    }
-    if (location.pathname && location.pathname === "/") {
-      if (roadLoaded && logoLoader && skyIsLoaded) {
-        setLoadPercentage(100);
-        setTimeout(() => setFinalLoadingCheck(true), 1000);
-      }
-    } else if (roadLoaded && skyIsLoaded) {
-      setLoadPercentage(100);
-      setTimeout(() => setFinalLoadingCheck(true), 1000);
-    }
+    // This is the alternative checkOnLoad to bypass the intro Loading,
+    // simplyset all values to true
+    setRoadLoaded(true);
+    setAboutBackIsLoaded(true);
+    setSkyIsLoaded(true);
+    setLoadPercentage(100);
+    setTimeout(() => setFinalLoadingCheck(true), 1000);
   };
+
+  // const checkOnLoad = () => {
+  //   let logoLoader;
+  //   logoLoader = darkMode ? loadedMainDark : loadedMain;
+
+  //   if (!roadLoaded || !logoLoader || !skyIsLoaded) {
+  //     let loadingItems: number = 3;
+  //     let amount: number = 0;
+  //     if (!roadLoaded) {
+  //       amount++;
+  //     }
+  //     if (!logoLoader) {
+  //       amount++;
+  //     }
+  //     if (!skyIsLoaded) {
+  //       amount++;
+  //     }
+  //     let result: number = 100 - (amount / loadingItems) * 100;
+  //     setLoadPercentage(result);
+  //   }
+  //   if (location.pathname && location.pathname === "/") {
+  //     if (roadLoaded && logoLoader && skyIsLoaded) {
+  //       setLoadPercentage(100);
+  //       setTimeout(() => setFinalLoadingCheck(true), 1000);
+  //     }
+  //   } else if (roadLoaded && skyIsLoaded) {
+  //     setLoadPercentage(100);
+  //     setTimeout(() => setFinalLoadingCheck(true), 1000);
+  //   }
+  // };
 
   useEffect(
     function () {

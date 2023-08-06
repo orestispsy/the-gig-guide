@@ -7,7 +7,7 @@ export const breakpoints: any = {
   portrait: {
     orientation: "portrait",
     minPoint: 100,
-    maxPoint: 480,
+    maxPoint: 1024,
   },
 };
 

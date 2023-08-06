@@ -200,6 +200,8 @@ export const Sky = styled.img<AppLayoutTypes>`
   visibility: hidden;
   height: 100%;
   width: 100%;
+  min-width: 100%;
+  object-fit: cover;
 
   ${(props) =>
     props.loaded &&

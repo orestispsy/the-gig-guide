@@ -13,7 +13,7 @@ import {
 import useSound from "use-sound";
 
 import track1 from "./../../../public/21space.mp3";
-import track2 from "./../../../public/supervan.mp3";
+import track2 from "./../../../public/trackMix.mp3";
 
 interface Props {
   go: boolean;
