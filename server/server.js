@@ -35,7 +35,7 @@ const cookieSessionMiddleware = cookieSession({
 
 app.use(cookieSessionMiddleware);
 io.use(function (socket, next) {
-  cookieSessionMiddleware(socket.request, socket.request.res, next);
+  cookieSessionMiddleware(socket.request, socket.request.res || {}, next);
 });
 
 app.use(compression());

@@ -52,111 +52,119 @@ export const UserConfig: React.FC<Props> = ({
   setAdmin,
 }) => {
   const onlineUsers = useSelector((state: any) => state && state.onlineUsers);
-
+console.log(myNickname, newNickname, newPassword);
   return (
-    <Container>
-      <Title>Edit Profile</Title>
-      <SubTitle>Nickname</SubTitle>
-      <Input
-        type="text"
-        placeholder="nickname"
-        maxLength={20}
-        defaultValue={myNickname}
-        onChange={(e) => setNewNickname(e.target.value)}
-        onClick={(e) => {
-          setErrorMsgInfo(false);
-          setErrorDuplicate(false);
-        }}
-      />
-      {errorDuplicate && <Error>This Nickname Exists Already !</Error>}
-      {!errorDuplicate && <SubTitle>Password</SubTitle>}
-      {!errorDuplicate && (
-        <PasswordWrapper>
+      <Container>
+          <Title>Edit Profile</Title>
+          <SubTitle>Nickname</SubTitle>
           <Input
-            type={(!pwdReveal && "password") || (pwdReveal && "text") || ""}
-            placeholder="password"
-            onChange={(e) => setNewPassword(e.target.value)}
-          ></Input>
-          <EyeIcon
-            reveal={pwdReveal}
-            className={
-              (pwdReveal && "pwdNOTvisible") ||
-              (!pwdReveal && "pwdVisibility") ||
-              ""
-            }
-            onClick={(e) => {
-              setPwdReveal(!pwdReveal);
-            }}
-          ></EyeIcon>
-        </PasswordWrapper>
-      )}
-      <Confirm
-        onClick={(e) => {
-          if (myNickname === newNickname && newPassword === "") {
-            return;
-          }
+              type="text"
+              placeholder="nickname"
+              maxLength={20}
+              defaultValue={myNickname}
+              onChange={(e) => setNewNickname(e.target.value)}
+              onClick={(e) => {
+                  setErrorMsgInfo(false);
+                  setErrorDuplicate(false);
+              }}
+          />
+          {errorDuplicate && <Error>This Nickname Exists Already !</Error>}
+          {!errorDuplicate && <SubTitle>Password</SubTitle>}
+          {!errorDuplicate && (
+              <PasswordWrapper>
+                  <Input
+                      type={
+                          (!pwdReveal && "password") ||
+                          (pwdReveal && "text") ||
+                          ""
+                      }
+                      placeholder="password"
+                      onChange={(e) => setNewPassword(e.target.value)}
+                  ></Input>
+                  <EyeIcon
+                      reveal={pwdReveal}
+                      className={
+                          (pwdReveal && "pwdNOTvisible") ||
+                          (!pwdReveal && "pwdVisibility") ||
+                          ""
+                      }
+                      onClick={(e) => {
+                          setPwdReveal(!pwdReveal);
+                      }}
+                  ></EyeIcon>
+              </PasswordWrapper>
+          )}
+          <Confirm
+              inactive={
+                  (myNickname === newNickname && newPassword === "") ||
+  (!newPassword && !newNickname)
+              }
+              onClick={(e) => {
+                  if (myNickname === newNickname && newPassword === "") {
+                      return;
+                  }
 
-          // if (!newNickname.includes("Guest")) {
-          //   setAdmin(true);
-          // }
-          else if (!newNickname) {
-            if (newPassword && newPassword !== "") {
-              changeInfo(
-                myNickname,
-                myNickname,
-                setMyNickname,
-                setErrorDuplicate,
-                setNewPassword,
-                setNewNickname,
-                errorDuplicate,
-                setUserConfig,
-                myUserId,
-                onlineUsers,
-                setErrorMsg,
-                newPassword
-              );
-            }
-          } else if (newNickname) {
-            if (newPassword) {
-              changeInfo(
-                newNickname,
-                myNickname,
-                setMyNickname,
-                setErrorDuplicate,
-                setNewPassword,
-                setNewNickname,
-                errorDuplicate,
-                setUserConfig,
-                myUserId,
-                onlineUsers,
-                setErrorMsg,
-                newPassword
-              );
-            } else {
-              changeInfo(
-                newNickname,
-                myNickname,
-                setMyNickname,
-                setErrorDuplicate,
-                setNewPassword,
-                setNewNickname,
-                errorDuplicate,
-                setUserConfig,
-                myUserId,
-                onlineUsers,
-                setErrorMsg
-              );
-            }
-          } else {
-            setErrorMsgInfo(true);
-          }
-        }}
-      >
-        Confirm
-      </Confirm>
-      {errorMsgInfo && (
-        <Error wide={true}>Please Enter A Proper Nickname</Error>
-      )}
-    </Container>
+                  // if (!newNickname.includes("Guest")) {
+                  //   setAdmin(true);
+                  // }
+                  else if (!newNickname) {
+                      if (newPassword && newPassword !== "") {
+                          changeInfo(
+                              myNickname,
+                              myNickname,
+                              setMyNickname,
+                              setErrorDuplicate,
+                              setNewPassword,
+                              setNewNickname,
+                              errorDuplicate,
+                              setUserConfig,
+                              myUserId,
+                              onlineUsers,
+                              setErrorMsg,
+                              newPassword
+                          );
+                      }
+                  } else if (newNickname) {
+                      if (newPassword) {
+                          changeInfo(
+                              newNickname,
+                              myNickname,
+                              setMyNickname,
+                              setErrorDuplicate,
+                              setNewPassword,
+                              setNewNickname,
+                              errorDuplicate,
+                              setUserConfig,
+                              myUserId,
+                              onlineUsers,
+                              setErrorMsg,
+                              newPassword
+                          );
+                      } else {
+                          changeInfo(
+                              newNickname,
+                              myNickname,
+                              setMyNickname,
+                              setErrorDuplicate,
+                              setNewPassword,
+                              setNewNickname,
+                              errorDuplicate,
+                              setUserConfig,
+                              myUserId,
+                              onlineUsers,
+                              setErrorMsg
+                          );
+                      }
+                  } else {
+                      setErrorMsgInfo(true);
+                  }
+              }}
+          >
+              Confirm
+          </Confirm>
+          {errorMsgInfo && (
+              <Error wide={true}>Please Enter A Proper Nickname</Error>
+          )}
+      </Container>
   );
 };

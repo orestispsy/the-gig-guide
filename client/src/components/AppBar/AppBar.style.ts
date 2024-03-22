@@ -146,7 +146,6 @@ export const Logo = styled.div`
   width: 18vmax;
   height: 5vmax;
   margin-top: -1vmax;
-  margin-left: -3vmax;
 
   ${mediaQueries(
     "portrait",

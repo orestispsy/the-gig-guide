@@ -46,6 +46,7 @@ export const Content = styled.div<Types>`
   height: fit-content;
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   ${mediaQueries(
     "portrait",

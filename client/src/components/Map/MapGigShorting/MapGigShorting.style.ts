@@ -4,6 +4,7 @@ import { mediaQueries } from "../../../common/mediaQueries";
 type Types = {
   isTriggered?: boolean;
   gigsCounting?: boolean;
+  ref?: any;
 };
 
 export const CloseBox = styled.div`
@@ -136,6 +137,7 @@ export const YearInput = styled.input<Types>`
                 cursor: progress !important;
             }
         `}
+          }
 `;
 
 export const YearInputTrigger = styled.div`
@@ -306,4 +308,23 @@ export const GigCounter = styled.span`
       margin-left: 10px;
     `
   )}
+`;
+
+
+export const Dates = styled.div`
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    margin-top: -4vmax;
+`;
+
+export const Date = styled.div`
+  width: 3vmax;
+  height: 1.5vmax;
+  background-color: white;
+`;
+
+export const InputWrapper = styled.div`
+position: relative
+   
 `;

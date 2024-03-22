@@ -2,9 +2,10 @@ import styled, { css } from "styled-components";
 import { mediaQueries } from "../../../../common/mediaQueries";
 
 type Types = {
-  color?: string;
-  reveal?: boolean;
-  wide?: boolean;
+    color?: string;
+    reveal?: boolean;
+    wide?: boolean;
+    inactive?: boolean;
 };
 
 export const Container = styled.div`
@@ -202,31 +203,38 @@ export const EyeIcon = styled.div<Types>`
     `}
 `;
 
-export const Confirm = styled.div`
-  font-family: "BlackOpsOne";
-  color: white;
-  text-shadow: -0 0 3px rgba(0, 0, 0, 0.154), 0 -0 3px rgba(0, 0, 0, 0.154),
-    -0 -0 3px rgba(0, 0, 0, 0.154), -0 -0 3px rgba(0, 0, 0, 0.154);
-  background-color: #00ffbf;
-  cursor: pointer;
-  padding: 0.3vmax;
+export const Confirm = styled.div<Types>`
+    font-family: "BlackOpsOne";
+    color: white;
+    text-shadow: -0 0 3px rgba(0, 0, 0, 0.154), 0 -0 3px rgba(0, 0, 0, 0.154),
+        -0 -0 3px rgba(0, 0, 0, 0.154), -0 -0 3px rgba(0, 0, 0, 0.154);
+    background-color: #00ffbf83;
+    cursor: pointer;
+    padding: 0.3vmax;
 
-  &:hover {
-    color: yellow;
-  }
+    &:hover {
+        color: yellow;
+    }
 
-  ${mediaQueries(
-    "portrait",
-    css`
-      font-size: 2.5vmax;
-      padding: 1vmax;
-    `
-  )};
+    ${mediaQueries(
+        "portrait",
+        css`
+            font-size: 2.5vmax;
+            padding: 1vmax;
+        `
+    )};
 
-  ${mediaQueries(
-    "landscape",
-    css`
-      margin: 1vmax;
-    `
-  )}
+    ${mediaQueries(
+        "landscape",
+        css`
+            margin: 1vmax;
+        `
+    )}
+
+    ${(props) =>
+        props.inactive &&
+        css`
+            background-color: #80808083;
+            pointer-events: none;
+        `}
 `;

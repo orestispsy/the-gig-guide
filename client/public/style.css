@@ -2164,7 +2164,7 @@ font-family: 'Ultra', serif; */
 
 .chooseSuperUserModeOldLight {
   color: rgb(217, 255, 0);
-  background-color: black;
+  background-color: #00000035;
 }
 
 .selectGuestSuperMode {
@@ -2732,6 +2732,7 @@ font-family: 'Ultra', serif; */
 .retroTitle {
   font-family: "Ultra";
   color: #00ff88;
+  text-wrap: nowrap;
   text-shadow: 0 0 5px #9c27b0, 0 0 5px #9c27b0, 0 0 5px #9c27b0,
     0 0 5px #9c27b0;
   font-size: 4vmax;
